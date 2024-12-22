@@ -12,6 +12,8 @@ sqlalchemy = "^2.0.36"
 
 [tool.poetry.group.dev.dependencies]
 poetry = "^1.8.5"
+coverage = "^7.6.9"
+pytest = "^8.3.4"
 
 [build-system]
 requires = ["poetry-core"]
