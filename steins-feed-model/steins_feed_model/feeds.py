@@ -3,7 +3,7 @@ import typing
 import lxml.etree
 import sqlalchemy as sqla
 
-import schema.feeds
+import steins_feed_model.schema.feeds
 
 def read_xml(
     conn: sqla.Connection,
@@ -23,7 +23,7 @@ def read_xml(
         {
             "Title": feed_it.xpath("title")[0].text,
             "Link": feed_it.xpath("link")[0].text,
-            "Language": schema.feeds.Language(feed_it.xpath("lang")[0].text).name,
+            "Language": steins_feed_model.schema.feeds.Language(feed_it.xpath("lang")[0].text).name,
         }
         for feed_it in root.xpath("feed")
     ]
@@ -95,7 +95,7 @@ def write_xml(
         link_it.text = row_it["Link"]
 
         lang_it = lxml.etree.Element("lang")
-        lang_it.text = schema.feeds.Language[row_it["Language"]].value
+        lang_it.text = steins_feed_model.schema.feeds.Language[row_it["Language"]].value
 
         feed_it = lxml.etree.Element("feed")
         feed_it.append(title_it)
