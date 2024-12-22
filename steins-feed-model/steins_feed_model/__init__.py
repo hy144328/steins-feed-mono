@@ -3,7 +3,7 @@ import typing
 import sqlalchemy as sqla
 
 class EngineFactory:
-    _obj: typing.Optional[sqla.engine.Engine]
+    _obj: typing.Optional[sqla.engine.Engine] = None
 
     @classmethod
     def get_or_create_engine(

@@ -1,10 +1,8 @@
 import typing
 
 import sqlalchemy as sqla
-
-if typing.TYPE_CHECKING:
-    import sqlalchemy.sql._typing as sqla_typing
-    import sqlalchemy.sql.schema as sqla_schema
+import sqlalchemy.sql._typing as sqla_typing
+import sqlalchemy.sql.schema as sqla_schema
 
 TINYTEXT = sqla.String(2**8 - 1)
 TEXT = sqla.String(2**16 - 1)
