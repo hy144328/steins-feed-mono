@@ -1,0 +1,6 @@
+[report]
+fail_under = 100
+show_missing = True
+
+[run]
+source = steins_feed_model
