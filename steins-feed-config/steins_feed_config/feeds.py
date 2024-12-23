@@ -2,105 +2,112 @@ import typing
 
 import lxml.etree
 import sqlalchemy as sqla
+import sqlalchemy.orm as sqla_orm
 
-import steins_feed_model.schema.feeds
+import steins_feed_model.feeds
 
 def read_xml(
-    conn: sqla.Connection,
-    f: typing.IO,
+    session: sqla_orm.Session,
+    f: typing.TextIO,
     user_id: typing.Optional[str] = None,
     tag: typing.Optional[str] = None,
 ):
-    t_feeds = steins_feed_model.schema.feeds.t_feeds
-    t_tags = steins_feed_model.schema.feeds.t_tags
-    t_tags2feeds = steins_feed_model.schema.feeds.t_tags2feeds
-
     tree = lxml.etree.parse(f)
     root = tree.getroot()
 
-    rows = [
-        {
-            "Title": feed_it.xpath("title")[0].text,
-            "Link": feed_it.xpath("link")[0].text,
-            "Language": steins_feed_model.schema.feeds.Language(feed_it.xpath("lang")[0].text).name,
-        }
+    feeds = [
+        steins_feed_model.feeds.Feed(
+            title = feed_it.xpath("title")[0].text,
+            link = feed_it.xpath("link")[0].text,
+            language = steins_feed_model.feeds.Language(feed_it.xpath("lang")[0].text),
+        )
         for feed_it in root.xpath("feed")
     ]
 
-    q = t_feeds.insert()
+    q = sqla.insert(steins_feed_model.feeds.Feed)
     q = q.prefix_with("OR IGNORE", dialect="sqlite")
 
-    with conn.begin():
-        conn.execute(q, rows)
+    with session.begin():
+        session.execute(
+            q,
+            [
+                {
+                    "title": feed_it.title,
+                    "link": feed_it.link,
+                    "language": feed_it.language,
+                }
+                for feed_it in feeds
+            ],
+        )
 
     if user_id and tag:
-        q = t_tags.insert().values(
-            UserID=user_id,
-            Name=tag,
+        q = sqla.insert(
+            steins_feed_model.feeds.Tag,
+        ).values(
+            user_id=user_id,
+            name=tag,
         )
         q = q.prefix_with("OR IGNORE", dialect="sqlite")
 
-        with conn.begin():
-            conn.execute(q)
+        tag_record = session.execute(q).scalars().one()
 
-        q_select = sqla.select(
-            t_feeds.c.FeedID,
-            t_tags.c.TagID,
-        ).where(sqla.and_(
-            t_feeds.c.Title == sqla.bindparam("Title"),
-            t_tags.c.UserID == user_id,
-            t_tags.c.Name == tag,
-        ))
+        q = sqla.select(
+            steins_feed_model.feeds.Feed,
+        ).where(
+            steins_feed_model.feeds.Feed.title == sqla.bindparam("title"),
+        )
 
-        q = t_tags2feeds.insert()
-        q = q.from_select([q_select.c.FeedID, q_select.c.TagID], q_select)
-        q = q.prefix_with("OR IGNORE", dialect="sqlite")
+        with session.begin():
+            for feed_it in feeds:
+                feed_record = session.execute(
+                    q,
+                    {"title": feed_it.title},
+                ).scalars().one()
 
-        with conn.begin():
-            conn.execute(q, rows)
+                if tag_record not in feed_record.tags:
+                    feed_record.tags.append(tag_record)
 
 def write_xml(
-    conn: sqla.Connection,
-    f: typing.IO,
+    session: sqla_orm.Session,
+    f: typing.TextIO,
     user_id: typing.Optional[str] = None,
     tag: typing.Optional[str] = None,
 ):
-    t_feeds = steins_feed_model.schema.feeds.t_feeds
-    t_tags = steins_feed_model.schema.feeds.t_tags
-    t_tags2feeds = steins_feed_model.schema.feeds.t_tags2feeds
-
-    q = sqla.select(t_feeds)
+    q = sqla.select(
+        steins_feed_model.feeds.Feed,
+    ).order_by(
+        sqla.collate(steins_feed_model.feeds.Feed.title, "NOCASE"),
+    )
     if user_id and tag:
-        q = q.select_from(
-            t_feeds.join(t_tags2feeds)
-                   .join(t_tags)
+        q = q.where(
+            steins_feed_model.feeds.Feed.tags.any(
+                sqla.and_(
+                    steins_feed_model.feeds.Tag.user_id == user_id,
+                    steins_feed_model.feeds.Tag.name == tag,
+                ),
+            ),
         )
-        q = q.where(sqla.and_(
-            t_tags.c.UserID == user_id,
-            t_tags.c.Name == tag,
-        ))
-    q = q.order_by(sqla.collate(t_feeds.c.Title, "NOCASE"))
 
-    with conn.begin():
-        rows = conn.execute(q).mappings().fetchall()
+    feeds = session.execute(q).scalars().all()
 
     root = lxml.etree.Element("root")
-    for row_it in rows:
+
+    for feed_it in feeds:
         title_it = lxml.etree.Element("title")
-        title_it.text = row_it["Title"]
+        title_it.text = feed_it.title
 
         link_it = lxml.etree.Element("link")
-        link_it.text = row_it["Link"]
+        link_it.text = feed_it.link
 
         lang_it = lxml.etree.Element("lang")
-        lang_it.text = row_it["Language"].value
+        lang_it.text = feed_it.language.value if feed_it.language is not None else None
 
-        feed_it = lxml.etree.Element("feed")
-        feed_it.append(title_it)
-        feed_it.append(link_it)
-        feed_it.append(lang_it)
+        node_it = lxml.etree.Element("feed")
+        node_it.append(title_it)
+        node_it.append(link_it)
+        node_it.append(lang_it)
 
-        root.append(feed_it)
+        root.append(node_it)
 
     s = lxml.etree.tostring(
         root,
