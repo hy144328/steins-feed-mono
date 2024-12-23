@@ -22,7 +22,7 @@ class Item(base.Base):
     title: sqla_orm.Mapped[str] = sqla_orm.mapped_column(types.TEXT)
     link: sqla_orm.Mapped[str] = sqla_orm.mapped_column(types.TEXT)
     published: sqla_orm.Mapped[datetime.datetime] = sqla_orm.mapped_column(sqla.DateTime)
-    feed_id: sqla_orm.Mapped[str] = sqla_orm.mapped_column(sqla.Integer, types.ForeignKey(feeds.Feed.id))
+    feed_id: sqla_orm.Mapped[int] = sqla_orm.mapped_column(sqla.Integer, types.ForeignKey(feeds.Feed.id))
     summary: sqla_orm.Mapped[typing.Optional[str]] = sqla_orm.mapped_column(types.MEDIUMTEXT, default=None)
 
     feed: sqla_orm.Mapped["feeds.Feed"] = sqla_orm.relationship(
