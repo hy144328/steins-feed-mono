@@ -23,8 +23,6 @@ def create_schema(
         sqla.Column("Title", types.TEXT, nullable=False, unique=True),
         sqla.Column("Link", types.TEXT, nullable=False, unique=True),
         sqla.Column("Language", sqla.Enum(Language)),
-        sqla.Column("Added", sqla.DateTime, server_default=sqla.func.now()),
-        sqla.Column("Updated", sqla.DateTime),
     )
     feeds.create(conn, checkfirst=True)
 
