@@ -1506,7 +1506,7 @@ description = "Stein's feed -- logging"
 optional = false
 python-versions = "^3.13"
 files = []
-develop = false
+develop = true
 
 [package.source]
 type = "directory"
@@ -1519,7 +1519,7 @@ description = "Stein's feed -- model"
 optional = false
 python-versions = "^3.13"
 files = []
-develop = false
+develop = true
 
 [package.dependencies]
 sqlalchemy = "^2.0.36"
@@ -1785,4 +1785,4 @@ propcache = ">=0.2.0"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.13"
-content-hash = "a32204a9292af52f57ff2da060043241ab79d31c3c74f92ce11d8fc6ab7b9418"
+content-hash = "3c4f1880abb600c919bff77968781bff9088ac4dd3ba8fe51d398a366c19c387"
