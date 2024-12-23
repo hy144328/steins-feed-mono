@@ -2,7 +2,7 @@ import typing
 
 import sqlalchemy as sqla
 
-if typing.TYPE_CHECKING:
+if typing.TYPE_CHECKING:    # pragma: no cover
     import sqlalchemy.sql._typing as sqla_typing
     import sqlalchemy.sql.schema as sqla_schema
 
