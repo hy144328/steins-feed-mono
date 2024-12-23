@@ -15,7 +15,6 @@ def create_schema(
         sqla.Column("Password", types.TINYTEXT, nullable=False),
         sqla.Column("Email", types.TINYTEXT, nullable=False, unique=True),
         sqla.Column("Active", sqla.Boolean, nullable=False),
-        sqla.Column("fs_uniquifier", types.TINYTEXT, nullable=False, unique=True),
     )
     users.create(conn, checkfirst=True)
 
