@@ -2,8 +2,10 @@ import typing
 
 import sqlalchemy as sqla
 
+from . import feeds, items, users
+
 class EngineFactory:
-    _obj: typing.Optional[sqla.engine.Engine] = None
+    _engine: typing.Optional[sqla.engine.Engine] = None
 
     @classmethod
     def get_or_create_engine(
@@ -15,7 +17,7 @@ class EngineFactory:
         port: typing.Optional[int] = None,
         database: typing.Optional[str] = None,
     ) -> sqla.engine.Engine:
-        if cls._obj is None:
+        if cls._engine is None:
             url = sqla.URL.create(
                 drivername,
                 username = username,
@@ -29,9 +31,9 @@ class EngineFactory:
                 "timeout": 5,
             }
 
-            cls._obj = sqla.create_engine(url, connect_args = connect_args)
+            cls._engine = sqla.create_engine(url, connect_args = connect_args)
 
-        return cls._obj
+        return cls._engine
 
     @classmethod
     def create_metadata(cls, engine: sqla.engine.Engine) -> sqla.MetaData:
