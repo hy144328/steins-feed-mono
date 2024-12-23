@@ -18,14 +18,14 @@ class Item(base.Base):
         sqla.UniqueConstraint("title", "published", "feed_id"),
     )
 
-    id: sqla_orm.Mapped[int] = sqla_orm.mapped_column(sqla.Integer, primary_key=True)
+    id: sqla_orm.Mapped[int] = sqla_orm.mapped_column(sqla.Integer, primary_key=True, init=False)
     title: sqla_orm.Mapped[str] = sqla_orm.mapped_column(types.TEXT)
     link: sqla_orm.Mapped[str] = sqla_orm.mapped_column(types.TEXT)
     published: sqla_orm.Mapped[datetime.datetime] = sqla_orm.mapped_column(sqla.DateTime)
     feed_id: sqla_orm.Mapped[str] = sqla_orm.mapped_column(sqla.Integer, types.ForeignKey(feeds.Feed.id))
     summary: sqla_orm.Mapped[typing.Optional[str]] = sqla_orm.mapped_column(types.MEDIUMTEXT)
 
-    feed: sqla_orm.Mapped[feeds.Feed] = sqla_orm.relationship(
+    feed: sqla_orm.Mapped["feeds.Feed"] = sqla_orm.relationship(
         "Feed",
         #back_populates="items",
     )
@@ -53,11 +53,11 @@ class Like(base.Base):
     added: sqla_orm.Mapped[datetime.datetime] = sqla_orm.mapped_column(sqla.DateTime, server_default=sqla.func.now())
     updated: sqla_orm.Mapped[datetime.datetime] = sqla_orm.mapped_column(sqla.DateTime, server_default=sqla.func.now(), server_onupdate=sqla.func.now())
 
-    user = sqla_orm.relationship(
+    user: sqla_orm.Mapped["users.User"] = sqla_orm.relationship(
         "User",
         #back_populates="likes",
     )
-    item = sqla_orm.relationship(
+    item: sqla_orm.Mapped["Item"] = sqla_orm.relationship(
         "Item",
         back_populates="likes",
     )
@@ -78,11 +78,11 @@ class Magic(base.Base):
     added: sqla_orm.Mapped[datetime.datetime] = sqla_orm.mapped_column(sqla.DateTime, server_default=sqla.func.now())
     updated: sqla_orm.Mapped[datetime.datetime] = sqla_orm.mapped_column(sqla.DateTime, server_default=sqla.func.now(), server_onupdate=sqla.func.now())
 
-    user = sqla_orm.relationship(
+    user: sqla_orm.Mapped["users.User"] = sqla_orm.relationship(
         "User",
         #back_populates="magic",
     )
-    item = sqla_orm.relationship(
+    item: sqla_orm.Mapped["Item"] = sqla_orm.relationship(
         "Item",
         back_populates="magic",
     )

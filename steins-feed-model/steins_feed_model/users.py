@@ -8,7 +8,7 @@ from . import base, types
 class User(base.Base):
     __tablename__ = "User"
 
-    id: sqla_orm.Mapped[int] = sqla_orm.mapped_column(sqla.Integer, primary_key=True)
+    id: sqla_orm.Mapped[int] = sqla_orm.mapped_column(sqla.Integer, primary_key=True, init=False)
     name: sqla_orm.Mapped[str] = sqla_orm.mapped_column(types.TINYTEXT, unique=True)
     password: sqla_orm.Mapped[str] = sqla_orm.mapped_column(types.TINYTEXT)
     email: sqla_orm.Mapped[str] = sqla_orm.mapped_column("email", types.TINYTEXT, unique=True)
@@ -22,7 +22,7 @@ class User(base.Base):
 class Role(base.Base):
     __tablename__ = "Role"
 
-    id: sqla_orm.Mapped[int] = sqla_orm.mapped_column(sqla.Integer, primary_key=True)
+    id: sqla_orm.Mapped[int] = sqla_orm.mapped_column(sqla.Integer, primary_key=True, init=False)
     name: sqla_orm.Mapped[str] = sqla_orm.mapped_column(types.TINYTEXT, unique=True)
     description: sqla_orm.Mapped[typing.Optional[str]] = sqla_orm.mapped_column(types.TEXT)
 
