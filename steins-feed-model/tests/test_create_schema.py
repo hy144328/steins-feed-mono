@@ -8,13 +8,10 @@ import steins_feed_model.schema
 def engine() -> sqla.engine.Engine:
     return steins_feed_model.EngineFactory.get_or_create_engine()
 
-@pytest.fixture
-def metadata(engine: sqla.engine.Engine) -> sqla.MetaData:
-    return steins_feed_model.EngineFactory.create_metadata(engine)
-
-def test_create_schema(engine: sqla.engine.Engine, metadata: sqla.MetaData):
+def test_create_schema(engine: sqla.engine.Engine):
     with engine.connect() as conn:
-        steins_feed_model.schema.create_schema(conn, metadata)
+        steins_feed_model.schema.create_schema(conn)
+        metadata = steins_feed_model.EngineFactory.create_metadata(engine)
 
     assert "Users" in metadata.tables
     assert "Roles" in metadata.tables
