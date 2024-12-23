@@ -4,8 +4,8 @@ import lxml.etree
 import pytest
 import sqlalchemy as sqla
 
+import steins_feed_config.feeds
 import steins_feed_model
-import steins_feed_model.feeds
 
 @pytest.fixture
 def engine() -> sqla.engine.Engine:
@@ -33,7 +33,7 @@ def test_read_and_write_xml(
 
         with engine.connect() as conn:
             with open(f.name, "r") as f:
-                steins_feed_model.feeds.read_xml(
+                steins_feed_config.feeds.read_xml(
                     conn,
                     metadata,
                     f,
@@ -48,7 +48,7 @@ def test_read_and_write_xml(
 
         with engine.connect() as conn:
             with tempfile.NamedTemporaryFile("w", dir=temp_dir, delete=False) as f:
-                steins_feed_model.feeds.write_xml(
+                steins_feed_config.feeds.write_xml(
                     conn,
                     metadata,
                     f,
