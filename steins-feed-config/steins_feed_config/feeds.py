@@ -7,14 +7,13 @@ import steins_feed_model.schema.feeds
 
 def read_xml(
     conn: sqla.Connection,
-    meta: sqla.MetaData,
     f: typing.IO,
     user_id: typing.Optional[str] = None,
     tag: typing.Optional[str] = None,
 ):
-    t_feeds = meta.tables["Feeds"]
-    t_tags2feeds = meta.tables["Tags2Feeds"]
-    t_tags = meta.tables["Tags"]
+    t_feeds = steins_feed_model.schema.feeds.t_feeds
+    t_tags = steins_feed_model.schema.feeds.t_tags
+    t_tags2feeds = steins_feed_model.schema.feeds.t_tags2feeds
 
     tree = lxml.etree.parse(f)
     root = tree.getroot()
@@ -62,14 +61,13 @@ def read_xml(
 
 def write_xml(
     conn: sqla.Connection,
-    meta: sqla.MetaData,
     f: typing.IO,
     user_id: typing.Optional[str] = None,
     tag: typing.Optional[str] = None,
 ):
-    t_feeds = meta.tables["Feeds"]
-    t_tags2feeds = meta.tables["Tags2Feeds"]
-    t_tags = meta.tables["Tags"]
+    t_feeds = steins_feed_model.schema.feeds.t_feeds
+    t_tags = steins_feed_model.schema.feeds.t_tags
+    t_tags2feeds = steins_feed_model.schema.feeds.t_tags2feeds
 
     q = sqla.select(t_feeds)
     if user_id and tag:
