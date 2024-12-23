@@ -40,7 +40,7 @@ class Tag(base.Base):
 
     id: sqla_orm.Mapped[int] = sqla_orm.mapped_column(sqla.Integer, primary_key=True, init=False)
     user_id: sqla_orm.Mapped[int] = sqla_orm.mapped_column(sqla.Integer, types.ForeignKey(users.User.id))
-    name: sqla_orm.Mapped[int] = sqla_orm.mapped_column(types.TINYTEXT)
+    name: sqla_orm.Mapped[str] = sqla_orm.mapped_column(types.TINYTEXT)
 
     feeds: sqla_orm.Mapped[list["Feed"]] = sqla_orm.relationship(
         "Feed",
