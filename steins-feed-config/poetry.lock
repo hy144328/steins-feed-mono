@@ -1322,7 +1322,7 @@ description = "Stein's feed -- model"
 optional = false
 python-versions = "^3.13"
 files = []
-develop = false
+develop = true
 
 [package.dependencies]
 sqlalchemy = "^2.0.36"
@@ -1477,4 +1477,4 @@ test = ["pytest"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.13"
-content-hash = "6c855b27f60ac238e82d979ac6c7aab1262e111128b1d6e666d1237e8f4bd59e"
+content-hash = "50b6616c1e46fdeed620f2a1caf5eec06bd7c501fc74085d50a29d11aec8eab4"
