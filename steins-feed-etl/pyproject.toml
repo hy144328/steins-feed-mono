@@ -12,6 +12,8 @@ aiohttp = "^3.11.11"
 feedparser = "^6.0.11"
 tenacity = "^9.0.0"
 
+[tool.poetry.group.dev.dependencies]
+poetry = "^1.8.5"
 
 [build-system]
 requires = ["poetry-core"]
