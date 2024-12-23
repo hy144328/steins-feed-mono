@@ -16,6 +16,7 @@ class EngineFactory:
         host: typing.Optional[str] = None,
         port: typing.Optional[int] = None,
         database: typing.Optional[str] = None,
+        echo: bool = False,
     ) -> sqla.engine.Engine:
         if cls._engine is None:
             url = sqla.URL.create(
@@ -31,7 +32,11 @@ class EngineFactory:
                 "timeout": 5,
             }
 
-            cls._engine = sqla.create_engine(url, connect_args = connect_args)
+            cls._engine = sqla.create_engine(
+                url,
+                connect_args = connect_args,
+                echo = echo,
+            )
 
         return cls._engine
 
