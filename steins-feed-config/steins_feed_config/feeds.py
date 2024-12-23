@@ -95,7 +95,7 @@ def write_xml(
         link_it.text = row_it["Link"]
 
         lang_it = lxml.etree.Element("lang")
-        lang_it.text = steins_feed_model.schema.feeds.Language[row_it["Language"]].value
+        lang_it.text = row_it["Language"].value
 
         feed_it = lxml.etree.Element("feed")
         feed_it.append(title_it)

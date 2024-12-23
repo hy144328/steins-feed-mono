@@ -1,4 +1,5 @@
 import tempfile
+import typing
 
 import lxml.etree
 import pytest
@@ -6,6 +7,7 @@ import sqlalchemy as sqla
 
 import steins_feed_config.feeds
 import steins_feed_model
+import steins_feed_model.schema
 
 @pytest.fixture
 def engine() -> sqla.engine.Engine:
@@ -15,9 +17,17 @@ def engine() -> sqla.engine.Engine:
 def metadata(engine: sqla.engine.Engine) -> sqla.MetaData:
     return steins_feed_model.EngineFactory.create_metadata(engine)
 
+@pytest.fixture
+def tables(engine: sqla.engine.Engine, metadata: sqla.MetaData) -> typing.Dict[str, sqla.Table]:
+    with engine.connect() as conn:
+        steins_feed_model.schema.create_schema(conn, metadata)
+
+    return metadata.tables
+
 def test_read_and_write_xml(
     engine: sqla.engine.Engine,
     metadata: sqla.MetaData,
+    tables: typing.Mapping[str, sqla.Table],
 ):
     with tempfile.TemporaryDirectory() as temp_dir:
         with tempfile.NamedTemporaryFile("w", dir=temp_dir, delete=False) as f:
@@ -39,7 +49,7 @@ def test_read_and_write_xml(
                     f,
                 )
 
-        t = metadata.tables["Feeds"]
+        t = tables["Feeds"]
         q = sqla.select(t)
         with engine.connect() as conn:
             res = conn.execute(q).fetchall()
