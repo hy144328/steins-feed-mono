@@ -17,6 +17,7 @@ class User(base.Base):
         "Role",
         secondary="User2Role",
         back_populates="users",
+        init=False,
     )
 
 class Role(base.Base):
@@ -24,12 +25,13 @@ class Role(base.Base):
 
     id: sqla_orm.Mapped[int] = sqla_orm.mapped_column(sqla.Integer, primary_key=True, init=False)
     name: sqla_orm.Mapped[str] = sqla_orm.mapped_column(types.TINYTEXT, unique=True)
-    description: sqla_orm.Mapped[typing.Optional[str]] = sqla_orm.mapped_column(types.TEXT)
+    description: sqla_orm.Mapped[typing.Optional[str]] = sqla_orm.mapped_column(types.TEXT, default=None)
 
     users: sqla_orm.Mapped[list["User"]] = sqla_orm.relationship(
         "User",
         secondary="User2Role",
         back_populates="roles",
+        init=False,
     )
 
 sqla.Table(

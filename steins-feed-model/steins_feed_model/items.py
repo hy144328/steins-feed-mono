@@ -23,19 +23,22 @@ class Item(base.Base):
     link: sqla_orm.Mapped[str] = sqla_orm.mapped_column(types.TEXT)
     published: sqla_orm.Mapped[datetime.datetime] = sqla_orm.mapped_column(sqla.DateTime)
     feed_id: sqla_orm.Mapped[str] = sqla_orm.mapped_column(sqla.Integer, types.ForeignKey(feeds.Feed.id))
-    summary: sqla_orm.Mapped[typing.Optional[str]] = sqla_orm.mapped_column(types.MEDIUMTEXT)
+    summary: sqla_orm.Mapped[typing.Optional[str]] = sqla_orm.mapped_column(types.MEDIUMTEXT, default=None)
 
     feed: sqla_orm.Mapped["feeds.Feed"] = sqla_orm.relationship(
         "Feed",
         #back_populates="items",
+        init=False,
     )
     likes: sqla_orm.Mapped[list["Like"]] = sqla_orm.relationship(
         "Like",
         back_populates="item",
+        init=False,
     )
     magic: sqla_orm.Mapped[list["Magic"]] = sqla_orm.relationship(
         "Magic",
         back_populates="item",
+        init=False,
     )
 
 class Like(base.Base):
@@ -56,10 +59,12 @@ class Like(base.Base):
     user: sqla_orm.Mapped["users.User"] = sqla_orm.relationship(
         "User",
         #back_populates="likes",
+        init=False,
     )
     item: sqla_orm.Mapped["Item"] = sqla_orm.relationship(
         "Item",
         back_populates="likes",
+        init=False,
     )
 
 class Magic(base.Base):
@@ -81,8 +86,10 @@ class Magic(base.Base):
     user: sqla_orm.Mapped["users.User"] = sqla_orm.relationship(
         "User",
         #back_populates="magic",
+        init=False,
     )
     item: sqla_orm.Mapped["Item"] = sqla_orm.relationship(
         "Item",
         back_populates="magic",
+        init=False,
     )

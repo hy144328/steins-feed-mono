@@ -17,17 +17,19 @@ class Feed(base.Base):
     id: sqla_orm.Mapped[int] = sqla_orm.mapped_column(sqla.Integer, primary_key=True, init=False)
     title: sqla_orm.Mapped[str] = sqla_orm.mapped_column(types.TEXT, unique=True)
     link: sqla_orm.Mapped[str] = sqla_orm.mapped_column(types.TEXT, unique=True)
-    language: sqla_orm.Mapped[typing.Optional[Language]] = sqla_orm.mapped_column(sqla.Enum(Language))
+    language: sqla_orm.Mapped[typing.Optional[Language]] = sqla_orm.mapped_column(sqla.Enum(Language), default=None)
 
     users: sqla_orm.Mapped[list["users.User"]] = sqla_orm.relationship(
         "User",
         secondary="Display",
         #back_populates="feeds",
+        init=False,
     )
     tags: sqla_orm.Mapped[list["Tag"]] = sqla_orm.relationship(
         "Tag",
         secondary="Tag2Feed",
         back_populates="feeds",
+        init=False,
     )
 
 class Tag(base.Base):
@@ -44,6 +46,7 @@ class Tag(base.Base):
         "Feed",
         secondary="Tag2Feed",
         back_populates="tags",
+        init=False,
     )
 
 sqla.Table(
