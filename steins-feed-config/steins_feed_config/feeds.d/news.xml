@@ -1,0 +1,27 @@
+<root>
+  <feed>
+    <title>The Guardian</title>
+    <link>https://www.theguardian.com/uk/rss</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>The Guardian Culture</title>
+    <link>https://www.theguardian.com/uk/culture/rss</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>The Guardian Lifestyle</title>
+    <link>https://www.theguardian.com/uk/lifeandstyle/rss</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>The Guardian Opinion</title>
+    <link>https://www.theguardian.com/uk/commentisfree/rss</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>The Guardian Sport</title>
+    <link>https://www.theguardian.com/uk/sport/rss</link>
+    <lang>English</lang>
+  </feed>
+</root>
