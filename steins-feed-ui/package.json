@@ -1,0 +1,12 @@
+{
+  "name": "steins-feed-ui",
+  "version": "1.0.0",
+  "description": "Stein's feed -- UI",
+  "license": "GPL-3.0-or-later",
+  "author": "Hans Yu <hans.yu@outlook.de>",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
