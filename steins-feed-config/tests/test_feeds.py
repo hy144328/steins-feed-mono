@@ -8,6 +8,7 @@ import sqlalchemy.orm as sqla_orm
 import steins_feed_config.feeds
 import steins_feed_model
 import steins_feed_model.base
+import steins_feed_model.users
 
 @pytest.fixture
 def engine() -> sqla.engine.Engine:
@@ -15,6 +16,24 @@ def engine() -> sqla.engine.Engine:
 
 def test_read_and_write_xml(engine: sqla.engine.Engine):
     steins_feed_model.base.Base.metadata.create_all(engine)
+
+    user = steins_feed_model.users.User(
+        name = "hansolo",
+        password = "",
+        email = "hans.yu@outlook.de",
+    )
+
+    q = sqla.insert(
+        steins_feed_model.users.User,
+    ).values(
+        name = user.name,
+        password = user.password,
+        email = user.email,
+    )
+
+    with sqla_orm.Session(engine) as session:
+        session.execute(q)
+        session.commit()
 
     with tempfile.TemporaryDirectory() as temp_dir:
         with tempfile.NamedTemporaryFile("w", dir=temp_dir, delete=False) as f:
@@ -30,7 +49,12 @@ def test_read_and_write_xml(engine: sqla.engine.Engine):
 
         with sqla_orm.Session(engine) as session:
             with open(f.name, "r") as f:
-                steins_feed_config.feeds.read_xml(session, f)
+                steins_feed_config.feeds.read_xml(
+                    session,
+                    f,
+                    user_name = "hansolo",
+                    tag_name = "news",
+                )
 
         q = sqla.select(steins_feed_model.feeds.Feed)
         with sqla_orm.Session(engine) as session:
@@ -42,7 +66,12 @@ def test_read_and_write_xml(engine: sqla.engine.Engine):
                 pass
 
             with open(f.name, "w") as f:
-                steins_feed_config.feeds.write_xml(session, f)
+                steins_feed_config.feeds.write_xml(
+                    session,
+                    f,
+                    user_name = "hansolo",
+                    tag_name = "news",
+                )
 
         with open(f.name, "r") as f:
             tree = lxml.etree.parse(f)
