@@ -14,7 +14,7 @@ class EngineFactory:
         username: typing.Optional[str] = None,
         password: typing.Optional[str] = None,
         host: typing.Optional[str] = None,
-        port: typing.Optional[int] = None,
+        port: typing.Optional[typing.Union[int, str]] = None,
         database: typing.Optional[str] = None,
         echo: bool = False,
     ) -> sqla.engine.Engine:
@@ -24,7 +24,7 @@ class EngineFactory:
                 username = username,
                 password = password,
                 host = host,
-                port = port,
+                port = int(port) if port is not None else None,
                 database = database,
             )
             connect_args = {
