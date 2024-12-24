@@ -27,18 +27,18 @@ def read_xml(
     q = sqla.insert(steins_feed_model.feeds.Feed)
     q = q.prefix_with("OR IGNORE", dialect="sqlite")
 
-    with session.begin():
-        session.execute(
-            q,
-            [
-                {
-                    "title": feed_it.title,
-                    "link": feed_it.link,
-                    "language": feed_it.language,
-                }
-                for feed_it in feeds
-            ],
-        )
+    session.execute(
+        q,
+        [
+            {
+                "title": feed_it.title,
+                "link": feed_it.link,
+                "language": feed_it.language,
+            }
+            for feed_it in feeds
+        ],
+    )
+    session.commit()
 
     if user_id and tag:
         q = sqla.insert(
