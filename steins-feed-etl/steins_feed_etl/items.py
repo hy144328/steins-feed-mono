@@ -90,8 +90,9 @@ async def write_items(
 
             res_batch_it.append(res_it)
 
-        with session.begin():
-            session.execute(q, res_batch_it)
+        session.execute(q, res_batch_it)
+
+    session.commit()
 
 @tenacity.retry(
     retry=tenacity.retry_if_exception_type(aiohttp.ClientResponseError),
