@@ -1,6 +1,5 @@
 import asyncio
 import datetime
-import itertools
 import typing
 
 import aiohttp
@@ -12,6 +11,8 @@ import tenacity
 import steins_feed_logging
 import steins_feed_model.feeds
 import steins_feed_model.items
+
+from . import util
 
 # Logger.
 logger = steins_feed_logging.LoggerFactory.get_logger(__name__)
@@ -60,7 +61,7 @@ async def write_items(
     q = sqla.insert(steins_feed_model.items.Item)
     q = q.prefix_with("OR IGNORE", dialect="sqlite")
 
-    for item_batch_it in itertools.batched(iter(lambda: await q_items.get(), None), batch_size):
+    async for item_batch_it in util.batch_queue(q_items, batch_size):
         res_batch_it = []
 
         for item_it in item_batch_it:
