@@ -19,6 +19,7 @@ logger = steins_feed_logging.LoggerFactory.get_logger(__name__)
 
 async def parse_feeds(
     session: sqla_orm.Session,
+    client: aiohttp.ClientSession,
     title_pattern=None,
 ):
     q_feeds = asyncio.Queue()
@@ -41,20 +42,19 @@ async def parse_feeds(
         tg.create_task(write_items(session, q_items))
         logger.info("Writer started.")
 
-        async with aiohttp.ClientSession() as web_session:
-            while not q_feeds.empty():
-                feed_it = await q_feeds.get()
-                future_it = read_feed(
-                    web_session,
-                    q_items,
-                    feed = feed_it,
-                    task_done = q_feeds.task_done,
-                )
-                tg.create_task(future_it)
+        while not q_feeds.empty():
+            feed_it = await q_feeds.get()
+            future_it = read_feed(
+                client,
+                q_items,
+                feed = feed_it,
+                task_done = q_feeds.task_done,
+            )
+            tg.create_task(future_it)
 
-            logger.info("Readers started.")
-            await q_feeds.join()
-            logger.info("Readers finished.")
+        logger.info("Readers started.")
+        await q_feeds.join()
+        logger.info("Readers finished.")
 
         await q_items.put(None)
 
@@ -100,12 +100,12 @@ async def write_items(
     wait=tenacity.wait_exponential(),
 )
 async def read_feed(
-    session: aiohttp.ClientSession,
+    client: aiohttp.ClientSession,
     q_items: asyncio.Queue,
     feed: steins_feed_model.feeds.Feed,
     task_done: typing.Callable[[], None],
 ):
-    async with session.get(feed.link) as resp:
+    async with client.get(feed.link) as resp:
         status = resp.status
 
         if status < 300:

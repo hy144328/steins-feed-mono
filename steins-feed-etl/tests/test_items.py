@@ -1,6 +1,6 @@
-import asyncio
 import tempfile
 
+import aiohttp
 import pytest
 import sqlalchemy as sqla
 import sqlalchemy.orm as sqla_orm
@@ -14,7 +14,8 @@ import steins_feed_model.base
 def engine() -> sqla.engine.Engine:
     return steins_feed_model.EngineFactory.get_or_create_engine()
 
-def test_parser_feeds(
+@pytest.mark.asyncio
+async def test_parser_feeds(
     engine: sqla.engine.Engine,
 ):
     steins_feed_model.base.Base.metadata.create_all(engine)
@@ -36,7 +37,8 @@ def test_parser_feeds(
                 steins_feed_config.feeds.read_xml(session, f)
 
     with sqla_orm.Session(engine) as session:
-        asyncio.run(steins_feed_etl.items.parse_feeds(session))
+        async with aiohttp.ClientSession() as client:
+            await steins_feed_etl.items.parse_feeds(session, client)
 
     q = sqla.select(steins_feed_model.items.Item)
     with sqla_orm.Session(engine) as session:
