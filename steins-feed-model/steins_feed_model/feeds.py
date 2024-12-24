@@ -48,6 +48,10 @@ class Tag(base.Base):
         back_populates="tags",
         init=False,
     )
+    user: sqla_orm.Mapped["users.User"] = sqla_orm.relationship(
+        "User",
+        init=False,
+    )
 
 sqla.Table(
     "Display",
