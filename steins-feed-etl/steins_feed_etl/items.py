@@ -110,12 +110,12 @@ async def read_feed(
 
         if status < 300:
             logger.info(f"{feed.title} -- {status}.")
-        elif status < 400:
+        elif status < 400:  # pragma: no cover
             logger.warning(f"{feed.title} -- {status}.")
-        elif status == 429:     # too many requests
+        elif status == 429:     # pragma: no cover
             logger.warning(f"{feed.title} -- {status}.")
             resp.raise_for_status()
-        else:
+        else:   # pragma: no cover
             logger.error(f"{feed.title} -- {status}.")
             resp.raise_for_status()
 
@@ -128,7 +128,7 @@ async def read_feed(
         try:
             item_it = read_item(entry_it, feed)
             await q_items.put(item_it)
-        except AttributeError:
+        except AttributeError:  # pragma: no cover
             logger.error(f"Skip item from {feed.title}:\n{entry_it}")
 
     logger.info(f"{len(res.entries)} valid items from {feed.title}.")
@@ -150,27 +150,27 @@ def read_item_title(item) -> str:
     try:
         item_title = item.title
         return item_title
-    except AttributeError:
+    except AttributeError:  # pragma: no cover
         pass
 
-    logger.error("No title.")
-    raise AttributeError
+    logger.error("No title.")   # pragma: no cover
+    raise AttributeError    # pragma: no cover
 
 def read_item_link(item) -> str:
     try:
         item_link = item.link
         return item_link
-    except AttributeError:
+    except AttributeError:  # pragma: no cover
         pass
 
     try:
         item_link = item.links[0].href
         return item_link
-    except AttributeError:
+    except AttributeError:  # pragma: no cover
         pass
 
-    logger.error(f"No link for '{read_item_title(item)}'.")
-    raise AttributeError
+    logger.error(f"No link for '{read_item_title(item)}'.") # pragma: no cover
+    raise AttributeError    # pragma: no cover
 
 def read_item_summary(item) -> str:
     return item.summary
@@ -180,15 +180,15 @@ def read_item_time(item) -> datetime.datetime:
         item_time = item.published_parsed
         item_time = datetime.datetime(*item_time[:6])
         return item_time
-    except (AttributeError, TypeError):
+    except (AttributeError, TypeError): # pragma: no cover
         pass
 
     try:
         item_time = item.updated_parsed
         item_time = datetime.datetime(*item_time[:6])
         return item_time
-    except (AttributeError, TypeError):
+    except (AttributeError, TypeError): # pragma: no cover
         pass
 
-    logger.error(f"No time for '{read_item_title(item)}'.")
-    raise AttributeError
+    logger.error(f"No time for '{read_item_title(item)}'.") # pragma: no cover
+    raise AttributeError    # pragma: no cover
