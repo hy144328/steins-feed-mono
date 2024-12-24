@@ -1,5 +1,6 @@
 import asyncio
 import datetime
+import random
 import typing
 
 import aiohttp
@@ -25,15 +26,14 @@ async def parse_feeds(
     q_feeds = asyncio.Queue()
     q_items = asyncio.Queue()
 
-    q = sqla.select(
-        steins_feed_model.feeds.Feed,
-    ).order_by(
-        sqla.collate(steins_feed_model.feeds.Feed.title, "NOCASE"),
-    )
+    q = sqla.select(steins_feed_model.feeds.Feed)
     if title_pattern:
         q = q.where(steins_feed_model.feeds.Feed.title.like(f"%{title_pattern}%"))
 
-    for feed_it in session.execute(q).scalars():
+    feeds = session.execute(q).scalars().all()
+    feeds = random.sample(feeds, k=len(feeds))
+
+    for feed_it in feeds:
         await q_feeds.put(feed_it)
 
     logger.info(f"{q_feeds.qsize()} feeds.")
