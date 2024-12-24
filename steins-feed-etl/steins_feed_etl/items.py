@@ -35,8 +35,11 @@ async def parse_feeds(
     for feed_it in session.execute(q).scalars():
         await q_feeds.put(feed_it)
 
+    logger.info(f"{q_feeds.qsize()} feeds.")
+
     async with asyncio.TaskGroup() as tg:
         tg.create_task(write_items(session, q_items))
+        logger.info("Writer started.")
 
         async with aiohttp.ClientSession() as web_session:
             while not q_feeds.empty():
@@ -49,9 +52,13 @@ async def parse_feeds(
                 )
                 tg.create_task(future_it)
 
+            logger.info("Readers started.")
             await q_feeds.join()
+            logger.info("Readers finished.")
 
         await q_items.put(None)
+
+    logger.info("Writer finished.")
 
 async def write_items(
     session: sqla_orm.Session,
@@ -61,7 +68,13 @@ async def write_items(
     q = sqla.insert(steins_feed_model.items.Item)
     q = q.prefix_with("OR IGNORE", dialect="sqlite")
 
+    no_items_total = 0
+
     async for item_batch_it in util.batch_queue(q_items, batch_size):
+        no_items = len(item_batch_it)
+        logger.debug(f"From {no_items_total + 1} to {no_items_total + no_items}.")
+        no_items_total += no_items
+
         res_batch_it = []
 
         for item_it in item_batch_it:
@@ -108,14 +121,16 @@ async def read_feed(
         text = await resp.text()
 
     res = feedparser.parse(text)
+    logger.info(f"{len(res.entries)} items from {feed.title} total.")
 
     for entry_it in res.entries:
         try:
             item_it = read_item(entry_it, feed)
             await q_items.put(item_it)
-        except AttributeError as e:
-            logger.error(f"Skip item from {feed.title}:\n{e}")
+        except AttributeError:
+            logger.error(f"Skip item from {feed.title}:\n{entry_it}")
 
+    logger.info(f"{len(res.entries)} valid items from {feed.title}.")
     task_done()
 
 def read_item(
