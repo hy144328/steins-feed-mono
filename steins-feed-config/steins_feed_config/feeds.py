@@ -9,8 +9,8 @@ import steins_feed_model.feeds
 def read_xml(
     session: sqla_orm.Session,
     f: typing.TextIO,
-    user_id: typing.Optional[str] = None,
-    tag: typing.Optional[str] = None,
+    user_name: typing.Optional[str] = None,
+    tag_name: typing.Optional[str] = None,
 ):
     tree = lxml.etree.parse(f)
     root = tree.getroot()
@@ -40,16 +40,13 @@ def read_xml(
     )
     session.commit()
 
-    if user_id and tag:
-        q = sqla.insert(
-            steins_feed_model.feeds.Tag,
-        ).values(
-            user_id=user_id,
-            name=tag,
+    if user_name:
+        q = sqla.select(
+            steins_feed_model.users.User,
+        ).where(
+            steins_feed_model.users.User.name == user_name,
         )
-        q = q.prefix_with("OR IGNORE", dialect="sqlite")
-
-        tag_record = session.execute(q).scalars().one()
+        user = session.execute(q).scalars().one()
 
         q = sqla.select(
             steins_feed_model.feeds.Feed,
@@ -57,36 +54,80 @@ def read_xml(
             steins_feed_model.feeds.Feed.title == sqla.bindparam("title"),
         )
 
-        with session.begin():
+        for feed_it in feeds:
+            feed = session.execute(
+                q,
+                {"title": feed_it.title},
+            ).scalars().one()
+
+            if user not in feed.users:
+                feed.users.append(user)
+                session.commit()
+
+        if tag_name:
+            q = sqla.insert(
+                steins_feed_model.feeds.Tag,
+            ).values(
+                user_id=user.id,
+                name=tag_name,
+            )
+            q = q.prefix_with("OR IGNORE", dialect="sqlite")
+
+            session.execute(q)
+            session.commit()
+
+            q = sqla.select(
+                steins_feed_model.feeds.Tag,
+            ).where(
+                steins_feed_model.feeds.Tag.user_id == user.id,
+                steins_feed_model.feeds.Tag.name == tag_name,
+            )
+            tag = session.execute(q).scalars().one()
+
+            q = sqla.select(
+                steins_feed_model.feeds.Feed,
+            ).where(
+                steins_feed_model.feeds.Feed.title == sqla.bindparam("title"),
+            )
+
             for feed_it in feeds:
-                feed_record = session.execute(
+                feed = session.execute(
                     q,
                     {"title": feed_it.title},
                 ).scalars().one()
 
-                if tag_record not in feed_record.tags:
-                    feed_record.tags.append(tag_record)
+                if tag not in feed.tags:
+                    feed.tags.append(tag)
+                    session.commit()
 
 def write_xml(
     session: sqla_orm.Session,
     f: typing.TextIO,
-    user_id: typing.Optional[str] = None,
-    tag: typing.Optional[str] = None,
+    user_name: typing.Optional[str] = None,
+    tag_name: typing.Optional[str] = None,
 ):
     q = sqla.select(
         steins_feed_model.feeds.Feed,
     ).order_by(
         sqla.collate(steins_feed_model.feeds.Feed.title, "NOCASE"),
     )
-    if user_id and tag:
+
+    if user_name:
         q = q.where(
-            steins_feed_model.feeds.Feed.tags.any(
-                sqla.and_(
-                    steins_feed_model.feeds.Tag.user_id == user_id,
-                    steins_feed_model.feeds.Tag.name == tag,
-                ),
+            steins_feed_model.feeds.Feed.users.any(
+                steins_feed_model.users.User.name == user_name,
             ),
         )
+
+        if tag_name:
+            q = q.where(
+                steins_feed_model.feeds.Feed.tags.any(
+                    sqla.and_(
+                        steins_feed_model.feeds.Tag.user.has(steins_feed_model.users.User.name == user_name),
+                        steins_feed_model.feeds.Tag.name == tag_name,
+                    ),
+                ),
+            )
 
     feeds = session.execute(q).scalars().all()
 
