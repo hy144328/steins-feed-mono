@@ -76,22 +76,38 @@ async def root(
 
     q = sqla.select(
         steins_feed_model.items.Item,
+    ).join(
+        steins_feed_model.items.Item.feed,
+    ).join(
+        steins_feed_model.feeds.Feed.users,
     ).where(
-        steins_feed_model.items.Item.feed.has(
-            steins_feed_model.feeds.Feed.users.any(
-                steins_feed_model.users.User.name == "hansolo",
-            ),
-        ),
+        steins_feed_model.users.User.name == "hansolo",
         steins_feed_model.items.Item.published >= dt_from,
         steins_feed_model.items.Item.published < dt_to,
     ).options(
-        sqla_orm.joinedload(
+        sqla_orm.contains_eager(
             steins_feed_model.items.Item.feed,
         ).joinedload(
-            steins_feed_model.feeds.Feed.tags,
+            steins_feed_model.feeds.Feed.tags.and_(
+                steins_feed_model.feeds.Tag.user.has(
+                    steins_feed_model.users.User.name == "hansolo",
+                ),
+            ),
         ),
-        sqla_orm.joinedload(steins_feed_model.items.Item.likes),
-        sqla_orm.joinedload(steins_feed_model.items.Item.magic),
+        sqla_orm.joinedload(
+            steins_feed_model.items.Item.likes.and_(
+                steins_feed_model.items.Like.user.has(
+                    steins_feed_model.users.User.name == "hansolo",
+                ),
+            ),
+        ),
+        sqla_orm.joinedload(
+            steins_feed_model.items.Item.magic.and_(
+                steins_feed_model.items.Magic.user.has(
+                    steins_feed_model.users.User.name == "hansolo",
+                ),
+            ),
+        ),
     )
 
     with sqla_orm.Session(engine) as session:
