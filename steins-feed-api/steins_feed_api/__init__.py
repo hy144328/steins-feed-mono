@@ -4,6 +4,7 @@ import os
 
 import dotenv
 import fastapi
+import fastapi.middleware.cors
 
 import steins_feed_model
 
@@ -22,6 +23,14 @@ engine = steins_feed_model.EngineFactory.get_or_create_engine(
 app = fastapi.FastAPI()
 
 app.include_router(steins_feed_api.routers.items.router)
+
+app.add_middleware(
+    fastapi.middleware.cors.CORSMiddleware,
+    allow_origins=os.getenv("ALLOWED_ORIGINS", "*").split(","),
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @app.get("/")
 async def root():
