@@ -3,7 +3,7 @@
 import DOMPurify from "isomorphic-dompurify"
 import { useState } from "react"
 
-import { Item, LikeStatus } from "@client"
+import { client, dislikeItemsDislikePut, Item, likeItemsLikePut, LikeStatus } from "@client"
 import { format_datetime, join_const } from "@util"
 
 export default function WallArticle({
@@ -59,8 +59,24 @@ function LikeButton({
   liked: LikeStatus,
   setLiked: (value: LikeStatus) => void,
 }) {
+  function handleLiked() {
+    client.setConfig({"baseUrl": "http://localhost:8000"});
+
+    likeItemsLikePut({
+      "query": {
+        "item_id": item.id,
+      },
+    }).then(({error}) => {
+      if (error) {
+        throw error;
+      }
+
+      setLiked((liked === 1) ? 0 : 1);
+    });
+  }
+
   return (
-<button type="button" onClick={ () => setLiked((liked === 1) ? 0 : 1) }>
+<button type="button" onClick={ handleLiked }>
 <span id={ `like_${ item.id }` } className={ (liked === 1) ? "liked" : "like" }>
 <i className="material-icons">thumb_up</i>
 </span>
@@ -77,8 +93,24 @@ function DislikeButton({
   liked: LikeStatus,
   setLiked: (value: LikeStatus) => void,
 }) {
+  function handleDisliked() {
+    client.setConfig({"baseUrl": "http://localhost:8000"});
+
+    dislikeItemsDislikePut({
+      "query": {
+        "item_id": item.id,
+      },
+    }).then(({error}) => {
+      if (error) {
+        throw error;
+      }
+
+      setLiked((liked === -1) ? 0 : -1);
+    });
+  }
+
   return (
-<button type="button" onClick={ () => setLiked((liked === -1) ? 0 : -1) }>
+<button type="button" onClick={ handleDisliked }>
 <span id={ `dislike_${ item.id }` } className={ (liked === -1) ? "disliked" : "dislike" }>
 <i className="material-icons">thumb_down</i>
 </span>
