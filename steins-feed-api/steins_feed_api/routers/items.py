@@ -151,9 +151,9 @@ async def like(
             session.add(like)
         else:
             like.score = (
-                steins_feed_model.items.LikeStatus.UP
-                if like.score == steins_feed_model.items.LikeStatus.MEH
-                else steins_feed_model.items.LikeStatus.MEH
+                steins_feed_model.items.LikeStatus.MEH
+                if like.score == steins_feed_model.items.LikeStatus.UP
+                else steins_feed_model.items.LikeStatus.UP
             )
 
         session.commit()
@@ -191,8 +191,8 @@ async def dislike(
             session.add(like)
         else:
             like.score = (
-                steins_feed_model.items.LikeStatus.DOWN
-                if like.score == steins_feed_model.items.LikeStatus.MEH
+                steins_feed_model.items.LikeStatus.MEH
+                if like.score == steins_feed_model.items.LikeStatus.DOWN
                 else steins_feed_model.items.LikeStatus.DOWN
             )
 
