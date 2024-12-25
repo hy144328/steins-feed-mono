@@ -6,10 +6,16 @@ import WallArticle from "./components"
 export default async function Page() {
   client.setConfig({"baseUrl": "http://localhost:8000"});
 
+  const now = new Date();
+  const today = new Date(now);
+  today.setHours(0, 0, 0, 0);
+  const tomorrow = new Date(today);
+  tomorrow.setDate(today.getDate() + 1);
+
   const items_response = await rootItemsGet({
     "query": {
-      "dt_from": new Date(1970, 1, 1).toISOString(),
-      "dt_to": new Date(2025, 1, 1).toISOString(),
+      "dt_from": today.toISOString(),
+      "dt_to": tomorrow.toISOString(),
     },
   });
 
