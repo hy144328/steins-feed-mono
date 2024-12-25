@@ -1,3 +1,3 @@
-.PHONY: app
-app:
-	uvicorn steins_feed_api:app
+.PHONY: dev
+dev:
+	uvicorn --reload steins_feed_api:app
