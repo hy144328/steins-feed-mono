@@ -117,3 +117,83 @@ async def root(
             Item.from_model(item_it)
             for item_it in session.execute(q).scalars().unique()
         ]
+
+@router.put("/like/")
+async def like(
+    item_id: int,
+):
+    engine = steins_feed_model.EngineFactory.get_or_create_engine()
+
+    q = sqla.select(
+        steins_feed_model.users.User,
+    ).where(
+        steins_feed_model.users.User.name == "hansolo",
+    )
+    with sqla_orm.Session(engine) as session:
+        user = session.execute(q).scalars().one()
+
+    q = sqla.select(
+        steins_feed_model.items.Like,
+    ).where(
+        steins_feed_model.items.Like.item_id == item_id,
+        steins_feed_model.items.Like.user_id == user.id,
+    )
+
+    with sqla_orm.Session(engine) as session:
+        like = session.execute(q).scalar()
+
+        if like is None:
+            like = steins_feed_model.items.Like(
+                user_id = user.id,
+                item_id = item_id,
+                score = steins_feed_model.items.LikeStatus.UP,
+            )
+            session.add(like)
+        else:
+            like.score = (
+                steins_feed_model.items.LikeStatus.UP
+                if like.score == steins_feed_model.items.LikeStatus.MEH
+                else steins_feed_model.items.LikeStatus.MEH
+            )
+
+        session.commit()
+
+@router.put("/dislike/")
+async def dislike(
+    item_id: int,
+):
+    engine = steins_feed_model.EngineFactory.get_or_create_engine()
+
+    q = sqla.select(
+        steins_feed_model.users.User,
+    ).where(
+        steins_feed_model.users.User.name == "hansolo",
+    )
+    with sqla_orm.Session(engine) as session:
+        user = session.execute(q).scalars().one()
+
+    q = sqla.select(
+        steins_feed_model.items.Like,
+    ).where(
+        steins_feed_model.items.Like.item_id == item_id,
+        steins_feed_model.items.Like.user_id == user.id,
+    )
+
+    with sqla_orm.Session(engine) as session:
+        like = session.execute(q).scalar()
+
+        if like is None:
+            like = steins_feed_model.items.Like(
+                user_id = user.id,
+                item_id = item_id,
+                score = steins_feed_model.items.LikeStatus.DOWN,
+            )
+            session.add(like)
+        else:
+            like.score = (
+                steins_feed_model.items.LikeStatus.DOWN
+                if like.score == steins_feed_model.items.LikeStatus.MEH
+                else steins_feed_model.items.LikeStatus.DOWN
+            )
+
+        session.commit()
