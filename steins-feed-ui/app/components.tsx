@@ -4,7 +4,7 @@ import DOMPurify from "isomorphic-dompurify"
 import { useState } from "react"
 
 import { Item, LikeStatus } from "@client"
-import { join_const, left_pad } from "@util"
+import { format_datetime, join_const } from "@util"
 
 export default function WallArticle({
   item,
@@ -13,14 +13,6 @@ export default function WallArticle({
 }) {
   const [liked, setLiked] = useState(item.like ?? 0);
   const [highlight, setHighlight] = useState(false);
-
-  const published = new Date(item.published);
-  const year = published.getUTCFullYear();
-  const month = published.getUTCMonth();
-  const day = published.getUTCDate();
-  const hour = published.getUTCHours();
-  const minute = published.getUTCMinutes();
-  const second = published.getUTCSeconds();
 
   return (
 <article id={ `article_${item.id}` }>
@@ -35,7 +27,7 @@ export default function WallArticle({
 <p>
 Source: <a href={ `/feed?feed=${item.feed.id}` }>{ item.feed.title }</a>.
 
-Published: { left_pad(year, 4) }-{ left_pad(month, 2) }-{ left_pad(day, 2) } { left_pad(hour, 2) }:{ left_pad(minute, 2) }:{ left_pad(second, 2) } GMT.
+Published: { format_datetime(new Date(item.published)) }.
 
 Tags: { join_const(
   item.feed.tags.map(tag_it =>
