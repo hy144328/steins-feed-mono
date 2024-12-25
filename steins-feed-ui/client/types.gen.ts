@@ -49,6 +49,26 @@ export type RootItemsGetResponse = (Array<Item>);
 
 export type RootItemsGetError = (HTTPValidationError);
 
+export type LikeItemsLikePutData = {
+    query: {
+        item_id: number;
+    };
+};
+
+export type LikeItemsLikePutResponse = (unknown);
+
+export type LikeItemsLikePutError = (HTTPValidationError);
+
+export type DislikeItemsDislikePutData = {
+    query: {
+        item_id: number;
+    };
+};
+
+export type DislikeItemsDislikePutResponse = (unknown);
+
+export type DislikeItemsDislikePutError = (HTTPValidationError);
+
 export type RootGetResponse = (unknown);
 
 export type RootGetError = unknown;
