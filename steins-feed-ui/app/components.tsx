@@ -1,5 +1,6 @@
 "use client"
 
+import DOMPurify from "dompurify"
 import { useState } from "react"
 
 import { Item, LikeStatus } from "@client"
@@ -38,9 +39,7 @@ Tags: { join_const(
 Score: { (item.magic ?? 0).toFixed(2) }.
 </p>
 
-<div id={ `summary_${item.id}` }>
-{ item.summary }
-</div>
+<div id={ `summary_${item.id}` } dangerouslySetInnerHTML={ {__html: DOMPurify.sanitize(item.summary ?? "")} } />
 
 <p>
 <LikeButton item={item} liked={liked} setLiked={setLiked}/>
