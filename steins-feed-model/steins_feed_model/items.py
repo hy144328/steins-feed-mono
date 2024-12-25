@@ -15,7 +15,7 @@ class LikeStatus(enum.Enum):
 class Item(base.Base):
     __tablename__ = "Item"
     __table_args__ = (
-        sqla.UniqueConstraint("title", "published", "feed_id"),
+        sqla.UniqueConstraint("published", "title", "feed_id"),
     )
 
     id: sqla_orm.Mapped[int] = sqla_orm.mapped_column(sqla.Integer, primary_key=True, init=False)
