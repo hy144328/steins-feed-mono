@@ -3,6 +3,7 @@
 import { useState } from "react"
 
 import { Item, LikeStatus } from "@client"
+import { join_const } from "@util"
 
 export default function WallArticle({
   item,
@@ -11,10 +12,6 @@ export default function WallArticle({
 }) {
   const [liked, setLiked] = useState(item.like ?? 0);
   const [highlight, setHighlight] = useState(false);
-
-  const tags = item.feed.tags.map(tag_it =>
-<a href={ `/tag?tag=${ tag_it.id }` } key={ tag_it.id }>{ tag_it.name }</a>
-  );
 
   return (
 <article id={ `article_${item.id}` }>
@@ -31,7 +28,12 @@ Source: <a href={ `/feed?feed=${item.feed.id}` }>{ item.feed.title }</a>.
 
 Published: { new Date(item.published).toISOString() }.
 
-Tags: { tags.map((value, index) => [(index > 0) && ", ", value]) }.
+Tags: { join_const(
+  item.feed.tags.map(tag_it =>
+    <a href={ `/tag?tag=${ tag_it.id }` } key={ tag_it.id }>{ tag_it.name }</a>
+  ),
+  ",",
+) }.
 
 Score: { (item.magic ?? 0).toFixed(2) }.
 </p>

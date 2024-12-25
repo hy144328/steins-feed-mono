@@ -1,4 +1,5 @@
 import { client, rootItemsGet } from "@client"
+import { join } from "@util"
 
 import WallArticle from "./components"
 
@@ -16,10 +17,12 @@ export default async function Page() {
     throw items_response.error;
   }
 
-  const articles_hr = items_response.data.flatMap(item_it => [
-    <WallArticle item={ item_it } key={ `article_${item_it.id}` }/>,
-    <hr className="article-hr" key={ `article_hr_${item_it.id}` }/>,
-  ]);
+  const articles_hr = join(
+    items_response.data.map(item_it =>
+      <WallArticle item={ item_it } key={ `article_${item_it.id}` }/>
+    ),
+    article_ct => <hr className="article-hr" key={ `article_hr_${article_ct}` }/>,
+  );
 
   return <>{ articles_hr }</>;
 }
