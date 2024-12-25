@@ -84,10 +84,18 @@ async def root(
         ),
         steins_feed_model.items.Item.published >= dt_from,
         steins_feed_model.items.Item.published < dt_to,
+    ).options(
+        sqla_orm.joinedload(
+            steins_feed_model.items.Item.feed,
+        ).joinedload(
+            steins_feed_model.feeds.Feed.tags,
+        ),
+        sqla_orm.joinedload(steins_feed_model.items.Item.likes),
+        sqla_orm.joinedload(steins_feed_model.items.Item.magic),
     )
 
     with sqla_orm.Session(engine) as session:
         return [
             Item.from_model(item_it)
-            for item_it in session.execute(q).scalars()
+            for item_it in session.execute(q).scalars().unique()
         ]
