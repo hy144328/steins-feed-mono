@@ -84,6 +84,8 @@ async def root(
         steins_feed_model.users.User.name == "hansolo",
         steins_feed_model.items.Item.published >= dt_from,
         steins_feed_model.items.Item.published < dt_to,
+    ).order_by(
+        steins_feed_model.items.Item.published.desc(),
     ).options(
         sqla_orm.contains_eager(
             steins_feed_model.items.Item.feed,
