@@ -7,6 +7,7 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+        <title>Stein&apos;s Feed</title>
       </head>
       <body>{children}</body>
     </html>
