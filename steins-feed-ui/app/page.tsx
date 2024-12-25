@@ -23,18 +23,11 @@ export default async function Page() {
     throw items_response.error;
   }
 
-  const articles_hr = join(
-    items_response.data.map(item_it =>
-      <WallArticle item={ item_it } key={ `article_${item_it.id}` }/>
-    ),
-    article_ct => <hr className="article-hr" key={ `article_hr_${article_ct}` }/>,
-  );
-
   return (
 <>
 <Header now={ now } items={ items_response.data }/>
 <hr />
-{ articles_hr }
+<Main items={ items_response.data }/>
 <hr />
 <Footer/>
 </>
@@ -68,5 +61,23 @@ async function Footer() {
 <footer>
 <a href="https://github.com/steins-feed/steins-feed-mono">GitHub</a>
 </footer>
+  );
+}
+
+async function Main({
+  items,
+}: {
+  items: Item[],
+}) {
+
+  return (
+<main>
+{
+  join(
+    items.map(item_it => <WallArticle item={ item_it } key={ `article_${item_it.id}` }/>),
+    article_ct => <hr className="article-hr" key={ `article_hr_${article_ct}` }/>,
+  )
+}
+</main>
   );
 }
