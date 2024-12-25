@@ -33,7 +33,7 @@ class Item(pydantic.BaseModel):
             title = item.title,
             link = item.link,
             summary = item.summary,
-            published = item.published,
+            published = item.published.replace(tzinfo=datetime.timezone.utc),
             feed = Feed.from_model(item.feed),
             like = item.likes[0].score if len(item.likes) > 0 else None,
             magic = item.magic[0].score if len(item.magic) > 0 else None,
