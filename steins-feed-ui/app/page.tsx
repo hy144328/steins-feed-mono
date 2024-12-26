@@ -1,10 +1,26 @@
-import { client, Item, rootItemsGet } from "@client"
+import { client, Item, rootItemsGet, loginTokenPost } from "@client"
 import { day_of_week_short, format_datetime, join, month_of_year_short } from "@util"
 
 import WallArticle from "./components"
 
 export default async function Page() {
   client.setConfig({"baseUrl": "http://localhost:8000"});
+
+  const token = await loginTokenPost({
+    "body": {
+      "username": process.env.API_USERNAME!,
+      "password": process.env.API_PASSWORD!,
+    },
+  });
+
+  if (!token.data) {
+    throw token.error;
+  }
+
+  client.interceptors.request.use((request, options) => {
+    request.headers.set("Authorization", `Bearer ${token.data.access_token}`);
+    return request;
+  });
 
   const now = new Date();
   const today = new Date(now);
