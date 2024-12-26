@@ -4,12 +4,12 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
-      <head>
-        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
-        <title>Stein&apos;s Feed</title>
-      </head>
-      <body>{children}</body>
-    </html>
-  )
+<html lang="en">
+  <head>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+    <title>Stein&apos;s Feed</title>
+  </head>
+  <body>{children}</body>
+</html>
+  );
 }
