@@ -3,9 +3,10 @@
 import DOMPurify from "isomorphic-dompurify"
 import { useState } from "react"
 
-import { client, dislikeItemsDislikePut, Item, likeItemsLikePut, LikeStatus } from "@client"
+import { Item, LikeStatus } from "@client"
 import { format_datetime, join_const } from "@util"
 
+import { doDislikeItemsDislikePut, doLikeItemsLikePut } from "./actions"
 import styles from "./components.module.css"
 
 export default function WallArticle({
@@ -61,20 +62,9 @@ function LikeButton({
   liked: LikeStatus,
   setLiked: (value: LikeStatus) => void,
 }) {
-  function handleLiked() {
-    client.setConfig({"baseUrl": "http://localhost:8000"});
-
-    likeItemsLikePut({
-      "query": {
-        "item_id": item.id,
-      },
-    }).then(({error}) => {
-      if (error) {
-        throw error;
-      }
-
-      setLiked((liked === 1) ? 0 : 1);
-    });
+  async function handleLiked() {
+    await doLikeItemsLikePut(item);
+    setLiked((liked === 1) ? 0 : 1);
   }
 
   return (
@@ -95,20 +85,9 @@ function DislikeButton({
   liked: LikeStatus,
   setLiked: (value: LikeStatus) => void,
 }) {
-  function handleDisliked() {
-    client.setConfig({"baseUrl": "http://localhost:8000"});
-
-    dislikeItemsDislikePut({
-      "query": {
-        "item_id": item.id,
-      },
-    }).then(({error}) => {
-      if (error) {
-        throw error;
-      }
-
-      setLiked((liked === -1) ? 0 : -1);
-    });
+  async function handleDisliked() {
+    await doDislikeItemsDislikePut(item);
+    setLiked((liked === -1) ? 0 : -1);
   }
 
   return (
