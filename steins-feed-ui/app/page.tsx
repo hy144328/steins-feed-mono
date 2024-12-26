@@ -61,12 +61,14 @@ async function Header({
   const month = now.getUTCMonth();
   const year = now.getUTCFullYear();
 
+  const last_published = new Date((items.length > 0) ? items[0].published : 0);
+
   return (
 <header>
 <h1>{ day_of_week_short[now.getUTCDay()] }, { day }. { month_of_year_short[month] } { year }</h1>
 <p>
 { items.length } articles.
-Last published: { format_datetime(new Date(items[0].published)) }.
+Last published: { format_datetime(last_published) }.
 </p>
 </header>
   );
