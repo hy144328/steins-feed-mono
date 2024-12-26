@@ -52,13 +52,17 @@ async def current_user(token: typing.Annotated[str, fastapi.Depends(oauth2_schem
 
 UserDep = typing.Annotated[User, fastapi.Depends(current_user)]
 
+class Token(pydantic.BaseModel):
+    access_token: str
+    token_type: str
+
 @router.post("/token")
 async def login(
     form_data: typing.Annotated[
         fastapi.security.OAuth2PasswordRequestForm,
         fastapi.Depends(),
     ],
-):
+) -> Token:
     engine = steins_feed_model.EngineFactory.get_or_create_engine()
 
     q = sqla.select(
@@ -90,7 +94,7 @@ async def login(
         algorithm = os.getenv("ALGORITHM", "HS256"),
     )
 
-    return {
-        "access_token": token,
-        "token_type": "bearer",
-    }
+    return Token(
+        access_token = token,
+        token_type = "bearer",
+    )
