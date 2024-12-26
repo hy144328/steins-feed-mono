@@ -11,6 +11,8 @@ import steins_feed_model.feeds
 import steins_feed_model.items
 import steins_feed_model.users
 
+import steins_feed_api.auth
+
 router = fastapi.APIRouter(
     prefix = "/items",
     tags = ["items"],
@@ -71,6 +73,7 @@ class Tag(pydantic.BaseModel):
 async def root(
     dt_from: datetime.datetime,
     dt_to: datetime.datetime,
+    current_user: steins_feed_api.auth.UserDep,
 ) -> list[Item]:
     engine = steins_feed_model.EngineFactory.get_or_create_engine()
 
@@ -81,7 +84,7 @@ async def root(
     ).join(
         steins_feed_model.feeds.Feed.users,
     ).where(
-        steins_feed_model.users.User.name == "hansolo",
+        steins_feed_model.users.User.id == current_user.id,
         steins_feed_model.items.Item.published >= dt_from,
         steins_feed_model.items.Item.published < dt_to,
     ).order_by(
@@ -92,21 +95,21 @@ async def root(
         ).joinedload(
             steins_feed_model.feeds.Feed.tags.and_(
                 steins_feed_model.feeds.Tag.user.has(
-                    steins_feed_model.users.User.name == "hansolo",
+                    steins_feed_model.users.User.id == current_user.id,
                 ),
             ),
         ),
         sqla_orm.joinedload(
             steins_feed_model.items.Item.likes.and_(
                 steins_feed_model.items.Like.user.has(
-                    steins_feed_model.users.User.name == "hansolo",
+                    steins_feed_model.users.User.id == current_user.id,
                 ),
             ),
         ),
         sqla_orm.joinedload(
             steins_feed_model.items.Item.magic.and_(
                 steins_feed_model.items.Magic.user.has(
-                    steins_feed_model.users.User.name == "hansolo",
+                    steins_feed_model.users.User.id == current_user.id,
                 ),
             ),
         ),
@@ -121,22 +124,15 @@ async def root(
 @router.put("/like/")
 async def like(
     item_id: int,
+    current_user: steins_feed_api.auth.UserDep,
 ):
     engine = steins_feed_model.EngineFactory.get_or_create_engine()
-
-    q = sqla.select(
-        steins_feed_model.users.User,
-    ).where(
-        steins_feed_model.users.User.name == "hansolo",
-    )
-    with sqla_orm.Session(engine) as session:
-        user = session.execute(q).scalars().one()
 
     q = sqla.select(
         steins_feed_model.items.Like,
     ).where(
         steins_feed_model.items.Like.item_id == item_id,
-        steins_feed_model.items.Like.user_id == user.id,
+        steins_feed_model.items.Like.user_id == current_user.id,
     )
 
     with sqla_orm.Session(engine) as session:
@@ -144,7 +140,7 @@ async def like(
 
         if like is None:
             like = steins_feed_model.items.Like(
-                user_id = user.id,
+                user_id = current_user.id,
                 item_id = item_id,
                 score = steins_feed_model.items.LikeStatus.UP,
             )
@@ -161,22 +157,15 @@ async def like(
 @router.put("/dislike/")
 async def dislike(
     item_id: int,
+    current_user: steins_feed_api.auth.UserDep,
 ):
     engine = steins_feed_model.EngineFactory.get_or_create_engine()
-
-    q = sqla.select(
-        steins_feed_model.users.User,
-    ).where(
-        steins_feed_model.users.User.name == "hansolo",
-    )
-    with sqla_orm.Session(engine) as session:
-        user = session.execute(q).scalars().one()
 
     q = sqla.select(
         steins_feed_model.items.Like,
     ).where(
         steins_feed_model.items.Like.item_id == item_id,
-        steins_feed_model.items.Like.user_id == user.id,
+        steins_feed_model.items.Like.user_id == current_user.id,
     )
 
     with sqla_orm.Session(engine) as session:
@@ -184,7 +173,7 @@ async def dislike(
 
         if like is None:
             like = steins_feed_model.items.Like(
-                user_id = user.id,
+                user_id = current_user.id,
                 item_id = item_id,
                 score = steins_feed_model.items.LikeStatus.DOWN,
             )
