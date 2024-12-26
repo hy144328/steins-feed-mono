@@ -6,6 +6,8 @@ import { useState } from "react"
 import { client, dislikeItemsDislikePut, Item, likeItemsLikePut, LikeStatus } from "@client"
 import { format_datetime, join_const } from "@util"
 
+import styles from "./components.module.css"
+
 export default function WallArticle({
   item,
 }: {
@@ -77,7 +79,7 @@ function LikeButton({
 
   return (
 <button type="button" onClick={ handleLiked }>
-<span id={ `like_${ item.id }` } className={ (liked === 1) ? "liked" : "like" }>
+<span id={ `like_${ item.id }` } className={ (liked === 1) ? styles.liked : "like" }>
 <i className="material-icons">thumb_up</i>
 </span>
 </button>
@@ -111,7 +113,7 @@ function DislikeButton({
 
   return (
 <button type="button" onClick={ handleDisliked }>
-<span id={ `dislike_${ item.id }` } className={ (liked === -1) ? "disliked" : "dislike" }>
+<span id={ `dislike_${ item.id }` } className={ (liked === -1) ? styles.disliked : "dislike" }>
 <i className="material-icons">thumb_down</i>
 </span>
 </button>
@@ -129,7 +131,7 @@ function MagicButton({
 }) {
   return (
 <button type="button" onClick={ () => setHighlight(!highlight) }>
-<span id={ `highlight_${ item.id }` } className={ highlight ? "highlit" : "highlight" }>
+<span id={ `highlight_${ item.id }` } className={ highlight ? styles.highlit : "highlight" }>
 <i className="material-icons">lightbulb_outline</i>
 </span>
 </button>
