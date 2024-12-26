@@ -1,6 +1,6 @@
 "use server"
 
-import { client, Item, likeItemsLikePut, LikeStatus, loginTokenPost } from "@client"
+import { client, Item, likeItemsLikePut, LikeStatus, loginTokenPost, rootItemsGet } from "@client"
 
 client.setConfig({"baseUrl": process.env.API_BASE_URL})
 
@@ -31,4 +31,22 @@ export async function doLikeItemsLikePut(item: Item, score: LikeStatus) {
   if (resp.error) {
     throw resp.error;
   }
+}
+
+export async function doRootItemsGet(
+  dt_from: Date,
+  dt_to: Date,
+): Promise<Item[]> {
+  const items_response = await rootItemsGet({
+    "query": {
+      "dt_from": dt_from.toISOString(),
+      "dt_to": dt_to.toISOString(),
+    },
+  });
+
+  if (items_response.error) {
+    throw items_response.error;
+  }
+
+  return items_response.data;
 }

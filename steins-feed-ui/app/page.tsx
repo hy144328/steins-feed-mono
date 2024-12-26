@@ -1,50 +1,24 @@
-import { client, Item, rootItemsGet, loginTokenPost } from "@client"
+import { Item } from "@client"
 import { day_of_week_short, format_datetime, join, month_of_year_short } from "@util"
 
 import WallArticle from "./components"
+import { doRootItemsGet } from "./actions"
 
 export default async function Page() {
-  client.setConfig({"baseUrl": "http://localhost:8000"});
-
-  const token = await loginTokenPost({
-    "body": {
-      "username": process.env.API_USERNAME!,
-      "password": process.env.API_PASSWORD!,
-    },
-  });
-
-  if (!token.data) {
-    throw token.error;
-  }
-
-  client.interceptors.request.use((request, options) => {
-    request.headers.set("Authorization", `Bearer ${token.data.access_token}`);
-    return request;
-  });
-
   const now = new Date();
   const today = new Date(now);
   today.setUTCHours(0, 0, 0, 0);
   const tomorrow = new Date(today);
   tomorrow.setUTCDate(today.getUTCDate() + 1);
 
-  const items_response = await rootItemsGet({
-    "query": {
-      "dt_from": today.toISOString(),
-      "dt_to": tomorrow.toISOString(),
-    },
-  });
-
-  if (!items_response.data) {
-    throw items_response.error;
-  }
+  const items = await doRootItemsGet(today, tomorrow);
 
   return (
 <>
-<Header now={ now } items={ items_response.data }/>
-<hr />
-<Main items={ items_response.data }/>
-<hr />
+<Header now={ now } items={ items }/>
+<hr/>
+<Main items={ items }/>
+<hr/>
 <Footer/>
 </>
   );
