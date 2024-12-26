@@ -11,7 +11,7 @@ const token = await loginTokenPost({
   },
 });
 
-if (!token.data) {
+if (token.error) {
   throw token.error;
 }
 
@@ -21,10 +21,14 @@ client.interceptors.request.use((request, options) => {
 });
 
 export async function doLikeItemsLikePut(item: Item, score: LikeStatus) {
-  await likeItemsLikePut({
+  const resp = await likeItemsLikePut({
     "query": {
       "item_id": item.id,
       "score": score,
     },
   });
+
+  if (resp.error) {
+    throw resp.error;
+  }
 }
