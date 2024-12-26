@@ -41,6 +41,11 @@ export type Tag = {
     name: string;
 };
 
+export type Token = {
+    access_token: string;
+    token_type: string;
+};
+
 export type ValidationError = {
     loc: Array<(string | number)>;
     msg: string;
@@ -51,7 +56,7 @@ export type LoginTokenPostData = {
     body: Body_login_token_post;
 };
 
-export type LoginTokenPostResponse = (unknown);
+export type LoginTokenPostResponse = (Token);
 
 export type LoginTokenPostError = (HTTPValidationError);
 
