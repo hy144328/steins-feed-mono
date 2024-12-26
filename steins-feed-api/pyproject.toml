@@ -8,11 +8,10 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.13"
-fastapi = "^0.115.6"
+fastapi = {extras = ["standard"], version = "^0.115.6"}
 python-dotenv = "^1.0.1"
 steins-feed-logging = {path = "../steins-feed-logging", develop = true}
 steins-feed-model = {path = "../steins-feed-model", develop = true}
-uvicorn = "^0.34.0"
 
 [tool.poetry.group.dev.dependencies]
 poetry = "^1.8.5"
