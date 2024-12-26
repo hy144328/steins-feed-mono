@@ -71,7 +71,7 @@ function LikeButton({
   return (
 <button type="button" onClick={ handleLiked }>
 <span id={ `like_${ item.id }` } className={ (liked === 1) ? styles.liked : "like" }>
-<i className="material-icons">thumb_up</i>
+<i className="bi-hand-thumbs-up" style={ {"fontSize": "1.5rem"} }></i>
 </span>
 </button>
   );
@@ -95,7 +95,7 @@ function DislikeButton({
   return (
 <button type="button" onClick={ handleDisliked }>
 <span id={ `dislike_${ item.id }` } className={ (liked === -1) ? styles.disliked : "dislike" }>
-<i className="material-icons">thumb_down</i>
+<i className="bi-hand-thumbs-down" style={ {"fontSize": "1.5rem"} }></i>
 </span>
 </button>
   );
@@ -113,7 +113,7 @@ function MagicButton({
   return (
 <button type="button" onClick={ () => setHighlight(!highlight) }>
 <span id={ `highlight_${ item.id }` } className={ highlight ? styles.highlit : "highlight" }>
-<i className="material-icons">lightbulb_outline</i>
+<i className="bi-lightbulb" style={ {"fontSize": "1.5rem"} }></i>
 </span>
 </button>
   );
