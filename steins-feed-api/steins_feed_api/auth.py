@@ -50,6 +50,8 @@ async def current_user(token: typing.Annotated[str, fastapi.Depends(oauth2_schem
         user = session.execute(q).scalars().one()
         return User.from_model(user)
 
+UserDep = typing.Annotated[User, fastapi.Depends(current_user)]
+
 @router.post("/token")
 async def login(
     form_data: typing.Annotated[
