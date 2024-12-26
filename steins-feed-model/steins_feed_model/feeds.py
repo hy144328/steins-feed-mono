@@ -6,7 +6,7 @@ import sqlalchemy.orm as sqla_orm
 
 from . import base, types, users
 
-class Language(enum.Enum):
+class Language(str, enum.Enum):
     ENGLISH = "English"
     GERMAN = "German"
     SWEDISH = "Swedish"

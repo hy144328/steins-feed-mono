@@ -7,7 +7,7 @@ import sqlalchemy.orm as sqla_orm
 
 from . import base, feeds, types, users
 
-class LikeStatus(enum.Enum):
+class LikeStatus(int, enum.Enum):
     UP = 1
     MEH = 0
     DOWN = -1
