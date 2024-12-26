@@ -6,7 +6,7 @@ import { useState } from "react"
 import { Item, LikeStatus } from "@client"
 import { format_datetime, join_const } from "@util"
 
-import { doDislikeItemsDislikePut, doLikeItemsLikePut } from "./actions"
+import { doLikeItemsLikePut } from "./actions"
 import styles from "./components.module.css"
 
 export default function WallArticle({
@@ -63,8 +63,9 @@ function LikeButton({
   setLiked: (value: LikeStatus) => void,
 }) {
   async function handleLiked() {
-    await doLikeItemsLikePut(item);
-    setLiked((liked === 1) ? 0 : 1);
+    const score = (liked === 1) ? 0 : 1;
+    await doLikeItemsLikePut(item, score);
+    setLiked(score);
   }
 
   return (
@@ -86,8 +87,9 @@ function DislikeButton({
   setLiked: (value: LikeStatus) => void,
 }) {
   async function handleDisliked() {
-    await doDislikeItemsDislikePut(item);
-    setLiked((liked === -1) ? 0 : -1);
+    const score = (liked === -1) ? 0 : -1;
+    await doLikeItemsLikePut(item, score);
+    setLiked(score);
   }
 
   return (

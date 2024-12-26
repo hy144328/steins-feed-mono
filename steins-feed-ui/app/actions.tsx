@@ -1,6 +1,6 @@
 "use server"
 
-import { client, dislikeItemsDislikePut, Item, likeItemsLikePut, loginTokenPost } from "@client"
+import { client, Item, likeItemsLikePut, LikeStatus, loginTokenPost } from "@client"
 
 client.setConfig({"baseUrl": process.env.API_BASE_URL})
 
@@ -20,18 +20,11 @@ client.interceptors.request.use((request, options) => {
   return request;
 });
 
-export async function doLikeItemsLikePut(item: Item) {
+export async function doLikeItemsLikePut(item: Item, score: LikeStatus) {
   await likeItemsLikePut({
     "query": {
       "item_id": item.id,
-    },
-  });
-}
-
-export async function doDislikeItemsDislikePut(item: Item) {
-  await dislikeItemsDislikePut({
-    "query": {
-      "item_id": item.id,
+      "score": score,
     },
   });
 }

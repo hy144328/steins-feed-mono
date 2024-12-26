@@ -71,9 +71,9 @@ class Tag(pydantic.BaseModel):
 
 @router.get("/")
 async def root(
+    current_user: steins_feed_api.auth.UserDep,
     dt_from: datetime.datetime,
     dt_to: datetime.datetime,
-    current_user: steins_feed_api.auth.UserDep,
 ) -> list[Item]:
     engine = steins_feed_model.EngineFactory.get_or_create_engine()
 
@@ -123,8 +123,9 @@ async def root(
 
 @router.put("/like/")
 async def like(
-    item_id: int,
     current_user: steins_feed_api.auth.UserDep,
+    item_id: int,
+    score: steins_feed_model.items.LikeStatus,
 ):
     engine = steins_feed_model.EngineFactory.get_or_create_engine()
 
@@ -142,47 +143,10 @@ async def like(
             like = steins_feed_model.items.Like(
                 user_id = current_user.id,
                 item_id = item_id,
-                score = steins_feed_model.items.LikeStatus.UP,
+                score = score,
             )
             session.add(like)
         else:
-            like.score = (
-                steins_feed_model.items.LikeStatus.MEH
-                if like.score == steins_feed_model.items.LikeStatus.UP
-                else steins_feed_model.items.LikeStatus.UP
-            )
-
-        session.commit()
-
-@router.put("/dislike/")
-async def dislike(
-    item_id: int,
-    current_user: steins_feed_api.auth.UserDep,
-):
-    engine = steins_feed_model.EngineFactory.get_or_create_engine()
-
-    q = sqla.select(
-        steins_feed_model.items.Like,
-    ).where(
-        steins_feed_model.items.Like.item_id == item_id,
-        steins_feed_model.items.Like.user_id == current_user.id,
-    )
-
-    with sqla_orm.Session(engine) as session:
-        like = session.execute(q).scalar()
-
-        if like is None:
-            like = steins_feed_model.items.Like(
-                user_id = current_user.id,
-                item_id = item_id,
-                score = steins_feed_model.items.LikeStatus.DOWN,
-            )
-            session.add(like)
-        else:
-            like.score = (
-                steins_feed_model.items.LikeStatus.MEH
-                if like.score == steins_feed_model.items.LikeStatus.DOWN
-                else steins_feed_model.items.LikeStatus.DOWN
-            )
+            like.score = score
 
         session.commit()
