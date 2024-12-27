@@ -45,6 +45,10 @@ function TopNav({
 <Container>
 <NavbarBrand>Stein&apos;s Feed</NavbarBrand>
 <Nav>
+<NavItem><NavLink>Bar</NavLink></NavItem>
+<NavItem><NavLink>Baz</NavLink></NavItem>
+</Nav>
+<Nav>
 <NavItem>
 <ButtonGroup>
 <Button href={ `/?now=${tomorrow.toISOString()}` }><i className="bi-rewind-fill"/></Button>
@@ -53,10 +57,6 @@ function TopNav({
 <Button href={ `/?now=${yesterday.toISOString()}` }><i className="bi-fast-forward-fill"/></Button>
 </ButtonGroup>
 </NavItem>
-</Nav>
-<Nav>
-<NavItem><NavLink>Bar</NavLink></NavItem>
-<NavItem><NavLink>Baz</NavLink></NavItem>
 </Nav>
 <Nav>
 <NavItem><Button><i className="bi-list" onClick={ () => setShow(true) }/></Button></NavItem>
