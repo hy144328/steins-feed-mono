@@ -1,24 +1,10 @@
 "use server"
 
-import { client, Item, likeItemsLikePut, LikeStatus, loginTokenPost, rootItemsGet } from "@client"
+import { cookies } from "next/headers"
 
-client.setConfig({"baseUrl": process.env.API_BASE_URL})
+import { client, Item, likeItemsLikePut, LikeStatus, rootItemsGet } from "@client"
 
-const token = await loginTokenPost({
-  "body": {
-    "username": process.env.API_USERNAME!,
-    "password": process.env.API_PASSWORD!,
-  },
-});
-
-if (token.error) {
-  throw token.error;
-}
-
-client.interceptors.request.use((request, options) => {
-  request.headers.set("Authorization", `Bearer ${token.data.access_token}`);
-  return request;
-});
+client.setConfig({"baseUrl": process.env.API_BASE_URL});
 
 export async function doLikeItemsLikePut(item: Item, score: LikeStatus) {
   const resp = await likeItemsLikePut({
@@ -37,6 +23,18 @@ export async function doRootItemsGet(
   dt_from: Date,
   dt_to: Date,
 ): Promise<Item[]> {
+  const cookie_store = await cookies();
+  const cookie = cookie_store.get("api_token");
+
+  if (!cookie) {
+    throw {"detail": "Not authenticated"};
+  }
+
+  client.interceptors.request.use((request, options) => {
+    request.headers.set("Authorization", `Bearer ${cookie.value}`);
+    return request;
+  });
+
   const items_response = await rootItemsGet({
     "query": {
       "dt_from": dt_from.toISOString(),

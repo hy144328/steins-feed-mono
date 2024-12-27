@@ -1,5 +1,7 @@
 "use server"
 
+import { cookies } from "next/headers"
+
 import { client, loginTokenPost } from "@client"
 
 client.setConfig({"baseUrl": process.env.API_BASE_URL})
@@ -8,6 +10,7 @@ export async function doLoginTokenPost(
   username: string,
   password: string
 ) {
+  const cookie_store = await cookies();
   const token = await loginTokenPost({
     "body": {
       "username": username,
@@ -19,8 +22,5 @@ export async function doLoginTokenPost(
     throw token.error;
   }
 
-  client.interceptors.request.use((request, options) => {
-    request.headers.set("Authorization", `Bearer ${token.data.access_token}`);
-    return request;
-  });
+  cookie_store.set("api_token", token.data.access_token);
 }

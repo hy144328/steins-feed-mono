@@ -1,3 +1,4 @@
+import { redirect } from "next/navigation"
 import Container from "react-bootstrap/Container"
 
 import { Item } from "@client"
@@ -18,7 +19,13 @@ export default async function Page({
   const tomorrow = new Date(today);
   tomorrow.setUTCDate(today.getUTCDate() + 1);
 
-  const items = await doRootItemsGet(today, tomorrow);
+  let items: Array<Item> = [];
+  try {
+    items = await doRootItemsGet(today, tomorrow);
+  } catch (e) {
+    console.log(e);
+    redirect("/login");
+  }
 
   return (
 <Container>
