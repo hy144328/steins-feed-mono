@@ -1,5 +1,6 @@
 "use client"
 
+import { useRouter } from "next/navigation"
 import DOMPurify from "isomorphic-dompurify"
 import { useState } from "react"
 import Button from 'react-bootstrap/Button'
@@ -61,9 +62,18 @@ function LikeButton({
   liked: LikeStatus,
   setLiked: (value: LikeStatus) => void,
 }) {
+  const router = useRouter();
+
   async function handleLiked() {
     const score = (liked === 1) ? 0 : 1;
-    await doLikeItemsLikePut(item, score);
+
+    try {
+      await doLikeItemsLikePut(item, score);
+    } catch(e) {
+      console.log(e);
+      router.refresh();
+    }
+
     setLiked(score);
   }
 
@@ -83,9 +93,18 @@ function DislikeButton({
   liked: LikeStatus,
   setLiked: (value: LikeStatus) => void,
 }) {
+  const router = useRouter();
+
   async function handleDisliked() {
     const score = (liked === -1) ? 0 : -1;
-    await doLikeItemsLikePut(item, score);
+
+    try {
+      await doLikeItemsLikePut(item, score);
+    } catch(e) {
+      console.log(e);
+      router.refresh();
+    }
+
     setLiked(score);
   }
 
