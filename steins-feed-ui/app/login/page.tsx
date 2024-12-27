@@ -1,11 +1,15 @@
 import Container from "react-bootstrap/Container"
 
-import LoginForm from "./components"
+import LoginModal from "./components"
 
-export default async function Page() {
+export default async function Page({
+  searchParams,
+}: {
+  searchParams: Promise<{pathname?: string}>,
+}) {
   return (
 <Container>
-<LoginForm/>
+<LoginModal callback={ (await searchParams).pathname }/>
 </Container>
   );
 }

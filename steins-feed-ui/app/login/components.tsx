@@ -11,7 +11,15 @@ import Row from "react-bootstrap/Row"
 
 import { doLoginTokenPost } from "./actions"
 
-export default function LoginModal() {
+export default function LoginModal({
+  open,
+  setOpen,
+  callback,
+}: {
+  open?: boolean,
+  setOpen?: (value: boolean) => void,
+  callback?: string | (() => void),
+}) {
   const router = useRouter();
 
   let username: string | null = null;
@@ -19,12 +27,19 @@ export default function LoginModal() {
 
   async function handleSubmit() {
     await doLoginTokenPost(username!, password!);
-    router.push("/");
+
+    if (callback === undefined) {
+      router.push("/");
+    } else if (typeof callback === "string") {
+      router.push(callback);
+    } else {
+      callback();
+    }
   }
 
   return (
-<Modal show={ true }>
-<Modal.Header>
+<Modal show={ open ?? true } onHide={ setOpen ? () => setOpen(false) : undefined }>
+<Modal.Header closeButton={ setOpen !== undefined }>
 <Modal.Title>Log in</Modal.Title>
 </Modal.Header>
 <Modal.Body>

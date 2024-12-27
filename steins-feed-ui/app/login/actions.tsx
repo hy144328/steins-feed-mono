@@ -4,7 +4,7 @@ import { cookies } from "next/headers"
 
 import { client, loginTokenPost } from "@client"
 
-client.setConfig({"baseUrl": process.env.API_BASE_URL})
+client.setConfig({"baseUrl": process.env.API_BASE_URL});
 
 export async function doLoginTokenPost(
   username: string,
