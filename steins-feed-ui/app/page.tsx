@@ -22,7 +22,7 @@ export default async function Page({
 
   return (
 <Container>
-<Navigation/>
+<Navigation now={ now }/>
 <Header now={ now } items={ items }/>
 <hr/>
 <Main items={ items }/>

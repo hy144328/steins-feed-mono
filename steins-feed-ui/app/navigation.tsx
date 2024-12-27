@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import Button from "react-bootstrap/Button"
+import ButtonGroup from "react-bootstrap/ButtonGroup"
 import Container from "react-bootstrap/Container"
 import Nav from "react-bootstrap/Nav"
 import Navbar from "react-bootstrap/Navbar"
@@ -11,29 +12,53 @@ import NavLink from "react-bootstrap/NavLink"
 import Offcanvas from "react-bootstrap/Offcanvas"
 
 
-export default function Navigation() {
+export default function Navigation({
+  now,
+}: {
+  now: Date,
+}) {
   const [show, setShow] = useState(false);
 
   return (
 <>
-<TopNav setShow={ setShow }/>
+<TopNav now={ now } setShow={ setShow }/>
 <SideNav show={ show } setShow={ setShow }/>
 </>
   );
 }
 
 function TopNav({
+  now,
   setShow,
 }: {
+  now: Date,
   setShow: (value: boolean) => void,
 }) {
+  const yesterday = new Date(now);
+  yesterday.setUTCDate(now.getUTCDate() - 1);
+
+  const tomorrow = new Date(now);
+  tomorrow.setUTCDate(now.getUTCDate() + 1);
+
   return (
 <Navbar data-bs-theme="dark" bg="dark" sticky="top">
 <Container>
 <NavbarBrand>Stein&apos;s Feed</NavbarBrand>
 <Nav>
+<NavItem>
+<ButtonGroup>
+<Button href={ `/?now=${tomorrow.toISOString()}` }><i className="bi-rewind-fill"/></Button>
+<Button disabled><i className="bi-caret-up-fill"/></Button>
+<Button disabled><i className="bi-caret-down-fill"/></Button>
+<Button href={ `/?now=${yesterday.toISOString()}` }><i className="bi-fast-forward-fill"/></Button>
+</ButtonGroup>
+</NavItem>
+</Nav>
+<Nav>
 <NavItem><NavLink>Bar</NavLink></NavItem>
 <NavItem><NavLink>Baz</NavLink></NavItem>
+</Nav>
+<Nav>
 <NavItem><Button><i className="bi-list" onClick={ () => setShow(true) }/></Button></NavItem>
 </Nav>
 </Container>
