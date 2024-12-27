@@ -4,9 +4,10 @@ import DOMPurify from "isomorphic-dompurify"
 import { useState } from "react"
 import Button from 'react-bootstrap/Button'
 import ButtonGroup from 'react-bootstrap/ButtonGroup'
+import Card from 'react-bootstrap/Card'
 
 import { Item, LikeStatus } from "@client"
-import { format_datetime, join_const } from "@util"
+import { format_datetime, join } from "@util"
 
 import { doLikeItemsLikePut } from "./actions"
 
@@ -19,40 +20,35 @@ export default function WallArticle({
   const [highlight, setHighlight] = useState(false);
 
   return (
-<article id={ `article_${item.id}` }>
-<h2>
-<a href={ item.link } target="_blank">
-<span id={ `title_${item.id}` }>
-{ item.title }
-</span>
-</a>
-</h2>
+<Card>
+<Card.Body>
+<Card.Title>
+<a href={ item.link } target="_blank">{ item.title }</a>
+</Card.Title>
 
-<p>
+<Card.Subtitle>
 Source: <a href={ `/feed?feed=${item.feed.id}` }>{ item.feed.title }</a>.
-
 Published: { format_datetime(new Date(item.published)) }.
-
-Tags: { join_const(
+Tags: { join(
   item.feed.tags.map(tag_it =>
     <a href={ `/tag?tag=${ tag_it.id }` } key={ tag_it.id }>{ tag_it.name }</a>
   ),
   ",",
 ) }.
-
 Score: { (item.magic ?? 0).toFixed(2) }.
-</p>
+</Card.Subtitle>
 
-<div id={ `summary_${item.id}` } dangerouslySetInnerHTML={ {__html: DOMPurify.sanitize(item.summary ?? "")} } />
+<Card.Text dangerouslySetInnerHTML={ {__html: DOMPurify.sanitize(item.summary ?? "")} }/>
+</Card.Body>
 
-<p>
+<Card.Footer>
 <ButtonGroup>
 <LikeButton item={item} liked={liked} setLiked={setLiked}/>
 <DislikeButton item={item} liked={liked} setLiked={setLiked}/>
 <MagicButton item={item} highlight={highlight} setHighlight={setHighlight}/>
 </ButtonGroup>
-</p>
-</article>
+</Card.Footer>
+</Card>
   );
 }
 

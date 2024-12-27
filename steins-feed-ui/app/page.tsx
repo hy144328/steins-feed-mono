@@ -1,5 +1,5 @@
 import { Item } from "@client"
-import { day_of_week_short, format_datetime, join, month_of_year_short } from "@util"
+import { day_of_week_short, format_datetime, month_of_year_short } from "@util"
 
 import WallArticle from "./components"
 import { doRootItemsGet } from "./actions"
@@ -65,10 +65,7 @@ async function Main({
   return (
 <main>
 {
-  join(
-    items.map(item_it => <WallArticle item={ item_it } key={ `article_${item_it.id}` }/>),
-    article_ct => <hr className="article-hr" key={ `article_hr_${article_ct}` }/>,
-  )
+    items.map(item_it => <WallArticle item={ item_it } key={ `article_${item_it.id}` }/>)
 }
 </main>
   );
