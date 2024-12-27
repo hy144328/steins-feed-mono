@@ -25,7 +25,7 @@ export default async function Page({
     items = await doRootItemsGet(today, tomorrow);
   } catch (e) {
     console.log(e);
-    require_login(now_raw ? "/" : `/?now=${now.toISOString()}`);
+    require_login(now_raw ? "/" : `/?now=${encodeURIComponent(now.toISOString())}`);
   }
 
   return (

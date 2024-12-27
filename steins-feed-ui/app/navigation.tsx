@@ -60,10 +60,10 @@ function TopNav({
 <Nav>
 <NavItem>
 <ButtonGroup>
-<Button href={ `/?now=${tomorrow.toISOString()}` }><i className="bi-rewind-fill"/></Button>
+<Button href={ `/?now=${encodeURIComponent(tomorrow.toISOString())}` }><i className="bi-rewind-fill"/></Button>
 <Button disabled><i className="bi-caret-up-fill"/></Button>
 <Button disabled><i className="bi-caret-down-fill"/></Button>
-<Button href={ `/?now=${yesterday.toISOString()}` }><i className="bi-fast-forward-fill"/></Button>
+<Button href={ `/?now=${encodeURIComponent(yesterday.toISOString())}` }><i className="bi-fast-forward-fill"/></Button>
 </ButtonGroup>
 </NavItem>
 </Nav>
