@@ -1,5 +1,6 @@
 "use client"
 
+import { useRouter } from "next/navigation"
 import { useState } from "react"
 import Button from "react-bootstrap/Button"
 import ButtonGroup from "react-bootstrap/ButtonGroup"
@@ -11,6 +12,7 @@ import NavItem from "react-bootstrap/NavItem"
 import NavLink from "react-bootstrap/NavLink"
 import Offcanvas from "react-bootstrap/Offcanvas"
 
+import { logout } from "./auth"
 
 export default function Navigation({
   now,
@@ -34,11 +36,18 @@ function TopNav({
   now: Date,
   setShow: (value: boolean) => void,
 }) {
+  const router = useRouter();
+
   const yesterday = new Date(now);
   yesterday.setUTCDate(now.getUTCDate() - 1);
 
   const tomorrow = new Date(now);
   tomorrow.setUTCDate(now.getUTCDate() + 1);
+
+  async function handleLogout() {
+    await logout();
+    router.push("/");
+  }
 
   return (
 <Navbar data-bs-theme="dark" bg="dark" sticky="top">
@@ -59,7 +68,12 @@ function TopNav({
 </NavItem>
 </Nav>
 <Nav>
-<NavItem><Button><i className="bi-list" onClick={ () => setShow(true) }/></Button></NavItem>
+<NavItem>
+<ButtonGroup>
+<Button variant="danger"><i className="bi-power" onClick={ handleLogout }/></Button>
+<Button><i className="bi-list" onClick={ () => setShow(true) }/></Button>
+</ButtonGroup>
+</NavItem>
 </Nav>
 </Container>
 </Navbar>
