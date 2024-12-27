@@ -7,13 +7,13 @@ export function left_pad(x: number, n: number): string {
 }
 
 export const day_of_week = [
+  "Sunday",
   "Monday",
   "Tuesday",
   "Wednesday",
   "Thursday",
   "Friday",
   "Saturday",
-  "Sunday",
 ];
 export const day_of_week_short = day_of_week.map(day_it => day_it.slice(0, 3));
 
