@@ -106,7 +106,7 @@ function MagicButton({
   setHighlight: (value: boolean) => void,
 }) {
   return (
-<Button variant={ highlight ? "outline-primary" : "outline-secondary" } onClick={ () => setHighlight(!highlight) }>
+<Button variant={ highlight ? "outline-primary" : "outline-secondary" } onClick={ () => setHighlight(!highlight) } disabled>
 <i className="bi-lightbulb-fill"></i>
 </Button>
   );
