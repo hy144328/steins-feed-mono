@@ -6,11 +6,12 @@ import Col from "react-bootstrap/Col"
 import Form from "react-bootstrap/Form"
 import FormControl from "react-bootstrap/FormControl"
 import FormLabel from "react-bootstrap/FormLabel"
+import Modal from "react-bootstrap/Modal"
 import Row from "react-bootstrap/Row"
 
 import { doLoginTokenPost } from "./actions"
 
-export default function LoginForm() {
+export default function LoginModal() {
   const router = useRouter();
 
   let username: string | null = null;
@@ -22,6 +23,11 @@ export default function LoginForm() {
   }
 
   return (
+<Modal show={ true }>
+<Modal.Header>
+<Modal.Title>Log in</Modal.Title>
+</Modal.Header>
+<Modal.Body>
 <Form>
   <Row>
     <FormLabel column htmlFor="username" xs={2}>User</FormLabel>
@@ -45,14 +51,11 @@ export default function LoginForm() {
     />
     </Col>
   </Row>
-
-  <Row>
-  <Col xs="auto">
-  <Button type="button" onClick={ handleSubmit }>
-    Submit
-  </Button>
-  </Col>
-  </Row>
 </Form>
+</Modal.Body>
+<Modal.Footer>
+<Button type="button" onClick={ handleSubmit }>Submit</Button>
+</Modal.Footer>
+</Modal>
   );
 }
