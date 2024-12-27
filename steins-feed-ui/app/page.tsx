@@ -7,8 +7,12 @@ import { doRootItemsGet } from "./actions"
 import WallArticle from "./components"
 import Navigation from "./navigation"
 
-export default async function Page() {
-  const now = new Date();
+export default async function Page({
+  searchParams,
+}: {
+  searchParams: Promise<{"now": string | undefined}>
+}) {
+  const now = new Date((await searchParams).now ?? new Date());
   const today = new Date(now);
   today.setUTCHours(0, 0, 0, 0);
   const tomorrow = new Date(today);
