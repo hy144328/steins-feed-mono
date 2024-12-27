@@ -30,7 +30,7 @@ export async function doRootItemsGet(
     throw {"detail": "Not authenticated"};
   }
 
-  client.interceptors.request.use((request, options) => {
+  client.interceptors.request.use(request => {
     request.headers.set("Authorization", `Bearer ${cookie.value}`);
     return request;
   });

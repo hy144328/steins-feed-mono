@@ -45,7 +45,7 @@ Score: { (item.magic ?? 0).toFixed(2) }.
 <ButtonGroup>
 <LikeButton item={item} liked={liked} setLiked={setLiked}/>
 <DislikeButton item={item} liked={liked} setLiked={setLiked}/>
-<MagicButton item={item} highlight={highlight} setHighlight={setHighlight}/>
+<MagicButton /*item={item}*/ highlight={highlight} setHighlight={setHighlight}/>
 </ButtonGroup>
 </Card.Footer>
 </Card>
@@ -97,11 +97,11 @@ function DislikeButton({
 }
 
 function MagicButton({
-  item,
+  //item,
   highlight,
   setHighlight,
 }: {
-  item: Item,
+  //item: Item,
   highlight: boolean,
   setHighlight: (value: boolean) => void,
 }) {
