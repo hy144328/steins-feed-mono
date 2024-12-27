@@ -46,7 +46,7 @@ function TopNav({
 
   async function handleLogout() {
     await logout();
-    router.push("/");
+    router.refresh();
   }
 
   return (

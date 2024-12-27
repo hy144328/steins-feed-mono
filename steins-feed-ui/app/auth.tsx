@@ -1,6 +1,7 @@
 "use server"
 
 import { cookies } from "next/headers"
+import { redirect } from "next/navigation"
 
 import { client } from "@client"
 
@@ -23,4 +24,8 @@ export async function authenticate() {
     request.headers.set("Authorization", `Bearer ${cookie.value}`);
     return request;
   });
+}
+
+export async function require_login(pathname: string) {
+  redirect(`/login?pathname=${encodeURIComponent(pathname)}`);
 }

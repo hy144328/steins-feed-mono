@@ -1,19 +1,20 @@
-import { redirect } from "next/navigation"
 import Container from "react-bootstrap/Container"
 
 import { Item } from "@client"
 import { day_of_week_short, format_datetime, month_of_year_short } from "@util"
 
 import { doRootItemsGet } from "./actions"
+import { require_login } from "./auth"
 import WallArticle from "./components"
 import Navigation from "./navigation"
 
 export default async function Page({
   searchParams,
 }: {
-  searchParams: Promise<{"now": string | undefined}>
+  searchParams: Promise<{now?: string}>,
 }) {
-  const now = new Date((await searchParams).now ?? new Date());
+  const now_raw = (await searchParams).now;
+  const now = now_raw ? new Date(now_raw) : new Date();
   const today = new Date(now);
   today.setUTCHours(0, 0, 0, 0);
   const tomorrow = new Date(today);
@@ -24,7 +25,7 @@ export default async function Page({
     items = await doRootItemsGet(today, tomorrow);
   } catch (e) {
     console.log(e);
-    redirect("/login");
+    require_login(now_raw ? "/" : `/?now=${now.toISOString()}`);
   }
 
   return (
@@ -76,7 +77,6 @@ async function Main({
 }: {
   items: Item[],
 }) {
-
   return (
 <main>
 {
