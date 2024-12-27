@@ -1,8 +1,11 @@
+import Container from "react-bootstrap/Container"
+
 import { Item } from "@client"
 import { day_of_week_short, format_datetime, month_of_year_short } from "@util"
 
-import WallArticle from "./components"
 import { doRootItemsGet } from "./actions"
+import WallArticle from "./components"
+import Navigation from "./navigation"
 
 export default async function Page() {
   const now = new Date();
@@ -14,13 +17,14 @@ export default async function Page() {
   const items = await doRootItemsGet(today, tomorrow);
 
   return (
-<>
+<Container>
+<Navigation/>
 <Header now={ now } items={ items }/>
 <hr/>
 <Main items={ items }/>
 <hr/>
 <Footer/>
-</>
+</Container>
   );
 }
 

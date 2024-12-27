@@ -69,7 +69,7 @@ function LikeButton({
 
   return (
 <Button variant={ (liked === 1) ? "outline-primary" : "outline-secondary" } onClick={ handleLiked }>
-<i className="bi-hand-thumbs-up-fill"></i>
+<i className="bi-hand-thumbs-up-fill"/>
 </Button>
   );
 }
@@ -91,7 +91,7 @@ function DislikeButton({
 
   return (
 <Button variant={ (liked === -1) ? "outline-primary" : "outline-secondary" } onClick={ handleDisliked }>
-<i className="bi-hand-thumbs-down-fill"></i>
+<i className="bi-hand-thumbs-down-fill"/>
 </Button>
   );
 }
@@ -107,7 +107,7 @@ function MagicButton({
 }) {
   return (
 <Button variant={ highlight ? "outline-primary" : "outline-secondary" } onClick={ () => setHighlight(!highlight) } disabled>
-<i className="bi-lightbulb-fill"></i>
+<i className="bi-lightbulb-fill"/>
 </Button>
   );
 };
