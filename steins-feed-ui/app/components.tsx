@@ -38,7 +38,7 @@ Tags: { join(
 Score: { (item.magic ?? 0).toFixed(2) }.
 </Card.Subtitle>
 
-<Card.Text dangerouslySetInnerHTML={ {__html: DOMPurify.sanitize(item.summary ?? "")} }/>
+<Card.Text as="div" dangerouslySetInnerHTML={ {__html: DOMPurify.sanitize(item.summary ?? "")} }/>
 </Card.Body>
 
 <Card.Footer>
