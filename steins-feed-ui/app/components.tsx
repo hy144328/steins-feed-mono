@@ -2,12 +2,13 @@
 
 import DOMPurify from "isomorphic-dompurify"
 import { useState } from "react"
+import Button from 'react-bootstrap/Button'
+import ButtonGroup from 'react-bootstrap/ButtonGroup'
 
 import { Item, LikeStatus } from "@client"
 import { format_datetime, join_const } from "@util"
 
 import { doLikeItemsLikePut } from "./actions"
-import styles from "./components.module.css"
 
 export default function WallArticle({
   item,
@@ -45,9 +46,11 @@ Score: { (item.magic ?? 0).toFixed(2) }.
 <div id={ `summary_${item.id}` } dangerouslySetInnerHTML={ {__html: DOMPurify.sanitize(item.summary ?? "")} } />
 
 <p>
+<ButtonGroup>
 <LikeButton item={item} liked={liked} setLiked={setLiked}/>
 <DislikeButton item={item} liked={liked} setLiked={setLiked}/>
 <MagicButton item={item} highlight={highlight} setHighlight={setHighlight}/>
+</ButtonGroup>
 </p>
 </article>
   );
@@ -69,11 +72,9 @@ function LikeButton({
   }
 
   return (
-<button type="button" onClick={ handleLiked }>
-<span id={ `like_${ item.id }` } className={ (liked === 1) ? styles.liked : "like" }>
-<i className="bi-hand-thumbs-up" style={ {"fontSize": "1.5rem"} }></i>
-</span>
-</button>
+<Button variant={ (liked === 1) ? "outline-primary" : "outline-secondary" } onClick={ handleLiked }>
+<i className="bi-hand-thumbs-up-fill"></i>
+</Button>
   );
 }
 
@@ -93,11 +94,9 @@ function DislikeButton({
   }
 
   return (
-<button type="button" onClick={ handleDisliked }>
-<span id={ `dislike_${ item.id }` } className={ (liked === -1) ? styles.disliked : "dislike" }>
-<i className="bi-hand-thumbs-down" style={ {"fontSize": "1.5rem"} }></i>
-</span>
-</button>
+<Button variant={ (liked === -1) ? "outline-primary" : "outline-secondary" } onClick={ handleDisliked }>
+<i className="bi-hand-thumbs-down-fill"></i>
+</Button>
   );
 }
 
@@ -111,10 +110,8 @@ function MagicButton({
   setHighlight: (value: boolean) => void,
 }) {
   return (
-<button type="button" onClick={ () => setHighlight(!highlight) }>
-<span id={ `highlight_${ item.id }` } className={ highlight ? styles.highlit : "highlight" }>
-<i className="bi-lightbulb" style={ {"fontSize": "1.5rem"} }></i>
-</span>
-</button>
+<Button variant={ highlight ? "outline-primary" : "outline-secondary" } onClick={ () => setHighlight(!highlight) }>
+<i className="bi-lightbulb-fill"></i>
+</Button>
   );
 };
