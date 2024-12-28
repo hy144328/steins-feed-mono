@@ -18,19 +18,24 @@ export default function LoginModal({
 }) {
   const router = useRouter();
 
-  async function handleSubmit(e) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
-    const data = new FormData(e.target);
+    const target = e.target;
+    if (!(target instanceof HTMLFormElement)) {
+      throw e;
+    }
+
+    const data = new FormData(target);
     const username = data.get("username");
     const password = data.get("password");
 
     if (typeof username === "string" && typeof password === "string") {
       try {
         await doLoginTokenPost(username, password);
-      } catch(e) {
+      } catch(exc) {
         alert("Incorrect username or password.");
-        throw e;
+        throw exc;
       }
     } else {
       throw data;
