@@ -38,13 +38,21 @@ export async function skip_login_if_unnecessary(pathname: string) {
     return;
   }
 
-  const payload = JSON.parse(Buffer.from(cookie.value.split('.')[1], 'base64').toString());
-  const exp = new Date(1000 * payload.exp);
-  const now = new Date();
-
-  if (exp <= now) {
+  const payload = decode_jwt(cookie.value);
+  if (payload.exp <= new Date()) {
     return;
   }
 
   redirect(pathname);
+}
+
+function decode_jwt(token: string): {sub: string, exp: Date} {
+  const payload_enc = token.split(".")[1];
+  const payload_dec = Buffer.from(payload_enc, "base64").toString();
+  const payload = JSON.parse(payload_dec);
+
+  return {
+    sub: payload.sub,
+    exp: new Date(1000 * payload.exp),
+  };
 }
