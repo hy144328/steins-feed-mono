@@ -61,9 +61,10 @@ function TopNav({
 &nbsp;
 Stein&apos;s Feed
 </NavbarBrand>
-<Nav>
-<NavItem><NavLink>Bar</NavLink></NavItem>
-<NavItem><NavLink>Baz</NavLink></NavItem>
+<Nav variant="underline">
+<NavItem><NavLink href="/" active>Home</NavLink></NavItem>
+<NavItem><NavLink disabled>Settings</NavLink></NavItem>
+<NavItem><NavLink disabled>Statistics</NavLink></NavItem>
 </Nav>
 <Nav>
 <NavItem>
