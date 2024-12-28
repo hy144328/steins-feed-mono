@@ -9,12 +9,8 @@ import { doLoginTokenPost } from "./actions"
 
 export default function LoginModal({
   callback,
-  open,
-  setOpen,
 }: {
   callback: string | (() => void),
-  open?: boolean,
-  setOpen?: (value: boolean) => void,
 }) {
   const router = useRouter();
 
@@ -49,46 +45,58 @@ export default function LoginModal({
   }
 
   return (
-<Modal show={ open ?? true } onHide={ setOpen ? () => setOpen(false) : undefined }>
-<Modal.Header closeButton={ setOpen !== undefined }>
-<Modal.Title>Log in</Modal.Title>
-</Modal.Header>
-<Modal.Body>
-<form id="login" onSubmit={ handleSubmit }>
-<Row>
-<Col xs={ 2 }>
-<label className="form-label col-form-label">User</label>
-</Col>
-<Col>
-<input
-  name="username"
-  required
-  placeholder="Enter name."
-  className="form-control"
-  style={ {"width": "100%"} }
-/>
-</Col>
-</Row>
-<Row>
-<Col xs={ 2 }>
-<label className="form-label col-form-label">Password</label>
-</Col>
-<Col>
-<input
-  name="password"
-  type="password"
-  required
-  placeholder="Enter password."
-  className="form-control"
-  style={ {"width": "100%"} }
-/>
-</Col>
-</Row>
-</form>
-</Modal.Body>
-<Modal.Footer>
-<input form="login" className="btn btn-primary" type="submit"/>
-</Modal.Footer>
-</Modal>
+<>
+<div className="modal-backdrop show"/>
+<div className="modal" style={ {display: "block"} } ref={ modal }>
+  <div className="modal-dialog">
+    <div className="modal-content">
+      <div className="modal-header">
+        <h1 className="modal-title">Log in</h1>
+      </div>
+
+      <div className="modal-body">
+        <form id="login" onSubmit={ handleSubmit }>
+          <div className="row">
+            <div className="col-2">
+              <label className="form-label col-form-label">User</label>
+            </div>
+
+            <div className="col">
+              <input
+                name="username"
+                required
+                placeholder="Enter name."
+                className="form-control"
+                style={ {"width": "100%"} }
+              />
+            </div>
+          </div>
+
+          <div className="row">
+            <div className="col-2">
+              <label className="form-label col-form-label">Password</label>
+            </div>
+
+            <div className="col">
+              <input
+                name="password"
+                type="password"
+                required
+                placeholder="Enter password."
+                className="form-control"
+                style={ {"width": "100%"} }
+              />
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <div className="modal-footer">
+        <input form="login" className="btn btn-primary" type="submit"/>
+      </div>
+    </div>
+  </div>
+</div>
+</>
   );
 }

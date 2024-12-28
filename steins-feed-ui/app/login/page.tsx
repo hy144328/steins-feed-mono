@@ -1,5 +1,3 @@
-import Container from "react-bootstrap/Container"
-
 import { skip_login_if_unnecessary } from "../auth"
 import LoginModal from "./components"
 
@@ -13,8 +11,8 @@ export default async function Page({
   await skip_login_if_unnecessary(pathname);
 
   return (
-<Container>
+<div className="container">
 <LoginModal callback={ pathname }/>
-</Container>
+</div>
   );
 }
