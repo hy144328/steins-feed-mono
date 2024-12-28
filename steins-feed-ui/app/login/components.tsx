@@ -45,10 +45,9 @@ export default function LoginModal({
 <Modal.Body>
 <Form>
   <Row>
-    <FormLabel column htmlFor="username" xs={2}>User</FormLabel>
+    <FormLabel column xs={2}>User</FormLabel>
     <Col>
     <FormControl
-      id="username"
       placeholder="Enter user name."
       onChange={ e => username = e.target.value }
     />
@@ -56,10 +55,9 @@ export default function LoginModal({
   </Row>
 
   <Row>
-    <FormLabel column htmlFor="password" xs={2}>Password</FormLabel>
+    <FormLabel column xs={2}>Password</FormLabel>
     <Col>
     <FormControl
-      id="password"
       type="password"
       placeholder="Enter password."
       onChange={ e => password = e.target.value }
