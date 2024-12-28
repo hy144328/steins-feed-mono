@@ -8,13 +8,13 @@ import Row from "react-bootstrap/Row"
 import { doLoginTokenPost } from "./actions"
 
 export default function LoginModal({
+  callback,
   open,
   setOpen,
-  callback,
 }: {
+  callback: string | (() => void),
   open?: boolean,
   setOpen?: (value: boolean) => void,
-  callback?: string | (() => void),
 }) {
   const router = useRouter();
 
@@ -41,9 +41,7 @@ export default function LoginModal({
       throw data;
     }
 
-    if (callback === undefined) {
-      router.push("/");
-    } else if (typeof callback === "string") {
+    if (typeof callback === "string") {
       router.push(callback);
     } else {
       callback();
