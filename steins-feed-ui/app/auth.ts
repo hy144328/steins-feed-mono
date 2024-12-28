@@ -29,3 +29,22 @@ export async function authenticate() {
 export async function require_login(pathname: string) {
   redirect(`/login?pathname=${encodeURIComponent(pathname)}`);
 }
+
+export async function skip_login_if_unnecessary(pathname: string) {
+  const cookie_store = await cookies();
+  const cookie = cookie_store.get("api_token");
+
+  if (!cookie) {
+    return;
+  }
+
+  const payload = JSON.parse(Buffer.from(cookie.value.split('.')[1], 'base64').toString());
+  const exp = new Date(1000 * payload.exp);
+  const now = new Date();
+
+  if (exp <= now) {
+    return;
+  }
+
+  redirect(pathname);
+}
