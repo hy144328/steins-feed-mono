@@ -1,9 +1,8 @@
 "use client"
 
+import { Modal } from "bootstrap"
 import { useRouter } from "next/navigation"
-import Col from "react-bootstrap/Col"
-import Modal from "react-bootstrap/Modal"
-import Row from "react-bootstrap/Row"
+import { useEffect } from "react"
 
 import { doLoginTokenPost } from "./actions"
 
@@ -44,10 +43,13 @@ export default function LoginModal({
     }
   }
 
+  useEffect(() => {
+    const modal = new Modal("#modal");
+    modal.show();
+  })
+
   return (
-<>
-<div className="modal-backdrop show"/>
-<div className="modal" style={ {display: "block"} } ref={ modal }>
+<div id="modal" className="modal">
   <div className="modal-dialog">
     <div className="modal-content">
       <div className="modal-header">
@@ -97,6 +99,5 @@ export default function LoginModal({
     </div>
   </div>
 </div>
-</>
   );
 }
