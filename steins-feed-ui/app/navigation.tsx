@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation"
 import { useState } from "react"
 import Button from "react-bootstrap/Button"
 import ButtonGroup from "react-bootstrap/ButtonGroup"
+import Col from "react-bootstrap/Col"
 import Container from "react-bootstrap/Container"
 import Nav from "react-bootstrap/Nav"
 import Navbar from "react-bootstrap/Navbar"
@@ -11,6 +12,7 @@ import NavbarBrand from "react-bootstrap/NavbarBrand"
 import NavItem from "react-bootstrap/NavItem"
 import NavLink from "react-bootstrap/NavLink"
 import Offcanvas from "react-bootstrap/Offcanvas"
+import Row from "react-bootstrap/Row"
 
 import { logout } from "./auth"
 
@@ -99,11 +101,57 @@ function SideNav({
   return (
 <Offcanvas show={show} onHide={ () => setShow(false) } placement="end" scroll={ true }>
   <Offcanvas.Header closeButton>
-    <Offcanvas.Title>Offcanvas</Offcanvas.Title>
+    <Offcanvas.Title>Filters</Offcanvas.Title>
   </Offcanvas.Header>
   <Offcanvas.Body>
-    Some text as placeholder. In real life you can have the elements you
-    have chosen. Like, text, images, lists, etc.
+    <form>
+    <fieldset style={ {all: "revert"} }>
+    <legend style={ {all: "revert"} }>Languages</legend>
+    <Row>
+    <Col xs={ 1 }>
+    <input type="checkbox"/>
+    </Col>
+    <Col>
+    <label htmlFor="foo">English</label>
+    </Col>
+    </Row>
+    <Row>
+    <Col xs={ 1 }>
+    <input type="checkbox"/>
+    </Col>
+    <Col>
+    <label>German</label>
+    </Col>
+    </Row>
+    <Row>
+    <Col xs={ 1 }>
+    <input type="checkbox"/>
+    </Col>
+    <Col>
+    <label>Swedish</label>
+    </Col>
+    </Row>
+    </fieldset>
+    <fieldset style={ {all: "revert"} }>
+    <legend style={ {all: "revert"} }>Tags</legend>
+    <Row>
+    <Col xs={ 1 }>
+    <input type="checkbox"/>
+    </Col>
+    <Col>
+    <label>news</label>
+    </Col>
+    </Row>
+    <Row>
+    <Col xs={ 1 }>
+    <input type="checkbox"/>
+    </Col>
+    <Col>
+    <label>magazines</label>
+    </Col>
+    </Row>
+    </fieldset>
+    </form>
   </Offcanvas.Body>
 </Offcanvas>
   );
