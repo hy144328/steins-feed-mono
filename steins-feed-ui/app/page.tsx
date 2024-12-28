@@ -1,5 +1,3 @@
-import Container from "react-bootstrap/Container"
-
 import { Item } from "@client"
 import { day_of_week_short, format_datetime, month_of_year_short } from "@util"
 
@@ -29,14 +27,14 @@ export default async function Page({
   }
 
   return (
-<Container>
+<div className="container">
 <Navigation now={ now }/>
 <Header now={ now } items={ items }/>
 <hr/>
 <Main items={ items }/>
 <hr/>
 <Footer/>
-</Container>
+</div>
   );
 }
 
