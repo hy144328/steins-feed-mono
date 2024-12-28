@@ -1,11 +1,7 @@
 "use client"
 
 import { useRouter } from "next/navigation"
-import Button from "react-bootstrap/Button"
 import Col from "react-bootstrap/Col"
-import Form from "react-bootstrap/Form"
-import FormControl from "react-bootstrap/FormControl"
-import FormLabel from "react-bootstrap/FormLabel"
 import Modal from "react-bootstrap/Modal"
 import Row from "react-bootstrap/Row"
 
@@ -22,11 +18,23 @@ export default function LoginModal({
 }) {
   const router = useRouter();
 
-  let username: string | null = null;
-  let password: string | null = null;
+  async function handleSubmit(e) {
+    e.preventDefault();
 
-  async function handleSubmit() {
-    await doLoginTokenPost(username!, password!);
+    const data = new FormData(e.target);
+    const username = data.get("username");
+    const password = data.get("password");
+
+    if (typeof username === "string" && typeof password === "string") {
+      try {
+        await doLoginTokenPost(username, password);
+      } catch(e) {
+        alert("Incorrect username or password.");
+        throw e;
+      }
+    } else {
+      throw data;
+    }
 
     if (callback === undefined) {
       router.push("/");
@@ -43,31 +51,40 @@ export default function LoginModal({
 <Modal.Title>Log in</Modal.Title>
 </Modal.Header>
 <Modal.Body>
-<Form>
-  <Row>
-    <FormLabel column xs={2}>User</FormLabel>
-    <Col>
-    <FormControl
-      placeholder="Enter user name."
-      onChange={ e => username = e.target.value }
-    />
-    </Col>
-  </Row>
-
-  <Row>
-    <FormLabel column xs={2}>Password</FormLabel>
-    <Col>
-    <FormControl
-      type="password"
-      placeholder="Enter password."
-      onChange={ e => password = e.target.value }
-    />
-    </Col>
-  </Row>
-</Form>
+<form id="login" onSubmit={ handleSubmit }>
+<Row>
+<Col xs={ 2 }>
+<label className="form-label col-form-label">User</label>
+</Col>
+<Col>
+<input
+  name="username"
+  required
+  placeholder="Enter name."
+  className="form-control"
+  style={ {"width": "100%"} }
+/>
+</Col>
+</Row>
+<Row>
+<Col xs={ 2 }>
+<label className="form-label col-form-label">Password</label>
+</Col>
+<Col>
+<input
+  name="password"
+  type="password"
+  required
+  placeholder="Enter password."
+  className="form-control"
+  style={ {"width": "100%"} }
+/>
+</Col>
+</Row>
+</form>
 </Modal.Body>
 <Modal.Footer>
-<Button onClick={ handleSubmit }>Submit</Button>
+<input form="login" className="btn btn-primary" type="submit"/>
 </Modal.Footer>
 </Modal>
   );
