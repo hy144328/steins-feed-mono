@@ -52,7 +52,15 @@ function TopNav({
   return (
 <Navbar data-bs-theme="dark" bg="dark" sticky="top">
 <Container>
-<NavbarBrand>Stein&apos;s Feed</NavbarBrand>
+<NavbarBrand>
+<img
+  src="/apple-touch-icon.png"
+  style={ {display: "inline-block", height: "1.5em", verticalAlign: "top", width: "1.5em"} }
+  alt="Stein's Feed logo"
+/>
+&nbsp;
+Stein&apos;s Feed
+</NavbarBrand>
 <Nav>
 <NavItem><NavLink>Bar</NavLink></NavItem>
 <NavItem><NavLink>Baz</NavLink></NavItem>
