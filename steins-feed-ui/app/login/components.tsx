@@ -53,7 +53,7 @@ export default function LoginModal({
   <div className="modal-dialog">
     <div className="modal-content">
       <div className="modal-header">
-        <h1 className="modal-title">Log in</h1>
+        <h4 className="modal-title">Log in</h4>
       </div>
 
       <div className="modal-body">
