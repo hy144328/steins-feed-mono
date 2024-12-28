@@ -67,7 +67,7 @@ export default function LoginModal({
 </Form>
 </Modal.Body>
 <Modal.Footer>
-<Button type="button" onClick={ handleSubmit }>Submit</Button>
+<Button onClick={ handleSubmit }>Submit</Button>
 </Modal.Footer>
 </Modal>
   );
