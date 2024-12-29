@@ -46,6 +46,7 @@ export default function LoginModal({
   useEffect(() => {
     const modal = new Modal("#modal");
     modal.show();
+    return () => modal.hide();
   })
 
   return (
