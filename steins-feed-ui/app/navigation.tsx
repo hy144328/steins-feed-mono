@@ -1,6 +1,7 @@
 "use client"
 
 import Image from "next/image"
+import Link from "next/link"
 import { useRouter } from "next/navigation"
 
 import { logout } from "./auth"
@@ -51,7 +52,7 @@ function TopNav({
 Stein&apos;s Feed
 </a>
 <ul className="nav nav-underline">
-<li className="nav-item"><a className="nav-link active" href="/">Home</a></li>
+<li className="nav-item"><Link className="nav-link active" href="/">Home</Link></li>
 <li className="nav-item"><a className="nav-link disabled">Settings</a></li>
 <li className="nav-item"><a className="nav-link disabled">Statistics</a></li>
 </ul>
