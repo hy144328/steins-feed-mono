@@ -1,5 +1,6 @@
 "use client"
 
+import Image from "next/image"
 import { useRouter } from "next/navigation"
 
 import { logout } from "./auth"
@@ -39,11 +40,12 @@ function TopNav({
 <nav className="navbar bg-dark sticky-top" data-bs-theme="dark">
 <div className="container">
 <a className="navbar-brand">
-<img
+<Image
   src="/apple-touch-icon.png"
-  className="d-inline-block align-text-top"
-  style={ {height: "1.5em", width: "1.5em"} }
+  height={ 30 }
+  width={ 30 }
   alt="Stein's Feed logo"
+  className="d-inline-block align-text-top"
 />
 &nbsp;
 Stein&apos;s Feed
