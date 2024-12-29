@@ -50,7 +50,7 @@ export default function LoginModal({
   })
 
   return (
-<div id="modal" className="modal" data-bs-backdrop="false">
+<div id="modal" className="modal fade" data-bs-backdrop="static">
   <div className="modal-dialog">
     <div className="modal-content">
       <div className="modal-header">
