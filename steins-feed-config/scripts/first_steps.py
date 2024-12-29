@@ -4,6 +4,7 @@ import importlib.resources
 import os
 
 import dotenv
+import passlib.context
 import sqlalchemy as sqla
 import sqlalchemy.orm as sqla_orm
 
@@ -15,11 +16,12 @@ import steins_feed_model.users
 dotenv.load_dotenv()
 
 engine = steins_feed_model.EngineFactory.get_or_create_engine(database=os.environ["DB_NAME"])
+pwd_context = passlib.context.CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 user = steins_feed_model.users.User(
-    name = "hansolo",
-    password = "",
-    email = "hans.yu@outlook.de",
+    name = os.environ["DEV_USER"],
+    password = pwd_context.hash(os.environ["DEV_PASS"]),
+    email = os.environ["DEV_MAIL"],
 )
 
 q = sqla.insert(
