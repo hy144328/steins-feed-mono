@@ -1,8 +1,6 @@
 "use client"
 
 import { useRouter } from "next/navigation"
-import { useState } from "react"
-import Offcanvas from "react-bootstrap/Offcanvas"
 
 import { logout } from "./auth"
 
@@ -11,22 +9,18 @@ export default function Navigation({
 }: {
   now: Date,
 }) {
-  const [show, setShow] = useState(false);
-
   return (
 <>
-<TopNav now={ now } setShow={ setShow }/>
-<SideNav show={ show } setShow={ setShow }/>
+<TopNav now={ now }/>
+<SideNav/>
 </>
   );
 }
 
 function TopNav({
   now,
-  setShow,
 }: {
   now: Date,
-  setShow: (value: boolean) => void,
 }) {
   const router = useRouter();
 
@@ -74,7 +68,7 @@ Stein&apos;s Feed
 <button className="btn btn-danger"><i className="bi-power" onClick={ handleLogout }/></button>
 </li>
 <li className="nav-item">
-<button className="btn btn-primary"><i className="bi-list" onClick={ () => setShow(true) }/></button>
+<button className="btn btn-primary" data-bs-toggle="offcanvas" data-bs-target="#sidenav-offcanvas"><i className="bi-list"/></button>
 </li>
 </ul>
 </div>
@@ -82,19 +76,14 @@ Stein&apos;s Feed
   );
 }
 
-function SideNav({
-  show,
-  setShow,
-}: {
-  show: boolean,
-  setShow: (value: boolean) => void,
-}) {
+function SideNav() {
   return (
-<Offcanvas show={show} onHide={ () => setShow(false) } placement="end" scroll={ true }>
-  <Offcanvas.Header closeButton>
-    <Offcanvas.Title>Filters</Offcanvas.Title>
-  </Offcanvas.Header>
-  <Offcanvas.Body>
+<div id="sidenav-offcanvas" className="offcanvas offcanvas-end" data-bs-scroll="true">
+  <div className="offcanvas-header">
+    <h4 className="offcanvas-title">Filters</h4>
+    <button className="btn-close" data-bs-dismiss="offcanvas"/>
+  </div>
+  <div className="offcanvas-body">
     <form>
     <fieldset style={ {all: "revert"} }>
     <legend style={ {all: "revert"} }>Languages</legend>
@@ -143,7 +132,7 @@ function SideNav({
     </div>
     </fieldset>
     </form>
-  </Offcanvas.Body>
-</Offcanvas>
+  </div>
+</div>
   );
 }
