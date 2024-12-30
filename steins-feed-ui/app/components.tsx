@@ -19,7 +19,23 @@ export default function WallArticle({
 
   return (
 <div className="card">
-  <div className="card-body">
+  <div className="card-header">
+  <button
+    data-bs-toggle="collapse"
+    data-bs-target={ `#article-body-${item.id}` }
+    style={ {
+      backgroundColor: "transparent",
+      borderWidth: 0,
+      display: "flex",
+      justifyContent: "end",
+      width: "100%",
+    } }
+  >
+  <i className="bi-chevron-down"/>
+  </button>
+  </div>
+
+  <div id={ `article-body-${item.id}` } className="card-body collapse show">
     <h5 className="card-title">
       <a href={ item.link } target="_blank">{ item.title }</a>
     </h5>
