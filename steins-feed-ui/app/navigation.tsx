@@ -81,7 +81,7 @@ Stein&apos;s Feed
 
 function SideNav() {
   return (
-<div id="sidenav-offcanvas" className="offcanvas offcanvas-end" data-bs-scroll="true">
+<div id="sidenav-offcanvas" className="offcanvas offcanvas-end" data-bs-backdrop="static" data-bs-scroll="true">
   <div className="offcanvas-header">
     <h4 className="offcanvas-title">Filters</h4>
     <button className="btn-close" data-bs-dismiss="offcanvas"/>
