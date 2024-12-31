@@ -1,12 +1,10 @@
-"use client"
-
 import Image from "next/image"
 import Link from "next/link"
-import { useRouter } from "next/navigation"
 
-import { logout } from "./auth"
+import { doLanguagesFeedsLangaugesGet, doTagsFeedsTagsGet } from "./actions"
+import { LogoutButton } from "./components"
 
-export default function Navigation({
+export default async function Navigation({
   now,
 }: {
   now: Date,
@@ -19,23 +17,16 @@ export default function Navigation({
   );
 }
 
-function TopNav({
+async function TopNav({
   now,
 }: {
   now: Date,
 }) {
-  const router = useRouter();
-
   const yesterday = new Date(now);
   yesterday.setUTCDate(now.getUTCDate() - 1);
 
   const tomorrow = new Date(now);
   tomorrow.setUTCDate(now.getUTCDate() + 1);
-
-  async function handleLogout() {
-    await logout();
-    router.push("/login");
-  }
 
   return (
 <nav className="navbar bg-dark sticky-top" data-bs-theme="dark">
@@ -68,7 +59,7 @@ Stein&apos;s Feed
 </ul>
 <ul className="nav">
 <li className="nav-item">
-<button className="btn btn-danger"><i className="bi-power" onClick={ handleLogout }/></button>
+<LogoutButton/>
 </li>
 <li className="nav-item">
 <button className="btn btn-primary" data-bs-toggle="offcanvas" data-bs-target="#sidenav-offcanvas"><i className="bi-list"/></button>
@@ -79,7 +70,10 @@ Stein&apos;s Feed
   );
 }
 
-function SideNav() {
+async function SideNav() {
+  const languages = doLanguagesFeedsLangaugesGet();
+  const tags = doTagsFeedsTagsGet();
+
   return (
 <div id="sidenav-offcanvas" className="offcanvas offcanvas-end" data-bs-backdrop="static" data-bs-scroll="true">
   <div className="offcanvas-header">
@@ -95,7 +89,7 @@ function SideNav() {
     <input type="checkbox"/>
     </div>
     <div className="col">
-    <label htmlFor="foo">English</label>
+    <label>English</label>
     </div>
     </div>
     <div className="row">
@@ -137,5 +131,18 @@ function SideNav() {
     </form>
   </div>
 </div>
+  );
+}
+
+function SideNavCheckbox(label: string) {
+  return (
+    <div className="row">
+    <div className="col-1">
+    <input type="checkbox"/>
+    </div>
+    <div className="col">
+    <label>{ label }</label>
+    </div>
+    </div>
   );
 }

@@ -9,6 +9,7 @@ import { Item, LikeStatus } from "@client"
 import { format_datetime, join } from "@util"
 
 import { doLikeItemsLikePut } from "./actions"
+import { logout } from "./auth"
 
 export default function WallArticle({
   item,
@@ -155,3 +156,18 @@ function MagicButton({
 </button>
   );
 };
+
+export function LogoutButton() {
+  const router = useRouter();
+
+  async function handleLogout() {
+    await logout();
+    router.push("/login");
+  }
+
+  return (
+    <button className="btn btn-danger">
+    <i className="bi-power" onClick={ handleLogout }/>
+    </button>
+  );
+}

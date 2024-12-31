@@ -1,6 +1,6 @@
 "use server"
 
-import { Item, likeItemsLikePut, LikeStatus, rootItemsGet } from "@client"
+import { Item, Language, LikeStatus, languagesFeedsLanguagesGet, likeItemsLikePut, rootItemsGet, Tag, tagsFeedsTagsGet } from "@client"
 
 import { authenticate } from "./auth"
 
@@ -33,6 +33,30 @@ export async function doRootItemsGet(
   });
 
   if (resp.error) {
+    throw resp.error;
+  }
+
+  return resp.data;
+}
+
+export async function doLanguagesFeedsLangaugesGet(): Promise<Language[]> {
+  await authenticate();
+
+  const resp = await languagesFeedsLanguagesGet();
+
+  if (!resp.data) {
+    throw resp.error;
+  }
+
+  return resp.data;
+}
+
+export async function doTagsFeedsTagsGet(): Promise<Tag[]> {
+  await authenticate();
+
+  const resp = await tagsFeedsTagsGet();
+
+  if (!resp.data) {
     throw resp.error;
   }
 
