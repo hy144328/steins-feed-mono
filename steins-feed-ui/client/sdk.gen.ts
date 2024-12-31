@@ -26,7 +26,7 @@ export const loginTokenPost = <ThrowOnError extends boolean = false>(options: Op
 export const tagsFeedsTagsGet = <ThrowOnError extends boolean = false>(options?: OptionsLegacyParser<unknown, ThrowOnError>) => {
     return (options?.client ?? client).get<TagsFeedsTagsGetResponse, TagsFeedsTagsGetError, ThrowOnError>({
         ...options,
-        url: '/feeds/tags'
+        url: '/feeds/tags/'
     });
 };
 
@@ -36,7 +36,7 @@ export const tagsFeedsTagsGet = <ThrowOnError extends boolean = false>(options?:
 export const languagesFeedsLanguagesGet = <ThrowOnError extends boolean = false>(options?: OptionsLegacyParser<unknown, ThrowOnError>) => {
     return (options?.client ?? client).get<LanguagesFeedsLanguagesGetResponse, LanguagesFeedsLanguagesGetError, ThrowOnError>({
         ...options,
-        url: '/feeds/languages'
+        url: '/feeds/languages/'
     });
 };
 

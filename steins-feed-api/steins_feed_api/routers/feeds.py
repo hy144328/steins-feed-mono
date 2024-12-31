@@ -44,7 +44,7 @@ class Tag(pydantic.BaseModel):
             name = tag.name,
         )
 
-@router.get("/tags")
+@router.get("/tags/")
 async def tags(
     current_user: steins_feed_api.auth.UserDep,
 ) -> list[Tag]:
@@ -64,7 +64,7 @@ async def tags(
             for tag_it in session.execute(q).scalars()
         ]
 
-@router.get("/languages")
+@router.get("/languages/")
 async def languages(
     current_user: steins_feed_api.auth.UserDep,
 ) -> list[steins_feed_model.feeds.Language]:
