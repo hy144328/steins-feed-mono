@@ -2,7 +2,7 @@
 
 import { Modal } from "bootstrap"
 import { useRouter } from "next/navigation"
-import { useEffect } from "react"
+import { useEffect, useRef } from "react"
 
 import { doLoginTokenPost } from "./actions"
 
@@ -12,6 +12,7 @@ export default function LoginModal({
   callback: string | (() => void),
 }) {
   const router = useRouter();
+  const modal_ref = useRef<HTMLDivElement>(null);
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -44,13 +45,13 @@ export default function LoginModal({
   }
 
   useEffect(() => {
-    const modal = new Modal("#modal");
+    const modal = new Modal(modal_ref.current!);
     modal.show();
     return () => modal.hide();
   })
 
   return (
-<div id="modal" className="modal fade" data-bs-backdrop="static">
+<div className="modal fade" data-bs-backdrop="static" ref={ modal_ref }>
   <div className="modal-dialog">
     <div className="modal-content">
       <div className="modal-header">
