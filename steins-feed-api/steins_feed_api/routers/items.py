@@ -12,6 +12,7 @@ import steins_feed_model.items
 import steins_feed_model.users
 
 import steins_feed_api.auth
+import steins_feed_api.routers.feeds
 
 router = fastapi.APIRouter(
     prefix = "/items",
@@ -24,7 +25,7 @@ class Item(pydantic.BaseModel):
     link: str
     published: datetime.datetime
     summary: typing.Optional[str]
-    feed: "Feed"
+    feed: steins_feed_api.routers.feeds.Feed
     like: typing.Optional[steins_feed_model.items.LikeStatus]
     magic: typing.Optional[float]
 
@@ -36,37 +37,9 @@ class Item(pydantic.BaseModel):
             link = item.link,
             summary = item.summary,
             published = item.published.replace(tzinfo=datetime.timezone.utc),
-            feed = Feed.from_model(item.feed),
+            feed = steins_feed_api.routers.feeds.Feed.from_model(item.feed),
             like = item.likes[0].score if len(item.likes) > 0 else None,
             magic = item.magic[0].score if len(item.magic) > 0 else None,
-        )
-
-class Feed(pydantic.BaseModel):
-    id: int
-    title: str
-    link: str
-    language: typing.Optional[steins_feed_model.feeds.Language]
-    tags: list["Tag"]
-
-    @classmethod
-    def from_model(cls, feed: steins_feed_model.feeds.Feed) -> "Feed":
-        return Feed(
-            id = feed.id,
-            title = feed.title,
-            link = feed.link,
-            language = feed.language,
-            tags =[Tag.from_model(tag_it) for tag_it in feed.tags],
-        )
-
-class Tag(pydantic.BaseModel):
-    id: int
-    name: str
-
-    @classmethod
-    def from_model(cls, tag: steins_feed_model.feeds.Tag) -> "Tag":
-        return Tag(
-            id = tag.id,
-            name = tag.name,
         )
 
 @router.get("/")
