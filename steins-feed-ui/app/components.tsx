@@ -1,8 +1,9 @@
 "use client"
 
+import { Collapse } from "bootstrap"
 import { useRouter } from "next/navigation"
 import DOMPurify from "isomorphic-dompurify"
-import { useState } from "react"
+import { useRef, useState } from "react"
 
 import { Item, LikeStatus } from "@client"
 import { format_datetime, join } from "@util"
@@ -16,13 +17,21 @@ export default function WallArticle({
 }) {
   const [liked, setLiked] = useState(item.like ?? 0);
   const [highlight, setHighlight] = useState(false);
+  const [collapsed, setCollapsed] = useState(false);
+
+  const card_body_ref = useRef<HTMLDivElement>(null);
+
+  async function handleCollapse() {
+    const card_body = new Collapse(card_body_ref.current!);
+    card_body.toggle();
+    setCollapsed(!collapsed);
+  }
 
   return (
 <div className="card">
   <div className="card-header">
   <button
-    data-bs-toggle="collapse"
-    data-bs-target={ `#article-body-${item.id}` }
+    onClick={ handleCollapse }
     style={ {
       backgroundColor: "transparent",
       borderWidth: 0,
@@ -31,11 +40,11 @@ export default function WallArticle({
       width: "100%",
     } }
   >
-  <i className="bi-chevron-down"/>
+  <i className={ `bi-chevron-${collapsed ? "down" : "up"}` }/>
   </button>
   </div>
 
-  <div id={ `article-body-${item.id}` } className="card-body collapse show">
+  <div className="card-body collapse show" ref={ card_body_ref }>
     <h5 className="card-title">
       <a href={ item.link } target="_blank">{ item.title }</a>
     </h5>
