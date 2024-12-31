@@ -60,6 +60,14 @@ export type LoginTokenPostResponse = (Token);
 
 export type LoginTokenPostError = (HTTPValidationError);
 
+export type TagsFeedsTagsGetResponse = (Array<Tag>);
+
+export type TagsFeedsTagsGetError = unknown;
+
+export type LanguagesFeedsLanguagesGetResponse = (Array<Language>);
+
+export type LanguagesFeedsLanguagesGetError = unknown;
+
 export type RootItemsGetData = {
     query: {
         dt_from: string;
