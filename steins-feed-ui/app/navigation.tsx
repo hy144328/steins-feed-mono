@@ -71,8 +71,11 @@ Stein&apos;s Feed
 }
 
 async function SideNav() {
-  const languages = doLanguagesFeedsLangaugesGet();
-  const tags = doTagsFeedsTagsGet();
+  const languages = await doLanguagesFeedsLangaugesGet();
+  const tags = await doTagsFeedsTagsGet();
+
+  const languages_check = languages.map(lang_it => SideNavCheckbox(lang_it));
+  const tags_check = tags.map(tag_it => SideNavCheckbox(tag_it.name));
 
   return (
 <div id="sidenav-offcanvas" className="offcanvas offcanvas-end" data-bs-backdrop="static" data-bs-scroll="true">
@@ -84,49 +87,11 @@ async function SideNav() {
     <form>
     <fieldset style={ {all: "revert"} }>
     <legend style={ {all: "revert"} }>Languages</legend>
-    <div className="row">
-    <div className="col-1">
-    <input type="checkbox"/>
-    </div>
-    <div className="col">
-    <label>English</label>
-    </div>
-    </div>
-    <div className="row">
-    <div className="col-1">
-    <input type="checkbox"/>
-    </div>
-    <div className="col">
-    <label>German</label>
-    </div>
-    </div>
-    <div className="row">
-    <div className="col-1">
-    <input type="checkbox"/>
-    </div>
-    <div className="col">
-    <label>Swedish</label>
-    </div>
-    </div>
+    { languages_check }
     </fieldset>
     <fieldset style={ {all: "revert"} }>
     <legend style={ {all: "revert"} }>Tags</legend>
-    <div className="row">
-    <div className="col-1">
-    <input type="checkbox"/>
-    </div>
-    <div className="col">
-    <label>news</label>
-    </div>
-    </div>
-    <div className="row">
-    <div className="col-1">
-    <input type="checkbox"/>
-    </div>
-    <div className="col">
-    <label>magazines</label>
-    </div>
-    </div>
+    { tags_check }
     </fieldset>
     </form>
   </div>
