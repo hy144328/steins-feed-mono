@@ -50,14 +50,23 @@ async def root(
 ) -> list[Item]:
     engine = steins_feed_model.EngineFactory.get_or_create_engine()
 
+    user_display = sqla_orm.aliased(steins_feed_model.users.User)
+    user_tag = sqla_orm.aliased(steins_feed_model.users.User)
+
     q = sqla.select(
         steins_feed_model.items.Item,
     ).join(
         steins_feed_model.items.Item.feed,
     ).join(
-        steins_feed_model.feeds.Feed.users,
+        steins_feed_model.feeds.Feed.users.of_type(user_display),
+    ).join(
+        steins_feed_model.feeds.Feed.tags,
+        isouter = True,
+    ).join(
+        steins_feed_model.feeds.Tag.user.of_type(user_tag),
     ).where(
-        steins_feed_model.users.User.id == current_user.id,
+        user_display.id == current_user.id,
+        user_tag.id == current_user.id,
         steins_feed_model.items.Item.published >= dt_from,
         steins_feed_model.items.Item.published < dt_to,
     ).order_by(
@@ -65,10 +74,8 @@ async def root(
     ).options(
         sqla_orm.contains_eager(
             steins_feed_model.items.Item.feed,
-        ).joinedload(
-            steins_feed_model.feeds.Feed.tags.and_(
-                steins_feed_model.feeds.Tag.user_id == current_user.id,
-            ),
+        ).contains_eager(
+            steins_feed_model.feeds.Feed.tags,
         ),
         sqla_orm.joinedload(
             steins_feed_model.items.Item.likes.and_(
