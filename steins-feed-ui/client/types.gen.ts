@@ -72,6 +72,8 @@ export type RootItemsGetData = {
     query: {
         dt_from: string;
         dt_to: string;
+        languages?: (Array<Language> | null);
+        tags?: (Array<(number)> | null);
     };
 };
 
