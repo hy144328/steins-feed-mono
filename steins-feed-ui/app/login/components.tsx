@@ -60,7 +60,7 @@ export default function LoginModal({
 
       <div className="modal-body">
         <form id="login" onSubmit={ handleSubmit }>
-          <div className="row">
+          <div className="row mt-3 mb-3">
             <div className="col-2">
               <label className="form-label col-form-label">User</label>
             </div>
@@ -76,7 +76,7 @@ export default function LoginModal({
             </div>
           </div>
 
-          <div className="row">
+          <div className="row mt-3 mb-3">
             <div className="col-2">
               <label className="form-label col-form-label">Password</label>
             </div>
