@@ -52,3 +52,15 @@ export function format_time(now: Date): string {
 export function format_datetime(now: Date): string {
   return `${format_date(now)} ${format_time(now)} GMT`;
 }
+
+export function ensure_array<T>(
+  params?: T | T[],
+): T[] {
+  if (typeof params === "undefined") {
+    return [];
+  } else if (Array.isArray(params)) {
+    return params;
+  } else {
+    return [params];
+  }
+}

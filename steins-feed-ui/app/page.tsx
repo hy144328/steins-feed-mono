@@ -1,5 +1,5 @@
 import { Item, Language } from "@client"
-import { day_of_week_short, format_datetime, month_of_year_short } from "@util"
+import { day_of_week_short, ensure_array, format_datetime, month_of_year_short } from "@util"
 
 import { doRootItemsGet } from "./actions"
 import { require_login } from "./auth"
@@ -11,8 +11,8 @@ export default async function Page({
 }: {
   searchParams: Promise<{
     now?: string,
-    languages?: Language[],
-    tags?: number[],
+    languages?: Language | Language[],
+    tags?: number | number[],
   }>,
 }) {
   const searchParamsSync = await searchParams;
@@ -38,8 +38,8 @@ export default async function Page({
 <div className="container">
 <Navigation
   now={ now }
-  languages={ searchParamsSync.languages ?? [] }
-  tags={ searchParamsSync.tags ?? [] }
+  languages={ ensure_array(searchParamsSync.languages) }
+  tags={ ensure_array(searchParamsSync.tags) }
 />
 <Header now={ now } items={ items }/>
 <hr/>
