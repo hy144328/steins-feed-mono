@@ -74,8 +74,12 @@ async function SideNav() {
   const languages = await doLanguagesFeedsLangaugesGet();
   const tags = await doTagsFeedsTagsGet();
 
-  const languages_check = languages.map(lang_it => SideNavCheckbox(lang_it));
-  const tags_check = tags.map(tag_it => SideNavCheckbox(tag_it.name));
+  const languages_check = languages.map(lang_it =>
+    <SideNavCheckbox label={ lang_it } key={ `lang-${lang_it.toLowerCase()}` }/>
+  );
+  const tags_check = tags.map(tag_it =>
+    <SideNavCheckbox label={ tag_it.name } key={ `tag-${tag_it.id}` }/>
+  );
 
   return (
 <div id="sidenav-offcanvas" className="offcanvas offcanvas-end" data-bs-backdrop="static" data-bs-scroll="true">
@@ -99,7 +103,11 @@ async function SideNav() {
   );
 }
 
-function SideNavCheckbox(label: string) {
+async function SideNavCheckbox({
+  label,
+}: {
+  label: string,
+}) {
   return (
     <div className="row">
     <div className="col-1">
