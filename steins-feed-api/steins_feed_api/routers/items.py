@@ -47,6 +47,14 @@ async def root(
     current_user: steins_feed_api.auth.UserDep,
     dt_from: datetime.datetime,
     dt_to: datetime.datetime,
+    languages: typing.Annotated[
+        typing.Optional[typing.Sequence[steins_feed_model.feeds.Language]],
+        fastapi.Query(),
+    ] = None,
+    tags: typing.Annotated[
+        typing.Optional[typing.Sequence[int]],
+        fastapi.Query(),
+    ] = None,
 ) -> list[Item]:
     engine = steins_feed_model.EngineFactory.get_or_create_engine()
 
@@ -69,6 +77,16 @@ async def root(
         user_tag.id == current_user.id,
         steins_feed_model.items.Item.published >= dt_from,
         steins_feed_model.items.Item.published < dt_to,
+        (
+            steins_feed_model.feeds.Feed.language.in_(languages)
+            if languages is not None
+            else sqla.true()
+        ),
+        (
+            steins_feed_model.feeds.Tag.id.in_(tags)
+            if tags is not None
+            else sqla.true()
+        ),
     ).order_by(
         steins_feed_model.items.Item.published.desc(),
     ).options(
