@@ -1,27 +1,29 @@
 import Image from "next/image"
 import Link from "next/link"
 
+import { Language } from "@client"
+
 import { doLanguagesFeedsLangaugesGet, doTagsFeedsTagsGet } from "./actions"
 import { LogoutButton } from "./components"
 
 export default async function Navigation({
   now,
-}: {
-  now: Date,
-}) {
+  languages,
+  tags,
+}: NavigationSearchParams) {
   return (
 <>
-<TopNav now={ now }/>
-<SideNav/>
+<TopNav now={ now } languages={ languages } tags={ tags }/>
+<SideNav now={ now } languages={ languages } tags={ tags }/>
 </>
   );
 }
 
 async function TopNav({
   now,
-}: {
-  now: Date,
-}) {
+  languages,
+  tags,
+}: NavigationSearchParams) {
   const yesterday = new Date(now);
   yesterday.setUTCDate(now.getUTCDate() - 1);
 
@@ -70,14 +72,18 @@ Stein&apos;s Feed
   );
 }
 
-async function SideNav() {
-  const languages = await doLanguagesFeedsLangaugesGet();
-  const tags = await doTagsFeedsTagsGet();
+async function SideNav({
+  now,
+  languages,
+  tags,
+}: NavigationSearchParams) {
+  const all_languages = await doLanguagesFeedsLangaugesGet();
+  const all_tags = await doTagsFeedsTagsGet();
 
-  const languages_check = languages.map(lang_it =>
+  const languages_check = all_languages.map(lang_it =>
     <SideNavCheckbox label={ lang_it } key={ `lang-${lang_it.toLowerCase()}` }/>
   );
-  const tags_check = tags.map(tag_it =>
+  const tags_check = all_tags.map(tag_it =>
     <SideNavCheckbox label={ tag_it.name } key={ `tag-${tag_it.id}` }/>
   );
 
@@ -102,6 +108,12 @@ async function SideNav() {
 </div>
   );
 }
+
+interface NavigationSearchParams {
+  now: Date,
+  languages: Language[],
+  tags: number[],
+};
 
 async function SideNavCheckbox({
   label,
