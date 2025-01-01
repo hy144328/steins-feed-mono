@@ -32,42 +32,86 @@ async function TopNav({
 
   return (
 <nav className="navbar bg-dark sticky-top" data-bs-theme="dark">
-<div className="container">
-<a className="navbar-brand">
-<Image
-  src="/apple-touch-icon.png"
-  height={ 30 }
-  width={ 30 }
-  alt="Stein's Feed logo"
-  className="d-inline-block align-text-top"
-/>
-&nbsp;
-Stein&apos;s Feed
-</a>
-<ul className="nav nav-underline">
-<li className="nav-item"><Link className="nav-link active" href="/">Home</Link></li>
-<li className="nav-item"><a className="nav-link disabled">Settings</a></li>
-<li className="nav-item"><a className="nav-link disabled">Statistics</a></li>
-</ul>
-<ul className="nav">
-<li className="nav-item">
-<div className="btn-group">
-<a className="btn btn-primary" href={ `/?now=${encodeURIComponent(tomorrow.toISOString())}` }><i className="bi-rewind-fill"/></a>
-<button className="btn btn-primary" disabled><i className="bi-caret-up-fill"/></button>
-<button className="btn btn-primary" disabled><i className="bi-caret-down-fill"/></button>
-<a className="btn btn-primary" href={ `/?now=${encodeURIComponent(yesterday.toISOString())}` }><i className="bi-fast-forward-fill"/></a>
-</div>
-</li>
-</ul>
-<ul className="nav">
-<li className="nav-item">
-<LogoutButton/>
-</li>
-<li className="nav-item">
-<button className="btn btn-primary" data-bs-toggle="offcanvas" data-bs-target="#sidenav-offcanvas"><i className="bi-list"/></button>
-</li>
-</ul>
-</div>
+  <div className="container">
+    <a className="navbar-brand">
+      <Image
+        src="/apple-touch-icon.png"
+        height={ 30 }
+        width={ 30 }
+        alt="Stein's Feed logo"
+        className="d-inline-block align-text-top"
+      />
+      &nbsp;
+      Stein&apos;s Feed
+    </a>
+
+    <ul className="nav nav-underline">
+      <li className="nav-item">
+        <Link
+          className="nav-link active"
+          href={ `/?${toURLSearchParams({now, languages, tags}).toString()}` }
+        >
+          Home
+        </Link>
+      </li>
+
+      <li className="nav-item">
+        <a className="nav-link disabled">
+          Settings
+        </a>
+      </li>
+
+      <li className="nav-item">
+        <a className="nav-link disabled">
+          Statistics
+        </a>
+      </li>
+    </ul>
+
+    <ul className="nav">
+      <li className="nav-item">
+        <div className="btn-group">
+          <a
+            className="btn btn-primary"
+            href={ `/?${toURLSearchParams({now: tomorrow, languages, tags}).toString()}` }
+          >
+            <i className="bi-rewind-fill"/>
+          </a>
+
+          <button className="btn btn-primary" disabled>
+            <i className="bi-caret-up-fill"/>
+          </button>
+
+          <button className="btn btn-primary" disabled>
+            <i className="bi-caret-down-fill"/>
+          </button>
+
+          <a
+            className="btn btn-primary"
+            href={ `/?${toURLSearchParams({now: yesterday, languages, tags}).toString()}` }
+          >
+            <i className="bi-fast-forward-fill"/>
+          </a>
+        </div>
+      </li>
+    </ul>
+
+    <ul className="nav">
+      <li className="nav-item">
+        <LogoutButton/>
+      </li>
+
+      <li className="nav-item">
+        <button
+          className="btn btn-primary"
+          data-bs-toggle="offcanvas"
+          data-bs-target="#sidenav-offcanvas"
+        >
+          <i className="bi-list"/>
+        </button>
+      </li>
+    </ul>
+  </div>
 </nav>
   );
 }
@@ -93,16 +137,18 @@ async function SideNav({
     <h4 className="offcanvas-title">Filters</h4>
     <button className="btn-close" data-bs-dismiss="offcanvas"/>
   </div>
+
   <div className="offcanvas-body">
     <form>
-    <fieldset style={ {all: "revert"} }>
-    <legend style={ {all: "revert"} }>Languages</legend>
-    { languages_check }
-    </fieldset>
-    <fieldset style={ {all: "revert"} }>
-    <legend style={ {all: "revert"} }>Tags</legend>
-    { tags_check }
-    </fieldset>
+      <fieldset style={ {all: "revert"} }>
+        <legend style={ {all: "revert"} }>Languages</legend>
+        { languages_check }
+      </fieldset>
+
+      <fieldset style={ {all: "revert"} }>
+        <legend style={ {all: "revert"} }>Tags</legend>
+        { tags_check }
+      </fieldset>
     </form>
   </div>
 </div>
@@ -115,19 +161,34 @@ interface NavigationSearchParams {
   tags: number[],
 };
 
+function toURLSearchParams({
+  now,
+  languages,
+  tags,
+}: NavigationSearchParams): URLSearchParams {
+  const res = new URLSearchParams();
+
+  res.append("now", now.toISOString());
+  languages.forEach(lang_it => res.append("languages", lang_it));
+  tags.forEach(tag_it => res.append("tags", tag_it.toString()));
+
+  return res;
+}
+
 async function SideNavCheckbox({
   label,
 }: {
   label: string,
 }) {
   return (
-    <div className="row">
-    <div className="col-1">
+<div className="row">
+  <div className="col-1">
     <input type="checkbox"/>
-    </div>
-    <div className="col">
+  </div>
+
+  <div className="col">
     <label>{ label }</label>
-    </div>
-    </div>
+  </div>
+</div>
   );
 }
