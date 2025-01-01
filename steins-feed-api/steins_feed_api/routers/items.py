@@ -67,23 +67,17 @@ async def root(
             steins_feed_model.items.Item.feed,
         ).joinedload(
             steins_feed_model.feeds.Feed.tags.and_(
-                steins_feed_model.feeds.Tag.user.has(
-                    steins_feed_model.users.User.id == current_user.id,
-                ),
+                steins_feed_model.feeds.Tag.user_id == current_user.id,
             ),
         ),
         sqla_orm.joinedload(
             steins_feed_model.items.Item.likes.and_(
-                steins_feed_model.items.Like.user.has(
-                    steins_feed_model.users.User.id == current_user.id,
-                ),
+                steins_feed_model.items.Like.user_id == current_user.id,
             ),
         ),
         sqla_orm.joinedload(
             steins_feed_model.items.Item.magic.and_(
-                steins_feed_model.items.Magic.user.has(
-                    steins_feed_model.users.User.id == current_user.id,
-                ),
+                steins_feed_model.items.Magic.user_id == current_user.id,
             ),
         ),
     )
