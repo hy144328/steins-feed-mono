@@ -86,6 +86,8 @@ async def root(
         ),
     ).order_by(
         steins_feed_model.items.Item.published.desc(),
+        steins_feed_model.items.Item.title,
+        steins_feed_model.feeds.Feed.title,
     ).options(
         sqla_orm.contains_eager(
             steins_feed_model.items.Item.feed,
