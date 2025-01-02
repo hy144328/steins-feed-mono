@@ -56,7 +56,7 @@ export function format_datetime(now: Date): string {
 export function ensure_array<T>(
   params?: T | T[],
 ): T[] {
-  if (typeof params === "undefined") {
+  if (params === undefined) {
     return [];
   } else if (Array.isArray(params)) {
     return params;
