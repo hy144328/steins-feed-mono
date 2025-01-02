@@ -125,14 +125,29 @@ async function SideNav({
   const all_tags = await doTagsFeedsTagsGet();
 
   const languages_check = all_languages.map(lang_it =>
-    <SideNavCheckbox label={ lang_it } key={ `lang-${lang_it.toLowerCase()}` }/>
+    <SideNavCheckbox
+      name={ `lang-${lang_it}` }
+      label={ lang_it }
+      key={ `lang-${lang_it.toLowerCase()}` }
+      checked={ languages.includes(lang_it) }
+    />
   );
   const tags_check = all_tags.map(tag_it =>
-    <SideNavCheckbox label={ tag_it.name } key={ `tag-${tag_it.id}` }/>
+    <SideNavCheckbox
+      name={ `tag-${tag_it.id}` }
+      label={ tag_it.name }
+      key={ `tag-${tag_it.id}` }
+      checked={ tags.includes(tag_it.id) }
+    />
   );
 
   return (
-<div id="sidenav-offcanvas" className="offcanvas offcanvas-end" data-bs-backdrop="static" data-bs-scroll="true">
+<div
+  id="sidenav-offcanvas"
+  className="offcanvas offcanvas-end"
+  data-bs-backdrop="static"
+  data-bs-scroll="true"
+>
   <div className="offcanvas-header">
     <h4 className="offcanvas-title">Filters</h4>
     <button className="btn-close" data-bs-dismiss="offcanvas"/>
@@ -156,19 +171,23 @@ async function SideNav({
 }
 
 async function SideNavCheckbox({
+  name,
   label,
+  checked = false,
 }: {
+  name: string,
   label: string,
+  checked?: boolean,
 }) {
   return (
-<div className="row">
-  <div className="col-1">
-    <input type="checkbox"/>
-  </div>
-
-  <div className="col">
-    <label>{ label }</label>
-  </div>
+<div className="form-check">
+  <label className="form-check-label">{ label }</label>
+  <input
+    type="checkbox"
+    name={ name }
+    defaultChecked={ checked }
+    className="form-check-input"
+  />
 </div>
   );
 }
