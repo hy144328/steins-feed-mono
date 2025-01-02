@@ -22,13 +22,17 @@ export async function doLikeItemsLikePut(item: Item, score: LikeStatus) {
 export async function doRootItemsGet(
   dt_from: Date,
   dt_to: Date,
+  languages?: Language[],
+  tags?: number[],
 ): Promise<Item[]> {
   await authenticate();
 
   const resp = await rootItemsGet({
-    "query": {
-      "dt_from": dt_from.toISOString(),
-      "dt_to": dt_to.toISOString(),
+    query: {
+      dt_from: dt_from.toISOString(),
+      dt_to: dt_to.toISOString(),
+      languages: languages,
+      tags: tags,
     },
   });
 

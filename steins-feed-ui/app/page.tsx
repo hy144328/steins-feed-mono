@@ -28,7 +28,7 @@ export default async function Page({
 
   let items: Array<Item> = [];
   try {
-    items = await doRootItemsGet(today, tomorrow);
+    items = await doRootItemsGet(today, tomorrow, languages, tags);
   } catch (e) {
     console.log(e);
     await require_login(`/?${toURLSearchParams({now, languages, tags})}`);
