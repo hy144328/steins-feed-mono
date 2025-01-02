@@ -56,6 +56,8 @@ async def parse_feeds(
                 if now < dt_next:
                     logger.warning(f"Skip {feed_it.title} until {dt_next}.")
                     continue
+                else:
+                    logger.debug(f"{feed_it.title} due since {dt_next}.")
 
         await q_feeds.put(feed_it)
 
