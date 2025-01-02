@@ -23,18 +23,14 @@ export default function LoginModal({
     }
 
     const data = new FormData(target);
-    const username = data.get("username");
-    const password = data.get("password");
+    const username = data.get("username") as string;
+    const password = data.get("password") as string;
 
-    if (typeof username === "string" && typeof password === "string") {
-      try {
-        await doLoginTokenPost(username, password);
-      } catch(exc) {
-        alert("Incorrect username or password.");
-        throw exc;
-      }
-    } else {
-      throw data;
+    try {
+      await doLoginTokenPost(username, password);
+    } catch(exc) {
+      alert("Incorrect username or password.");
+      throw exc;
     }
 
     if (typeof callback === "string") {
