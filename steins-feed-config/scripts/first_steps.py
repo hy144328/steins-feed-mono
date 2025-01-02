@@ -42,6 +42,6 @@ with sqla_orm.Session(engine) as session:
         steins_feed_config.feeds.read_xml(
             session,
             f,
-            user_name = "hansolo",
+            user_name = os.environ["DEV_USER"],
             tag_name = "news",
         )
