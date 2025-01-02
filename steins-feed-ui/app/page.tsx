@@ -1,5 +1,12 @@
 import { Item, Language } from "@client"
-import { day_of_week_short, ensure_array, ensure_primitive, format_datetime, month_of_year_short } from "@util"
+import {
+  day_of_week_short,
+  ensure_array,
+  ensure_primitive,
+  format_datetime,
+  group_by,
+  month_of_year_short
+} from "@util"
 
 import { doRootItemsGet } from "./actions"
 import { require_login } from "./auth"
@@ -87,11 +94,23 @@ async function Main({
 }: {
   items: Item[],
 }) {
+  const items_grouped = group_by(
+    items,
+    (a, b) => (a.published === b.published) && (a.title == b.title)
+  );
+  const res = items_grouped.flatMap(item_group_it =>
+    item_group_it.map((item_it, item_ct) =>
+      <WallArticle
+        item={ item_it }
+        original={ item_ct === 0 ? undefined : item_group_it[0] }
+        key={ `article_${item_it.id}` }
+      />
+    )
+  );
+
   return (
 <main>
-{
-    items.map(item_it => <WallArticle item={ item_it } key={ `article_${item_it.id}` }/>)
-}
+{ res }
 </main>
   );
 }

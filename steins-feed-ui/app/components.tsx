@@ -16,12 +16,16 @@ import { NavigationSearchParams, toURLSearchParams } from "./util"
 
 export default function WallArticle({
   item,
+  original,
 }: {
   item: Item,
+  original?: Item,
 }) {
   const [liked, setLiked] = useState(item.like ?? 0);
   const [highlight, setHighlight] = useState(false);
-  const [collapsed, setCollapsed] = useState(false);
+
+  const is_duplicate = original !== undefined;
+  const [collapsed, setCollapsed] = useState(is_duplicate);
 
   const card_body_ref = useRef<HTMLDivElement>(null);
 
@@ -48,7 +52,10 @@ export default function WallArticle({
   </button>
   </div>
 
-  <div className="card-body collapse show" ref={ card_body_ref }>
+  <div
+    className={ is_duplicate ? "card-body collapse" : "card-body collapse show" }
+    ref={ card_body_ref }
+  >
     <h5 className="card-title">
       <a href={ item.link } target="_blank">{ item.title }</a>
     </h5>
