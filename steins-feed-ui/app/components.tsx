@@ -190,7 +190,7 @@ export function TopNav(
   return (
 <nav className="navbar bg-dark sticky-top" data-bs-theme="dark">
   <div className="container">
-    <a className="navbar-brand">
+    <Link href="/" className="navbar-brand">
       <Image
         src="/apple-touch-icon.png"
         height={ 30 }
@@ -200,7 +200,7 @@ export function TopNav(
       />
       &nbsp;
       Stein&apos;s Feed
-    </a>
+    </Link>
 
     <ul className="nav nav-underline">
       <li className="nav-item">
