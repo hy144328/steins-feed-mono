@@ -23,7 +23,7 @@ async def main():
 
     with sqla_orm.Session(engine) as session:
         async with aiohttp.ClientSession() as client:
-            await steins_feed_etl.items.parse_feeds(session, client)
+            await steins_feed_etl.items.parse_feeds(session, client, skip_recent=True)
 
 if __name__ == "__main__":
     asyncio.run(main())

@@ -21,8 +21,11 @@ logger = steins_feed_logging.LoggerFactory.get_logger(__name__)
 async def parse_feeds(
     session: sqla_orm.Session,
     client: aiohttp.ClientSession,
-    title_pattern=None,
+    title_pattern: typing.Optional[str] = None,
+    skip_recent: bool = False,
 ):
+    now = datetime.datetime.now(datetime.timezone.utc)
+
     q_feeds = asyncio.Queue()
     q_items = asyncio.Queue()
 
@@ -34,6 +37,26 @@ async def parse_feeds(
     feeds = random.sample(feeds, k=len(feeds))
 
     for feed_it in feeds:
+        if skip_recent:
+            q_stat = sqla.select(
+                sqla.func.count(),
+                sqla.func.min(steins_feed_model.items.Item.published),
+                sqla.func.max(steins_feed_model.items.Item.published),
+            ).where(
+                steins_feed_model.items.Item.feed_id == feed_it.id,
+                steins_feed_model.items.Item.published > now - datetime.timedelta(days=30)
+            )
+            res_stat = session.execute(q_stat).tuples().one_or_none()
+
+            if res_stat is not None and res_stat[0] > 1:
+                dt_last = res_stat[2].replace(tzinfo=datetime.timezone.utc)
+                td_mean = (res_stat[2] - res_stat[1]) / (res_stat[0] - 1)
+                dt_next = dt_last + td_mean
+
+                if now < dt_next:
+                    logger.warning(f"Skip {feed_it.title} until {dt_next}.")
+                    continue
+
         await q_feeds.put(feed_it)
 
     logger.info(f"{q_feeds.qsize()} feeds.")
