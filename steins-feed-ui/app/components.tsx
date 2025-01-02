@@ -268,6 +268,11 @@ export function SideNav({
   all_languages: Language[],
   all_tags: Tag[],
 }) {
+  const router = useRouter();
+
+  const re_lang = /lang-([A-Za-z]+)/;
+  const re_tag = /tag-([0-9]+)/;
+
   const languages_check = all_languages.map(lang_it =>
     <SideNavCheckbox
       name={ `lang-${lang_it}` }
@@ -294,7 +299,24 @@ export function SideNav({
     }
 
     const data = new FormData(target);
-    console.log(data);
+
+    const now = new Date(data.get("now") as string);
+    const languages = data.entries().filter(([k, v]) =>
+      re_lang.test(k)
+    ).filter(([k, v]) =>
+      v === "on"
+    ).map(([k]) =>
+      re_lang.exec(k)![1] as Language
+    ).toArray();
+    const tags = data.entries().filter(([k, v]) =>
+      re_tag.test(k)
+    ).filter(([k, v]) =>
+      v === "on"
+    ).map(([k]) =>
+      parseInt(re_tag.exec(k)![1])
+    ).toArray();
+
+    router.push(`/?${toURLSearchParams({now, languages, tags})}`);
   }
 
   return (
@@ -322,7 +344,7 @@ export function SideNav({
       </fieldset>
 
       <fieldset className="mt-3" style={ {all: "revert"} }>
-        <input type="hidden" value={ now.toISOString() }/>
+        <input type="hidden" name="now" value={ now.toISOString() }/>
 
         <div className="btn-group">
           <input type="submit" className="btn btn-primary"/>
