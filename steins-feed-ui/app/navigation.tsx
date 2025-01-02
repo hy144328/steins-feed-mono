@@ -164,6 +164,15 @@ async function SideNav({
         <legend style={ {all: "revert"} }>Tags</legend>
         { tags_check }
       </fieldset>
+
+      <fieldset className="mt-3" style={ {all: "revert"} }>
+        <input type="hidden" value={ now.toISOString() }/>
+
+        <div className="btn-group">
+          <input type="submit" className="btn btn-primary"/>
+          <input type="reset" className="btn btn-secondary"/>
+        </div>
+      </fieldset>
     </form>
   </div>
 </div>
