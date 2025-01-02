@@ -36,20 +36,28 @@ export default function WallArticle({
   }
 
   return (
-<div className="card">
-  <div className="card-header">
-  <button
-    onClick={ handleCollapse }
-    style={ {
-      backgroundColor: "transparent",
-      borderWidth: 0,
-      display: "flex",
-      justifyContent: "end",
-      width: "100%",
-    } }
-  >
-  <i className={ `bi-chevron-${collapsed ? "down" : "up"}` }/>
-  </button>
+<div id={ `article-${item.id}` } className="card">
+  <div className="card-header" style={ {display: "flex"} }>
+    { is_duplicate &&
+    <span>
+      Duplicate of
+      &nbsp;
+      <a href={ `#article-${original.id}` }>
+        { `${original.title} (${original.feed.title})` }
+      </a>
+    </span>
+    }
+
+    <button
+      onClick={ handleCollapse }
+      style={ {
+        backgroundColor: "transparent",
+        borderWidth: 0,
+        marginLeft: "auto"
+      } }
+    >
+      <i className={ `bi-chevron-${collapsed ? "down" : "up"}` }/>
+    </button>
   </div>
 
   <div
