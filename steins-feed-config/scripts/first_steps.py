@@ -38,6 +38,14 @@ with sqla_orm.Session(engine) as session:
     session.commit()
 
 with sqla_orm.Session(engine) as session:
+    with importlib.resources.open_text(steins_feed_config, "feeds.d/magazines.xml") as f:
+        steins_feed_config.feeds.read_xml(
+            session,
+            f,
+            user_name = os.environ["DEV_USER"],
+            tag_name = "magazines",
+        )
+
     with importlib.resources.open_text(steins_feed_config, "feeds.d/news.xml") as f:
         steins_feed_config.feeds.read_xml(
             session,
