@@ -1,7 +1,7 @@
 import Image from "next/image"
 import Link from "next/link"
 
-import { Language } from "@client"
+import { NavigationSearchParams, toURLSearchParams } from "./util"
 
 import { doLanguagesFeedsLangaugesGet, doTagsFeedsTagsGet } from "./actions"
 import { LogoutButton } from "./components"
@@ -153,26 +153,6 @@ async function SideNav({
   </div>
 </div>
   );
-}
-
-interface NavigationSearchParams {
-  now: Date,
-  languages: Language[],
-  tags: number[],
-};
-
-function toURLSearchParams({
-  now,
-  languages,
-  tags,
-}: NavigationSearchParams): URLSearchParams {
-  const res = new URLSearchParams();
-
-  res.append("now", now.toISOString());
-  languages.forEach(lang_it => res.append("languages", lang_it));
-  tags.forEach(tag_it => res.append("tags", tag_it.toString()));
-
-  return res;
 }
 
 async function SideNavCheckbox({

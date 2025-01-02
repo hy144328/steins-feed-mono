@@ -5,6 +5,7 @@ import { doRootItemsGet } from "./actions"
 import { require_login } from "./auth"
 import WallArticle from "./components"
 import Navigation from "./navigation"
+import { toURLSearchParams } from "./util"
 
 export default async function Page({
   searchParams,
@@ -30,7 +31,7 @@ export default async function Page({
     items = await doRootItemsGet(today, tomorrow);
   } catch (e) {
     console.log(e);
-    await require_login(now_raw ? `/?now=${encodeURIComponent(now.toISOString())}` : "/");
+    await require_login(`/?${toURLSearchParams({now, languages, tags})}`);
   }
 
   return (
