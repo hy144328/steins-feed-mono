@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "steins-feed-mono"
+version = "0.1.0"
+description = "Stein's Feed"
+authors = ["Hans Yu <hans.yu@outlook.de>"]
+license = "GPL-3.0-or-later"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.13"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
