@@ -301,18 +301,18 @@ export function SideNav({
     const data = new FormData(target);
 
     const now = new Date(data.get("now") as string);
-    const languages = data.entries().filter(([k, v]) =>
+    const languages = data.entries().filter(([k, _]) =>
       re_lang.test(k)
-    ).filter(([k, v]) =>
+    ).filter(([_, v]) =>
       v === "on"
-    ).map(([k]) =>
+    ).map(([k, _]) =>
       re_lang.exec(k)![1] as Language
     ).toArray();
-    const tags = data.entries().filter(([k, v]) =>
+    const tags = data.entries().filter(([k, _]) =>
       re_tag.test(k)
-    ).filter(([k, v]) =>
+    ).filter(([_, v]) =>
       v === "on"
-    ).map(([k]) =>
+    ).map(([k, _]) =>
       parseInt(re_tag.exec(k)![1])
     ).toArray();
 
