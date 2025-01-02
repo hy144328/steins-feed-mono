@@ -74,3 +74,25 @@ export function ensure_primitive<T>(
     return param;
   }
 }
+
+export function group_by<T>(
+  a: Array<T>,
+  compare_func: (a: T, b: T) => boolean,
+): Array<Array<T>> {
+  const res: Array<Array<T>> = [];
+  let last: T | null = null;
+
+  for (const a_it of a) {
+    const is_old = last ? compare_func(a_it, last) : false;
+
+    const res_it = is_old ? res[res.length - 1] : [];
+    if (!is_old) {
+      res.push(res_it);
+    }
+
+    res_it.push(a_it);
+    last = a_it;
+  }
+
+  return res;
+}
