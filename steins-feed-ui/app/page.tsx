@@ -1,5 +1,5 @@
 import { Item, Language } from "@client"
-import { day_of_week_short, ensure_array, format_datetime, month_of_year_short } from "@util"
+import { day_of_week_short, ensure_array, ensure_primitive, format_datetime, month_of_year_short } from "@util"
 
 import { doRootItemsGet } from "./actions"
 import { require_login } from "./auth"
@@ -9,22 +9,21 @@ import Navigation from "./navigation"
 export default async function Page({
   searchParams,
 }: {
-  searchParams: Promise<{
-    now?: string,
-    languages?: Language | Language[],
-    tags?: number | number[],
-  }>,
+  searchParams: Promise<{[key: string]: undefined | string | string[]}>,
 }) {
   const searchParamsSync = await searchParams;
 
   const now_raw = searchParamsSync.now;
-  const now = now_raw ? new Date(now_raw) : new Date();
+  const now = now_raw ? new Date(ensure_primitive(now_raw)) : new Date();
 
   const today = new Date(now);
   today.setUTCHours(0, 0, 0, 0);
 
   const tomorrow = new Date(today);
   tomorrow.setUTCDate(today.getUTCDate() + 1);
+
+  const languages = ensure_array(searchParamsSync.languages).map(lang_it => lang_it as Language);
+  const tags = ensure_array(searchParamsSync.tags).map(tag_it => parseInt(tag_it));
 
   let items: Array<Item> = [];
   try {
@@ -38,8 +37,8 @@ export default async function Page({
 <div className="container">
 <Navigation
   now={ now }
-  languages={ ensure_array(searchParamsSync.languages) }
-  tags={ ensure_array(searchParamsSync.tags) }
+  languages={ languages }
+  tags={ tags }
 />
 <Header now={ now } items={ items }/>
 <hr/>

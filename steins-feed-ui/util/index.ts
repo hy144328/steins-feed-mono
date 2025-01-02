@@ -64,3 +64,13 @@ export function ensure_array<T>(
     return [params];
   }
 }
+
+export function ensure_primitive<T>(
+  param: T | T[],
+): T {
+  if (Array.isArray(param)) {
+    return param[0];
+  } else {
+    return param;
+  }
+}
