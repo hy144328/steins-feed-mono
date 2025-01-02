@@ -8,6 +8,11 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.13"
+steins-feed-api = {path = "steins-feed-api", develop = true}
+steins-feed-config = {path = "steins-feed-config", develop = true}
+steins-feed-etl = {path = "steins-feed-etl", develop = true}
+steins-feed-logging = {path = "steins-feed-logging", develop = true}
+steins-feed-model = {path = "steins-feed-model", develop = true}
 
 [tool.poetry.group.dev.dependencies]
 poetry = "^1.8.5"
