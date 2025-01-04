@@ -192,7 +192,7 @@ export function TopNav(
         className="d-inline-block align-text-top"
       />
       &nbsp;
-      Stein&apos;s Feed
+      <span className="d-none d-sm-inline-block">Stein&apos;s Feed</span>
     </Link>
 
     <ul className="nav nav-underline">
