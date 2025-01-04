@@ -2,9 +2,13 @@ import typing
 
 import lxml.etree
 import sqlalchemy as sqla
+import sqlalchemy.exc as sqla_exc
 import sqlalchemy.orm as sqla_orm
 
+import steins_feed_logging
 import steins_feed_model.feeds
+
+logger = steins_feed_logging.LoggerFactory.get_logger(__name__)
 
 def read_xml(
     session: sqla_orm.Session,
@@ -15,30 +19,8 @@ def read_xml(
     tree = lxml.etree.parse(f)
     root = tree.getroot()
 
-    feeds = [
-        steins_feed_model.feeds.Feed(
-            title = feed_it.xpath("title")[0].text,
-            link = feed_it.xpath("link")[0].text,
-            language = steins_feed_model.feeds.Language(feed_it.xpath("lang")[0].text),
-        )
-        for feed_it in root.xpath("feed")
-    ]
-
-    q = sqla.insert(steins_feed_model.feeds.Feed)
-    q = q.prefix_with("OR IGNORE", dialect="sqlite")
-
-    session.execute(
-        q,
-        [
-            {
-                "title": feed_it.title,
-                "link": feed_it.link,
-                "language": feed_it.language,
-            }
-            for feed_it in feeds
-        ],
-    )
-    session.commit()
+    user = None
+    tag = None
 
     if user_name:
         q = sqla.select(
@@ -47,22 +29,6 @@ def read_xml(
             steins_feed_model.users.User.name == user_name,
         )
         user = session.execute(q).scalars().one()
-
-        q = sqla.select(
-            steins_feed_model.feeds.Feed,
-        ).where(
-            steins_feed_model.feeds.Feed.title == sqla.bindparam("title"),
-        )
-
-        for feed_it in feeds:
-            feed = session.execute(
-                q,
-                {"title": feed_it.title},
-            ).scalars().one()
-
-            if user not in feed.users:
-                feed.users.append(user)
-                session.commit()
 
         if tag_name:
             q = sqla.insert(
@@ -84,21 +50,34 @@ def read_xml(
             )
             tag = session.execute(q).scalars().one()
 
-            q = sqla.select(
-                steins_feed_model.feeds.Feed,
-            ).where(
-                steins_feed_model.feeds.Feed.title == sqla.bindparam("title"),
-            )
+    for feed_it in root.xpath("feed"):
+        feed = steins_feed_model.feeds.Feed(
+            title = feed_it.xpath("title")[0].text,
+            link = feed_it.xpath("link")[0].text,
+            language = steins_feed_model.feeds.Language(feed_it.xpath("lang")[0].text),
+        )
+        logger.info(f"{feed.title}.")
 
-            for feed_it in feeds:
-                feed = session.execute(
-                    q,
-                    {"title": feed_it.title},
-                ).scalars().one()
+        if user_name:
+            assert user is not None
+
+            if user not in feed.users:
+                feed.users.append(user)
+
+            if tag_name:
+                assert tag is not None
 
                 if tag not in feed.tags:
                     feed.tags.append(tag)
-                    session.commit()
+
+        session.add(feed)
+        try:
+            session.commit()
+            logger.info(f"{feed.title} succeeded.")
+        except sqla_exc.IntegrityError as e:
+            logger.warning(f"{feed.title} failed.")
+            session.rollback()
+            logger.warning(e)
 
 def write_xml(
     session: sqla_orm.Session,
