@@ -50,6 +50,66 @@
     <lang>German</lang>
   </feed>
   <feed>
+    <title>The Atlantic</title>
+    <link>https://www.theatlantic.com/feed/best-of/</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>The Atlantic Books</title>
+    <link>https://www.theatlantic.com/feed/channel/books/</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>The Atlantic Business</title>
+    <link>https://www.theatlantic.com/feed/channel/business/</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>The Atlantic Culture</title>
+    <link>https://www.theatlantic.com/feed/channel/culture/</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>The Atlantic Education</title>
+    <link>https://www.theatlantic.com/feed/channel/education/</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>The Atlantic Family</title>
+    <link>https://www.theatlantic.com/feed/channel/family/</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>The Atlantic Global</title>
+    <link>https://www.theatlantic.com/feed/channel/international/</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>The Atlantic Health</title>
+    <link>https://www.theatlantic.com/feed/channel/health/</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>The Atlantic Ideas</title>
+    <link>https://www.theatlantic.com/feed/channel/ideas/</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>The Atlantic Politics</title>
+    <link>https://www.theatlantic.com/feed/channel/politics/</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>The Atlantic Science</title>
+    <link>https://www.theatlantic.com/feed/channel/science/</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>The Atlantic Technology</title>
+    <link>https://www.theatlantic.com/feed/channel/technology/</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
     <title>The Guardian</title>
     <link>https://www.theguardian.com/uk/rss</link>
     <lang>English</lang>
