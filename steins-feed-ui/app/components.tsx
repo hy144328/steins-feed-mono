@@ -191,7 +191,7 @@ export function TopNav(
         alt="Stein's Feed logo"
         className="d-inline-block align-text-top"
       />
-      &nbsp;
+      &ensp;
       <span className="d-none d-sm-inline-block">Stein&apos;s Feed</span>
     </Link>
 
