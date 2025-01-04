@@ -362,7 +362,7 @@ export function SideNav({
         <input type="hidden" name="now" value={ now.toISOString() }/>
 
         <div className="btn-group">
-          <input type="submit" className="btn btn-primary"/>
+          <input type="submit" className="btn btn-primary" data-bs-dismiss="offcanvas"/>
           <input type="reset" className="btn btn-secondary"/>
         </div>
       </fieldset>
