@@ -9,7 +9,6 @@ import steins_feed_logging
 import steins_feed_model.feeds
 
 logger = steins_feed_logging.LoggerFactory.get_logger(__name__)
-steins_feed_logging.LoggerFactory.add_stream_handler(logger)
 
 def read_xml(
     session: sqla_orm.Session,
