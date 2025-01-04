@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import importlib.resources
+import logging
 import os
 
 import dotenv
@@ -10,10 +11,15 @@ import sqlalchemy.orm as sqla_orm
 
 import steins_feed_config
 import steins_feed_config.feeds
+import steins_feed_logging
 import steins_feed_model
 import steins_feed_model.users
 
 dotenv.load_dotenv()
+
+config_logger = steins_feed_logging.LoggerFactory.get_logger(steins_feed_config.__name__)
+steins_feed_logging.LoggerFactory.add_stream_handler(config_logger)
+steins_feed_logging.LoggerFactory.set_level(config_logger, logging.INFO)
 
 engine = steins_feed_model.EngineFactory.get_or_create_engine(database=os.environ["DB_NAME"])
 pwd_context = passlib.context.CryptContext(schemes=["bcrypt"], deprecated="auto")
