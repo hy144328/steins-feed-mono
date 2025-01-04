@@ -1,11 +1,10 @@
 "use client"
 
-import { Collapse } from "bootstrap"
 import Image from "next/image"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import DOMPurify from "isomorphic-dompurify"
-import { useRef, useState } from "react"
+import { useState } from "react"
 
 import { Item, Language, LikeStatus, Tag } from "@client"
 import { format_datetime, join } from "@util"
@@ -27,14 +26,6 @@ export default function WallArticle({
   const is_duplicate = original !== undefined;
   const [collapsed, setCollapsed] = useState(is_duplicate);
 
-  const card_body_ref = useRef<HTMLDivElement>(null);
-
-  async function handleCollapse() {
-    const card_body = new Collapse(card_body_ref.current!);
-    card_body.toggle();
-    setCollapsed(!collapsed);
-  }
-
   return (
 <div id={ `article-${item.id}` } className="card">
   <div className="card-header" style={ {display: "flex"} }>
@@ -49,7 +40,9 @@ export default function WallArticle({
     }
 
     <button
-      onClick={ handleCollapse }
+      onClick={ () => setCollapsed(!collapsed) }
+      data-bs-toggle="collapse"
+      data-bs-target={ `#card-body-${item.id}` }
       style={ {
         backgroundColor: "transparent",
         borderWidth: 0,
@@ -61,8 +54,8 @@ export default function WallArticle({
   </div>
 
   <div
+    id={ `card-body-${item.id}` }
     className={ is_duplicate ? "card-body collapse" : "card-body collapse show" }
-    ref={ card_body_ref }
   >
     <h5 className="card-title">
       <a href={ item.link } target="_blank">{ item.title }</a>
@@ -362,7 +355,7 @@ export function SideNav({
         <input type="hidden" name="now" value={ now.toISOString() }/>
 
         <div className="btn-group">
-          <input type="submit" className="btn btn-primary"/>
+          <input type="submit" className="btn btn-primary" data-bs-dismiss="offcanvas"/>
           <input type="reset" className="btn btn-secondary"/>
         </div>
       </fieldset>
