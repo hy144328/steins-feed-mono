@@ -391,12 +391,12 @@
   </feed>
   <feed>
     <title>Die ZEIT Österreich</title>
-    <link>http://newsfeed.zeit.de/podcasts</link>
+    <link>http://newsfeed.zeit.de/oesterreich/index</link>
     <lang>German</lang>
   </feed>
   <feed>
     <title>Die ZEIT Podcasts</title>
-    <link>http://newsfeed.zeit.de/podcasts</link>
+    <link>http://newsfeed.zeit.de/podcasts/index</link>
     <lang>German</lang>
   </feed>
   <feed>
@@ -411,7 +411,7 @@
   </feed>
   <feed>
     <title>Die ZEIT Schweiz</title>
-    <link>http://newsfeed.zeit.de/podcasts</link>
+    <link>http://newsfeed.zeit.de/schweiz/index</link>
     <lang>German</lang>
   </feed>
   <feed>
