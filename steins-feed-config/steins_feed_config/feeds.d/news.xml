@@ -744,4 +744,244 @@
     <link>https://www.theguardian.com/uk/sport/rss</link>
     <lang>English</lang>
   </feed>
+  <feed>
+    <title>The New York Times</title>
+    <link>https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>The New York Times -- T Magazine</title>
+    <link>https://rss.nytimes.com/services/xml/rss/nyt/tmagazine.xml</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>The New York Times Africa</title>
+    <link>https://rss.nytimes.com/services/xml/rss/nyt/Africa.xml</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>The New York Times Americas</title>
+    <link>https://rss.nytimes.com/services/xml/rss/nyt/Americas.xml</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>The New York Times Art &amp; Design</title>
+    <link>https://rss.nytimes.com/services/xml/rss/nyt/ArtandDesign.xml</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>The New York Times Arts</title>
+    <link>https://rss.nytimes.com/services/xml/rss/nyt/Arts.xml</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>The New York Times Asia Pacific</title>
+    <link>https://rss.nytimes.com/services/xml/rss/nyt/AsiaPacific.xml</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>The New York Times Baseball</title>
+    <link>https://rss.nytimes.com/services/xml/rss/nyt/Baseball.xml</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>The New York Times Basketball</title>
+    <link>https://rss.nytimes.com/services/xml/rss/nyt/ProBasketball.xml</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>The New York Times Books</title>
+    <link>https://rss.nytimes.com/services/xml/rss/nyt/Books.xml</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>The New York Times Business</title>
+    <link>https://rss.nytimes.com/services/xml/rss/nyt/Business.xml</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>The New York Times College Basketball</title>
+    <link>https://rss.nytimes.com/services/xml/rss/nyt/CollegeBasketball.xml</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>The New York Times College Football</title>
+    <link>https://rss.nytimes.com/services/xml/rss/nyt/CollegeFootball.xml</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>The New York Times Dance</title>
+    <link>https://rss.nytimes.com/services/xml/rss/nyt/Dance.xml</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>The New York Times DealBook</title>
+    <link>https://rss.nytimes.com/services/xml/rss/nyt/Dealbook.xml</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>The New York Times Dining &amp; Wine</title>
+    <link>https://rss.nytimes.com/services/xml/rss/nyt/DiningandWine.xml</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>The New York Times Economy</title>
+    <link>https://rss.nytimes.com/services/xml/rss/nyt/Economy.xml</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>The New York Times Education</title>
+    <link>https://rss.nytimes.com/services/xml/rss/nyt/Education.xml</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>The New York Times Energy &amp; Environment</title>
+    <link>https://rss.nytimes.com/services/xml/rss/nyt/EnergyEnvironment.xml</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>The New York Times Environment</title>
+    <link>https://rss.nytimes.com/services/xml/rss/nyt/Climate.xml</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>The New York Times Europe</title>
+    <link>https://rss.nytimes.com/services/xml/rss/nyt/Europe.xml</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>The New York Times Fashion &amp; Style</title>
+    <link>https://rss.nytimes.com/services/xml/rss/nyt/FashionandStyle.xml</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>The New York Times Football</title>
+    <link>https://rss.nytimes.com/services/xml/rss/nyt/ProFootball.xml</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>The New York Times Golf</title>
+    <link>https://rss.nytimes.com/services/xml/rss/nyt/Golf.xml</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>The New York Times Health</title>
+    <link>https://rss.nytimes.com/services/xml/rss/nyt/Health.xml</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>The New York Times Hockey</title>
+    <link>https://rss.nytimes.com/services/xml/rss/nyt/Hockey.xml</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>The New York Times Love</title>
+    <link>https://rss.nytimes.com/services/xml/rss/nyt/Weddings.xml</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>The New York Times Media &amp; Advertising</title>
+    <link>https://rss.nytimes.com/services/xml/rss/nyt/MediaandAdvertising.xml</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>The New York Times Middle East</title>
+    <link>https://rss.nytimes.com/services/xml/rss/nyt/MiddleEast.xml</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>The New York Times Movies</title>
+    <link>https://rss.nytimes.com/services/xml/rss/nyt/Movies.xml</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>The New York Times Music</title>
+    <link>https://rss.nytimes.com/services/xml/rss/nyt/Music.xml</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>The New York Times New York</title>
+    <link>https://rss.nytimes.com/services/xml/rss/nyt/NYRegion.xml</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>The New York Times Personal Tech</title>
+    <link>https://rss.nytimes.com/services/xml/rss/nyt/PersonalTech.xml</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>The New York Times Politics</title>
+    <link>https://rss.nytimes.com/services/xml/rss/nyt/Politics.xml</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>The New York Times Science</title>
+    <link>https://rss.nytimes.com/services/xml/rss/nyt/Science.xml</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>The New York Times Small Business</title>
+    <link>https://rss.nytimes.com/services/xml/rss/nyt/SmallBusiness.xml</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>The New York Times Soccer</title>
+    <link>https://rss.nytimes.com/services/xml/rss/nyt/Soccer.xml</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>The New York Times Space &amp; Cosmos</title>
+    <link>https://rss.nytimes.com/services/xml/rss/nyt/Space.xml</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>The New York Times Sports</title>
+    <link>https://rss.nytimes.com/services/xml/rss/nyt/Sports.xml</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>The New York Times Technology</title>
+    <link>https://rss.nytimes.com/services/xml/rss/nyt/Technology.xml</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>The New York Times Television</title>
+    <link>https://rss.nytimes.com/services/xml/rss/nyt/Television.xml</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>The New York Times Tennis</title>
+    <link>https://rss.nytimes.com/services/xml/rss/nyt/Tennis.xml</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>The New York Times Theater</title>
+    <link>https://rss.nytimes.com/services/xml/rss/nyt/Theater.xml</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>The New York Times Travel</title>
+    <link>https://rss.nytimes.com/services/xml/rss/nyt/Travel.xml</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>The New York Times US</title>
+    <link>https://rss.nytimes.com/services/xml/rss/nyt/US.xml</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>The New York Times Well Blog</title>
+    <link>https://rss.nytimes.com/services/xml/rss/nyt/Well.xml</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>The New York Times World</title>
+    <link>https://rss.nytimes.com/services/xml/rss/nyt/World.xml</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>The New York Times Your Money</title>
+    <link>https://rss.nytimes.com/services/xml/rss/nyt/YourMoney.xml</link>
+    <lang>English</lang>
+  </feed>
 </root>
