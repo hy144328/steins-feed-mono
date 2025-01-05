@@ -110,6 +110,66 @@
     <lang>English</lang>
   </feed>
   <feed>
+    <title>Daily Mail</title>
+    <link>https://www.dailymail.co.uk/home/index.rss</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>Daily Mail Australia</title>
+    <link>https://www.dailymail.co.uk/auhome/index.rss</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>Daily Mail Femail</title>
+    <link>https://www.dailymail.co.uk/femail/index.rss</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>Daily Mail Health</title>
+    <link>https://www.dailymail.co.uk/health/index.rss</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>Daily Mail Money</title>
+    <link>https://www.dailymail.co.uk/money/index.rss</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>Daily Mail News</title>
+    <link>https://www.dailymail.co.uk/news/index.rss</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>Daily Mail Science</title>
+    <link>https://www.dailymail.co.uk/sciencetech/index.rss</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>Daily Mail Showbiz</title>
+    <link>https://www.dailymail.co.uk/tvshowbiz/index.rss</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>Daily Mail Sport</title>
+    <link>https://www.dailymail.co.uk/sport/index.rss</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>Daily Mail Travel</title>
+    <link>https://www.dailymail.co.uk/travel/index.rss</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>Daily Mail US</title>
+    <link>https://www.dailymail.co.uk/ushome/index.rss</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>Daily Mail Video</title>
+    <link>https://www.dailymail.co.uk/video/index.rss</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
     <title>The Guardian</title>
     <link>https://www.theguardian.com/uk/rss</link>
     <lang>English</lang>
