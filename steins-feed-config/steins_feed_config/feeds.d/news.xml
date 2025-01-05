@@ -450,6 +450,71 @@
     <lang>German</lang>
   </feed>
   <feed>
+    <title>Frankfurter Allgemeine Zeitung</title>
+    <link>https://www.faz.net/rss/aktuell/</link>
+    <lang>German</lang>
+  </feed>
+  <feed>
+    <title>Frankfurter Allgemeine Zeitung Feuilleton</title>
+    <link>https://www.faz.net/rss/aktuell/feuilleton/</link>
+    <lang>German</lang>
+  </feed>
+  <feed>
+    <title>Frankfurter Allgemeine Zeitung Finanzen</title>
+    <link>https://www.faz.net/rss/aktuell/finanzen/</link>
+    <lang>German</lang>
+  </feed>
+  <feed>
+    <title>Frankfurter Allgemeine Zeitung Gesellschaft</title>
+    <link>https://www.faz.net/rss/aktuell/gesellschaft/</link>
+    <lang>German</lang>
+  </feed>
+  <feed>
+    <title>Frankfurter Allgemeine Zeitung Karriere &amp; Hochschule</title>
+    <link>https://www.faz.net/rss/aktuell/karriere-hochschule/</link>
+    <lang>German</lang>
+  </feed>
+  <feed>
+    <title>Frankfurter Allgemeine Zeitung Politik</title>
+    <link>https://www.faz.net/rss/aktuell/politik/</link>
+    <lang>German</lang>
+  </feed>
+  <feed>
+    <title>Frankfurter Allgemeine Zeitung Reise</title>
+    <link>https://www.faz.net/rss/aktuell/reise/</link>
+    <lang>German</lang>
+  </feed>
+  <feed>
+    <title>Frankfurter Allgemeine Zeitung Rhein-Main</title>
+    <link>https://www.faz.net/rss/aktuell/rhein-main/</link>
+    <lang>German</lang>
+  </feed>
+  <feed>
+    <title>Frankfurter Allgemeine Zeitung Sport</title>
+    <link>https://www.faz.net/rss/aktuell/sport/</link>
+    <lang>German</lang>
+  </feed>
+  <feed>
+    <title>Frankfurter Allgemeine Zeitung Stil</title>
+    <link>https://www.faz.net/rss/aktuell/stil/</link>
+    <lang>German</lang>
+  </feed>
+  <feed>
+    <title>Frankfurter Allgemeine Zeitung Technik &amp; Motor</title>
+    <link>https://www.faz.net/rss/aktuell/technik-motor/</link>
+    <lang>German</lang>
+  </feed>
+  <feed>
+    <title>Frankfurter Allgemeine Zeitung Wirtschaft</title>
+    <link>https://www.faz.net/rss/aktuell/wirtschaft/</link>
+    <lang>German</lang>
+  </feed>
+  <feed>
+    <title>Frankfurter Allgemeine Zeitung Wissen</title>
+    <link>https://www.faz.net/rss/aktuell/wissen/</link>
+    <lang>German</lang>
+  </feed>
+  <feed>
     <title>The Guardian</title>
     <link>https://www.theguardian.com/uk/rss</link>
     <lang>English</lang>
