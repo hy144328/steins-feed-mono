@@ -240,6 +240,81 @@
     <lang>German</lang>
   </feed>
   <feed>
+    <title>Die WELT</title>
+    <link>https://www.welt.de/feeds/topnews.rss</link>
+    <lang>German</lang>
+  </feed>
+  <feed>
+    <title>Die WELT Geschichte</title>
+    <link>https://www.welt.de/feeds/section/geschichte.rss</link>
+    <lang>German</lang>
+  </feed>
+  <feed>
+    <title>Die WELT Gesundheit</title>
+    <link>https://www.welt.de/feeds/section/gesundheit.rss</link>
+    <lang>German</lang>
+  </feed>
+  <feed>
+    <title>Die WELT ICON</title>
+    <link>https://www.welt.de/feeds/section/iconmagazine.rss</link>
+    <lang>German</lang>
+  </feed>
+  <feed>
+    <title>Die WELT Kultur</title>
+    <link>https://www.welt.de/feeds/section/kultur.rss</link>
+    <lang>German</lang>
+  </feed>
+  <feed>
+    <title>Die WELT LIFESTYLE</title>
+    <link>https://www.welt.de/feeds/section/iconist.rss</link>
+    <lang>German</lang>
+  </feed>
+  <feed>
+    <title>Die WELT Mediathek</title>
+    <link>https://www.welt.de/feeds/section/mediathek.rss</link>
+    <lang>German</lang>
+  </feed>
+  <feed>
+    <title>Die WELT Meinung</title>
+    <link>https://www.welt.de/feeds/section/debatte.rss</link>
+    <lang>German</lang>
+  </feed>
+  <feed>
+    <title>Die WELT Panorama</title>
+    <link>https://www.welt.de/feeds/section/vermischtes.rss</link>
+    <lang>German</lang>
+  </feed>
+  <feed>
+    <title>Die WELT Politik</title>
+    <link>https://www.welt.de/feeds/section/politik.rss</link>
+    <lang>German</lang>
+  </feed>
+  <feed>
+    <title>Die WELT Regional</title>
+    <link>https://www.welt.de/feeds/section/regionales.rss</link>
+    <lang>German</lang>
+  </feed>
+  <feed>
+    <title>Die WELT Reise</title>
+    <link>https://www.welt.de/feeds/section/reise.rss</link>
+    <lang>German</lang>
+  </feed>
+  <feed>
+    <title>Die WELT Sonderthemen</title>
+    <link>https://www.welt.de/feeds/section/sonderthemen.rss</link>
+    <lang>German</lang>
+  </feed>
+  <feed>
+    <title>Die WELT Sport</title>
+    <link>https://www.welt.de/feeds/section/sport.rss</link>
+    <lang>German</lang>
+  </feed>
+  <feed>
+    <title>Die WELT Wirtschaft</title>
+    <link>https://www.welt.de/feeds/section/wirtschaft.rss</link>
+    <lang>German</lang>
+  </feed>
+  <feed>
     <title>The Guardian</title>
     <link>https://www.theguardian.com/uk/rss</link>
     <lang>English</lang>
