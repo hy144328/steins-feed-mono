@@ -50,6 +50,66 @@
     <lang>German</lang>
   </feed>
   <feed>
+    <title>Boston.com</title>
+    <link>https://www.boston.com/feed/</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>Boston.com Cars</title>
+    <link>https://www.boston.com/category/cars/feed/</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>Boston.com Community</title>
+    <link>https://www.boston.com/category/community/feed/</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>Boston.com Culture</title>
+    <link>https://www.boston.com/category/culture/feed/</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>Boston.com Food</title>
+    <link>https://www.boston.com/category/food/feed/</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>Boston.com Love Letters</title>
+    <link>https://www.boston.com/category/love-letters/feed/</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>Boston.com News</title>
+    <link>https://www.boston.com/category/news/feed/</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>Boston.com Real Estate</title>
+    <link>https://www.boston.com/category/real-estate/feed/</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>Boston.com Sports</title>
+    <link>https://www.boston.com/category/sports/feed/</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>Boston.com Things to Do</title>
+    <link>https://www.boston.com/category/things-to-do/feed/</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>Boston.com Travel</title>
+    <link>https://www.boston.com/category/travel/feed/</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>Boston.com Weather</title>
+    <link>https://www.boston.com/category/weather/feed/</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
     <title>The Guardian</title>
     <link>https://www.theguardian.com/uk/rss</link>
     <lang>English</lang>
