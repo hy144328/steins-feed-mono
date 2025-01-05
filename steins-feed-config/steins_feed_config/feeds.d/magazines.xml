@@ -120,6 +120,31 @@
     <lang>English</lang>
   </feed>
   <feed>
+    <title>The New Yorker</title>
+    <link>https://www.newyorker.com/feed/rss</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>The New Yorker Books &amp; Culture</title>
+    <link>https://www.newyorker.com/feed/culture/rss</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>The New Yorker Fiction &amp; Poetry</title>
+    <link>https://www.newyorker.com/feed/fiction-and-poetry/rss</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>The New Yorker Humor &amp; Cartoons</title>
+    <link>https://www.newyorker.com/feed/humor/rss</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>The New Yorker News</title>
+    <link>https://www.newyorker.com/feed/news/rss</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
     <title>WIRED</title>
     <link>https://www.wired.com/feed/rss</link>
     <lang>English</lang>
