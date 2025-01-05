@@ -515,6 +515,71 @@
     <lang>German</lang>
   </feed>
   <feed>
+    <title>Los Angeles Times Business</title>
+    <link>https://www.latimes.com/business/rss2.0.xml</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>Los Angeles Times California</title>
+    <link>https://www.latimes.com/california/rss2.0.xml</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>Los Angeles Times Climate &amp; Environment</title>
+    <link>https://www.latimes.com/environment/rss2.0.xml</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>Los Angeles Times Entertainment &amp; Arts</title>
+    <link>https://www.latimes.com/entertainment-arts/rss2.0.xml</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>Los Angeles Times Food</title>
+    <link>https://www.latimes.com/food/rss2.0.xml</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>Los Angeles Times Lifestyle</title>
+    <link>https://www.latimes.com/lifestyle/rss2.0.xml</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>Los Angeles Times Obituaries</title>
+    <link>https://www.latimes.com/obituaries/rss2.0.xml</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>Los Angeles Times Opinion</title>
+    <link>https://www.latimes.com/opinion/rss2.0.xml</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>Los Angeles Times Politics</title>
+    <link>https://www.latimes.com/politics/rss2.0.xml</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>Los Angeles Times Science</title>
+    <link>https://www.latimes.com/science/rss2.0.xml</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>Los Angeles Times Sports</title>
+    <link>https://www.latimes.com/sports/rss2.0.xml</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>Los Angeles Times Travel</title>
+    <link>https://www.latimes.com/travel/rss2.0.xml</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>Los Angeles Times World &amp; Nation</title>
+    <link>https://www.latimes.com/world-nation/rss2.0.xml</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
     <title>The Guardian</title>
     <link>https://www.theguardian.com/uk/rss</link>
     <lang>English</lang>
