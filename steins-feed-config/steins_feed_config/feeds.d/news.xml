@@ -580,6 +580,101 @@
     <lang>English</lang>
   </feed>
   <feed>
+    <title>Süddeutsche Zeitung</title>
+    <link>http://rss.sueddeutsche.de/rss/Topthemen</link>
+    <lang>German</lang>
+  </feed>
+  <feed>
+    <title>Süddeutsche Zeitung -- SZ Magazin</title>
+    <link>https://sz-magazin.sueddeutsche.de/rssredaktion</link>
+    <lang>German</lang>
+  </feed>
+  <feed>
+    <title>Süddeutsche Zeitung -- jetzt.de</title>
+    <link></link>
+    <lang>German</lang>
+  </feed>
+  <feed>
+    <title>Süddeutsche Zeitung Auto</title>
+    <link>http://rss.sueddeutsche.de/rss/auto</link>
+    <lang>German</lang>
+  </feed>
+  <feed>
+    <title>Süddeutsche Zeitung Bayern</title>
+    <link>http://rss.sueddeutsche.de/rss/bayern</link>
+    <lang>German</lang>
+  </feed>
+  <feed>
+    <title>Süddeutsche Zeitung Bildung</title>
+    <link>http://rss.sueddeutsche.de/rss/bildung</link>
+    <lang>German</lang>
+  </feed>
+  <feed>
+    <title>Süddeutsche Zeitung Gesellschaft</title>
+    <link>http://rss.sueddeutsche.de/rss/leben</link>
+    <lang>German</lang>
+  </feed>
+  <feed>
+    <title>Süddeutsche Zeitung Gesundheit</title>
+    <link>http://rss.sueddeutsche.de/rss/gesundheit</link>
+    <lang>German</lang>
+  </feed>
+  <feed>
+    <title>Süddeutsche Zeitung Karriere</title>
+    <link>http://rss.sueddeutsche.de/rss/karriere</link>
+    <lang>German</lang>
+  </feed>
+  <feed>
+    <title>Süddeutsche Zeitung Kultur</title>
+    <link>http://rss.sueddeutsche.de/rss/kultur</link>
+    <lang>German</lang>
+  </feed>
+  <feed>
+    <title>Süddeutsche Zeitung Medien</title>
+    <link>http://rss.sueddeutsche.de/rss/medien</link>
+    <lang>German</lang>
+  </feed>
+  <feed>
+    <title>Süddeutsche Zeitung München</title>
+    <link>http://rss.sueddeutsche.de/rss/muenchen</link>
+    <lang>German</lang>
+  </feed>
+  <feed>
+    <title>Süddeutsche Zeitung Panorama</title>
+    <link>http://rss.sueddeutsche.de/rss/panorama</link>
+    <lang>German</lang>
+  </feed>
+  <feed>
+    <title>Süddeutsche Zeitung Politik</title>
+    <link>http://rss.sueddeutsche.de/rss/politik</link>
+    <lang>German</lang>
+  </feed>
+  <feed>
+    <title>Süddeutsche Zeitung Reise</title>
+    <link>http://rss.sueddeutsche.de/rss/reise</link>
+    <lang>German</lang>
+  </feed>
+  <feed>
+    <title>Süddeutsche Zeitung Sport</title>
+    <link>http://rss.sueddeutsche.de/rss/sport</link>
+    <lang>German</lang>
+  </feed>
+  <feed>
+    <title>Süddeutsche Zeitung Stil</title>
+    <link>http://rss.sueddeutsche.de/rss/stil</link>
+    <lang>German</lang>
+  </feed>
+  <feed>
+    <title>Süddeutsche Zeitung Wirtschaft</title>
+    <link>http://rss.sueddeutsche.de/rss/wirtschaft</link>
+    <lang>German</lang>
+  </feed>
+  <feed>
+    <title>Süddeutsche Zeitung Wissen</title>
+    <link>http://rss.sueddeutsche.de/rss/wissen</link>
+    <lang>German</lang>
+  </feed>
+  <feed>
     <title>The Guardian</title>
     <link>https://www.theguardian.com/uk/rss</link>
     <lang>English</lang>
