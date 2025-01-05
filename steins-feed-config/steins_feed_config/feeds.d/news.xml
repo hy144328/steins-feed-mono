@@ -115,6 +115,21 @@
     <lang>English</lang>
   </feed>
   <feed>
+    <title>Corren</title>
+    <link>https://www.corren.se/nyheter/rss/</link>
+    <lang>Swedish</lang>
+  </feed>
+  <feed>
+    <title>Dagens Industri</title>
+    <link>https://www.di.se/rss</link>
+    <lang>Swedish</lang>
+  </feed>
+  <feed>
+    <title>Dagens Nyheter</title>
+    <link>https://www.dn.se/rss</link>
+    <lang>Swedish</lang>
+  </feed>
+  <feed>
     <title>Daily Mail</title>
     <link>https://www.dailymail.co.uk/home/index.rss</link>
     <lang>English</lang>
@@ -678,6 +693,11 @@
     <title>Süddeutsche Zeitung Wissen</title>
     <link>http://rss.sueddeutsche.de/rss/wissen</link>
     <lang>German</lang>
+  </feed>
+  <feed>
+    <title>Svenska Dagbladet</title>
+    <link>https://www.svd.se/feed/articles.rss</link>
+    <lang>Swedish</lang>
   </feed>
   <feed>
     <title>taz</title>
