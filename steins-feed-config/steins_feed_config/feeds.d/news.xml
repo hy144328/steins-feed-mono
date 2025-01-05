@@ -984,4 +984,54 @@
     <link>https://rss.nytimes.com/services/xml/rss/nyt/YourMoney.xml</link>
     <lang>English</lang>
   </feed>
+  <feed>
+    <title>Washington Post Business</title>
+    <link>http://feeds.washingtonpost.com/rss/business</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>Washington Post Entertainment</title>
+    <link>http://feeds.washingtonpost.com/rss/entertainment</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>Washington Post Lifestyle</title>
+    <link>http://feeds.washingtonpost.com/rss/lifestyle</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>Washington Post Local</title>
+    <link>http://feeds.washingtonpost.com/rss/local</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>Washington Post National</title>
+    <link>http://feeds.washingtonpost.com/rss/national</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>Washington Post Opinions</title>
+    <link>http://feeds.washingtonpost.com/rss/opinions</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>Washington Post Politics</title>
+    <link>http://feeds.washingtonpost.com/rss/politics</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>Washington Post Sports</title>
+    <link>http://feeds.washingtonpost.com/rss/sports</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>Washington Post Technology</title>
+    <link>http://feeds.washingtonpost.com/rss/business/technology</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>Washington Post World</title>
+    <link>http://feeds.washingtonpost.com/rss/world</link>
+    <lang>English</lang>
+  </feed>
 </root>
