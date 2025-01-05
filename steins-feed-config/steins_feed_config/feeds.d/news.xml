@@ -675,6 +675,51 @@
     <lang>German</lang>
   </feed>
   <feed>
+    <title>taz</title>
+    <link>https://taz.de/!p4608;rss/</link>
+    <lang>German</lang>
+  </feed>
+  <feed>
+    <title>taz Berlin</title>
+    <link>https://taz.de/!p4649;rss/</link>
+    <lang>German</lang>
+  </feed>
+  <feed>
+    <title>taz Gesellschaft</title>
+    <link>https://taz.de/!p4611;rss/</link>
+    <lang>German</lang>
+  </feed>
+  <feed>
+    <title>taz Kultur</title>
+    <link>https://taz.de/!p4639;rss/</link>
+    <lang>German</lang>
+  </feed>
+  <feed>
+    <title>taz Nord</title>
+    <link>https://taz.de/!p4650;rss/</link>
+    <lang>German</lang>
+  </feed>
+  <feed>
+    <title>taz Öko</title>
+    <link>https://taz.de/!p4610;rss/</link>
+    <lang>German</lang>
+  </feed>
+  <feed>
+    <title>taz Politik</title>
+    <link>https://taz.de/!p4615;rss/</link>
+    <lang>German</lang>
+  </feed>
+  <feed>
+    <title>taz Sport</title>
+    <link>https://taz.de/!p4646;rss/</link>
+    <lang>German</lang>
+  </feed>
+  <feed>
+    <title>taz Wahrheit</title>
+    <link>https://taz.de/!p4644;rss/</link>
+    <lang>German</lang>
+  </feed>
+  <feed>
     <title>The Guardian</title>
     <link>https://www.theguardian.com/uk/rss</link>
     <lang>English</lang>
