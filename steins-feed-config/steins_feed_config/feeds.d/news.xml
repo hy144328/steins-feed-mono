@@ -170,6 +170,76 @@
     <lang>English</lang>
   </feed>
   <feed>
+    <title>Der Tagesspiegel</title>
+    <link>http://www.tagesspiegel.de/contentexport/feed/home</link>
+    <lang>German</lang>
+  </feed>
+  <feed>
+    <title>Der Tagesspiegel Berlin</title>
+    <link>http://www.tagesspiegel.de/contentexport/feed/berlin</link>
+    <lang>German</lang>
+  </feed>
+  <feed>
+    <title>Der Tagesspiegel Gesellschaft</title>
+    <link>http://www.tagesspiegel.de/contentexport/feed/gesellschaft</link>
+    <lang>German</lang>
+  </feed>
+  <feed>
+    <title>Der Tagesspiegel Gesundheit</title>
+    <link>http://www.tagesspiegel.de/contentexport/feed/gesundheit</link>
+    <lang>German</lang>
+  </feed>
+  <feed>
+    <title>Der Tagesspiegel Internationales</title>
+    <link>http://www.tagesspiegel.de/contentexport/feed/internationales</link>
+    <lang>German</lang>
+  </feed>
+  <feed>
+    <title>Der Tagesspiegel Kultur</title>
+    <link>http://www.tagesspiegel.de/contentexport/feed/kultur</link>
+    <lang>German</lang>
+  </feed>
+  <feed>
+    <title>Der Tagesspiegel Meinung</title>
+    <link>http://www.tagesspiegel.de/contentexport/feed/meinung</link>
+    <lang>German</lang>
+  </feed>
+  <feed>
+    <title>Der Tagesspiegel Politik</title>
+    <link>http://www.tagesspiegel.de/contentexport/feed/politik</link>
+    <lang>German</lang>
+  </feed>
+  <feed>
+    <title>Der Tagesspiegel Podcasts</title>
+    <link>http://www.tagesspiegel.de/contentexport/feed/podcasts</link>
+    <lang>German</lang>
+  </feed>
+  <feed>
+    <title>Der Tagesspiegel Potsdam</title>
+    <link>http://www.tagesspiegel.de/contentexport/feed/potsdam</link>
+    <lang>German</lang>
+  </feed>
+  <feed>
+    <title>Der Tagesspiegel Sport</title>
+    <link>http://www.tagesspiegel.de/contentexport/feed/sport</link>
+    <lang>German</lang>
+  </feed>
+  <feed>
+    <title>Der Tagesspiegel Videos</title>
+    <link>http://www.tagesspiegel.de/contentexport/feed/videos</link>
+    <lang>German</lang>
+  </feed>
+  <feed>
+    <title>Der Tagesspiegel Wirtschaft</title>
+    <link>http://www.tagesspiegel.de/contentexport/feed/wirtschaft</link>
+    <lang>German</lang>
+  </feed>
+  <feed>
+    <title>Der Tagesspiegel Wissen</title>
+    <link>http://www.tagesspiegel.de/contentexport/feed/wissen</link>
+    <lang>German</lang>
+  </feed>
+  <feed>
     <title>The Guardian</title>
     <link>https://www.theguardian.com/uk/rss</link>
     <lang>English</lang>
