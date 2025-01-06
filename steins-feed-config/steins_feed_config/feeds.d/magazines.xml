@@ -30,6 +30,86 @@
     <lang>English</lang>
   </feed>
   <feed>
+    <title>FOCUS</title>
+    <link>https://rss.focus.de/</link>
+    <lang>German</lang>
+  </feed>
+  <feed>
+    <title>FOCUS Auto</title>
+    <link>https://rss.focus.de/auto/</link>
+    <lang>German</lang>
+  </feed>
+  <feed>
+    <title>FOCUS Digital</title>
+    <link>https://rss.focus.de/digital/</link>
+    <lang>German</lang>
+  </feed>
+  <feed>
+    <title>FOCUS Earth</title>
+    <link>https://rss.focus.de/earth/</link>
+    <lang>German</lang>
+  </feed>
+  <feed>
+    <title>FOCUS Familie</title>
+    <link>https://rss.focus.de/familie/</link>
+    <lang>German</lang>
+  </feed>
+  <feed>
+    <title>FOCUS Finanzen</title>
+    <link>https://rss.focus.de/finanzen/</link>
+    <lang>German</lang>
+  </feed>
+  <feed>
+    <title>FOCUS Gesundheit</title>
+    <link>https://rss.focus.de/gesundheit/</link>
+    <lang>German</lang>
+  </feed>
+  <feed>
+    <title>FOCUS Immobilien</title>
+    <link>https://rss.focus.de/immobilien/</link>
+    <lang>German</lang>
+  </feed>
+  <feed>
+    <title>FOCUS Panorama</title>
+    <link>https://rss.focus.de/panorama/</link>
+    <lang>German</lang>
+  </feed>
+  <feed>
+    <title>FOCUS Perspektiven</title>
+    <link>https://rss.focus.de/perspektiven/</link>
+    <lang>German</lang>
+  </feed>
+  <feed>
+    <title>FOCUS Politik</title>
+    <link>https://rss.focus.de/politik/</link>
+    <lang>German</lang>
+  </feed>
+  <feed>
+    <title>FOCUS Reisen</title>
+    <link>https://rss.focus.de/reisen/</link>
+    <lang>German</lang>
+  </feed>
+  <feed>
+    <title>FOCUS Sport</title>
+    <link>https://rss.focus.de/sport/</link>
+    <lang>German</lang>
+  </feed>
+  <feed>
+    <title>FOCUS Unterhaltung</title>
+    <link>https://rss.focus.de/kultur/</link>
+    <lang>German</lang>
+  </feed>
+  <feed>
+    <title>FOCUS Video</title>
+    <link>https://rss.focus.de/videos/</link>
+    <lang>German</lang>
+  </feed>
+  <feed>
+    <title>FOCUS Wissen</title>
+    <link>https://rss.focus.de/wissen/</link>
+    <lang>German</lang>
+  </feed>
+  <feed>
     <title>Spiegel</title>
     <link>https://www.spiegel.de/schlagzeilen/tops/index.rss</link>
     <lang>German</lang>
