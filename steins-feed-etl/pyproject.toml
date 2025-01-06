@@ -10,6 +10,7 @@ readme = "README.md"
 python = "^3.13"
 aiohttp = "^3.11.11"
 feedparser = "^6.0.11"
+python-dateutil = "^2.9.0.post0"
 steins-feed-logging = {path = "../steins-feed-logging", develop=true}
 steins-feed-model = {path = "../steins-feed-model", develop=true}
 tenacity = "^9.0.0"

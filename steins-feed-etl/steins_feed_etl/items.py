@@ -4,6 +4,7 @@ import random
 import typing
 
 import aiohttp
+import dateutil.parser
 import feedparser
 import sqlalchemy as sqla
 import sqlalchemy.orm as sqla_orm
@@ -166,33 +167,30 @@ def read_item(
     return steins_feed_model.items.Item(
         title = read_item_title(entry),
         link = read_item_link(entry),
-        published = read_item_time(entry),
+        published = read_item_time(entry).astimezone(datetime.timezone.utc),
         feed_id = feed.id,
         summary = read_item_summary(entry),
     )
 
 def read_item_title(item) -> str:
     try:
-        item_title = item.title
-        return item_title
+        return item.title
     except AttributeError:  # pragma: no cover
-        pass
+        logger.warning("Item has no title field.")
 
     logger.error("No title.")   # pragma: no cover
     raise AttributeError    # pragma: no cover
 
 def read_item_link(item) -> str:
     try:
-        item_link = item.link
-        return item_link
+        return item.link
     except AttributeError:  # pragma: no cover
-        pass
+        logger.warning("Item has no link field.")
 
     try:
-        item_link = item.links[0].href
-        return item_link
+        return item.links[0].href
     except AttributeError:  # pragma: no cover
-        pass
+        logger.warning("Item has no links field.")
 
     logger.error(f"No link for '{read_item_title(item)}'.") # pragma: no cover
     raise AttributeError    # pragma: no cover
@@ -202,18 +200,18 @@ def read_item_summary(item) -> str:
 
 def read_item_time(item) -> datetime.datetime:
     try:
-        item_time = item.published_parsed
-        item_time = datetime.datetime(*item_time[:6])
-        return item_time
-    except (AttributeError, TypeError): # pragma: no cover
-        pass
+        return dateutil.parser.parse(item.published)
+    except AttributeError: # pragma: no cover
+        logger.warning("Item has no published field.")
+    except dateutil.parser.ParserError: # pragma: no cover
+        logger.warning(f"Unable to parse published field: {item.published}.")
 
     try:
-        item_time = item.updated_parsed
-        item_time = datetime.datetime(*item_time[:6])
-        return item_time
-    except (AttributeError, TypeError): # pragma: no cover
-        pass
+        return dateutil.parser.parse(item.updated)
+    except AttributeError: # pragma: no cover
+        logger.warning("Item has no updated field.")
+    except dateutil.parser.ParserError: # pragma: no cover
+        logger.warning(f"Unable to parse updated field: {item.updated}.")
 
     logger.error(f"No time for '{read_item_title(item)}'.") # pragma: no cover
     raise AttributeError    # pragma: no cover
