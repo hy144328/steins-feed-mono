@@ -205,14 +205,14 @@ def read_item_time(item) -> datetime.datetime:
     try:
         item_time = item.published
         item_time = dateutil.parser.parse(item_time)
-        return item_time
+        return item_time.astimezone(datetime.timezone.utc)
     except (AttributeError, TypeError): # pragma: no cover
         pass
 
     try:
         item_time = item.updated
         item_time = dateutil.parser.parse(item_time)
-        return item_time
+        return item_time.astimezone(datetime.timezone.utc)
     except (AttributeError, TypeError): # pragma: no cover
         pass
 
