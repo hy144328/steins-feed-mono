@@ -13,6 +13,8 @@ import { doLikeItemsLikePut } from "./actions"
 import { logout } from "./auth"
 import { NavigationSearchParams, toURLSearchParams } from "./util"
 
+import styles from "./components.module.css"
+
 export default function WallArticle({
   item,
   original,
@@ -74,7 +76,7 @@ export default function WallArticle({
     </h6>
 
     <div
-      className="card-text"
+      className={ `card-text ${styles["card-text"]}` }
       dangerouslySetInnerHTML={ {__html: DOMPurify.sanitize(item.summary ?? "")} }
     />
   </div>
