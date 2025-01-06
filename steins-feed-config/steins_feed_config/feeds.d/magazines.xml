@@ -155,6 +155,41 @@
     <lang>English</lang>
   </feed>
   <feed>
+    <title>Salon.com</title>
+    <link>https://www.salon.com/feed</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>Salon.com Culture</title>
+    <link>https://www.salon.com/category/culture/feed</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>Salon.com Food</title>
+    <link>https://www.salon.com/category/food/feed</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>Salon.com Life Stories</title>
+    <link>https://www.salon.com/category/life-stories/feed</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>Salon.com Money</title>
+    <link>https://www.salon.com/category/money/feed</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>Salon.com News &amp; Politics</title>
+    <link>https://www.salon.com/category/news-and-politics/feed</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>Salon.com Science &amp; Health</title>
+    <link>https://www.salon.com/category/science-and-health/feed</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
     <title>Spiegel</title>
     <link>https://www.spiegel.de/schlagzeilen/tops/index.rss</link>
     <lang>German</lang>
