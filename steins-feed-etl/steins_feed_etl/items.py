@@ -195,14 +195,13 @@ def read_item_link(item) -> str:
     logger.error(f"No link for '{read_item_title(item)}'.") # pragma: no cover
     raise AttributeError    # pragma: no cover
 
-def read_item_summary(item) -> str:
+def read_item_summary(item) -> typing.Optional[str]:
     try:
         return item.summary
     except AttributeError:  # pragma: no cover
         logger.warning("Item has no summary field.")
 
-    logger.error(f"No summary for '{read_item_title(item)}'.") # pragma: no cover
-    raise AttributeError    # pragma: no cover
+    return None
 
 def read_item_time(item) -> datetime.datetime:
     try:
