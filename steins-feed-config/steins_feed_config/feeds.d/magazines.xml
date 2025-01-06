@@ -110,6 +110,51 @@
     <lang>German</lang>
   </feed>
   <feed>
+    <title>MIT Technology Review</title>
+    <link>https://www.technologyreview.com/feed/</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>MIT Technology Review Artificial Intelligence</title>
+    <link>https://www.technologyreview.com/topic/artificial-intelligence/feed/</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>MIT Technology Review Biotechnology &amp; Health</title>
+    <link>https://www.technologyreview.com/topic/biotechnology/feed/</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>MIT Technology Review Business</title>
+    <link>https://www.technologyreview.com/topic/business/feed/</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>MIT Technology Review Climate Change &amp; Energy</title>
+    <link>https://www.technologyreview.com/topic/climate-change/feed/</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>MIT Technology Review Computing</title>
+    <link>https://www.technologyreview.com/topic/computing/feed/</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>MIT Technology Review Culture</title>
+    <link>https://www.technologyreview.com/topic/culture/feed/</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>MIT Technology Review Policy</title>
+    <link>https://www.technologyreview.com/topic/policy/feed/</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>MIT Technology Review Space</title>
+    <link>https://www.technologyreview.com/topic/space/feed/</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
     <title>Spiegel</title>
     <link>https://www.spiegel.de/schlagzeilen/tops/index.rss</link>
     <lang>German</lang>
