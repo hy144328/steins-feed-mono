@@ -1,10 +1,11 @@
 "use client"
 
+import { Collapse } from "bootstrap"
+import DOMPurify from "isomorphic-dompurify"
 import Image from "next/image"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
-import DOMPurify from "isomorphic-dompurify"
-import { useState } from "react"
+import { useRef, useState } from "react"
 
 import { Item, Language, LikeStatus, Tag } from "@client"
 import { format_datetime, join } from "@util"
@@ -25,8 +26,15 @@ export default function WallArticle({
   const [liked, setLiked] = useState(item.like ?? 0);
   const [highlight, setHighlight] = useState(false);
 
-  const is_duplicate = original !== undefined;
+  const is_duplicate = (original !== undefined);
   const [collapsed, setCollapsed] = useState(is_duplicate);
+  const card_body_ref = useRef<HTMLDivElement>(null);
+
+  async function handleCollapse() {
+    const card_body = new Collapse(card_body_ref.current!);
+    card_body.toggle();
+    setCollapsed(!collapsed);
+  }
 
   return (
 <div id={ `article-${item.id}` } className="card">
@@ -38,13 +46,10 @@ export default function WallArticle({
       <a href={ `#article-${original.id}` }>
         { `${original.title} (${original.feed.title})` }
       </a>
-    </span>
-    }
+    </span> }
 
     <button
-      onClick={ () => setCollapsed(!collapsed) }
-      data-bs-toggle="collapse"
-      data-bs-target={ `#card-body-${item.id}` }
+      onClick={ handleCollapse }
       style={ {
         backgroundColor: "transparent",
         borderWidth: 0,
@@ -56,8 +61,8 @@ export default function WallArticle({
   </div>
 
   <div
-    id={ `card-body-${item.id}` }
     className={ is_duplicate ? "card-body collapse" : "card-body collapse show" }
+    ref={ card_body_ref }
   >
     <h5 className="card-title">
       <a href={ item.link } target="_blank">{ item.title }</a>
