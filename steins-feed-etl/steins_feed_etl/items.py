@@ -4,6 +4,7 @@ import random
 import typing
 
 import aiohttp
+import dateutil.parser
 import feedparser
 import sqlalchemy as sqla
 import sqlalchemy.orm as sqla_orm
@@ -202,15 +203,15 @@ def read_item_summary(item) -> str:
 
 def read_item_time(item) -> datetime.datetime:
     try:
-        item_time = item.published_parsed
-        item_time = datetime.datetime(*item_time[:6])
+        item_time = item.published
+        item_time = dateutil.parser.parse(item_time)
         return item_time
     except (AttributeError, TypeError): # pragma: no cover
         pass
 
     try:
-        item_time = item.updated_parsed
-        item_time = datetime.datetime(*item_time[:6])
+        item_time = item.updated
+        item_time = dateutil.parser.parse(item_time)
         return item_time
     except (AttributeError, TypeError): # pragma: no cover
         pass
