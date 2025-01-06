@@ -26,7 +26,7 @@ export default function WallArticle({
   const [liked, setLiked] = useState(item.like ?? 0);
   const [highlight, setHighlight] = useState(false);
 
-  const is_duplicate = original !== undefined;
+  const is_duplicate = (original !== undefined);
   const [collapsed, setCollapsed] = useState(is_duplicate);
   const card_body_ref = useRef<HTMLDivElement>(null);
 
@@ -46,8 +46,7 @@ export default function WallArticle({
       <a href={ `#article-${original.id}` }>
         { `${original.title} (${original.feed.title})` }
       </a>
-    </span>
-    }
+    </span> }
 
     <button
       onClick={ handleCollapse }
