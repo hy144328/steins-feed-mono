@@ -215,6 +215,76 @@
     <lang>German</lang>
   </feed>
   <feed>
+    <title>Stern</title>
+    <link>https://www.stern.de/feed/standard/all/</link>
+    <lang>German</lang>
+  </feed>
+  <feed>
+    <title>Stern Auto</title>
+    <link>https://www.stern.de/feed/standard/auto/</link>
+    <lang>German</lang>
+  </feed>
+  <feed>
+    <title>Stern Digital</title>
+    <link>https://www.stern.de/feed/standard/digital/</link>
+    <lang>German</lang>
+  </feed>
+  <feed>
+    <title>Stern Familie</title>
+    <link>https://www.stern.de/feed/standard/familie/</link>
+    <lang>German</lang>
+  </feed>
+  <feed>
+    <title>Stern Genuss</title>
+    <link>https://www.stern.de/feed/standard/genuss/</link>
+    <lang>German</lang>
+  </feed>
+  <feed>
+    <title>Stern Gesundheit</title>
+    <link>https://www.stern.de/feed/standard/gesundheit/</link>
+    <lang>German</lang>
+  </feed>
+  <feed>
+    <title>Stern Kultur</title>
+    <link>https://www.stern.de/feed/standard/kultur/</link>
+    <lang>German</lang>
+  </feed>
+  <feed>
+    <title>Stern Lifestyle</title>
+    <link>https://www.stern.de/feed/standard/lifestyle/</link>
+    <lang>German</lang>
+  </feed>
+  <feed>
+    <title>Stern Panorama</title>
+    <link>https://www.stern.de/feed/standard/panorama/</link>
+    <lang>German</lang>
+  </feed>
+  <feed>
+    <title>Stern Politik</title>
+    <link>https://www.stern.de/feed/standard/politik/</link>
+    <lang>German</lang>
+  </feed>
+  <feed>
+    <title>Stern Reise</title>
+    <link>https://www.stern.de/feed/standard/reise/</link>
+    <lang>German</lang>
+  </feed>
+  <feed>
+    <title>Stern Sport</title>
+    <link>https://www.stern.de/feed/standard/sport/</link>
+    <lang>German</lang>
+  </feed>
+  <feed>
+    <title>Stern Wirtschaft</title>
+    <link>https://www.stern.de/feed/standard/wirtschaft/</link>
+    <lang>German</lang>
+  </feed>
+  <feed>
+    <title>Stern Wissen</title>
+    <link>https://www.stern.de/feed/standard/wissen/</link>
+    <lang>German</lang>
+  </feed>
+  <feed>
     <title>The Atlantic</title>
     <link>https://www.theatlantic.com/feed/best-of/</link>
     <lang>English</lang>
