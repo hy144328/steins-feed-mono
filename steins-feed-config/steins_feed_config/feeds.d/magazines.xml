@@ -1,5 +1,35 @@
 <root>
   <feed>
+    <title>Aeon.co</title>
+    <link>https://aeon.co/feed.rss</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>Aeon.co Culture</title>
+    <link>https://aeon.co/culture.rss</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>Aeon.co Philosophy</title>
+    <link>https://aeon.co/philosophy.rss</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>Aeon.co Psychology</title>
+    <link>https://aeon.co/psychology.rss</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>Aeon.co Science</title>
+    <link>https://aeon.co/science.rss</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>Aeon.co Society</title>
+    <link>https://aeon.co/society.rss</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
     <title>Spiegel</title>
     <link>https://www.spiegel.de/schlagzeilen/tops/index.rss</link>
     <lang>German</lang>
