@@ -155,6 +155,36 @@
     <lang>English</lang>
   </feed>
   <feed>
+    <title>Quillette</title>
+    <link>https://quillette.com/rss/</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>Quillette Art &amp; Culture</title>
+    <link>https://quillette.com/tag/art-and-culture/rss/</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>Quillette Education</title>
+    <link>https://quillette.com/tag/education/rss/</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>Quillette Podcast</title>
+    <link>https://quillette.com/tag/podcast/rss/</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>Quillette Politics</title>
+    <link>https://quillette.com/tag/politics/rss/</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>Quillette Science/Tech</title>
+    <link>https://quillette.com/tag/science-tech/rss/</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
     <title>Salon.com</title>
     <link>https://www.salon.com/feed</link>
     <lang>English</lang>
