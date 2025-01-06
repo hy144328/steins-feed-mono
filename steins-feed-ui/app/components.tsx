@@ -13,6 +13,8 @@ import { doLikeItemsLikePut } from "./actions"
 import { logout } from "./auth"
 import { NavigationSearchParams, toURLSearchParams } from "./util"
 
+import "./global.css"
+
 export default function WallArticle({
   item,
   original,
