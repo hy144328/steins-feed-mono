@@ -167,7 +167,7 @@ def read_item(
     return steins_feed_model.items.Item(
         title = read_item_title(entry),
         link = read_item_link(entry),
-        published = read_item_time(entry),
+        published = read_item_time(entry).astimezone(datetime.timezone.utc),
         feed_id = feed.id,
         summary = read_item_summary(entry),
     )
@@ -205,14 +205,14 @@ def read_item_time(item) -> datetime.datetime:
     try:
         item_time = item.published
         item_time = dateutil.parser.parse(item_time)
-        return item_time.astimezone(datetime.timezone.utc)
+        return item_time
     except (AttributeError, TypeError): # pragma: no cover
         pass
 
     try:
         item_time = item.updated
         item_time = dateutil.parser.parse(item_time)
-        return item_time.astimezone(datetime.timezone.utc)
+        return item_time
     except (AttributeError, TypeError): # pragma: no cover
         pass
 
