@@ -230,6 +230,41 @@
     <lang>English</lang>
   </feed>
   <feed>
+    <title>Slate</title>
+    <link>https://slate.com/feeds/all.rss</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>Slate Advice</title>
+    <link>https://slate.com/feeds/advice.rss</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>Slate Business</title>
+    <link>https://slate.com/feeds/business.rss</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>Slate Culture</title>
+    <link>https://slate.com/feeds/culture.rss</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>Slate Life</title>
+    <link>https://slate.com/feeds/life.rss</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>Slate News &amp; Politics</title>
+    <link>https://slate.com/feeds/news-and-politics.rss</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>Slate Technology</title>
+    <link>https://slate.com/feeds/technology.rss</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
     <title>Spiegel</title>
     <link>https://www.spiegel.de/schlagzeilen/tops/index.rss</link>
     <lang>German</lang>
