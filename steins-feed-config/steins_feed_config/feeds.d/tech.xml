@@ -1,0 +1,117 @@
+<root>
+  <feed>
+    <title>Netzpolitik.org</title>
+    <link>https://netzpolitik.org/feed</link>
+    <lang>German</lang>
+  </feed>
+  <feed>
+    <title>Netzpolitik.org Datenschutz</title>
+    <link>https://netzpolitik.org/category/datenschutz/feed</link>
+    <lang>German</lang>
+  </feed>
+  <feed>
+    <title>Netzpolitik.org Demokratie</title>
+    <link>https://netzpolitik.org/category/demokratie/feed</link>
+    <lang>German</lang>
+  </feed>
+  <feed>
+    <title>Netzpolitik.org Kultur</title>
+    <link>https://netzpolitik.org/category/kultur/feed</link>
+    <lang>German</lang>
+  </feed>
+  <feed>
+    <title>Netzpolitik.org Netze</title>
+    <link>https://netzpolitik.org/category/netze/feed</link>
+    <lang>German</lang>
+  </feed>
+  <feed>
+    <title>Netzpolitik.org Nutzerrechte</title>
+    <link>https://netzpolitik.org/category/nutzerrechte/feed</link>
+    <lang>German</lang>
+  </feed>
+  <feed>
+    <title>Netzpolitik.org Öffentlichkeit</title>
+    <link>https://netzpolitik.org/category/oeffentlichkeit/feed</link>
+    <lang>German</lang>
+  </feed>
+  <feed>
+    <title>Netzpolitik.org Technologie</title>
+    <link>https://netzpolitik.org/category/technologie/feed</link>
+    <lang>German</lang>
+  </feed>
+  <feed>
+    <title>Netzpolitik.org Überwachung</title>
+    <link>https://netzpolitik.org/category/ueberwachung/feed</link>
+    <lang>German</lang>
+  </feed>
+  <feed>
+    <title>Netzpolitik.org Wissen</title>
+    <link>https://netzpolitik.org/category/wissen/feed</link>
+    <lang>German</lang>
+  </feed>
+  <feed>
+    <title>t3n</title>
+    <link>https://t3n.de/rss.xml</link>
+    <lang>German</lang>
+  </feed>
+  <feed>
+    <title>t3n Arbeitswelt</title>
+    <link>https://t3n.de/tag/arbeitswelt/rss.xml</link>
+    <lang>German</lang>
+  </feed>
+  <feed>
+    <title>t3n Buzz &amp; Memes</title>
+    <link>https://t3n.de/tag/buzz-memes/rss.xml</link>
+    <lang>German</lang>
+  </feed>
+  <feed>
+    <title>t3n E-Commerce</title>
+    <link>https://t3n.de/tag/e-commerce/rss.xml</link>
+    <lang>German</lang>
+  </feed>
+  <feed>
+    <title>t3n Future &amp; Science</title>
+    <link>https://t3n.de/tag/future-science/rss.xml</link>
+    <lang>German</lang>
+  </feed>
+  <feed>
+    <title>t3n Gaming</title>
+    <link>https://t3n.de/tag/gaming/rss.xml</link>
+    <lang>German</lang>
+  </feed>
+  <feed>
+    <title>t3n Hardware &amp; Gadgets</title>
+    <link>https://t3n.de/tag/hardware-gadgets/rss.xml</link>
+    <lang>German</lang>
+  </feed>
+  <feed>
+    <title>t3n Marketing</title>
+    <link>https://t3n.de/tag/marketing/rss.xml</link>
+    <lang>German</lang>
+  </feed>
+  <feed>
+    <title>t3n Mobilität</title>
+    <link>https://t3n.de/tag/mobilitaet/rss.xml</link>
+    <lang>German</lang>
+  </feed>
+  <feed>
+    <title>t3n New Finance</title>
+    <link>https://t3n.de/tag/finance/rss.xml</link>
+    <lang>German</lang>
+  </feed>
+  <feed>
+    <title>t3n Software &amp; Entwicklung</title>
+    <link>https://t3n.de/tag/software-entwicklung/rss.xml</link>
+    <lang>German</lang>
+  </feed>
+  <feed>
+    <title>t3n Startups &amp; Economy</title>
+    <link>https://t3n.de/tag/startups-economy/rss.xml</link>
+    <lang>German</lang>
+  </feed>
+  <feed>
+    <title>t3n UX &amp; Design</title>
+    <link>https://t3n.de/tag/ux-and-design/rss.xml</link>
+    <lang>German</lang>
+  </feed>
+</root>
