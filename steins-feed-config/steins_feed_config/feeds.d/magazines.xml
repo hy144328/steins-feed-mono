@@ -110,6 +110,11 @@
     <lang>German</lang>
   </feed>
   <feed>
+    <title>Inc.com</title>
+    <link>https://www.inc.com/rss/</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
     <title>MIT Technology Review</title>
     <link>https://www.technologyreview.com/feed/</link>
     <lang>English</lang>
@@ -152,6 +157,11 @@
   <feed>
     <title>MIT Technology Review Space</title>
     <link>https://www.technologyreview.com/topic/space/feed/</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>Quartz</title>
+    <link>https://qz.com/rss</link>
     <lang>English</lang>
   </feed>
   <feed>
