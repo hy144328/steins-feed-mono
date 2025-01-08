@@ -59,3 +59,11 @@ with sqla_orm.Session(engine) as session:
             user_name = os.environ["DEV_USER"],
             tag_name = "news",
         )
+
+    with importlib.resources.open_text(steins_feed_config, "feeds.d/tech.xml") as f:
+        steins_feed_config.feeds.read_xml(
+            session,
+            f,
+            user_name = os.environ["DEV_USER"],
+            tag_name = "tech",
+        )
