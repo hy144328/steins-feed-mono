@@ -30,6 +30,11 @@
     <lang>English</lang>
   </feed>
   <feed>
+    <title>Edge.org</title>
+    <link>https://www.edge.org/feed</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
     <title>FOCUS</title>
     <link>https://rss.focus.de/</link>
     <lang>German</lang>
@@ -582,6 +587,11 @@
   <feed>
     <title>The Economist United States</title>
     <link>https://www.economist.com/united-states/rss.xml</link>
+    <lang>English</lang>
+  </feed>
+  <feed>
+    <title>The Intercept</title>
+    <link>https://theintercept.com/feed/?lang=en</link>
     <lang>English</lang>
   </feed>
   <feed>
