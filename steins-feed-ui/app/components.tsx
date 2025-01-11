@@ -43,9 +43,10 @@ export default function WallArticle({
     <span>
       Duplicate of
       &nbsp;
-      <a href={ `#article-${original.id}` }>
-        { `${original.title} (${original.feed.title})` }
-      </a>
+      <a
+        href={ `#article-${original.id}` }
+        dangerouslySetInnerHTML={ {__html: `${DOMPurify.sanitize(original.title)} (${original.feed.title})`} }
+      />
     </span> }
 
     <button
