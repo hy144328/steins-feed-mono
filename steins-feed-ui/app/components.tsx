@@ -65,7 +65,11 @@ export default function WallArticle({
     ref={ card_body_ref }
   >
     <h5 className="card-title">
-      <a href={ item.link } target="_blank">{ item.title }</a>
+      <a
+        href={ item.link }
+        target="_blank"
+        dangerouslySetInnerHTML={ {__html: DOMPurify.sanitize(item.title)} }
+      />
     </h5>
 
     <h6 className="card-subtitle">
