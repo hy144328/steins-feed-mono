@@ -56,37 +56,25 @@ export default function LoginModal({
 
       <div className="modal-body">
         <form id="login" onSubmit={ handleSubmit }>
-          <div className="row mt-3 mb-3">
-            <div className="col-2">
-              <label className="form-label col-form-label">User</label>
-            </div>
-
-            <div className="col">
-              <input
-                name="username"
-                required
-                placeholder="Enter name."
-                className="form-control"
-                style={ {"width": "100%"} }
-              />
-            </div>
+          <div className="form-floating mt-3 mb-3">
+            <input
+              name="username"
+              required
+              placeholder="Enter name."
+              className="form-control"
+            />
+            <label>Username</label>
           </div>
 
-          <div className="row mt-3 mb-3">
-            <div className="col-2">
-              <label className="form-label col-form-label">Password</label>
-            </div>
-
-            <div className="col">
-              <input
-                name="password"
-                type="password"
-                required
-                placeholder="Enter password."
-                className="form-control"
-                style={ {"width": "100%"} }
-              />
-            </div>
+          <div className="form-floating mt-3 mb-3">
+            <input
+              name="password"
+              type="password"
+              required
+              placeholder="Enter password."
+              className="form-control"
+            />
+            <label>Password</label>
           </div>
         </form>
       </div>
