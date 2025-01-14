@@ -278,6 +278,48 @@ export function TopNav(
   );
 }
 
+function NavigationPad(
+{
+  now,
+  languages,
+  tags,
+  contentServed = true,
+}: NavigationSearchParams & {
+  contentServed?: boolean,
+}) {
+  const yesterday = new Date(now);
+  yesterday.setUTCDate(now.getUTCDate() - 1);
+
+  const tomorrow = new Date(now);
+  tomorrow.setUTCDate(now.getUTCDate() + 1);
+
+  return (
+<div className="btn-group">
+  <a
+    className={ ["btn", "btn-primary"].concat(contentServed ? [] : ["disabled"]).join(" ") }
+    href={ `/?${toURLSearchParams({now: tomorrow, languages, tags}).toString()}` }
+  >
+    <i className="bi-rewind-fill"/>
+  </a>
+
+  <button className="btn btn-primary" disabled={ true }>
+    <i className="bi-caret-up-fill"/>
+  </button>
+
+  <button className="btn btn-primary" disabled={ true }>
+    <i className="bi-caret-down-fill"/>
+  </button>
+
+  <a
+    className={ ["btn", "btn-primary"].concat(contentServed ? [] : ["disabled"]).join(" ") }
+    href={ `/?${toURLSearchParams({now: yesterday, languages, tags}).toString()}` }
+  >
+    <i className="bi-fast-forward-fill"/>
+  </a>
+</div>
+  )
+}
+
 export function SideNav({
   now,
   languages,
