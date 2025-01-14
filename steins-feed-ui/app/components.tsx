@@ -189,12 +189,6 @@ export function TopNav(
 }: NavigationSearchParams & {
   contentServed?: boolean,
 }) {
-  const yesterday = new Date(now);
-  yesterday.setUTCDate(now.getUTCDate() - 1);
-
-  const tomorrow = new Date(now);
-  tomorrow.setUTCDate(now.getUTCDate() + 1);
-
   return (
 <nav className="navbar bg-dark sticky-top" data-bs-theme="dark">
   <div className="container">
