@@ -185,7 +185,10 @@ export function TopNav(
   now,
   languages,
   tags,
-}: NavigationSearchParams) {
+  contentServed = true,
+}: NavigationSearchParams & {
+  contentServed?: boolean,
+}) {
   const yesterday = new Date(now);
   yesterday.setUTCDate(now.getUTCDate() - 1);
 
@@ -211,7 +214,7 @@ export function TopNav(
       <li className="nav-item">
         <Link
           className="nav-link active"
-          href={ `/?${toURLSearchParams({now, languages, tags}).toString()}` }
+          href={ contentServed ? `/?${toURLSearchParams({now, languages, tags}).toString()}` : "/" }
         >
           Home
         </Link>
@@ -232,29 +235,12 @@ export function TopNav(
 
     <ul className="nav">
       <li className="nav-item">
-        <div className="btn-group">
-          <a
-            className="btn btn-primary"
-            href={ `/?${toURLSearchParams({now: tomorrow, languages, tags}).toString()}` }
-          >
-            <i className="bi-rewind-fill"/>
-          </a>
-
-          <button className="btn btn-primary" disabled>
-            <i className="bi-caret-up-fill"/>
-          </button>
-
-          <button className="btn btn-primary" disabled>
-            <i className="bi-caret-down-fill"/>
-          </button>
-
-          <a
-            className="btn btn-primary"
-            href={ `/?${toURLSearchParams({now: yesterday, languages, tags}).toString()}` }
-          >
-            <i className="bi-fast-forward-fill"/>
-          </a>
-        </div>
+        <NavigationPad
+          now={ now }
+          languages={ languages }
+          tags={ tags }
+          contentServed={ contentServed }
+        />
       </li>
     </ul>
 
@@ -268,6 +254,7 @@ export function TopNav(
           className="btn btn-primary"
           data-bs-toggle="offcanvas"
           data-bs-target="#sidenav-offcanvas"
+          disabled={ !contentServed }
         >
           <i className="bi-list"/>
         </button>
