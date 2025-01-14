@@ -7,7 +7,7 @@ export default async function Navigation({
   now,
   languages,
   tags,
-  contentServed = true,
+  contentServed = false,
 }: NavigationSearchParams & {
   contentServed?: boolean,
 }) {

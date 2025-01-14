@@ -47,6 +47,7 @@ export default async function Page({
   now={ now }
   languages={ languages }
   tags={ tags }
+  contentServed={ true }
 />
 <Header now={ now } items={ items }/>
 <hr/>

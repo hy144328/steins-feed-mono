@@ -185,7 +185,7 @@ export function TopNav(
   now,
   languages,
   tags,
-  contentServed = true,
+  contentServed = false,
 }: NavigationSearchParams & {
   contentServed?: boolean,
 }) {
