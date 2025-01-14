@@ -278,7 +278,7 @@ function NavigationPad(
 <div className="btn-group">
   <a
     className={ ["btn", "btn-primary"].concat(contentServed ? [] : ["disabled"]).join(" ") }
-    href={ `/?${toURLSearchParams({now: tomorrow, languages, tags}).toString()}` }
+    href={ contentServed ? `/?${toURLSearchParams({now: tomorrow, languages, tags}).toString()}` : undefined }
   >
     <i className="bi-rewind-fill"/>
   </a>
@@ -293,7 +293,7 @@ function NavigationPad(
 
   <a
     className={ ["btn", "btn-primary"].concat(contentServed ? [] : ["disabled"]).join(" ") }
-    href={ `/?${toURLSearchParams({now: yesterday, languages, tags}).toString()}` }
+    href={ contentServed ? `/?${toURLSearchParams({now: yesterday, languages, tags}).toString()}` : undefined }
   >
     <i className="bi-fast-forward-fill"/>
   </a>
