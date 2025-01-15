@@ -70,13 +70,22 @@ export function TagsForm({
     !tags_state.some(t => (tag_it.name === t.name))
   );
 
+  async function handleClose(tag: Tag) {
+    set_tags_state(tags_state.filter(tag_it => (tag_it.name !== tag.name)));
+  }
+
   const displayedTags = tags_state.map(tag_it =>
 <span
   key={ tag_it.name }
   className="badge rounded-pill text-bg-primary m-1"
 >
   { tag_it.name }
-  <i className="bi bi-x"/>
+  &nbsp;
+  <i
+    className="bi bi-x"
+    style={ {cursor: "pointer"} }
+    onClick={ () => handleClose(tag_it) }
+  />
 </span>
   );
 
