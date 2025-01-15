@@ -122,6 +122,7 @@ export function InputWithAutoDropdown<T>({
   <input
     name={ name }
     list={ name }
+    autoComplete="off"
     placeholder={ placeholder }
     className="form-control mt-3 mb-3"
   />
