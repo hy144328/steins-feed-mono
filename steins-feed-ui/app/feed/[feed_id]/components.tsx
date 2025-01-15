@@ -1,6 +1,5 @@
 "use client"
 
-import { Dropdown } from "bootstrap"
 import { useRef, useState } from "react"
 
 import { Feed, Language, Tag } from "@client"
@@ -114,46 +113,22 @@ export function InputWithAutoDropdown<T>({
   placeholder: string,
   toString: {(arg0: T): string},
 }) {
-  const dropdown_ref = useRef<HTMLInputElement>(null);
-
-  const items = alternatives.map(altIt =>
-<li key={ toString(altIt) } className="dropdown-item">{ toString(altIt) }</li>
+  const datalist_options = alternatives.map(altIt =>
+<option key={ toString(altIt) } value={ toString(altIt) }/>
   );
-
-  async function handleFocus(e: React.FocusEvent<HTMLInputElement, Element>) {
-    e.preventDefault()
-
-    const dropdown = new Dropdown(dropdown_ref.current!);
-
-    if (e.currentTarget === e.target) {
-      dropdown.show();
-    }
-  }
-
-  async function handleBlur(e: React.FocusEvent<HTMLInputElement, Element>) {
-    e.preventDefault()
-
-    const dropdown = new Dropdown(dropdown_ref.current!);
-
-    if (e.currentTarget === e.target) {
-      dropdown.hide();
-    }
-  }
 
   return (
 <div className="dropdown">
   <input
     name={ name }
+    list={ name }
     placeholder={ placeholder }
     className="form-control mt-3 mb-3"
-    onFocus={ handleFocus }
-    onBlur={ handleBlur }
-    ref={ dropdown_ref }
   />
 
-  <ul className="dropdown-menu">
-    { items }
-  </ul>
+  <datalist id={ name }>
+    { datalist_options }
+  </datalist>
 </div>
   )
 }
