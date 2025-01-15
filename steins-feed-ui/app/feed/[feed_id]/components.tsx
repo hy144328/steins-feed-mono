@@ -111,7 +111,7 @@ export function InputWithAutoDropdown<T>({
 <li key={ toString(altIt) } className="dropdown-item">{ toString(altIt) }</li>
   );
 
-  function handleFocus(e: React.FocusEvent<HTMLInputElement, Element>) {
+  async function handleFocus(e: React.FocusEvent<HTMLInputElement, Element>) {
     e.preventDefault()
 
     const dropdown = new Dropdown(dropdown_ref.current!);
@@ -121,7 +121,7 @@ export function InputWithAutoDropdown<T>({
     }
   }
 
-  function handleBlur(e: React.FocusEvent<HTMLInputElement, Element>) {
+  async function handleBlur(e: React.FocusEvent<HTMLInputElement, Element>) {
     e.preventDefault()
 
     const dropdown = new Dropdown(dropdown_ref.current!);
