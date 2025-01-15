@@ -64,9 +64,13 @@ export function TagsForm({
   tags: Tag[],
   all_tags: Tag[],
 }) {
-  const [addedTags, setAddedTags] = useState(tags);
+  const [tags_state, set_tags_state] = useState(tags);
+  const [all_tags_state, set_all_tags_state] = useState(all_tags);
+  const alternative_tags_state = all_tags_state.filter(tag_it =>
+    !tags_state.some(t => (tag_it.name === t.name))
+  );
 
-  const displayedTags = addedTags.map(tag_it =>
+  const displayedTags = tags_state.map(tag_it =>
 <span
   key={ tag_it.name }
   className="badge rounded-pill text-bg-primary m-1"
@@ -81,27 +85,30 @@ export function TagsForm({
   <div>{ displayedTags }</div>
 
   <InputWithAutoDropdown
-    alternatives = { all_tags.map(tag_it => tag_it.name) }
+    alternatives={ alternative_tags_state }
     name="tag"
     placeholder="Enter tag."
+    toString={ arg0 => arg0.name }
   />
 </form>
   )
 }
 
-export function InputWithAutoDropdown({
+export function InputWithAutoDropdown<T>({
   alternatives,
   name,
   placeholder,
+  toString,
 }: {
-  alternatives: string[],
+  alternatives: T[],
   name: string,
   placeholder: string,
+  toString: {(arg0: T): string},
 }) {
   const dropdown_ref = useRef<HTMLInputElement>(null);
 
   const items = alternatives.map(altIt =>
-<li key={ altIt } className="dropdown-item">{ altIt }</li>
+<li key={ toString(altIt) } className="dropdown-item">{ toString(altIt) }</li>
   );
 
   function handleFocus(e: React.FocusEvent<HTMLInputElement, Element>) {
