@@ -1,6 +1,7 @@
 "use client"
 
-import { useState } from "react"
+import { Dropdown } from "bootstrap"
+import { useRef, useState } from "react"
 
 import { Feed, Language, Tag } from "@client"
 
@@ -97,9 +98,31 @@ export function InputWithAutoDropdown({
   name: string,
   placeholder: string,
 }) {
+  const dropdown_ref = useRef<HTMLInputElement>(null);
+
   const items = alternatives.map(altIt =>
 <li key={ altIt } className="dropdown-item">{ altIt }</li>
   );
+
+  function handleFocus(e: React.FocusEvent<HTMLInputElement, Element>) {
+    e.preventDefault()
+
+    const dropdown = new Dropdown(dropdown_ref.current!);
+
+    if (e.currentTarget === e.target) {
+      dropdown.show();
+    }
+  }
+
+  function handleBlur(e: React.FocusEvent<HTMLInputElement, Element>) {
+    e.preventDefault()
+
+    const dropdown = new Dropdown(dropdown_ref.current!);
+
+    if (e.currentTarget === e.target) {
+      dropdown.hide();
+    }
+  }
 
   return (
 <div className="dropdown">
@@ -107,9 +130,12 @@ export function InputWithAutoDropdown({
     name={ name }
     placeholder={ placeholder }
     className="form-control mt-3 mb-3"
+    onFocus={ handleFocus }
+    onBlur={ handleBlur }
+    ref={ dropdown_ref }
   />
 
-  <ul className="dropdown-menu show">
+  <ul className="dropdown-menu">
     { items }
   </ul>
 </div>
