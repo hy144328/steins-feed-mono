@@ -85,7 +85,7 @@ export function TagsForm({
     }
 
     const data = new FormData(target);
-    const tag_name = data.get("tag") as string;
+    const tag_name = (data.get("tag") as string).trim();
 
     const new_tags_state = Array.from(tags_state);
     new_tags_state.push({id: -1, name: tag_name});
