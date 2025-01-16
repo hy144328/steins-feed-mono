@@ -22,6 +22,7 @@ class Feed(pydantic.BaseModel):
     link: str
     language: typing.Optional[steins_feed_model.feeds.Language]
     tags: list["Tag"]
+    displayed: typing.Optional[bool]
 
     @classmethod
     def from_model(cls, feed: steins_feed_model.feeds.Feed) -> "Feed":
@@ -30,7 +31,8 @@ class Feed(pydantic.BaseModel):
             title = feed.title,
             link = feed.link,
             language = feed.language,
-            tags =[Tag.from_model(tag_it) for tag_it in feed.tags],
+            tags = [Tag.from_model(tag_it) for tag_it in feed.tags],
+            displayed = (len(feed.users) > 0),
         )
 
 class Tag(pydantic.BaseModel):
