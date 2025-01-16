@@ -5,6 +5,7 @@ import pydantic
 import sqlalchemy as sqla
 import sqlalchemy.orm as sqla_orm
 
+import steins_feed_logging
 import steins_feed_model
 import steins_feed_model.feeds
 import steins_feed_model.users
@@ -15,6 +16,7 @@ router = fastapi.APIRouter(
     prefix = "/feeds",
     tags = ["feeds"],
 )
+logger = steins_feed_logging.LoggerFactory.get_logger(__name__)
 
 class Feed(pydantic.BaseModel):
     id: int
