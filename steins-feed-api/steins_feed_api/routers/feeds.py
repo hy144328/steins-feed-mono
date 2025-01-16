@@ -88,3 +88,30 @@ async def languages(
             for lang_it in session.execute(q).scalars()
             if lang_it is not None
         ]
+
+@router.get("/feed/{feed_id}")
+async def feed(
+    current_user: steins_feed_api.auth.UserDep,
+    feed_id: int,
+) -> Feed:
+    engine = steins_feed_model.EngineFactory.get_or_create_engine()
+
+    q = sqla.select(
+        steins_feed_model.feeds.Feed,
+    ).where(
+        steins_feed_model.feeds.Feed.id == feed_id,
+    ).options(
+        sqla_orm.joinedload(
+            steins_feed_model.feeds.Feed.tags.and_(
+                steins_feed_model.feeds.Tag.user_id == current_user.id,
+            ),
+        ),
+        sqla_orm.joinedload(
+            steins_feed_model.feeds.Feed.users.and_(
+                steins_feed_model.users.User.id == current_user.id,
+            ),
+        ),
+    )
+
+    with sqla_orm.Session(engine) as session:
+        return Feed.from_model(session.execute(q).scalars().unique().one())
