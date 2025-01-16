@@ -3,6 +3,7 @@ import typing
 import fastapi
 import pydantic
 import sqlalchemy as sqla
+import sqlalchemy.exc as sqla_exc
 import sqlalchemy.orm as sqla_orm
 
 import steins_feed_logging
@@ -98,22 +99,93 @@ async def feed(
 ) -> Feed:
     engine = steins_feed_model.EngineFactory.get_or_create_engine()
 
-    q = sqla.select(
-        steins_feed_model.feeds.Feed,
-    ).where(
-        steins_feed_model.feeds.Feed.id == feed_id,
-    ).options(
-        sqla_orm.joinedload(
-            steins_feed_model.feeds.Feed.tags.and_(
-                steins_feed_model.feeds.Tag.user_id == current_user.id,
-            ),
-        ),
-        sqla_orm.joinedload(
-            steins_feed_model.feeds.Feed.users.and_(
-                steins_feed_model.users.User.id == current_user.id,
-            ),
-        ),
-    )
+    with sqla_orm.Session(engine) as session:
+        feed = session.get(
+            steins_feed_model.feeds.Feed,
+            feed_id,
+            options = [
+                sqla_orm.joinedload(
+                    steins_feed_model.feeds.Feed.users.and_(
+                        steins_feed_model.users.User.id == current_user.id,
+                    ),
+                ),
+                sqla_orm.joinedload(
+                    steins_feed_model.feeds.Feed.tags.and_(
+                        steins_feed_model.feeds.Tag.user_id == current_user.id,
+                    ),
+                ),
+            ],
+        )
+        assert feed is not None
+
+        return Feed.from_model(feed)
+
+@router.put("/feed/{feed_id}/attach_tag")
+async def attach_tag(
+    current_user: steins_feed_api.auth.UserDep,
+    feed_id: int,
+    tag_id: int,
+):
+    engine = steins_feed_model.EngineFactory.get_or_create_engine()
 
     with sqla_orm.Session(engine) as session:
-        return Feed.from_model(session.execute(q).scalars().unique().one())
+        feed = session.get(
+            steins_feed_model.feeds.Feed,
+            feed_id,
+            options = [
+                sqla_orm.joinedload(
+                    steins_feed_model.feeds.Feed.tags.and_(
+                        steins_feed_model.feeds.Tag.user_id == current_user.id,
+                    ),
+                ),
+            ],
+        )
+        assert feed is not None
+
+        tag = session.get(
+            steins_feed_model.feeds.Tag,
+            tag_id,
+        )
+        assert tag is not None
+
+        try:
+            feed.tags.append(tag)
+            session.commit()
+            logger.info(f"Successfully added feed #{feed_id} to user #{current_user.id}'s tag #{tag_id}.")
+        except sqla_exc.IntegrityError:
+            logger.warning(f"Feed #{feed_id} already belongs to user #{current_user.id}'s tag #{tag_id}.")
+
+@router.put("/feed/{feed_id}/detach_tag")
+async def detach_tag(
+    current_user: steins_feed_api.auth.UserDep,
+    feed_id: int,
+    tag_id: int,
+):
+    engine = steins_feed_model.EngineFactory.get_or_create_engine()
+
+    with sqla_orm.Session(engine) as session:
+        feed = session.get(
+            steins_feed_model.feeds.Feed,
+            feed_id,
+            options = [
+                sqla_orm.joinedload(
+                    steins_feed_model.feeds.Feed.tags.and_(
+                        steins_feed_model.feeds.Tag.user_id == current_user.id,
+                    ),
+                ),
+            ],
+        )
+        assert feed is not None
+
+        tag = session.get(
+            steins_feed_model.feeds.Tag,
+            tag_id,
+        )
+        assert tag is not None
+
+        try:
+            feed.tags.remove(tag)
+            session.commit()
+            logger.info(f"Successfully removed feed #{feed_id} from user #{current_user.id}'s tag #{tag_id}.")
+        except ValueError:
+            logger.warning(f"Feed #{feed_id} does not belong to user #{current_user.id}'s tag #{tag_id}.")
