@@ -4,6 +4,9 @@ import { useRef, useState } from "react"
 
 import { Feed, Language, Tag } from "@client"
 
+import { submit_tag } from "./actions"
+import { contains_tag } from "./util"
+
 export function FeedForm({
   feed,
   all_languages,
@@ -66,7 +69,7 @@ export function TagsForm({
   const [tags_state, set_tags_state] = useState(tags);
   const [all_tags_state, set_all_tags_state] = useState(all_tags);
   const alternative_tags_state = all_tags_state.filter(tag_it =>
-    !tags_state.some(t => (tag_it.name === t.name))
+    !contains_tag(tags_state, tag_it.name)
   );
 
   async function handleClose(tag: Tag) {
