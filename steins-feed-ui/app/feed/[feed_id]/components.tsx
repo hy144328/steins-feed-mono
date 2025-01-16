@@ -87,16 +87,21 @@ export function TagsForm({
     const data = new FormData(target);
     const tag_name = (data.get("tag") as string).trim();
 
-    const new_tags_state = Array.from(tags_state);
-    new_tags_state.push({id: -1, name: tag_name});
-    new_tags_state.sort((a, b) => a.name.localeCompare(b.name));
+    if (!contains_tag(tags_state, tag_name)) {
+      const new_tag_ls = all_tags_state.filter(tag_it => tag_it.name === tag_name);
+      const new_tag = (new_tag_ls.length === 1) ? new_tag_ls[0] : await submit_tag(tag_name);
 
-    const new_all_tags_state = Array.from(all_tags_state);
-    new_all_tags_state.push({id: -1, name: tag_name});
-    new_all_tags_state.sort((a, b) => a.name.localeCompare(b.name));
+      const new_tags_state = Array.from(tags_state);
+      new_tags_state.push(new_tag);
+      new_tags_state.sort((a, b) => a.name.localeCompare(b.name));
 
-    set_tags_state(new_tags_state);
-    set_all_tags_state(new_all_tags_state);
+      const new_all_tags_state = Array.from(all_tags_state);
+      new_all_tags_state.push({id: -1, name: tag_name});
+      new_all_tags_state.sort((a, b) => a.name.localeCompare(b.name));
+
+      set_tags_state(new_tags_state);
+      set_all_tags_state(new_all_tags_state);
+    }
 
     target.reset();
   }
