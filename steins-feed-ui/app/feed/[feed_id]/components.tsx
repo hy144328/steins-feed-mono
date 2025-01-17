@@ -72,12 +72,6 @@ export function TagsForm({
     !contains_tag(tags_state, tag_it.name)
   );
 
-  async function handleClose(tag: Tag) {
-    await doDetachTag(feed.id, tag.id);
-
-    set_tags_state(tags_state.filter(tag_it => (tag_it.name !== tag.name)));
-  }
-
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
@@ -143,7 +137,7 @@ export function TagsForm({
   )
 }
 
-export function InputWithAutoDropdown<T>({
+function InputWithAutoDropdown<T>({
   alternatives,
   name,
   placeholder,
