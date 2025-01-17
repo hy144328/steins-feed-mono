@@ -33,7 +33,8 @@ export default async function Page({
   const languages = ensure_array(searchParamsSync.languages).map(lang_it => lang_it as Language);
   const tags = ensure_array(searchParamsSync.tags).map(tag_it => parseInt(tag_it));
 
-  let items: Array<Item> = [];
+  let items: Item[] = [];
+
   try {
     items = await doRootItemsGet(today, tomorrow, languages, tags);
   } catch (e) {
