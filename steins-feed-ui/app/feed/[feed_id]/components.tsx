@@ -5,7 +5,7 @@ import { useState } from "react"
 import { Feed, Language, Tag } from "@client"
 
 import { doAttachTag, doCreateAndAttachTag, doDetachTag } from "./actions"
-import { contains_tag, insert_tag, remove_tag, sort_tags } from "./util"
+import { contains_tag, insert_tag, remove_tag, remove_by_mirror_tag, replace_by_mirror_tag, sort_tags } from "./util"
 
 export function FeedForm({
   feed,
@@ -67,6 +67,7 @@ export function TagsForm({
   all_tags: Tag[],
 }) {
   const [tags_state, set_tags_state] = useState(sort_tags(feed.tags));
+  const [tags_sync_state, set_tags_sync_state] = useState(feed.tags.map(() => true));
   const [all_tags_state, set_all_tags_state] = useState(all_tags);
   const alternative_tags_state = all_tags_state.filter(tag_it =>
     !contains_tag(tags_state, tag_it.name)
@@ -100,12 +101,19 @@ export function TagsForm({
     target.reset();
   }
 
-  const displayedTags = tags_state.map(tag_it =>
+  const displayedTags = tags_state.map((tag_it, tag_ct) =>
 <TagPill
   key={ tag_it.name }
   feed={ feed }
   tag={ tag_it }
-  after_detach={ () => set_tags_state(remove_tag(tags_state, tag_it)) }
+  in_sync={ tags_sync_state[tag_ct] }
+  before_detach={ () => {
+    set_tags_sync_state(replace_by_mirror_tag(tags_sync_state, tags_state, tag_it, false));
+  } }
+  after_detach={ () => {
+    set_tags_state(remove_tag(tags_state, tag_it));
+    set_tags_sync_state(remove_by_mirror_tag(tags_sync_state, tags_state, tag_it));
+  } }
 />
   );
 
@@ -158,11 +166,13 @@ function InputWithAutoDropdown<T>({
 function TagPill({
   feed,
   tag,
+  in_sync = true,
   before_detach = () => {},
   after_detach = () => {},
 }: {
   feed: Feed,
   tag: Tag,
+  in_sync?: boolean,
   before_detach?: {(): void},
   after_detach?: {(): void},
 }) {
@@ -174,14 +184,14 @@ function TagPill({
   return (
 <span
   key={ tag.name }
-  className={ `badge rounded-pill text-bg-${(tag.id > 0) ? "primary" : "secondary"} m-1` }
+  className={ `badge rounded-pill text-bg-${in_sync ? "primary" : "secondary"} m-1` }
 >
   { tag.name }
   &nbsp;
   <i
     className="bi bi-x"
     style={ {cursor: "pointer"} }
-    onClick={ (tag.id > 0) ? handleClose : undefined }
+    onClick={ in_sync ? handleClose : undefined }
   />
 </span>
   );

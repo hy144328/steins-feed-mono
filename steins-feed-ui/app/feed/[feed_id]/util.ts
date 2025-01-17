@@ -14,6 +14,14 @@ export function remove_tag(tags: Tag[], tag: Tag): Tag[] {
   return tags.filter(tag_it => (tag_it.name !== tag.name));
 }
 
+export function remove_by_mirror_tag<T>(ts: T[], tags: Tag[], tag: Tag): T[] {
+  return ts.filter((_, t_ct) => (tags[t_ct].name !== tag.name));
+}
+
+export function replace_by_mirror_tag<T>(ts: T[], tags: Tag[], tag: Tag, val: T): T[] {
+  return ts.map((t_it, t_ct) => (tags[t_ct].name === tag.name) ? val : t_it);
+}
+
 export function sort_tags(tags: Tag[]): Tag[] {
   return tags.sort(compare_tags);
 }
