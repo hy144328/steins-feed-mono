@@ -1,4 +1,4 @@
-import { Language } from "@client"
+import { feedFeedsFeedFeedIdGet, tagsFeedsTagsGet } from "@client"
 
 import Navigation from "../../navigation"
 
@@ -9,37 +9,20 @@ export default async function Page({
 }: {
   params: Promise<{feed_id: number}>,
 }) {
-  const feed = {
-    id: 1,
-    title: "The Atlantic",
-    link: "https://www.theatlantic.com/",
-    language: "Swedish" as Language,
-    tags: [],
-  };
-  const tags = [
-    {
-      id: 1,
-      name: "news",
-    },
-    {
-      id: 2,
-      name: "magazine",
-    },
-  ];
-  const all_tags = [
-    {
-      id: 1,
-      name: "news",
-    },
-    {
-      id: 2,
-      name: "magazine",
-    },
-    {
-      id: 3,
-      name: "politics",
-    },
-  ]
+  const paramsSync = await params;
+
+  const feed_resp = await feedFeedsFeedFeedIdGet({path: {feed_id: paramsSync.feed_id}});
+  if (feed_resp.error) {
+    throw feed_resp.error;
+  }
+
+  const all_tags_resp = await tagsFeedsTagsGet();
+  if (all_tags_resp.error) {
+    throw all_tags_resp.error;
+  }
+
+  const feed = feed_resp.data;
+  const all_tags = all_tags_resp.data!;
 
   return (
 <div className="container">
@@ -60,7 +43,7 @@ export default async function Page({
   <hr/>
 
   <TagsForm
-    tags={ tags }
+    feed ={ feed }
     all_tags={ all_tags }
   />
 </div>

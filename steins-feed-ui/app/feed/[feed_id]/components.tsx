@@ -4,7 +4,7 @@ import { useState } from "react"
 
 import { Feed, Language, Tag } from "@client"
 
-import { submit_tag } from "./actions"
+import { doAttachTag, doCreateAndAttachTag, doDetachTag } from "./actions"
 import { contains_tag } from "./util"
 
 export function FeedForm({
@@ -60,19 +60,21 @@ export function FeedForm({
 }
 
 export function TagsForm({
-  tags,
+  feed,
   all_tags,
 }: {
-  tags: Tag[],
+  feed: Feed,
   all_tags: Tag[],
 }) {
-  const [tags_state, set_tags_state] = useState(tags);
+  const [tags_state, set_tags_state] = useState(feed.tags);
   const [all_tags_state, set_all_tags_state] = useState(all_tags);
   const alternative_tags_state = all_tags_state.filter(tag_it =>
     !contains_tag(tags_state, tag_it.name)
   );
 
   async function handleClose(tag: Tag) {
+    await doDetachTag(feed.id, tag.id);
+
     set_tags_state(tags_state.filter(tag_it => (tag_it.name !== tag.name)));
   }
 
@@ -88,19 +90,25 @@ export function TagsForm({
     const tag_name = (data.get("tag") as string).trim();
 
     if (!contains_tag(tags_state, tag_name)) {
-      const new_tag_ls = all_tags_state.filter(tag_it => tag_it.name === tag_name);
-      const new_tag = (new_tag_ls.length === 1) ? new_tag_ls[0] : await submit_tag(tag_name);
+      let tag = all_tags_state.find(tag_it => tag_it.name === tag_name);
+
+      if (tag) {
+        await doAttachTag(feed.id, tag.id);
+      } else {
+        tag = await doCreateAndAttachTag(feed.id, tag_name);
+
+        const new_all_tags_state = Array.from(all_tags_state);
+        new_all_tags_state.push(tag);
+        new_all_tags_state.sort((a, b) => a.name.localeCompare(b.name));
+
+        set_all_tags_state(new_all_tags_state);
+      }
 
       const new_tags_state = Array.from(tags_state);
-      new_tags_state.push(new_tag);
+      new_tags_state.push(tag);
       new_tags_state.sort((a, b) => a.name.localeCompare(b.name));
 
-      const new_all_tags_state = Array.from(all_tags_state);
-      new_all_tags_state.push({id: -1, name: tag_name});
-      new_all_tags_state.sort((a, b) => a.name.localeCompare(b.name));
-
       set_tags_state(new_tags_state);
-      set_all_tags_state(new_all_tags_state);
     }
 
     target.reset();
