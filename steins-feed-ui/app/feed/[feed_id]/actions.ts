@@ -1,7 +1,16 @@
 "use server"
 
-import { Tag } from "@client"
-import { attachTagFeedsFeedFeedIdAttachTagPut, createAndAttachTagFeedsFeedFeedIdCreateAndAttachTagPut, detachTagFeedsFeedFeedIdDetachTagDelete } from "@client"
+import { Feed, Tag } from "@client"
+import {
+  attachTagFeedsFeedFeedIdAttachTagPut,
+  createAndAttachTagFeedsFeedFeedIdCreateAndAttachTagPut,
+  detachTagFeedsFeedFeedIdDetachTagDelete,
+} from "@client"
+import {
+  feedFeedsFeedFeedIdGet,
+  tagsFeedsTagsGet,
+} from "@client"
+
 
 import { authenticate } from "../../auth"
 
@@ -53,4 +62,32 @@ export async function doDetachTag(
   if (resp.error) {
     throw resp.error;
   }
+}
+
+export async function doFeed(
+  feed_id: number,
+): Promise<Feed> {
+  await authenticate();
+
+  const resp = await feedFeedsFeedFeedIdGet({
+    path: {feed_id: feed_id},
+  });
+
+  if (resp.error) {
+    throw resp.error;
+  }
+
+  return resp.data;
+}
+
+export async function doTags(): Promise<Tag[]> {
+  await authenticate();
+
+  const resp = await tagsFeedsTagsGet();
+
+  if (resp.error) {
+    throw resp.error;
+  }
+
+  return resp.data ?? [];
 }

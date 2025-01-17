@@ -1,7 +1,6 @@
-import { feedFeedsFeedFeedIdGet, tagsFeedsTagsGet } from "@client"
-
 import Navigation from "../../navigation"
 
+import { doFeed, doTags } from "./actions"
 import { FeedForm, TagsForm } from "./components"
 
 export default async function Page({
@@ -10,19 +9,8 @@ export default async function Page({
   params: Promise<{feed_id: number}>,
 }) {
   const paramsSync = await params;
-
-  const feed_resp = await feedFeedsFeedFeedIdGet({path: {feed_id: paramsSync.feed_id}});
-  if (feed_resp.error) {
-    throw feed_resp.error;
-  }
-
-  const all_tags_resp = await tagsFeedsTagsGet();
-  if (all_tags_resp.error) {
-    throw all_tags_resp.error;
-  }
-
-  const feed = feed_resp.data;
-  const all_tags = all_tags_resp.data!;
+  const feed = await doFeed(paramsSync.feed_id);
+  const all_tags = await doTags();
 
   return (
 <div className="container">
