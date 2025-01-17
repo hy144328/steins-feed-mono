@@ -155,7 +155,7 @@ async def attach_tag(
         except sqla_exc.IntegrityError:
             logger.warning(f"Feed #{feed_id} already belongs to user #{current_user.id}'s tag #{tag_id}.")
 
-@router.put("/feed/{feed_id}/detach_tag")
+@router.delete("/feed/{feed_id}/detach_tag")
 async def detach_tag(
     current_user: steins_feed_api.auth.UserDep,
     feed_id: int,
@@ -189,3 +189,39 @@ async def detach_tag(
             logger.info(f"Successfully removed feed #{feed_id} from user #{current_user.id}'s tag #{tag_id}.")
         except ValueError:
             logger.warning(f"Feed #{feed_id} does not belong to user #{current_user.id}'s tag #{tag_id}.")
+
+@router.put("/feed/{feed_id}/create_and_attach_tag")
+async def create_and_attach_tag(
+    current_user: steins_feed_api.auth.UserDep,
+    feed_id: int,
+    tag_name: str,
+) -> Tag:
+    engine = steins_feed_model.EngineFactory.get_or_create_engine()
+
+    tag = steins_feed_model.feeds.Tag(
+        user_id = current_user.id,
+        name = tag_name,
+    )
+
+    q = sqla.select(
+        steins_feed_model.feeds.Tag,
+    ).where(
+        steins_feed_model.feeds.Tag.user_id == current_user.id,
+        steins_feed_model.feeds.Tag.name == tag_name,
+    )
+
+    with sqla_orm.Session(engine) as session:
+        try:
+            session.add(tag)
+            session.commit()
+            logger.info(f"Successfully created user {current_user.name}'s tag {tag_name}.")
+        except sqla_exc.IntegrityError:
+            logger.warning(f"User {current_user.name}'s tag {tag_name} already exists.")
+            session.rollback()
+            tag = session.execute(q).scalars().one()
+
+        tag_id = tag.id
+        res = Tag.from_model(tag)
+
+    await attach_tag(current_user, feed_id, tag_id)
+    return res
