@@ -15,6 +15,7 @@ export type Feed = {
     link: string;
     language: (Language | null);
     tags: Array<Tag>;
+    displayed: (boolean | null);
 };
 
 export type HTTPValidationError = {
@@ -67,6 +68,42 @@ export type TagsFeedsTagsGetError = unknown;
 export type LanguagesFeedsLanguagesGetResponse = (Array<Language>);
 
 export type LanguagesFeedsLanguagesGetError = unknown;
+
+export type FeedFeedsFeedFeedIdGetData = {
+    path: {
+        feed_id: number;
+    };
+};
+
+export type FeedFeedsFeedFeedIdGetResponse = (Feed);
+
+export type FeedFeedsFeedFeedIdGetError = (HTTPValidationError);
+
+export type AttachTagFeedsFeedFeedIdAttachTagPutData = {
+    path: {
+        feed_id: number;
+    };
+    query: {
+        tag_id: number;
+    };
+};
+
+export type AttachTagFeedsFeedFeedIdAttachTagPutResponse = (unknown);
+
+export type AttachTagFeedsFeedFeedIdAttachTagPutError = (HTTPValidationError);
+
+export type DetachTagFeedsFeedFeedIdDetachTagPutData = {
+    path: {
+        feed_id: number;
+    };
+    query: {
+        tag_id: number;
+    };
+};
+
+export type DetachTagFeedsFeedFeedIdDetachTagPutResponse = (unknown);
+
+export type DetachTagFeedsFeedFeedIdDetachTagPutError = (HTTPValidationError);
 
 export type RootItemsGetData = {
     query: {
