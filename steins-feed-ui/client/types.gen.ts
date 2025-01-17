@@ -92,7 +92,7 @@ export type AttachTagFeedsFeedFeedIdAttachTagPutResponse = (unknown);
 
 export type AttachTagFeedsFeedFeedIdAttachTagPutError = (HTTPValidationError);
 
-export type DetachTagFeedsFeedFeedIdDetachTagPutData = {
+export type DetachTagFeedsFeedFeedIdDetachTagDeleteData = {
     path: {
         feed_id: number;
     };
@@ -101,9 +101,22 @@ export type DetachTagFeedsFeedFeedIdDetachTagPutData = {
     };
 };
 
-export type DetachTagFeedsFeedFeedIdDetachTagPutResponse = (unknown);
+export type DetachTagFeedsFeedFeedIdDetachTagDeleteResponse = (unknown);
 
-export type DetachTagFeedsFeedFeedIdDetachTagPutError = (HTTPValidationError);
+export type DetachTagFeedsFeedFeedIdDetachTagDeleteError = (HTTPValidationError);
+
+export type CreateAndAttachTagFeedsFeedFeedIdCreateAndAttachTagPutData = {
+    path: {
+        feed_id: number;
+    };
+    query: {
+        tag_name: string;
+    };
+};
+
+export type CreateAndAttachTagFeedsFeedFeedIdCreateAndAttachTagPutResponse = (Tag);
+
+export type CreateAndAttachTagFeedsFeedFeedIdCreateAndAttachTagPutError = (HTTPValidationError);
 
 export type RootItemsGetData = {
     query: {
