@@ -5,7 +5,7 @@ import { useState } from "react"
 import { Feed, Language, Tag } from "@client"
 
 import { doAttachTag, doCreateAndAttachTag, doDetachTag } from "./actions"
-import { contains_tag } from "./util"
+import { contains_tag, insert_tag, remove_tag, sort_tags } from "./util"
 
 export function FeedForm({
   feed,
@@ -66,7 +66,7 @@ export function TagsForm({
   feed: Feed,
   all_tags: Tag[],
 }) {
-  const [tags_state, set_tags_state] = useState(feed.tags.sort((a, b) => a.name.localeCompare(b.name)));
+  const [tags_state, set_tags_state] = useState(sort_tags(feed.tags));
   const [all_tags_state, set_all_tags_state] = useState(all_tags);
   const alternative_tags_state = all_tags_state.filter(tag_it =>
     !contains_tag(tags_state, tag_it.name)
@@ -91,18 +91,10 @@ export function TagsForm({
       } else {
         tag = await doCreateAndAttachTag(feed.id, tag_name);
 
-        const new_all_tags_state = Array.from(all_tags_state);
-        new_all_tags_state.push(tag);
-        new_all_tags_state.sort((a, b) => a.name.localeCompare(b.name));
-
-        set_all_tags_state(new_all_tags_state);
+        set_all_tags_state(insert_tag(all_tags_state, tag));
       }
 
-      const new_tags_state = Array.from(tags_state);
-      new_tags_state.push(tag);
-      new_tags_state.sort((a, b) => a.name.localeCompare(b.name));
-
-      set_tags_state(new_tags_state);
+      set_tags_state(insert_tag(tags_state, tag));
     }
 
     target.reset();
@@ -113,10 +105,7 @@ export function TagsForm({
   key={ tag_it.name }
   feed={ feed }
   tag={ tag_it }
-  in_sync={ true }
-  after_close={ arg0 => {
-    set_tags_state(tags_state.filter(tag_it => (tag_it.name !== arg0.name)));
-  } }
+  after_detach={ () => set_tags_state(remove_tag(tags_state, tag_it)) }
 />
   );
 
@@ -169,34 +158,30 @@ function InputWithAutoDropdown<T>({
 function TagPill({
   feed,
   tag,
-  in_sync = true,
-  after_close = (arg0: Tag) => {},
+  before_detach = () => {},
+  after_detach = () => {},
 }: {
   feed: Feed,
   tag: Tag,
-  in_sync?: boolean,
-  after_close?: {(arg0: Tag): void},
+  before_detach?: {(): void},
+  after_detach?: {(): void},
 }) {
-  const [in_sync_state, set_in_sync_state] = useState(in_sync);
-
   async function handleClose() {
-    set_in_sync_state(false);
-    doDetachTag(feed.id, tag.id).then(() => {
-      after_close(tag);
-    });
+    before_detach();
+    doDetachTag(feed.id, tag.id).then(after_detach);
   }
 
   return (
 <span
   key={ tag.name }
-  className={ `badge rounded-pill text-bg-${in_sync_state ? "primary" : "secondary"} m-1` }
+  className={ `badge rounded-pill text-bg-${(tag.id > 0) ? "primary" : "secondary"} m-1` }
 >
   { tag.name }
   &nbsp;
   <i
     className="bi bi-x"
     style={ {cursor: "pointer"} }
-    onClick={ in_sync_state ? handleClose : undefined }
+    onClick={ (tag.id > 0) ? handleClose : undefined }
   />
 </span>
   );
