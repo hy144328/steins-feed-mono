@@ -66,7 +66,7 @@ export function TagsForm({
   feed: Feed,
   all_tags: Tag[],
 }) {
-  const [tags_state, set_tags_state] = useState(feed.tags);
+  const [tags_state, set_tags_state] = useState(feed.tags.sort((a, b) => a.name.localeCompare(b.name)));
   const [all_tags_state, set_all_tags_state] = useState(all_tags);
   const alternative_tags_state = all_tags_state.filter(tag_it =>
     !contains_tag(tags_state, tag_it.name)
