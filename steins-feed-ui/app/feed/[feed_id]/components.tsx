@@ -109,18 +109,15 @@ export function TagsForm({
   }
 
   const displayedTags = tags_state.map(tag_it =>
-<span
+<TagPill
   key={ tag_it.name }
-  className="badge rounded-pill text-bg-primary m-1"
->
-  { tag_it.name }
-  &nbsp;
-  <i
-    className="bi bi-x"
-    style={ {cursor: "pointer"} }
-    onClick={ () => handleClose(tag_it) }
-  />
-</span>
+  feed={ feed }
+  tag={ tag_it }
+  in_sync={ true }
+  after_close={ arg0 => {
+    set_tags_state(tags_state.filter(tag_it => (tag_it.name !== arg0.name)));
+  } }
+/>
   );
 
   return (
@@ -167,4 +164,40 @@ function InputWithAutoDropdown<T>({
   </datalist>
 </div>
   )
+}
+
+function TagPill({
+  feed,
+  tag,
+  in_sync = true,
+  after_close = (arg0: Tag) => {},
+}: {
+  feed: Feed,
+  tag: Tag,
+  in_sync?: boolean,
+  after_close?: {(arg0: Tag): void},
+}) {
+  const [in_sync_state, set_in_sync_state] = useState(in_sync);
+
+  async function handleClose() {
+    set_in_sync_state(false);
+    doDetachTag(feed.id, tag.id).then(() => {
+      after_close(tag);
+    });
+  }
+
+  return (
+<span
+  key={ tag.name }
+  className={ `badge rounded-pill text-bg-${in_sync_state ? "primary" : "secondary"} m-1` }
+>
+  { tag.name }
+  &nbsp;
+  <i
+    className="bi bi-x"
+    style={ {cursor: "pointer"} }
+    onClick={ in_sync_state ? handleClose : undefined }
+  />
+</span>
+  );
 }
