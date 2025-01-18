@@ -127,7 +127,7 @@ export function TagsForm({
     const tag_name = (data.get("tag") as string).trim();
 
     if (!contains_tag(tags_state, tag_name)) {
-      let tag = all_tags_state.find(tag_it => tag_it.name === tag_name) ?? {id: -1, name: tag_name};
+      const tag = all_tags_state.find(tag_it => tag_it.name === tag_name) ?? {id: -1, name: tag_name};
 
       if (tag.id > 0) {
         set_tags_state(insert_tag(tags_state, tag));
