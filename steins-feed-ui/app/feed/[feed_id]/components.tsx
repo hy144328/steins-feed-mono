@@ -20,8 +20,20 @@ export function FeedForm({
 <option key={ lang_it } defaultValue={ lang_it }>{ lang_it }</option>
   );
 
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+
+    const target = e.target;
+    if (!(target instanceof HTMLFormElement)) {
+      throw e;
+    }
+
+    const data = new FormData(target);
+
+  }
+
   return (
-<form>
+<form onSubmit={ handleSubmit }>
   <div className="form-floating mt-3 mb-3">
     <input
       name="title"
@@ -52,6 +64,11 @@ export function FeedForm({
       { languageOptions }
     </select>
     <label>Language</label>
+  </div>
+
+  <div className="btn-group">
+    <input type="submit" className="btn btn-primary"/>
+    <input type="reset" className="btn btn-secondary"/>
   </div>
 </form>
   )
