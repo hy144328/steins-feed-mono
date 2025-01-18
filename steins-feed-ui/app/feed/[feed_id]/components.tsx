@@ -4,7 +4,7 @@ import { useState } from "react"
 
 import { Feed, Language, Tag } from "@client"
 
-import { doAttachTag, doCreateAndAttachTag, doDetachTag } from "./actions"
+import { doAttachTag, doAttachUser, doCreateAndAttachTag, doDetachTag, doDetachUser } from "./actions"
 import { contains_tag, insert_tag, insert_by_mirror_tag, remove_tag, remove_by_mirror_tag, replace_tag, replace_by_mirror_tag, sort_tags } from "./util"
 
 export function FeedForm({
@@ -153,10 +153,23 @@ export function DisplayForm({
 }: {
   feed: Feed,
 }) {
+  async function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
+    if (e.target.checked) {
+      await doAttachUser(feed.id);
+    } else {
+      await doDetachUser(feed.id);
+    }
+  }
+
   return (
 <form>
   <div className="form-check form-switch fs-1">
-    <input type="checkbox" className="form-check-input" defaultChecked={ feed!.displayed }/>
+    <input
+      type="checkbox"
+      className="form-check-input"
+      defaultChecked={ feed!.displayed }
+      onChange={ handleChange }
+    />
     <label className="form-check-label">Feed</label>
   </div>
 </form>
