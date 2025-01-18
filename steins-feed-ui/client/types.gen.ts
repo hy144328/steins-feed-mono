@@ -118,6 +118,26 @@ export type CreateAndAttachTagFeedsFeedFeedIdCreateAndAttachTagPutResponse = (Ta
 
 export type CreateAndAttachTagFeedsFeedFeedIdCreateAndAttachTagPutError = (HTTPValidationError);
 
+export type AttachUserFeedsFeedFeedIdAttachUserPutData = {
+    path: {
+        feed_id: number;
+    };
+};
+
+export type AttachUserFeedsFeedFeedIdAttachUserPutResponse = (unknown);
+
+export type AttachUserFeedsFeedFeedIdAttachUserPutError = (HTTPValidationError);
+
+export type DetachUserFeedsFeedFeedIdDetachUserDeleteData = {
+    path: {
+        feed_id: number;
+    };
+};
+
+export type DetachUserFeedsFeedFeedIdDetachUserDeleteResponse = (unknown);
+
+export type DetachUserFeedsFeedFeedIdDetachUserDeleteError = (HTTPValidationError);
+
 export type RootItemsGetData = {
     query: {
         dt_from: string;
