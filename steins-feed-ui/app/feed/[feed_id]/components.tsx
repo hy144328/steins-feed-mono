@@ -148,6 +148,21 @@ export function TagsForm({
   )
 }
 
+export function DisplayForm({
+  feed,
+}: {
+  feed: Feed,
+}) {
+  return (
+<form>
+  <div className="form-check form-switch fs-1">
+    <input type="checkbox" className="form-check-input" defaultChecked={ feed!.displayed }/>
+    <label className="form-check-label">Feed</label>
+  </div>
+</form>
+  );
+}
+
 function InputWithAutoDropdown<T>({
   alternatives,
   name,

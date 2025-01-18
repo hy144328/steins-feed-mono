@@ -4,7 +4,7 @@ import Navigation from "../../navigation"
 
 import { doFeed, doTags } from "./actions"
 import { require_login } from "../../auth"
-import { FeedForm, TagsForm } from "./components"
+import { DisplayForm, FeedForm, TagsForm } from "./components"
 
 export default async function Page({
   params,
@@ -33,10 +33,7 @@ export default async function Page({
     contentServed={ false }
   />
 
-  <div className="form-check form-switch fs-1">
-    <input type="checkbox" className="form-check-input" defaultChecked={ feed!.displayed }/>
-    <label className="form-check-label">Feed</label>
-  </div>
+  <DisplayForm feed={ feed! }/>
 
   <FeedForm
     feed={ feed! }
