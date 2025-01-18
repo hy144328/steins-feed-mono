@@ -225,3 +225,71 @@ async def create_and_attach_tag(
 
     await attach_tag(current_user, feed_id, tag_id)
     return res
+
+@router.put("/feed/{feed_id}/attach_user")
+async def attach_user(
+    current_user: steins_feed_api.auth.UserDep,
+    feed_id: int,
+):
+    engine = steins_feed_model.EngineFactory.get_or_create_engine()
+
+    with sqla_orm.Session(engine) as session:
+        feed = session.get(
+            steins_feed_model.feeds.Feed,
+            feed_id,
+            options = [
+                sqla_orm.joinedload(
+                    steins_feed_model.feeds.Feed.users.and_(
+                        steins_feed_model.users.User.id == current_user.id,
+                    ),
+                ),
+            ],
+        )
+        assert feed is not None
+
+        user = session.get(
+            steins_feed_model.users.User,
+            current_user.id,
+        )
+        assert user is not None
+
+        try:
+            feed.users.append(user)
+            session.commit()
+            logger.info(f"Successfully added to user #{current_user.id} to feed #{feed_id}.")
+        except sqla_exc.IntegrityError:
+            logger.warning(f"User #{current_user.id} already belongs to feed #{feed_id}.")
+
+@router.delete("/feed/{feed_id}/detach_user")
+async def detach_user(
+    current_user: steins_feed_api.auth.UserDep,
+    feed_id: int,
+):
+    engine = steins_feed_model.EngineFactory.get_or_create_engine()
+
+    with sqla_orm.Session(engine) as session:
+        feed = session.get(
+            steins_feed_model.feeds.Feed,
+            feed_id,
+            options = [
+                sqla_orm.joinedload(
+                    steins_feed_model.feeds.Feed.users.and_(
+                        steins_feed_model.users.User.id == current_user.id,
+                    ),
+                ),
+            ],
+        )
+        assert feed is not None
+
+        user = session.get(
+            steins_feed_model.users.User,
+            current_user.id,
+        )
+        assert user is not None
+
+        try:
+            feed.users.remove(user)
+            session.commit()
+            logger.info(f"Successfully removed user #{current_user.id} from feed #{feed_id}.")
+        except ValueError:
+            logger.warning(f"User #{current_user.id}'s does not belong to feed #{feed_id}.")
