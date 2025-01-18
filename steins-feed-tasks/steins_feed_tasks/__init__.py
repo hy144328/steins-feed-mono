@@ -1,11 +1,16 @@
 #!/usr/bin/env python3
 
+import os
+
 import celery
+import dotenv
+
+dotenv.load_dotenv()
 
 app = celery.Celery(
     __name__,
-    broker = "redis://localhost:6379/0",
-    backend = "redis://localhost:6379/0",
+    broker = os.environ["BROKER_URL"],
+    backend = os.getenv("RESULT_BACKEND"),
 )
 
 @app.task
