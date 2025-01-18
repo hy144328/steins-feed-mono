@@ -133,7 +133,11 @@ export async function doUpdateFeed(
 
   const resp = await updateFeedFeedsFeedFeedIdUpdateFeedPost({
     path: {feed_id: feed_id},
-    query: {title: title, link: link, language: language},
+    query: {
+      title: title,
+      link: link,
+      ...(language ? {language: language}: {}),
+    },
   });
 
   if (resp.error) {
