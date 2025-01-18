@@ -33,7 +33,10 @@ export default async function Page({
     contentServed={ false }
   />
 
-  <h1>Feed</h1>
+  <div className="form-check form-switch fs-1">
+    <input type="checkbox" className="form-check-input" defaultChecked/>
+    <label className="form-check-label">Feed</label>
+  </div>
 
   <FeedForm
     feed={ feed! }
