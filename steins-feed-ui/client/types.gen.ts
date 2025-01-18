@@ -149,7 +149,7 @@ export type UpdateFeedFeedsFeedFeedIdUpdateFeedPostData = {
     };
 };
 
-export type UpdateFeedFeedsFeedFeedIdUpdateFeedPostResponse = (unknown);
+export type UpdateFeedFeedsFeedFeedIdUpdateFeedPostResponse = (Feed);
 
 export type UpdateFeedFeedsFeedFeedIdUpdateFeedPostError = (HTTPValidationError);
 
