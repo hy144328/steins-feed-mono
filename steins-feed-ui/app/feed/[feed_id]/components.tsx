@@ -4,8 +4,24 @@ import { useState } from "react"
 
 import { Feed, Language, Tag } from "@client"
 
-import { doAttachTag, doAttachUser, doCreateAndAttachTag, doDetachTag, doDetachUser } from "./actions"
-import { contains_tag, insert_tag, insert_by_mirror_tag, remove_tag, remove_by_mirror_tag, replace_tag, replace_by_mirror_tag, sort_tags } from "./util"
+import {
+  doAttachTag,
+  doAttachUser,
+  doCreateAndAttachTag,
+  doDetachTag,
+  doDetachUser,
+  doUpdateFeed,
+} from "./actions"
+import {
+  contains_tag,
+  insert_tag,
+  insert_by_mirror_tag,
+  remove_tag,
+  remove_by_mirror_tag,
+  replace_tag,
+  replace_by_mirror_tag,
+  sort_tags,
+} from "./util"
 
 export function FeedForm({
   feed,
@@ -16,9 +32,11 @@ export function FeedForm({
   all_languages: Language[],
   is_admin?: boolean,
 }) {
-  const languageOptions = all_languages.map(lang_it =>
+  const languageOptions = [
+<option key="null"/>
+  ].concat(all_languages.map(lang_it =>
 <option key={ lang_it } defaultValue={ lang_it }>{ lang_it }</option>
-  );
+  ));
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -29,7 +47,16 @@ export function FeedForm({
     }
 
     const data = new FormData(target);
+    const title = data.get("title") as string;
+    const link = data.get("link") as string;
+    const language = data.get("language") as Language | null;
 
+    try {
+      await doUpdateFeed(feed.id, title, link, language);
+    } catch(exc) {
+      alert("Not an admin.");
+      throw exc;
+    }
   }
 
   return (
