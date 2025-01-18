@@ -3,8 +3,10 @@
 import { Feed, Tag } from "@client"
 import {
   attachTagFeedsFeedFeedIdAttachTagPut,
+  attachUserFeedsFeedFeedIdAttachUserPut,
   createAndAttachTagFeedsFeedFeedIdCreateAndAttachTagPut,
   detachTagFeedsFeedFeedIdDetachTagDelete,
+  detachUserFeedsFeedFeedIdDetachUserDelete,
 } from "@client"
 import {
   feedFeedsFeedFeedIdGet,
@@ -57,6 +59,34 @@ export async function doDetachTag(
   const resp = await detachTagFeedsFeedFeedIdDetachTagDelete({
     path: {feed_id: feed_id},
     query: {tag_id: tag_id},
+  });
+
+  if (resp.error) {
+    throw resp.error;
+  }
+}
+
+export async function doAttachUser(
+  feed_id: number,
+) {
+  await authenticate();
+
+  const resp = await attachUserFeedsFeedFeedIdAttachUserPut({
+    path: {feed_id: feed_id},
+  });
+
+  if (resp.error) {
+    throw resp.error;
+  }
+}
+
+export async function doDetachUser(
+  feed_id: number,
+) {
+  await authenticate();
+
+  const resp = await detachUserFeedsFeedFeedIdDetachUserDelete({
+    path: {feed_id: feed_id},
   });
 
   if (resp.error) {
