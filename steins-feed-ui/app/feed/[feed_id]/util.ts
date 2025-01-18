@@ -10,12 +10,24 @@ export function insert_tag(tags: Tag[], tag: Tag): Tag[] {
   return sort_tags(res);
 }
 
+export function insert_by_mirror_tag<T>(ts: T[], tags: Tag[], tag: Tag, val: T): T[] {
+  const res = Array.from(Array(ts.length).keys()).map(ct => {
+    return {t: ts[ct], tag: tags[ct]};
+  });
+  res.push({t: val, tag: tag});
+  return res.sort((a, b) => a.tag.name.localeCompare(b.tag.name)).map(x => x.t);
+}
+
 export function remove_tag(tags: Tag[], tag: Tag): Tag[] {
   return tags.filter(tag_it => (tag_it.name !== tag.name));
 }
 
 export function remove_by_mirror_tag<T>(ts: T[], tags: Tag[], tag: Tag): T[] {
   return ts.filter((_, t_ct) => (tags[t_ct].name !== tag.name));
+}
+
+export function replace_tag(tags: Tag[], tag: Tag): Tag[] {
+  return tags.map(tag_it => (tag_it.name === tag.name) ? tag : tag_it);
 }
 
 export function replace_by_mirror_tag<T>(ts: T[], tags: Tag[], tag: Tag, val: T): T[] {

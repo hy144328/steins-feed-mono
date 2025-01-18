@@ -5,7 +5,7 @@ import { useState } from "react"
 import { Feed, Language, Tag } from "@client"
 
 import { doAttachTag, doCreateAndAttachTag, doDetachTag } from "./actions"
-import { contains_tag, insert_tag, remove_tag, remove_by_mirror_tag, replace_by_mirror_tag, sort_tags } from "./util"
+import { contains_tag, insert_tag, insert_by_mirror_tag, remove_tag, remove_by_mirror_tag, replace_tag, replace_by_mirror_tag, sort_tags } from "./util"
 
 export function FeedForm({
   feed,
@@ -85,17 +85,34 @@ export function TagsForm({
     const tag_name = (data.get("tag") as string).trim();
 
     if (!contains_tag(tags_state, tag_name)) {
-      let tag = all_tags_state.find(tag_it => tag_it.name === tag_name);
+      let tag = all_tags_state.find(tag_it => tag_it.name === tag_name) ?? {id: -1, name: tag_name};
 
-      if (tag) {
-        await doAttachTag(feed.id, tag.id);
+      if (tag.id > 0) {
+        set_tags_state(insert_tag(tags_state, tag));
+        set_tags_sync_state(insert_by_mirror_tag(tags_sync_state, tags_state, tag, false));
+
+        doAttachTag(feed.id, tag.id).then(() => {
+          set_tags_sync_state(next_tags_sync_state =>
+            replace_by_mirror_tag(next_tags_sync_state, insert_tag(tags_state, tag), tag, true)
+          );
+        });
       } else {
-        tag = await doCreateAndAttachTag(feed.id, tag_name);
-
         set_all_tags_state(insert_tag(all_tags_state, tag));
-      }
+        set_tags_state(insert_tag(tags_state, tag));
+        set_tags_sync_state(insert_by_mirror_tag(tags_sync_state, tags_state, tag, false));
 
-      set_tags_state(insert_tag(tags_state, tag));
+        doCreateAndAttachTag(feed.id, tag_name).then(next_tag => {
+          set_all_tags_state(next_all_tags_state =>
+            replace_tag(next_all_tags_state, next_tag)
+          );
+          set_tags_state(next_tags_state =>
+            replace_tag(next_tags_state, next_tag)
+          );
+          set_tags_sync_state(next_tags_sync_state =>
+            replace_by_mirror_tag(next_tags_sync_state, insert_tag(tags_state, next_tag), next_tag, true)
+          );
+        });
+      }
     }
 
     target.reset();
