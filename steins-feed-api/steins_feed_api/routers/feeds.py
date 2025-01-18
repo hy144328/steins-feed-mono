@@ -293,3 +293,30 @@ async def detach_user(
             logger.info(f"Successfully removed user #{current_user.id} from feed #{feed_id}.")
         except ValueError:
             logger.warning(f"User #{current_user.id}'s does not belong to feed #{feed_id}.")
+
+@router.post("/feed/{feed_id}/update_feed")
+async def update_feed(
+    current_user: steins_feed_api.auth.UserDep,
+    feed_id: int,
+    title: str,
+    link: str,
+    language: typing.Optional[steins_feed_model.feeds.Language] = None,
+):
+    if current_user.name != "hansolo":
+        raise fastapi.HTTPException(
+            status_code = fastapi.status.HTTP_401_UNAUTHORIZED,
+            detail = "Not an admin.",
+            headers = {"WWW-Authenticate": "Bearer"},
+        )
+
+    engine = steins_feed_model.EngineFactory.get_or_create_engine()
+
+    with sqla_orm.Session(engine) as session:
+        feed = session.get(steins_feed_model.feeds.Feed, feed_id)
+        assert feed is not None
+
+        feed.title = title
+        feed.link = link
+        feed.language = language
+
+        session.commit()
