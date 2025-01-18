@@ -9,3 +9,7 @@ worker:
 .PHONY: add
 add:
 	celery -A steins_feed_tasks call steins_feed_tasks.add -a "[$(LEFT), $(RIGHT)]"
+
+.PHONY: result
+result:
+	celery -A steins_feed_tasks result $(RESULT_ID)

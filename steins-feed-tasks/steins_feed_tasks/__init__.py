@@ -5,6 +5,7 @@ import celery
 app = celery.Celery(
     __name__,
     broker = "redis://localhost:6379/0",
+    backend = "redis://localhost:6379/0",
 )
 
 @app.task
