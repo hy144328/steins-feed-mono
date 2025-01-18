@@ -138,6 +138,21 @@ export type DetachUserFeedsFeedFeedIdDetachUserDeleteResponse = (unknown);
 
 export type DetachUserFeedsFeedFeedIdDetachUserDeleteError = (HTTPValidationError);
 
+export type UpdateFeedFeedsFeedFeedIdUpdateFeedPostData = {
+    path: {
+        feed_id: number;
+    };
+    query: {
+        language?: (Language | null);
+        link: string;
+        title: string;
+    };
+};
+
+export type UpdateFeedFeedsFeedFeedIdUpdateFeedPostResponse = (unknown);
+
+export type UpdateFeedFeedsFeedFeedIdUpdateFeedPostError = (HTTPValidationError);
+
 export type RootItemsGetData = {
     query: {
         dt_from: string;
