@@ -15,7 +15,7 @@ export type Feed = {
     link: string;
     language: (Language | null);
     tags: Array<Tag>;
-    displayed: (boolean | null);
+    displayed: boolean;
 };
 
 export type HTTPValidationError = {

@@ -34,7 +34,7 @@ export default async function Page({
   />
 
   <div className="form-check form-switch fs-1">
-    <input type="checkbox" className="form-check-input" defaultChecked/>
+    <input type="checkbox" className="form-check-input" defaultChecked={ feed!.displayed }/>
     <label className="form-check-label">Feed</label>
   </div>
 
