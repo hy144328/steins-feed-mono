@@ -185,7 +185,7 @@ export function DisplayForm({
       defaultChecked={ feed!.displayed }
       onChange={ handleChange }
     />
-    <label className="form-check-label">Feed</label>
+    <label className="form-check-label">Feed #{ feed.id }</label>
   </div>
 </form>
   );
