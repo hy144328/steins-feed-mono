@@ -38,6 +38,7 @@ export default async function Page({
   <FeedForm
     feed={ feed! }
     all_languages={ ["English", "German", "Swedish"] }
+    is_admin={ true }
   />
 
   <hr/>

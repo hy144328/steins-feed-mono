@@ -10,14 +10,14 @@ import { contains_tag, insert_tag, insert_by_mirror_tag, remove_tag, remove_by_m
 export function FeedForm({
   feed,
   all_languages,
-  isAdmin = false,
+  is_admin = false,
 }: {
   feed: Feed,
   all_languages: Language[],
-  isAdmin?: boolean,
+  is_admin?: boolean,
 }) {
   const languageOptions = all_languages.map(lang_it =>
-<option key={ lang_it } value={ lang_it }>{ lang_it }</option>
+<option key={ lang_it } defaultValue={ lang_it }>{ lang_it }</option>
   );
 
   return (
@@ -25,9 +25,8 @@ export function FeedForm({
   <div className="form-floating mt-3 mb-3">
     <input
       name="title"
-      value={ feed.title }
-      placeholder="Title"
-      disabled={ !isAdmin }
+      defaultValue={ feed.title }
+      disabled={ !is_admin }
       className="form-control"
     />
     <label>Title</label>
@@ -36,9 +35,8 @@ export function FeedForm({
   <div className="form-floating mt-3 mb-3">
     <input
       name="link"
-      value={ feed.link }
-      placeholder="Link"
-      disabled={ !isAdmin }
+      defaultValue={ feed.link }
+      disabled={ !is_admin }
       className="form-control"
     />
     <label>Link</label>
@@ -49,7 +47,7 @@ export function FeedForm({
       name="language"
       className="form-select"
       defaultValue={ feed.language ? feed.language : undefined }
-      disabled={ !isAdmin }
+      disabled={ !is_admin }
     >
       { languageOptions }
     </select>
