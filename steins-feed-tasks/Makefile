@@ -6,10 +6,14 @@ redis:
 worker:
 	celery -A steins_feed_tasks worker --loglevel=INFO
 
+.PHONY: result
+result:
+	celery -A steins_feed_tasks result $(RESULT_ID)
+
 .PHONY: add
 add:
 	celery -A steins_feed_tasks call steins_feed_tasks.add -a "[$(LEFT), $(RIGHT)]"
 
-.PHONY: result
-result:
-	celery -A steins_feed_tasks result $(RESULT_ID)
+.PHONY: parse_feeds
+parse_feeds:
+	celery -A steins_feed_tasks call steins_feed_tasks.parse_feeds
