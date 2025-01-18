@@ -1,12 +1,13 @@
 "use server"
 
-import { Feed, Tag } from "@client"
+import { Feed, Language, Tag } from "@client"
 import {
   attachTagFeedsFeedFeedIdAttachTagPut,
   attachUserFeedsFeedFeedIdAttachUserPut,
   createAndAttachTagFeedsFeedFeedIdCreateAndAttachTagPut,
   detachTagFeedsFeedFeedIdDetachTagDelete,
   detachUserFeedsFeedFeedIdDetachUserDelete,
+  updateFeedFeedsFeedFeedIdUpdateFeedPost,
 } from "@client"
 import {
   feedFeedsFeedFeedIdGet,
@@ -120,4 +121,24 @@ export async function doTags(): Promise<Tag[]> {
   }
 
   return resp.data ?? [];
+}
+
+export async function doUpdateFeed(
+  feed_id: number,
+  title: string,
+  link: string,
+  language: Language | null,
+): Promise<Feed> {
+  await authenticate();
+
+  const resp = await updateFeedFeedsFeedFeedIdUpdateFeedPost({
+    path: {feed_id: feed_id},
+    query: {title: title, link: link, language: language},
+  });
+
+  if (resp.error) {
+    throw resp.error;
+  }
+
+  return resp.data;
 }
