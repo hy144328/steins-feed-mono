@@ -15,6 +15,7 @@ export type Feed = {
     link: string;
     language: (Language | null);
     tags: Array<Tag>;
+    displayed: boolean;
 };
 
 export type HTTPValidationError = {
@@ -67,6 +68,90 @@ export type TagsFeedsTagsGetError = unknown;
 export type LanguagesFeedsLanguagesGetResponse = (Array<Language>);
 
 export type LanguagesFeedsLanguagesGetError = unknown;
+
+export type FeedFeedsFeedFeedIdGetData = {
+    path: {
+        feed_id: number;
+    };
+};
+
+export type FeedFeedsFeedFeedIdGetResponse = (Feed);
+
+export type FeedFeedsFeedFeedIdGetError = (HTTPValidationError);
+
+export type AttachTagFeedsFeedFeedIdAttachTagPutData = {
+    path: {
+        feed_id: number;
+    };
+    query: {
+        tag_id: number;
+    };
+};
+
+export type AttachTagFeedsFeedFeedIdAttachTagPutResponse = (unknown);
+
+export type AttachTagFeedsFeedFeedIdAttachTagPutError = (HTTPValidationError);
+
+export type DetachTagFeedsFeedFeedIdDetachTagDeleteData = {
+    path: {
+        feed_id: number;
+    };
+    query: {
+        tag_id: number;
+    };
+};
+
+export type DetachTagFeedsFeedFeedIdDetachTagDeleteResponse = (unknown);
+
+export type DetachTagFeedsFeedFeedIdDetachTagDeleteError = (HTTPValidationError);
+
+export type CreateAndAttachTagFeedsFeedFeedIdCreateAndAttachTagPutData = {
+    path: {
+        feed_id: number;
+    };
+    query: {
+        tag_name: string;
+    };
+};
+
+export type CreateAndAttachTagFeedsFeedFeedIdCreateAndAttachTagPutResponse = (Tag);
+
+export type CreateAndAttachTagFeedsFeedFeedIdCreateAndAttachTagPutError = (HTTPValidationError);
+
+export type AttachUserFeedsFeedFeedIdAttachUserPutData = {
+    path: {
+        feed_id: number;
+    };
+};
+
+export type AttachUserFeedsFeedFeedIdAttachUserPutResponse = (unknown);
+
+export type AttachUserFeedsFeedFeedIdAttachUserPutError = (HTTPValidationError);
+
+export type DetachUserFeedsFeedFeedIdDetachUserDeleteData = {
+    path: {
+        feed_id: number;
+    };
+};
+
+export type DetachUserFeedsFeedFeedIdDetachUserDeleteResponse = (unknown);
+
+export type DetachUserFeedsFeedFeedIdDetachUserDeleteError = (HTTPValidationError);
+
+export type UpdateFeedFeedsFeedFeedIdUpdateFeedPostData = {
+    path: {
+        feed_id: number;
+    };
+    query: {
+        language?: (Language | null);
+        link: string;
+        title: string;
+    };
+};
+
+export type UpdateFeedFeedsFeedFeedIdUpdateFeedPostResponse = (Feed);
+
+export type UpdateFeedFeedsFeedFeedIdUpdateFeedPostError = (HTTPValidationError);
 
 export type RootItemsGetData = {
     query: {

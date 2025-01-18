@@ -7,7 +7,10 @@ export default async function Navigation({
   now,
   languages,
   tags,
-}: NavigationSearchParams) {
+  contentServed = false,
+}: NavigationSearchParams & {
+  contentServed?: boolean,
+}) {
   const all_languages = await doLanguagesFeedsLangaugesGet();
   const all_tags = await doTagsFeedsTagsGet();
 
@@ -17,6 +20,7 @@ export default async function Navigation({
   now={ now }
   languages={ languages }
   tags={ tags }
+  contentServed={ contentServed }
 />
 <SideNav
   now={ now }

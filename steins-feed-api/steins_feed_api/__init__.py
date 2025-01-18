@@ -1,11 +1,13 @@
 #!/usr/bin/env python3
 
+import logging
 import os
 
 import dotenv
 import fastapi
 import fastapi.middleware.cors
 
+import steins_feed_logging
 import steins_feed_model
 
 import steins_feed_api.auth
@@ -13,6 +15,10 @@ import steins_feed_api.routers.feeds
 import steins_feed_api.routers.items
 
 dotenv.load_dotenv()
+
+api_logger = steins_feed_logging.LoggerFactory.get_logger(steins_feed_api.__name__)
+steins_feed_logging.LoggerFactory.add_stream_handler(api_logger)
+steins_feed_logging.LoggerFactory.set_level(api_logger, logging.DEBUG)
 
 engine = steins_feed_model.EngineFactory.get_or_create_engine(
     username = os.getenv("DB_USER"),

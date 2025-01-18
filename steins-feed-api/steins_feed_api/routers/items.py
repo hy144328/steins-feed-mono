@@ -92,6 +92,11 @@ async def root(
         sqla_orm.contains_eager(
             steins_feed_model.items.Item.feed,
         ).contains_eager(
+            steins_feed_model.feeds.Feed.users,
+        ),
+        sqla_orm.contains_eager(
+            steins_feed_model.items.Item.feed,
+        ).contains_eager(
             steins_feed_model.feeds.Feed.tags,
         ),
         sqla_orm.joinedload(
