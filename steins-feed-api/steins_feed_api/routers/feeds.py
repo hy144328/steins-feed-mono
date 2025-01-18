@@ -301,7 +301,7 @@ async def update_feed(
     title: str,
     link: str,
     language: typing.Optional[steins_feed_model.feeds.Language] = None,
-):
+) -> Feed:
     if current_user.name != "hansolo":
         raise fastapi.HTTPException(
             status_code = fastapi.status.HTTP_401_UNAUTHORIZED,
@@ -320,3 +320,4 @@ async def update_feed(
         feed.language = language
 
         session.commit()
+        return Feed.from_model(feed)
