@@ -2690,7 +2690,10 @@ develop = true
 [package.dependencies]
 celery = {version = "^5.4.0", extras = ["redis"]}
 python-dotenv = "^1.0.1"
-steins-feed-etl = {path = "../steins-feed-etl", develop = true}
+steins-feed-etl = {path = "../steins-feed-etl", develop = true, optional = true}
+
+[package.extras]
+etl = ["steins-feed-etl @ file:///home/hans/Scratch/SF/steins-feed-mono/steins-feed-etl"]
 
 [package.source]
 type = "directory"
@@ -3240,4 +3243,4 @@ propcache = ">=0.2.0"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.13"
-content-hash = "9ea14f1c91919e591d531527a46422947bf8776b5577c27a6cd975c6f1fdd076"
+content-hash = "af001cabbd1edb66c4cfe68ee4edb5aabdcedb70cc363d925149f8f4581d2e20"
