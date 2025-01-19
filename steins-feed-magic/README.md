@@ -3,5 +3,6 @@
 `.env`:
 
 ```
+MAGIC_FOLDER=../magic.d
 DB_NAME=../steins.db
 ```
