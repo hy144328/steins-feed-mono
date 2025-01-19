@@ -6,7 +6,7 @@ import sklearn.feature_extraction.text
 import steins_feed_logging
 import steins_feed_model.feeds
 
-import util
+from . import util
 
 logger = steins_feed_logging.LoggerFactory.get_logger(__name__)
 
@@ -28,6 +28,7 @@ class CountVectorizer(sklearn.feature_extraction.text.CountVectorizer):
         **kwargs,
     ):
         super().__init__(**kwargs)
+        self.lang = lang
 
         if lang is None:
             self.stemmer = NoStemmer()

@@ -10,13 +10,16 @@ import numpy.typing as npt
 import steins_feed_model.feeds
 import steins_feed_model.items
 
-import feature
+from . import feature
 
 def build_classifier(
     lang: typing.Optional[steins_feed_model.feeds.Language] = None,
 ) -> sklearn.pipeline.Pipeline:
+    def extract_texts(items: typing.Sequence[steins_feed_model.items.Item]) -> list[str]:
+        return [item_it.title for item_it in items]
+
     return sklearn.pipeline.make_pipeline(
-        sklearn.pipeline.FunctionTransformer(functools.partial(getattr, name="title")),
+        sklearn.pipeline.FunctionTransformer(extract_texts),
         feature.CountVectorizer(lang),
         sklearn.feature_extraction.text.TfidfTransformer(),
         sklearn.naive_bayes.MultinomialNB(fit_prior=False),
