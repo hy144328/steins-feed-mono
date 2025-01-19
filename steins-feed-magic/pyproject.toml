@@ -16,6 +16,7 @@ steins-feed-model = {path = "../steins-feed-model", develop = true}
 
 [tool.poetry.group.dev.dependencies]
 poetry = "^1.8.5"
+python-dotenv = "^1.0.1"
 
 [build-system]
 requires = ["poetry-core"]
