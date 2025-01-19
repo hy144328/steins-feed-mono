@@ -2694,6 +2694,7 @@ steins-feed-etl = {path = "../steins-feed-etl", develop = true, optional = true}
 
 [package.extras]
 etl = ["steins-feed-etl @ file:///home/hans/Scratch/SF/steins-feed-mono/steins-feed-etl"]
+magic = ["steins-feed-magic @ file:///home/hans/Scratch/SF/steins-feed-mono/steins-feed-magic"]
 
 [package.source]
 type = "directory"
