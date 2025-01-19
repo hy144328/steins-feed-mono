@@ -20,7 +20,7 @@ def open_pickle(
     lang: steins_feed_model.feeds.Language,
     open_mode: str = "r",
     force: bool = False,
-) -> typing.Generator[typing.BinaryIO]:
+) -> typing.Generator[typing.IO]:
     if force:
         mkdir_p(os.environ["MAGIC_FOLDER"], str(user_id))
 
