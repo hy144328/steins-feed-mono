@@ -1,12 +1,12 @@
 import functools
 import typing
 
+import numpy as np
+import numpy.typing as npt
 import sklearn.feature_extraction.text
 import sklearn.naive_bayes
 import sklearn.pipeline
 
-import numpy as np
-import numpy.typing as npt
 import steins_feed_model.feeds
 import steins_feed_model.items
 
@@ -25,7 +25,7 @@ def build_classifier(
         sklearn.naive_bayes.MultinomialNB(fit_prior=False),
     )
 
-def fit_pipeline(
+def fit_classifier(
     clf: sklearn.pipeline.Pipeline,
     liked_items: typing.Sequence[steins_feed_model.items.Item],
     disliked_items: typing.Sequence[steins_feed_model.items.Item],
