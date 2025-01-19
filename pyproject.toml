@@ -14,7 +14,7 @@ steins-feed-config = {path = "steins-feed-config", develop = true}
 steins-feed-etl = {path = "steins-feed-etl", develop = true}
 steins-feed-logging = {path = "steins-feed-logging", develop = true}
 steins-feed-model = {path = "steins-feed-model", develop = true}
-steins-feed-tasks = {path = "steins-feed-tasks", develop = true}
+steins-feed-tasks = {path = "steins-feed-tasks", extras = ["etl"], develop = true}
 
 [tool.poetry.group.dev.dependencies]
 poetry = "^1.8.5"
