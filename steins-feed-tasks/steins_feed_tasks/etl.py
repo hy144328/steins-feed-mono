@@ -1,4 +1,19 @@
+import logging
+import os
+
+import steins_feed_logging
+
 from .app import app
+
+try:
+    os.mkdir("logs.d")
+except FileExistsError:
+    pass
+
+with open("logs.d/steins_feed_etl.log", "a") as f:
+    etl_logger = steins_feed_logging.LoggerFactory.get_logger("steins_feed_etl.items")
+    steins_feed_logging.LoggerFactory.add_file_handler(etl_logger, f)
+    steins_feed_logging.LoggerFactory.set_level(etl_logger, level=logging.INFO)
 
 @app.task
 def parse_feeds():
@@ -7,26 +22,12 @@ def parse_feeds():
     asyncio.run(parse_feeds_async())
 
 async def parse_feeds_async():
-    import logging
-    import os
-
     import aiohttp
     import sqlalchemy.orm as sqla_orm
 
     import steins_feed_etl.items
-    import steins_feed_logging
 
     from .db import engine
-
-    try:
-        os.mkdir("logs.d")
-    except FileExistsError:
-        pass
-
-    with open("logs.d/steins_feed_etl.log", "a") as f:
-        etl_logger = steins_feed_logging.LoggerFactory.get_logger(steins_feed_etl.items.__name__)
-        steins_feed_logging.LoggerFactory.add_file_handler(etl_logger, f)
-        steins_feed_logging.LoggerFactory.set_level(etl_logger, level=logging.INFO)
 
     connector = aiohttp.TCPConnector(limit=5, limit_per_host=1)
 

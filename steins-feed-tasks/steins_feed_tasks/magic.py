@@ -1,37 +1,37 @@
+import logging
+import os
 import typing
+
+import steins_feed_logging
 
 from .app import app
 
 if typing.TYPE_CHECKING:
     import steins_feed_model.feeds
 
+try:
+    os.mkdir("logs.d")
+except FileExistsError:
+    pass
+
+with open("logs.d/steins_feed_magic.log", "a") as f:
+    magic_logger = steins_feed_logging.LoggerFactory.get_logger("steins_feed_magic")
+    steins_feed_logging.LoggerFactory.add_file_handler(magic_logger, f)
+    steins_feed_logging.LoggerFactory.set_level(magic_logger, level=logging.INFO)
+
 @app.task
 def train_classifier(
     user_id: int,
     lang: "steins_feed_model.feeds.Language | str",
 ):
-    import logging
-    import os
-
     import sqlalchemy.orm as sqla_orm
 
-    import steins_feed_logging
     import steins_feed_magic
     import steins_feed_magic.db
     import steins_feed_magic.io
     import steins_feed_model.feeds
 
     from .db import engine
-
-    try:
-        os.mkdir("logs.d")
-    except FileExistsError:
-        pass
-
-    with open("logs.d/steins_feed_magic.log", "a") as f:
-        magic_logger = steins_feed_logging.LoggerFactory.get_logger(steins_feed_magic.__name__)
-        steins_feed_logging.LoggerFactory.add_file_handler(magic_logger, f)
-        steins_feed_logging.LoggerFactory.set_level(magic_logger, level=logging.INFO)
 
     if not isinstance(lang, steins_feed_model.feeds.Language):
         lang = steins_feed_model.feeds.Language(lang)
