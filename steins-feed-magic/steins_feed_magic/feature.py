@@ -24,12 +24,14 @@ class NoStemmer(nltk.stem.snowball.StemmerI):
 class CountVectorizer(sklearn.feature_extraction.text.CountVectorizer):
     def __init__(
         self,
-        lang: steins_feed_model.feeds.Language,
+        lang: typing.Optional[steins_feed_model.feeds.Language],
         **kwargs,
     ):
         super().__init__(**kwargs)
 
-        if lang in LANG2STEMMER:
+        if lang is None:
+            self.stemmer = NoStemmer()
+        elif lang in LANG2STEMMER:
             self.stemmer = LANG2STEMMER[lang]
         else:
             logger.warning(f"No stemmer of language {lang}.")
