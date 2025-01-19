@@ -11,15 +11,16 @@ import steins_feed_model.feeds
 import steins_feed_model.items
 
 from . import feature
+from . import util
 
 def build_classifier(
     lang: typing.Optional[steins_feed_model.feeds.Language] = None,
 ) -> sklearn.pipeline.Pipeline:
-    def extract_texts(items: typing.Sequence[steins_feed_model.items.Item]) -> list[str]:
-        return [item_it.title for item_it in items]
+    extract_one = functools.partial(util.getattr_from, name="title")
+    extract_many = util.map_over(extract_one)
 
     return sklearn.pipeline.make_pipeline(
-        sklearn.pipeline.FunctionTransformer(extract_texts),
+        sklearn.pipeline.FunctionTransformer(extract_many),
         feature.CountVectorizer(lang),
         sklearn.feature_extraction.text.TfidfTransformer(),
         sklearn.naive_bayes.MultinomialNB(fit_prior=False),

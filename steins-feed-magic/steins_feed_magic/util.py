@@ -41,29 +41,35 @@ def concatenate[S, T, U](
     f: typing.Callable[[S], T],
     g: typing.Callable[[T], U],
 ) -> typing.Callable[[S], U]:
-    def concatenated(
-        initial: S,
-        f: typing.Callable[[S], T],
-        g: typing.Callable[[T], U],
-    ) -> U:
-        return g(f(initial))
-
     return functools.partial(
-        concatenated,
+        _concatenated,
         f = f,
         g = g,
     )
 
+def _concatenated[S, T, U](
+    initial: S,
+    f: typing.Callable[[S], T],
+    g: typing.Callable[[T], U],
+) -> U:
+    return g(f(initial))
+
 def map_over[S, T](
     function: typing.Callable[[S], T],
 ) -> typing.Callable[[typing.Sequence[S]], list[T]]:
-    def mapped_over(
-        initial: typing.Sequence[S],
-        function: typing.Callable[[S], T],
-    ) -> list[T]:
-        return [function(s) for s in initial]
-
     return functools.partial(
-        mapped_over,
+        _mapped_over,
         function = function,
     )
+
+def _mapped_over[S, T](
+    initial: typing.Sequence[S],
+    function: typing.Callable[[S], T],
+) -> list[T]:
+    return [function(s) for s in initial]
+
+def getattr_from(
+    o: object,
+    name: str,
+):
+    return getattr(o, name)
