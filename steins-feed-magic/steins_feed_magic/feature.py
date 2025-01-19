@@ -46,4 +46,4 @@ class CountVectorizer(sklearn.feature_extraction.text.CountVectorizer):
     @typing.override
     def build_tokenizer(self) -> typing.Callable[[str], list[str]]:
         tokenize = super().build_tokenizer()
-        return lambda x: [self.stemmer.stem(s) for s in tokenize(x)]
+        return util.concatenate(tokenize, util.map_over(self.stemmer.stem))
