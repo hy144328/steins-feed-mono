@@ -12,8 +12,8 @@ result:
 
 .PHONY: add
 add:
-	celery -A steins_feed_tasks call steins_feed_tasks.add -a "[$(LEFT), $(RIGHT)]"
+	celery -A steins_feed_tasks call steins_feed_tasks.dummy.add -a "[$(LEFT), $(RIGHT)]"
 
 .PHONY: parse_feeds
 parse_feeds:
-	celery -A steins_feed_tasks call steins_feed_tasks.parse_feeds
+	celery -A steins_feed_tasks call steins_feed_tasks.etl.parse_feeds
