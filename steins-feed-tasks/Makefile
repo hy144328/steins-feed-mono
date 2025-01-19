@@ -17,3 +17,7 @@ add:
 .PHONY: parse_feeds
 parse_feeds:
 	celery -A steins_feed_tasks call steins_feed_tasks.etl.parse_feeds
+
+.PHONY: train_classifiers
+train_classifiers:
+	celery -A steins_feed_tasks call steins_feed_tasks.magic.train_classifiers_all

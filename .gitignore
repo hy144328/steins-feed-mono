@@ -1,5 +1,6 @@
 .coverage
 .env
 logs.d/
+magic.d/
 __pycache__/
 steins.db

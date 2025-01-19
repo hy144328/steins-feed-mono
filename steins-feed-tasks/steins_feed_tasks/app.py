@@ -9,5 +9,6 @@ app = celery.Celery(
     include = [
         "steins_feed_tasks.dummy",
         "steins_feed_tasks.etl",
+        "steins_feed_tasks.magic",
     ],
 )

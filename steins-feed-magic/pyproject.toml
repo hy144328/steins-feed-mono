@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "steins-feed-magic"
+version = "0.1.0"
+description = "Stein's feed -- magic"
+authors = ["Hans Yu <hans.yu@outlook.de>"]
+license = "GPL-3.0-or-later"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.13"
+lxml = "^5.3.0"
+nltk = "^3.9.1"
+scikit-learn = "^1.6.1"
+steins-feed-logging = {path = "../steins-feed-logging", develop = true}
+steins-feed-model = {path = "../steins-feed-model", develop = true}
+
+[tool.poetry.group.dev.dependencies]
+poetry = "^1.8.5"
+python-dotenv = "^1.0.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
