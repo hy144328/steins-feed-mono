@@ -85,6 +85,7 @@ def update_scores(
 
     import steins_feed_magic
     import steins_feed_magic.io
+    import steins_feed_model.items
 
     from . import db
     from . import log
