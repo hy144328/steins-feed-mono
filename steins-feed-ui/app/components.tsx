@@ -82,7 +82,7 @@ export default function WallArticle({
         ),
         ",",
       ) }.
-      Score: { (item.magic ?? 0).toFixed(2) }.
+      Score: { item.magic ? item.magic.toFixed(2) : "null" }.
     </h6>
 
     <div
