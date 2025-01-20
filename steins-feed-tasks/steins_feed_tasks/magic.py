@@ -46,6 +46,7 @@ def train_classifier(
 @app.task
 def train_classifiers_all():
     import celery
+    import celery.result
     import sqlalchemy as sqla
     import sqlalchemy.orm as sqla_orm
 
@@ -57,14 +58,16 @@ def train_classifiers_all():
 
     log.magic_logger.info("Start train_classifiers_all.")
 
-    res = []
+    assert isinstance(train_classifier, celery.Task)
 
     with sqla_orm.Session(db.engine) as session:
-        for user_it in session.execute(sqla.select(steins_feed_model.users.User)).scalars():
-            for lang_it in steins_feed_model.feeds.Language:
-                assert isinstance(train_classifier, celery.Task)
-                task_it = train_classifier.delay(user_it.id, lang_it)
-                res.append((user_it.id, lang_it, task_it.id))
+        job = celery.group(
+            train_classifier.s(user_it.id, lang_it)
+            for user_it in session.execute(sqla.select(steins_feed_model.users.User)).scalars()
+            for lang_it in steins_feed_model.feeds.Language
+        )
+        res = job()
 
     log.magic_logger.info("Finish train_classifiers_all.")
+    assert isinstance(res, celery.result.GroupResult)
     return res
