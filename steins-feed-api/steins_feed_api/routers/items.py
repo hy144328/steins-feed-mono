@@ -1,6 +1,7 @@
 import datetime
 import typing
 
+import celery
 import fastapi
 import pydantic
 import sqlalchemy as sqla
@@ -10,6 +11,7 @@ import steins_feed_model
 import steins_feed_model.feeds
 import steins_feed_model.items
 import steins_feed_model.users
+import steins_feed_tasks.magic
 
 import steins_feed_api.auth
 import steins_feed_api.routers.feeds
@@ -112,10 +114,18 @@ async def root(
     )
 
     with sqla_orm.Session(engine) as session:
-        return [
+        res = [
             Item.from_model(item_it)
             for item_it in session.execute(q).scalars().unique()
         ]
+
+    assert isinstance(steins_feed_tasks.magic.update_scores, celery.Task)
+    steins_feed_tasks.magic.update_scores.delay(
+        user_id = current_user.id,
+        item_ids = [item_it.id for item_it in res],
+    )
+
+    return res
 
 @router.put("/like/")
 async def like(
