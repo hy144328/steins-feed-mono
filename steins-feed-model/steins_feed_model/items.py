@@ -80,8 +80,8 @@ class Magic(base.Base):
     user_id: sqla_orm.Mapped[int] = sqla_orm.mapped_column(sqla.Integer, types.ForeignKey(users.User.id))
     item_id: sqla_orm.Mapped[int] = sqla_orm.mapped_column(sqla.Integer, types.ForeignKey(Item.id))
     score: sqla_orm.Mapped[float] = sqla_orm.mapped_column("Score", sqla.Float)
-    added: sqla_orm.Mapped[datetime.datetime] = sqla_orm.mapped_column(sqla.DateTime, server_default=sqla.func.now())
-    updated: sqla_orm.Mapped[datetime.datetime] = sqla_orm.mapped_column(sqla.DateTime, server_default=sqla.func.now(), server_onupdate=sqla.func.now())
+    added: sqla_orm.Mapped[datetime.datetime] = sqla_orm.mapped_column(sqla.DateTime, server_default=sqla.func.now(), init=False)
+    updated: sqla_orm.Mapped[datetime.datetime] = sqla_orm.mapped_column(sqla.DateTime, server_default=sqla.func.now(), server_onupdate=sqla.func.now(), init=False)
 
     user: sqla_orm.Mapped["users.User"] = sqla_orm.relationship(
         "User",
