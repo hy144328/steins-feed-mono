@@ -9,12 +9,14 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "^3.13"
 celery = {extras = ["redis"], version = "^5.4.0"}
-python-dotenv = "^1.0.1"
 steins-feed-etl = {path = "../steins-feed-etl", optional = true, develop = true}
 steins-feed-magic = {path = "../steins-feed-magic", optional = true, develop = true}
 
 [tool.poetry.group.dev.dependencies]
 poetry = "^1.8.5"
+
+[tool.poetry.group.worker.dependencies]
+python-dotenv = "^1.0.1"
 
 [tool.poetry.extras]
 etl = ["steins-feed-etl"]

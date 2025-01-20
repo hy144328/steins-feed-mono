@@ -2030,7 +2030,6 @@ develop = true
 
 [package.dependencies]
 celery = {version = "^5.4.0", extras = ["redis"]}
-python-dotenv = "^1.0.1"
 
 [package.extras]
 etl = ["steins-feed-etl @ file:///home/hans/Scratch/SF/steins-feed-mono/steins-feed-etl"]
