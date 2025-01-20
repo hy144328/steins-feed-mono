@@ -111,7 +111,7 @@ def update_scores(
         unscored_items = (
             item_it
             for item_it in all_items
-            if item_it.feed.language is not None and len(item_it.magic) > 0
+            if item_it.feed.language is not None and len(item_it.magic) == 0
         )
         grouped_items = itertools.groupby(unscored_items, key=lambda x: x.feed.language)
 
