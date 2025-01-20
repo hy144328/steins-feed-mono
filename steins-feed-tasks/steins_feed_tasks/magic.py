@@ -1,11 +1,9 @@
 import typing
 
-import celery
-import celery.result
-
 from .app import app
 
 if typing.TYPE_CHECKING:
+    import celery.result
     import steins_feed_model.feeds
 
 @app.task
@@ -47,7 +45,8 @@ def train_classifier(
     log.magic_logger.info(f"Finish train_classifier: {user_id}, {lang}.")
 
 @app.task
-def train_classifiers_all() -> celery.result.GroupResult:
+def train_classifiers_all() -> "celery.result.GroupResult":
+    import celery
     import sqlalchemy as sqla
     import sqlalchemy.orm as sqla_orm
 
@@ -70,7 +69,6 @@ def train_classifiers_all() -> celery.result.GroupResult:
         res = job()
 
     log.magic_logger.info("Finish train_classifiers_all.")
-    assert isinstance(res, celery.result.GroupResult)
     return res
 
 @app.task
