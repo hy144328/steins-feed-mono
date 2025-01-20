@@ -1,25 +1,14 @@
-import logging
-import os
-
-import steins_feed_logging
-
 from .app import app
-
-try:
-    os.mkdir("logs.d")
-except FileExistsError:
-    pass
-
-with open("logs.d/steins_feed_etl.log", "a") as f:
-    etl_logger = steins_feed_logging.LoggerFactory.get_logger("steins_feed_etl.items")
-    steins_feed_logging.LoggerFactory.add_file_handler(etl_logger, f)
-    steins_feed_logging.LoggerFactory.set_level(etl_logger, level=logging.INFO)
 
 @app.task
 def parse_feeds():
     import asyncio
 
+    from . import log
+
+    log.etl_logger.info("Start parse_feeds.")
     asyncio.run(parse_feeds_async())
+    log.etl_logger.info("Finish parse_feeds.")
 
 async def parse_feeds_async():
     import aiohttp
@@ -27,10 +16,10 @@ async def parse_feeds_async():
 
     import steins_feed_etl.items
 
-    from .db import engine
+    from . import db
 
     connector = aiohttp.TCPConnector(limit=5, limit_per_host=1)
 
-    with sqla_orm.Session(engine) as session:
+    with sqla_orm.Session(db.engine) as session:
         async with aiohttp.ClientSession(connector=connector) as client:
             await steins_feed_etl.items.parse_feeds(session, client, skip_recent=True)
