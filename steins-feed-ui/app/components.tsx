@@ -80,9 +80,9 @@ export default function WallArticle({
         item.feed.tags.map(tag_it =>
           <a href={ `/tag?tag=${ tag_it.id }` } key={ tag_it.id }>{ tag_it.name }</a>
         ),
-        ",",
+        ", ",
       ) }.
-      Score: { (item.magic ?? 0).toFixed(2) }.
+      Score: { item.magic ? item.magic.toFixed(2) : "null" }.
     </h6>
 
     <div

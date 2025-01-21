@@ -2919,6 +2919,7 @@ pyjwt = {version = "^2.10.1", extras = ["crypto"]}
 python-dotenv = "^1.0.1"
 steins-feed-logging = {path = "../steins-feed-logging", develop = true}
 steins-feed-model = {path = "../steins-feed-model", develop = true}
+steins-feed-tasks = {path = "../steins-feed-tasks", develop = true}
 
 [package.source]
 type = "directory"
@@ -3023,7 +3024,6 @@ develop = true
 
 [package.dependencies]
 celery = {version = "^5.4.0", extras = ["redis"]}
-python-dotenv = "^1.0.1"
 steins-feed-etl = {path = "../steins-feed-etl", develop = true, optional = true}
 steins-feed-magic = {path = "../steins-feed-magic", develop = true, optional = true}
 

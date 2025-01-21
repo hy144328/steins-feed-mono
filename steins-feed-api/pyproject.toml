@@ -14,6 +14,7 @@ pyjwt = {extras = ["crypto"], version = "^2.10.1"}
 python-dotenv = "^1.0.1"
 steins-feed-logging = {path = "../steins-feed-logging", develop = true}
 steins-feed-model = {path = "../steins-feed-model", develop = true}
+steins-feed-tasks = {path = "../steins-feed-tasks", develop = true}
 
 [tool.poetry.group.dev.dependencies]
 poetry = "^1.8.5"
