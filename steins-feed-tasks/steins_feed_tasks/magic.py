@@ -39,6 +39,7 @@ def train_classifier(
                 disliked_items = disliked_items,
             )
             steins_feed_magic.io.write_classifier(clf, 1, lang, force=True)
+            steins_feed_magic.db.reset_magic(session, user_id, lang)
         except ValueError as e:
             log.magic_logger.warning(e)
 

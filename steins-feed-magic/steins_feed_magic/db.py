@@ -41,3 +41,27 @@ def disliked_items(
         lang = lang,
         score = steins_feed_model.items.LikeStatus.DOWN,
     )
+
+def reset_magic(
+    session: sqla_orm.Session,
+    user_id: int,
+    lang: typing.Optional[steins_feed_model.feeds.Language],
+):
+    q_exists = sqla.select(
+        steins_feed_model.items.Item,
+    ).join(
+        steins_feed_model.feeds.Feed,
+    ).where(
+        steins_feed_model.feeds.Feed.language == lang,
+        steins_feed_model.items.Item.id == steins_feed_model.items.Magic.item_id,
+    )
+
+    q = sqla.delete(
+        steins_feed_model.items.Magic,
+    ).where(
+        steins_feed_model.items.Magic.user_id == user_id,
+        q_exists.exists(),
+    )
+
+    session.execute(q)
+    session.commit()
