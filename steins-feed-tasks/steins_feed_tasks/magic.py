@@ -80,6 +80,7 @@ def update_scores(
 
     import celery
 
+    import sqlalchemy as sqla
     import sqlalchemy.orm as sqla_orm
 
     import steins_feed_model.items
@@ -89,34 +90,43 @@ def update_scores(
 
     log.magic_logger.info(f"Start to update scores for {user_id}.")
 
+    q = sqla.select(
+        steins_feed_model.items.Item.id,
+        steins_feed_model.feeds.Feed.language,
+    ).join(
+        steins_feed_model.items.Item.feed,
+    ).join(
+        steins_feed_model.items.Item.magic.and_(
+            steins_feed_model.items.Magic.user_id == user_id,
+        ),
+        isouter = True,
+    ).where(
+        steins_feed_model.items.Item.id.in_(item_ids),
+        steins_feed_model.items.Magic.item_id == None,
+    ).order_by(
+        steins_feed_model.feeds.Feed.language,
+    )
+
     with sqla_orm.Session(db.engine) as session:
-        all_items = (
-            session.get_one(
-                steins_feed_model.items.Item,
-                item_id,
-                options = [sqla_orm.joinedload(steins_feed_model.items.Item.feed)],
+        items = itertools.groupby(
+            session.execute(q).tuples(),
+            key = lambda x: x[1],
+        )
+
+        assert isinstance(update_scores_by_language, celery.Task)
+        signatures = []
+
+        for lang_it, items_it in items:
+            if lang_it is None:
+                log.magic_logger.warning(f"Skip {len(list(items_it))} items without language.")
+                continue
+
+            sign_it = update_scores_by_language.s(
+                user_id = user_id,
+                item_ids = [item_it[0] for item_it in items_it],
+                lang = lang_it,
             )
-            for item_id in item_ids
-        )
-        grouped_items = itertools.groupby(
-            all_items,
-            key = lambda x: x.feed.language,
-        )
-
-    assert isinstance(update_scores_by_language, celery.Task)
-    signatures = []
-
-    for lang_it, items_it in grouped_items:
-        if lang_it is None:
-            log.magic_logger.warning(f"Skip {len(list(items_it))} items without language.")
-            continue
-
-        sign_it = update_scores_by_language.s(
-            user_id = user_id,
-            item_ids = [item_it.id for item_it in items_it],
-            lang = lang_it,
-        )
-        signatures.append(sign_it)
+            signatures.append(sign_it)
 
     job = celery.group(*signatures)
     res = job()
@@ -145,51 +155,36 @@ def update_scores_by_language(
     if not isinstance(lang, steins_feed_model.feeds.Language):
         lang = steins_feed_model.feeds.Language(lang)
 
+    try:
+        clf = steins_feed_magic.io.read_classifier(user_id, lang)
+    except FileNotFoundError:
+        log.magic_logger.warning(f"Skip {len(item_ids)} {lang} items without classifier.")
+        return
+
+    q = sqla.select(
+        steins_feed_model.items.Item,
+    ).where(
+        steins_feed_model.items.Item.id.in_(item_ids),
+    )
+
     with sqla_orm.Session(db.engine) as session:
-        all_items = (
-            session.get_one(
-                steins_feed_model.items.Item,
-                item_id,
-                options = [
-                    sqla_orm.joinedload(
-                        steins_feed_model.items.Item.magic.and_(
-                            steins_feed_model.items.Magic.user_id == user_id,
-                        ),
-                    ),
-                ],
-            )
-            for item_id in item_ids
-        )
-        unscored_items = [
-            item_it
-            for item_it in all_items
-            if len(item_it.magic) == 0
-        ]
-        if len(unscored_items) == 0:
-            log.magic_logger.info(f"No {lang} items to update.")
-            return
-
-        q = sqla.insert(steins_feed_model.items.Magic)
-        q = q.prefix_with("OR IGNORE", dialect="sqlite")
-
-        try:
-            clf = steins_feed_magic.io.read_classifier(user_id, lang)
-        except FileNotFoundError:
-            log.magic_logger.warning(f"Skip {len(unscored_items)} {lang} items without classifier.")
-            return
-
-        scores = steins_feed_magic.predict_scores(clf, unscored_items)
+        items = session.execute(q).scalars().all()
+        scores = steins_feed_magic.predict_scores(clf, items)
         res = [
             {
                 "user_id": user_id,
                 "item_id": item_it.id,
                 "score": score_it,
             }
-            for item_it, score_it in zip(unscored_items, scores)
+            for item_it, score_it in zip(items, scores)
         ]
 
-        log.magic_logger.info(f"Update scores of {len(unscored_items)} {lang} items.")
-        session.execute(q, res)
+    stmt = sqla.insert(steins_feed_model.items.Magic)
+    stmt = stmt.prefix_with("OR IGNORE", dialect="sqlite")
+
+    with sqla_orm.Session(db.engine) as session:
+        log.magic_logger.info(f"Update scores of {len(items)} {lang} items.")
+        session.execute(stmt, res)
         session.commit()
 
     log.magic_logger.info(f"Finish to update scores for {user_id} and {lang}.")
