@@ -61,9 +61,10 @@ def train_classifiers_all() -> "celery.result.GroupResult":
     assert isinstance(train_classifier, celery.Task)
 
     with sqla_orm.Session(db.engine) as session:
+        q_users = sqla.select(steins_feed_model.users.User)
         job = celery.group(
             train_classifier.s(user_id=user_it.id, lang=lang_it)
-            for user_it in session.execute(sqla.select(steins_feed_model.users.User)).scalars()
+            for user_it in session.execute(q_users).scalars()
             for lang_it in steins_feed_model.feeds.Language
         )
         res = job()
