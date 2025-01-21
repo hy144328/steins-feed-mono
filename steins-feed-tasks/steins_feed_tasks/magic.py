@@ -62,7 +62,7 @@ def train_classifiers_all() -> "celery.result.GroupResult":
 
     with sqla_orm.Session(db.engine) as session:
         job = celery.group(
-            train_classifier.s(user_it.id, lang_it)
+            train_classifier.s(user_id=user_it.id, lang=lang_it)
             for user_it in session.execute(sqla.select(steins_feed_model.users.User)).scalars()
             for lang_it in steins_feed_model.feeds.Language
         )
