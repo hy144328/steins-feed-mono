@@ -3,7 +3,6 @@ import typing
 from .app import app
 
 if typing.TYPE_CHECKING:
-    import celery.result
     import steins_feed_model.feeds
 
 @app.task
@@ -46,7 +45,7 @@ def train_classifier(
     log.magic_logger.info(f"Finish train_classifier: {user_id}, {lang}.")
 
 @app.task
-def train_classifiers_all() -> "celery.result.GroupResult":
+def train_classifiers_all():
     import celery
     import sqlalchemy as sqla
     import sqlalchemy.orm as sqla_orm
@@ -68,10 +67,9 @@ def train_classifiers_all() -> "celery.result.GroupResult":
             for user_it in session.execute(q_users).scalars()
             for lang_it in steins_feed_model.feeds.Language
         )
-        res = job()
+        job()
 
     log.magic_logger.info("Finish train_classifiers_all.")
-    return res
 
 @app.task
 def update_scores(
