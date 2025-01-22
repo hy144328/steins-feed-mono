@@ -1,12 +1,17 @@
+import collections
 import datetime
+import functools
 import typing
 
 import celery
+import celery.canvas
+import celery.result
 import fastapi
 import pydantic
 import sqlalchemy as sqla
 import sqlalchemy.orm as sqla_orm
 
+import steins_feed_logging
 import steins_feed_model
 import steins_feed_model.feeds
 import steins_feed_model.items
@@ -20,6 +25,8 @@ router = fastapi.APIRouter(
     prefix = "/items",
     tags = ["items"],
 )
+
+logger = steins_feed_logging.LoggerFactory.get_logger(__name__)
 
 class Item(pydantic.BaseModel):
     id: int
@@ -113,19 +120,73 @@ async def root(
         ),
     )
 
+    res = []
+    res_to_score_by_lang: dict[steins_feed_model.feeds.Language, list[Item]] = collections.defaultdict(list)
+
     with sqla_orm.Session(engine) as session:
-        res = [
-            Item.from_model(item_it)
-            for item_it in session.execute(q).scalars().unique()
-        ]
+        for item_it in session.execute(q).scalars().unique():
+            res_it = Item.from_model(item_it)
+            res.append(res_it)
 
-    assert isinstance(steins_feed_tasks.magic.update_scores, celery.Task)
-    steins_feed_tasks.magic.update_scores.delay(
-        user_id = current_user.id,
-        item_ids = [item_it.id for item_it in res],
-    )
+            if (res_it.magic is None) and (res_it.feed.language is not None):
+                res_to_score_by_lang[res_it.feed.language].append(res_it)
 
+    job_tasks = []
+
+    for k, vs in res_to_score_by_lang.items():
+        job_task_it = _calculate_and_update_scores(
+            user_id = current_user.id,
+            lang = k,
+            item_ids = [v.id for v in vs],
+        )
+        job_tasks.append(job_task_it)
+
+    job = celery.group(*job_tasks)
+    g = job()
+    assert isinstance(g, celery.result.GroupResult)
+
+    for result_it, vs in zip(g.results, res_to_score_by_lang.values()):
+        assert isinstance(result_it, celery.result.AsyncResult)
+        result_it.then(functools.partial(_set_scores, items=vs))
+
+    g.get()
     return res
+
+def _calculate_and_update_scores(
+    item_ids: typing.Sequence[int],
+    user_id: int,
+    lang: steins_feed_model.feeds.Language,
+) -> celery.canvas.Signature:
+    assert isinstance(steins_feed_tasks.magic.calculate_scores, celery.Task)
+    assert isinstance(steins_feed_tasks.magic.update_scores, celery.Task)
+
+    calculate_scores = steins_feed_tasks.magic.calculate_scores.s(
+        item_ids = item_ids,
+        user_id = user_id,
+        lang = lang,
+    )
+    assert isinstance(calculate_scores, celery.canvas.Signature)
+
+    update_scores = steins_feed_tasks.magic.update_scores.s(
+        user_id = user_id,
+        lang = lang,
+    )
+    assert isinstance(update_scores, celery.canvas.Signature)
+
+    return calculate_scores.set(link=update_scores)
+
+def _set_scores(
+    res: celery.result.AsyncResult,
+    items: typing.Sequence[Item],
+):
+    logger.info(f"Start to augment {len(items)} items with scores.")
+
+    id2score = dict(res.result)
+
+    for item_it in items:
+        item_it.magic = id2score[item_it.id]
+
+    logger.info(f"Finish to augment {len(items)} items with scores.")
 
 @router.put("/like/")
 async def like(
