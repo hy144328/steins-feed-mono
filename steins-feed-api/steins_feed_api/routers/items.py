@@ -1,12 +1,15 @@
 import collections
 import datetime
+import enum
 import functools
+import random
 import typing
 
 import celery
 import celery.canvas
 import celery.result
 import fastapi
+import numpy as np
 import pydantic
 import sqlalchemy as sqla
 import sqlalchemy.orm as sqla_orm
@@ -27,6 +30,20 @@ router = fastapi.APIRouter(
 )
 
 logger = steins_feed_logging.LoggerFactory.get_logger(__name__)
+
+class WallMode(enum.Enum):
+    CLASSIC = "Classic"
+    MAGIC = "Magic"
+    RANDOM = "Random"
+    SURPRISE = "Surprise"
+
+    @property
+    def is_biased(self) -> bool:
+        return self in {self.MAGIC, self.SURPRISE}
+
+    @property
+    def is_full(self) -> bool:
+        return self in {self.CLASSIC, self.MAGIC}
 
 class Item(pydantic.BaseModel):
     id: int
@@ -64,6 +81,7 @@ async def root(
         typing.Optional[typing.Sequence[int]],
         fastapi.Query(),
     ] = None,
+    wall_mode: WallMode = WallMode.CLASSIC,
 ) -> list[Item]:
     engine = steins_feed_model.EngineFactory.get_or_create_engine()
 
@@ -93,10 +111,6 @@ async def root(
             if tags is not None
             else sqla.true()
         ),
-    ).order_by(
-        steins_feed_model.items.Item.published.desc(),
-        steins_feed_model.items.Item.title,
-        steins_feed_model.feeds.Feed.title,
     ).options(
         sqla_orm.contains_eager(
             steins_feed_model.items.Item.feed,
@@ -113,14 +127,50 @@ async def root(
                 steins_feed_model.items.Like.user_id == current_user.id,
             ),
         ),
-        sqla_orm.joinedload(
-            steins_feed_model.items.Item.magic.and_(
-                steins_feed_model.items.Magic.user_id == current_user.id,
-            ),
-        ),
     )
 
-    res = []
+    match wall_mode:
+        case WallMode.MAGIC:
+            q = q.order_by(
+                steins_feed_model.items.Magic.score.desc(),
+                steins_feed_model.items.Item.published.desc(),
+                steins_feed_model.items.Item.title,
+                steins_feed_model.feeds.Feed.title,
+            )
+        case _:
+            q = q.order_by(
+                steins_feed_model.items.Item.published.desc(),
+                steins_feed_model.items.Item.title,
+                steins_feed_model.feeds.Feed.title,
+            )
+
+    if wall_mode.is_biased:
+        q = q.options(
+            sqla_orm.joinedload(
+                steins_feed_model.items.Item.magic.and_(
+                    steins_feed_model.items.Magic.user_id == current_user.id,
+                ),
+            ),
+        )
+    else:
+        q = q.options(sqla_orm.noload(steins_feed_model.items.Item.magic))
+
+    match wall_mode:
+        case WallMode.CLASSIC:
+            with sqla_orm.Session(engine) as session:
+                return [
+                    Item.from_model(item_it)
+                    for item_it in session.execute(q).scalars().unique()
+                ]
+        case WallMode.RANDOM:
+            with sqla_orm.Session(engine) as session:
+                res = [
+                    Item.from_model(item_it)
+                    for item_it in session.execute(q).scalars().unique()
+                ]
+                return random.sample(res, 10)
+
+    res: list[Item] = []
     res_to_score_by_lang: dict[steins_feed_model.feeds.Language, list[Item]] = collections.defaultdict(list)
 
     with sqla_orm.Session(engine) as session:
@@ -149,8 +199,14 @@ async def root(
         assert isinstance(result_it, celery.result.AsyncResult)
         result_it.then(functools.partial(_set_scores, items=vs))
 
-    g.get()
-    return res
+    g.forget()
+
+    match wall_mode:
+        case WallMode.MAGIC:
+            return res
+        case WallMode.SURPRISE:
+            scores = np.array(res_it.magic or 0 for res_it in res)
+            return random.choices(res, k=10, weights=np.log((1 + scores) / (1 - scores)))
 
 def _calculate_and_update_scores(
     item_ids: typing.Sequence[int],
