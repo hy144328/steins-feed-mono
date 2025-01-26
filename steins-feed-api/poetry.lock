@@ -2068,6 +2068,19 @@ type = "directory"
 url = "../steins-feed-logging"
 
 [[package]]
+name = "steins-feed-math"
+version = "0.1.0"
+description = "Stein's Feed -- mathematics"
+optional = false
+python-versions = "^3.13"
+files = []
+develop = true
+
+[package.source]
+type = "directory"
+url = "../steins-feed-math"
+
+[[package]]
 name = "steins-feed-model"
 version = "0.1.0"
 description = "Stein's feed -- model"
@@ -2096,8 +2109,8 @@ develop = true
 celery = {version = "^5.4.0", extras = ["redis"]}
 
 [package.extras]
-etl = ["steins-feed-etl @ file:///home/hans/Scratch/SF/steins-feed-mono/steins-feed-etl"]
-magic = ["steins-feed-magic @ file:///home/hans/Scratch/SF/steins-feed-mono/steins-feed-magic"]
+etl = ["steins-feed-etl @ file:///home/hansyu/Scratch/Personal/steins-feed-mono/steins-feed-etl"]
+magic = ["steins-feed-magic @ file:///home/hansyu/Scratch/Personal/steins-feed-mono/steins-feed-magic"]
 
 [package.source]
 type = "directory"
@@ -2536,4 +2549,4 @@ test = ["pytest"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.13"
-content-hash = "87c6c2dd4a777a63c5e2ff337bb443cf69668ea3b562f4f674bfaaa68d700042"
+content-hash = "f0c0eb6884af9fe328dfea416dbef1a7a49c2498a5e45e370b8a103c6eb23cbc"

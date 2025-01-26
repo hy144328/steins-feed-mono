@@ -2914,10 +2914,12 @@ develop = true
 
 [package.dependencies]
 fastapi = {version = "^0.115.6", extras = ["standard"]}
+numpy = "^2.2.2"
 passlib = {version = "^1.7.4", extras = ["bcrypt"]}
 pyjwt = {version = "^2.10.1", extras = ["crypto"]}
 python-dotenv = "^1.0.1"
 steins-feed-logging = {path = "../steins-feed-logging", develop = true}
+steins-feed-math = {path = "../steins-feed-math", develop = true}
 steins-feed-model = {path = "../steins-feed-model", develop = true}
 steins-feed-tasks = {path = "../steins-feed-tasks", develop = true}
 
@@ -2998,6 +3000,19 @@ type = "directory"
 url = "steins-feed-magic"
 
 [[package]]
+name = "steins-feed-math"
+version = "0.1.0"
+description = "Stein's Feed -- mathematics"
+optional = false
+python-versions = "^3.13"
+files = []
+develop = true
+
+[package.source]
+type = "directory"
+url = "steins-feed-math"
+
+[[package]]
 name = "steins-feed-model"
 version = "0.1.0"
 description = "Stein's feed -- model"
@@ -3028,8 +3043,8 @@ steins-feed-etl = {path = "../steins-feed-etl", develop = true, optional = true}
 steins-feed-magic = {path = "../steins-feed-magic", develop = true, optional = true}
 
 [package.extras]
-etl = ["steins-feed-etl @ file:///home/hans/Scratch/SF/steins-feed-mono/steins-feed-etl"]
-magic = ["steins-feed-magic @ file:///home/hans/Scratch/SF/steins-feed-mono/steins-feed-magic"]
+etl = ["steins-feed-etl @ file:///home/hansyu/Scratch/Personal/steins-feed-mono/steins-feed-etl"]
+magic = ["steins-feed-magic @ file:///home/hansyu/Scratch/Personal/steins-feed-mono/steins-feed-magic"]
 
 [package.source]
 type = "directory"
@@ -3611,4 +3626,4 @@ propcache = ">=0.2.0"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.13"
-content-hash = "e9d2e5100eff164f8ee6f6d4499a60dc8b56eb0e697936d62ed5354361f3bd1a"
+content-hash = "022fd68e7bcd766e8f8dadacdf7bf49e46f09aec528e79e0f6f0c211eaaa5e25"
