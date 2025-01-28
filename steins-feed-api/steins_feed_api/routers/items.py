@@ -1,8 +1,6 @@
 import datetime
 import enum
-import functools
 import itertools
-import queue
 import random
 import typing
 
@@ -14,7 +12,7 @@ import pydantic
 import sqlalchemy as sqla
 import sqlalchemy.orm as sqla_orm
 
-import steins_feed_api.util
+import steins_feed_api.pubsub
 import steins_feed_logging
 import steins_feed_math.statistics
 import steins_feed_model
@@ -229,12 +227,12 @@ def _augment_unscored(
         items,
         key = lambda x: x.feed.language,
     )
-
-    queue_in = queue.Queue()
-    queue_out = queue.Queue()
+    publishers: list[typing.Generator[Item]] = []
 
     for k, vs in res_to_score_by_lang:
         if k is None:
+            publisher_it = (Item.from_model(v) for v in vs)
+            publishers.append(publisher_it)
             continue
 
         task_it = _calculate_and_update_scores(
@@ -245,14 +243,10 @@ def _augment_unscored(
         res_it = task_it.delay()
         assert isinstance(res_it, celery.result.AsyncResult)
 
-        queue_in.put(res_it)
-        put_scores_to_queue_it = steins_feed_api.util.to_queue(
-            queue_out,
-            task_done = queue_in.task_done,
-        )(_put_scores)
-        res_it.then(functools.partial(put_scores_to_queue_it, session=session))
+        publisher_it = _put_scores(res_it, session)
+        publishers.append(publisher_it)
 
-    yield from steins_feed_api.util.from_queue_to_queue(queue_in, queue_out)
+    yield from steins_feed_api.pubsub.reduce_publishers(*publishers)
 
 def _calculate_and_update_scores(
     item_ids: typing.Sequence[int],
@@ -281,19 +275,23 @@ def _put_scores(
     res: celery.result.AsyncResult,
     session: sqla_orm.Session,
 ) -> typing.Generator[Item]:
-    logger.info(f"Start to queue items with scores.")
+    logger.debug(f"Start to process items with scores.")
 
-    for item_id, item_score in res.result:
+    item_ids_and_scores = res.get()
+    assert item_ids_and_scores is not None
+
+    for item_id, item_score in item_ids_and_scores:
         assert isinstance(item_id, int)
-        assert isinstance(item_score, float)
+        assert isinstance(item_score, typing.Optional[float])
 
         item_it = session.get_one(steins_feed_model.items.Item, item_id)
         item_it = Item.from_model(item_it)
-        item_it.magic = item_score
+        if item_score is not None:
+            item_it.magic = item_score
 
         yield item_it
 
-    logger.info(f"Finish to queue items with scores.")
+    logger.debug(f"Finish to process items with scores.")
 
 @router.put("/like/")
 async def like(

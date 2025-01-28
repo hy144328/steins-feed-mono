@@ -118,7 +118,7 @@ def calculate_scores(
 
 @app.task
 def update_scores(
-    item_scores: typing.Sequence[typing.Tuple[int, float]],
+    item_scores: typing.Sequence[typing.Tuple[int, typing.Optional[float]]],
     user_id: int,
     lang: "steins_feed_model.feeds.Language | str",
 ):
@@ -142,6 +142,7 @@ def update_scores(
             "score": score_it,
         }
         for item_id, score_it in item_scores
+        if score_it is not None
     ]
 
     with sqla_orm.Session(db.engine) as session:
