@@ -1,7 +1,9 @@
-import collections
+import concurrent.futures
 import datetime
 import enum
 import functools
+import itertools
+import queue
 import random
 import typing
 
@@ -9,12 +11,13 @@ import celery
 import celery.canvas
 import celery.result
 import fastapi
-import numpy as np
 import pydantic
 import sqlalchemy as sqla
 import sqlalchemy.orm as sqla_orm
 
+import steins_feed_api.util
 import steins_feed_logging
+import steins_feed_math.statistics
 import steins_feed_model
 import steins_feed_model.feeds
 import steins_feed_model.items
@@ -129,65 +132,114 @@ async def root(
         ),
     )
 
-    match wall_mode:
-        case WallMode.MAGIC:
-            q = q.order_by(
-                steins_feed_model.items.Magic.score.desc(),
-                steins_feed_model.items.Item.published.desc(),
-                steins_feed_model.items.Item.title,
-                steins_feed_model.feeds.Feed.title,
-            )
-        case _:
-            q = q.order_by(
-                steins_feed_model.items.Item.published.desc(),
-                steins_feed_model.items.Item.title,
-                steins_feed_model.feeds.Feed.title,
-            )
-
     if wall_mode.is_biased:
-        q = q.options(
-            sqla_orm.joinedload(
-                steins_feed_model.items.Item.magic.and_(
-                    steins_feed_model.items.Magic.user_id == current_user.id,
-                ),
+        q = q.join(
+            steins_feed_model.items.Item.magic.and_(
+                steins_feed_model.items.Magic.user_id == current_user.id,
             ),
+            isouter = True,
+        ).options(
+            sqla_orm.contains_eager(steins_feed_model.items.Item.magic),
         )
     else:
-        q = q.options(sqla_orm.noload(steins_feed_model.items.Item.magic))
+        q = q.options(
+            sqla_orm.noload(steins_feed_model.items.Item.magic),
+        )
 
     match wall_mode:
         case WallMode.CLASSIC:
+            q = q.order_by(
+                steins_feed_model.items.Item.published.desc(),
+                steins_feed_model.items.Item.title,
+                steins_feed_model.feeds.Feed.title,
+            )
+
             with sqla_orm.Session(engine) as session:
                 return [
                     Item.from_model(item_it)
                     for item_it in session.execute(q).scalars().unique()
                 ]
         case WallMode.RANDOM:
-            with sqla_orm.Session(engine) as session:
-                res = [
-                    Item.from_model(item_it)
-                    for item_it in session.execute(q).scalars().unique()
-                ]
-                return random.sample(res, 10)
+            rng = random.Random()
+            reservoir = steins_feed_math.statistics.Reservoir[Item](rng, 10)
 
-    res: list[Item] = []
-    res_to_score_by_lang: dict[steins_feed_model.feeds.Language, list[Item]] = collections.defaultdict(list)
+            with sqla_orm.Session(engine) as session:
+                for item_it in session.execute(q).scalars().unique():
+                    reservoir.add(Item.from_model(item_it))
+
+            return sorted(reservoir.sample, key=lambda x: x.published, reverse=True)
+
+    q_unscored = q.where(
+        steins_feed_model.items.Magic.item_id == None,
+    ).order_by(
+        steins_feed_model.feeds.Feed.language,
+    )
+    q_scored = q.where(
+        steins_feed_model.items.Magic.item_id != None,
+    )
 
     with sqla_orm.Session(engine) as session:
-        for item_it in session.execute(q).scalars().unique():
-            res_it = Item.from_model(item_it)
-            res.append(res_it)
+        unscored_items = _augment_unscored(
+            session,
+            items = session.execute(q_unscored).scalars().unique(),
+            user_id = current_user.id,
+        )
 
-            if (res_it.magic is None) and (res_it.feed.language is not None):
-                res_to_score_by_lang[res_it.feed.language].append(res_it)
+        match wall_mode:
+            case WallMode.MAGIC:
+                q_scored = q_scored.order_by(
+                    steins_feed_model.items.Magic.score.desc(),
+                    steins_feed_model.items.Item.published.desc(),
+                    steins_feed_model.items.Item.title,
+                    steins_feed_model.feeds.Feed.title,
+                )
+                scored_items = (
+                    Item.from_model(item_it)
+                    for item_it in session.execute(q_scored).scalars().unique()
+                )
 
+                return sorted(
+                    itertools.chain(scored_items, unscored_items),
+                    key=lambda x: (
+                        -x.magic if x.magic is not None else 0,
+                        -x.published.timestamp(),
+                        x.title,
+                        x.feed.title,
+                    ),
+                )
+            case WallMode.SURPRISE:
+                scored_items = (
+                    Item.from_model(item_it)
+                    for item_it in session.execute(q_scored).scalars().unique()
+                )
+
+                rng = random.Random()
+                reservoir = steins_feed_math.statistics.Reservoir[Item](rng, 10)
+
+                for item_it in itertools.chain(scored_items, unscored_items):
+                    reservoir.add(item_it, item_it.magic or 0)
+
+                return sorted(reservoir.sample, key=lambda x: x.published, reverse=True)
+
+def _augment_unscored(
+    session: sqla_orm.Session,
+    items: typing.Iterable[steins_feed_model.items.Item],
+    user_id: int,
+) -> typing.Generator[Item]:
+    res_to_score_by_lang = itertools.groupby(
+        items,
+        key = lambda x: x.feed.language,
+    )
     job_tasks = []
 
-    for k, vs in res_to_score_by_lang.items():
+    for k, vs in res_to_score_by_lang:
+        if k is None:
+            continue
+
         job_task_it = _calculate_and_update_scores(
-            user_id = current_user.id,
-            lang = k,
             item_ids = [v.id for v in vs],
+            user_id = user_id,
+            lang = k,
         )
         job_tasks.append(job_task_it)
 
@@ -195,18 +247,13 @@ async def root(
     g = job()
     assert isinstance(g, celery.result.GroupResult)
 
-    for result_it, vs in zip(g.results, res_to_score_by_lang.values()):
-        assert isinstance(result_it, celery.result.AsyncResult)
-        result_it.then(functools.partial(_set_scores, items=vs))
+    q = queue.Queue()
 
-    g.forget()
+    for result_it in g.results:
+        result_it.then(functools.partial(_put_scores, session=session, q=q))
 
-    match wall_mode:
-        case WallMode.MAGIC:
-            return res
-        case WallMode.SURPRISE:
-            scores = np.array(res_it.magic or 0 for res_it in res)
-            return random.choices(res, k=10, weights=np.log((1 + scores) / (1 - scores)))
+    for item_it in steins_feed_api.util.to_iterator(q):
+        yield item_it
 
 def _calculate_and_update_scores(
     item_ids: typing.Sequence[int],
@@ -231,18 +278,26 @@ def _calculate_and_update_scores(
 
     return calculate_scores.set(link=update_scores)
 
-def _set_scores(
+def _put_scores(
     res: celery.result.AsyncResult,
-    items: typing.Sequence[Item],
+    session: sqla_orm.Session,
+    q: queue.Queue,
+    task_done: typing.Callable[[], None],
 ):
-    logger.info(f"Start to augment {len(items)} items with scores.")
+    logger.info(f"Start to queue items with scores.")
 
-    id2score = dict(res.result)
+    for item_id, item_score in res.result:
+        assert isinstance(item_id, int)
+        assert isinstance(item_score, float)
 
-    for item_it in items:
-        item_it.magic = id2score[item_it.id]
+        item_it = session.get_one(steins_feed_model.items.Item, item_id)
+        item_it = Item.from_model(item_it)
+        item_it.magic = item_score
 
-    logger.info(f"Finish to augment {len(items)} items with scores.")
+        q.put(item_it)
+
+    task_done()
+    logger.info(f"Finish to queue items with scores.")
 
 @router.put("/like/")
 async def like(
