@@ -2914,7 +2914,6 @@ develop = true
 
 [package.dependencies]
 fastapi = {version = "^0.115.6", extras = ["standard"]}
-numpy = "^2.2.2"
 passlib = {version = "^1.7.4", extras = ["bcrypt"]}
 pyjwt = {version = "^2.10.1", extras = ["crypto"]}
 python-dotenv = "^1.0.1"
