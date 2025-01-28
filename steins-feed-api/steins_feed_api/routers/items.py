@@ -1,4 +1,3 @@
-import concurrent.futures
 import datetime
 import enum
 import functools
@@ -230,30 +229,30 @@ def _augment_unscored(
         items,
         key = lambda x: x.feed.language,
     )
-    job_tasks = []
+
+    queue_in = queue.Queue()
+    queue_out = queue.Queue()
 
     for k, vs in res_to_score_by_lang:
         if k is None:
             continue
 
-        job_task_it = _calculate_and_update_scores(
+        task_it = _calculate_and_update_scores(
             item_ids = [v.id for v in vs],
             user_id = user_id,
             lang = k,
         )
-        job_tasks.append(job_task_it)
+        res_it = task_it.delay()
+        assert isinstance(res_it, celery.result.AsyncResult)
 
-    job = celery.group(*job_tasks)
-    g = job()
-    assert isinstance(g, celery.result.GroupResult)
+        queue_in.put(res_it)
+        put_scores_to_queue_it = steins_feed_api.util.to_queue(
+            queue_out,
+            task_done = queue_in.task_done,
+        )(_put_scores)
+        res_it.then(functools.partial(put_scores_to_queue_it, session=session))
 
-    q = queue.Queue()
-
-    for result_it in g.results:
-        result_it.then(functools.partial(_put_scores, session=session, q=q))
-
-    for item_it in steins_feed_api.util.to_iterator(q):
-        yield item_it
+    yield from steins_feed_api.util.from_queue_to_queue(queue_in, queue_out)
 
 def _calculate_and_update_scores(
     item_ids: typing.Sequence[int],
@@ -281,9 +280,7 @@ def _calculate_and_update_scores(
 def _put_scores(
     res: celery.result.AsyncResult,
     session: sqla_orm.Session,
-    q: queue.Queue,
-    task_done: typing.Callable[[], None],
-):
+) -> typing.Generator[Item]:
     logger.info(f"Start to queue items with scores.")
 
     for item_id, item_score in res.result:
@@ -294,9 +291,8 @@ def _put_scores(
         item_it = Item.from_model(item_it)
         item_it.magic = item_score
 
-        q.put(item_it)
+        yield item_it
 
-    task_done()
     logger.info(f"Finish to queue items with scores.")
 
 @router.put("/like/")
