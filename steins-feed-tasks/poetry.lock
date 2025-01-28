@@ -2695,4 +2695,4 @@ magic = ["steins-feed-magic"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.13"
-content-hash = "050ef9821a380d38102141ab38b5ad27955b23146667f65d01ee31250efb7b9f"
+content-hash = "28f33d9e6f541ce0bbdd4cc571d8f06e95d0cc41efb4a3cd3732b5acaa28eb6b"
