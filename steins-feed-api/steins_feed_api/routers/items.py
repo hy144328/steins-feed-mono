@@ -243,7 +243,7 @@ def _augment_unscored(
         res_it = task_it.delay()
         assert isinstance(res_it, celery.result.AsyncResult)
 
-        publisher_it = _put_scores(res_it, session)
+        publisher_it = _put_scores(session, res_it, user_id)
         publishers.append(publisher_it)
 
     yield from steins_feed_api.pubsub.reduce_publishers(*publishers)
@@ -272,8 +272,9 @@ def _calculate_and_update_scores(
     return calculate_scores.set(link=update_scores)
 
 def _put_scores(
-    res: celery.result.AsyncResult,
     session: sqla_orm.Session,
+    res: celery.result.AsyncResult,
+    user_id: int,
 ) -> typing.Generator[Item]:
     logger.debug(f"Start to process items with scores.")
 
@@ -284,8 +285,34 @@ def _put_scores(
         assert isinstance(item_id, int)
         assert isinstance(item_score, typing.Optional[float])
 
-        item_it = session.get_one(steins_feed_model.items.Item, item_id)
+        item_it = session.get_one(
+            steins_feed_model.items.Item,
+            item_id,
+            options = [
+                sqla_orm.joinedload(
+                    steins_feed_model.items.Item.feed,
+                ).joinedload(
+                    steins_feed_model.feeds.Feed.users.and_(
+                        steins_feed_model.users.User.id == user_id,
+                    ),
+                ),
+                sqla_orm.joinedload(
+                    steins_feed_model.items.Item.feed,
+                ).joinedload(
+                    steins_feed_model.feeds.Feed.tags.and_(
+                        steins_feed_model.feeds.Tag.user_id == user_id,
+                    ),
+                ),
+                sqla_orm.joinedload(
+                    steins_feed_model.items.Item.likes.and_(
+                        steins_feed_model.items.Like.user_id == user_id,
+                    ),
+                ),
+                sqla_orm.noload(steins_feed_model.items.Item.magic),
+            ],
+        )
         item_it = Item.from_model(item_it)
+
         if item_score is not None:
             item_it.magic = item_score
 
