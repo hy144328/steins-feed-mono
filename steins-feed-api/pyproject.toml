@@ -13,7 +13,7 @@ passlib = {extras = ["bcrypt"], version = "^1.7.4"}
 pyjwt = {extras = ["crypto"], version = "^2.10.1"}
 python-dotenv = "^1.0.1"
 steins-feed-logging = {path = "../steins-feed-logging", develop = true}
-steins-feed-math = {path = "../steins-feed-math", develop = true}
+steins-feed-magic = {path = "../steins-feed-magic", develop = true}
 steins-feed-model = {path = "../steins-feed-model", develop = true}
 steins-feed-tasks = {path = "../steins-feed-tasks", develop = true}
 

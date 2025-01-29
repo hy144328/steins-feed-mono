@@ -14,7 +14,6 @@ steins-feed-config = {path = "steins-feed-config", develop = true}
 steins-feed-etl = {path = "steins-feed-etl", develop = true}
 steins-feed-logging = {path = "steins-feed-logging", develop = true}
 steins-feed-magic = {path = "steins-feed-magic", develop = true}
-steins-feed-math = {path = "steins-feed-math", develop = true}
 steins-feed-model = {path = "steins-feed-model", develop = true}
 steins-feed-tasks = {path = "steins-feed-tasks", extras = ["etl", "magic"], develop = true}
 

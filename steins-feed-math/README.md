@@ -1,1 +1,0 @@
-# Stein's Feed -- mathematics

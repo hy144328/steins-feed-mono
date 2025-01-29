@@ -14,7 +14,8 @@ import sqlalchemy.orm as sqla_orm
 
 import steins_feed_api.pubsub
 import steins_feed_logging
-import steins_feed_math.statistics
+import steins_feed_magic.measure
+import steins_feed_magic.sample
 import steins_feed_model
 import steins_feed_model.feeds
 import steins_feed_model.items
@@ -54,6 +55,7 @@ class Item(pydantic.BaseModel):
     feed: steins_feed_api.routers.feeds.Feed
     like: typing.Optional[steins_feed_model.items.LikeStatus]
     magic: typing.Optional[float]
+    surprise: typing.Optional[float]
 
     @classmethod
     def from_model(cls, item: steins_feed_model.items.Item) -> "Item":
@@ -66,6 +68,7 @@ class Item(pydantic.BaseModel):
             feed = steins_feed_api.routers.feeds.Feed.from_model(item.feed),
             like = item.likes[0].score if len(item.likes) > 0 else None,
             magic = item.magic[0].score if len(item.magic) > 0 else None,
+            surprise = steins_feed_magic.measure.entropy_bernoulli(2 * item.magic[0].score - 1) if len(item.magic) > 0 else None,
         )
 
 @router.get("/")
@@ -158,7 +161,7 @@ async def root(
                 ]
         case WallMode.RANDOM:
             rng = random.Random()
-            reservoir = steins_feed_math.statistics.Reservoir[Item](rng, 10)
+            reservoir = steins_feed_magic.sample.Reservoir[Item](rng, 10)
 
             with sqla_orm.Session(engine) as session:
                 for item_it in session.execute(q).scalars().unique():
@@ -211,10 +214,10 @@ async def root(
                 )
 
                 rng = random.Random()
-                reservoir = steins_feed_math.statistics.Reservoir[Item](rng, 10)
+                reservoir = steins_feed_magic.sample.Reservoir[Item](rng, 10)
 
                 for item_it in itertools.chain(scored_items, unscored_items):
-                    reservoir.add(item_it, item_it.magic or 0)
+                    reservoir.add(item_it, item_it.surprise or 1)
 
                 return sorted(reservoir.sample, key=lambda x: x.published, reverse=True)
 
@@ -315,6 +318,7 @@ def _put_scores(
 
         if item_score is not None:
             item_it.magic = item_score
+            item_it.surprise = steins_feed_magic.measure.entropy_bernoulli(2 * item_score - 1)
 
         yield item_it
 
