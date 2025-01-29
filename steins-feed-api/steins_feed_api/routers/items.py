@@ -355,3 +355,35 @@ async def like(
             like.score = score
 
         session.commit()
+
+@router.get("/analyze_text")
+async def analyze_text(
+    current_user: steins_feed_api.auth.UserDep,
+    item_id: int,
+) -> dict[str, float]:
+    engine = steins_feed_model.EngineFactory.get_or_create_engine()
+
+    with sqla_orm.Session(engine) as session:
+        item = session.get_one(
+            steins_feed_model.items.Item,
+            item_id,
+            options = [sqla_orm.joinedload(steins_feed_model.items.Item.feed)],
+        )
+
+        if item.summary is None:
+            return {}
+
+        if item.feed.language is None:
+            return {}
+
+        assert isinstance(steins_feed_tasks.magic.analyze_text, celery.Task)
+        result = steins_feed_tasks.magic.analyze_text.delay(
+            item.summary,
+            user_id = current_user.id,
+            lang = item.feed.language,
+        )
+
+        res = result.get()
+        assert isinstance(res, dict)
+
+        return res
