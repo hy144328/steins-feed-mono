@@ -5,9 +5,10 @@ import DOMPurify from "isomorphic-dompurify"
 import Image from "next/image"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
+import { Fragment, ReactNode } from "react"
 import { useRef, useState } from "react"
 
-import { Item, Language, LikeStatus, Tag } from "@client"
+import { Item, Language, LikeStatus, Tag, WallMode } from "@client"
 import { format_datetime, join } from "@util"
 
 import { doLikeItemsLikePut } from "./actions"
@@ -65,25 +66,8 @@ export default function WallArticle({
     className={ is_duplicate ? "card-body collapse" : "card-body collapse show" }
     ref={ card_body_ref }
   >
-    <h5 className="card-title">
-      <a
-        href={ item.link }
-        target="_blank"
-        dangerouslySetInnerHTML={ {__html: DOMPurify.sanitize(item.title)} }
-      />
-    </h5>
-
-    <h6 className="card-subtitle">
-      Source: <a href={ `/feed?feed=${item.feed.id}` }>{ item.feed.title }</a>.
-      Published: { format_datetime(new Date(item.published)) }.
-      Tags: { join(
-        item.feed.tags.map(tag_it =>
-          <a href={ `/tag?tag=${ tag_it.id }` } key={ tag_it.id }>{ tag_it.name }</a>
-        ),
-        ", ",
-      ) }.
-      Score: { (item.magic === null) ? "null" : item.magic.toFixed(2) }.
-    </h6>
+    <WallArticleTitle item={ item }/>
+    <WallArticleSubtitle item={ item }/>
 
     <div
       className={ `card-text ${styles["card-text"]}` }
@@ -99,6 +83,60 @@ export default function WallArticle({
     </div>
   </div>
 </div>
+  );
+}
+
+function WallArticleTitle({
+  item,
+}: {
+  item: Item,
+}) {
+  return (
+<h5 className="card-title">
+  <a
+    href={ item.link }
+    target="_blank"
+    dangerouslySetInnerHTML={ {__html: DOMPurify.sanitize(item.title)} }
+  />
+</h5>
+  );
+}
+
+function WallArticleSubtitle({
+  item,
+}: {
+  item: Item,
+}) {
+  const fields: {k: string, v: ReactNode}[] = [
+    {k: "Source", v: <a href={ `/feed?feed=${item.feed.id}` }>{ item.feed.title }</a>},
+    {k: "Published", v: format_datetime(new Date(item.published))},
+    {k: "Tags", v: join(
+      item.feed.tags.map(tag_it =>
+        <a href={ `/tag?tag=${ tag_it.id }` } key={ tag_it.id }>{ tag_it.name }</a>
+      ),
+      ", ",
+    )},
+  ];
+
+  if (item.magic) {
+    fields.push({k: "Score", v: item.magic.toFixed(2)});
+  }
+
+  if (item.surprise) {
+    fields.push({k: "Entropy", v: item.surprise.toFixed(2)});
+  }
+
+  return (
+<h6 className="card-subtitle">
+  {
+    join(
+      fields.map(field_it =>
+        <Fragment key={field_it.k}>{field_it.k}: {field_it.v}.</Fragment>
+      ),
+      "\n",
+    )
+  }
+</h6>
   );
 }
 
@@ -185,6 +223,7 @@ export function TopNav(
   now,
   languages,
   tags,
+  wall_mode,
   contentServed = false,
 }: NavigationSearchParams & {
   contentServed?: boolean,
@@ -208,7 +247,7 @@ export function TopNav(
       <li className="nav-item">
         <Link
           className="nav-link active"
-          href={ contentServed ? `/?${toURLSearchParams({now, languages, tags}).toString()}` : "/" }
+          href={ contentServed ? `/?${toURLSearchParams({now, languages, tags, wall_mode}).toString()}` : "/" }
         >
           Home
         </Link>
@@ -233,6 +272,7 @@ export function TopNav(
           now={ now }
           languages={ languages }
           tags={ tags }
+          wall_mode={ wall_mode }
           contentServed={ contentServed }
         />
       </li>
@@ -264,6 +304,7 @@ function NavigationPad(
   now,
   languages,
   tags,
+  wall_mode,
   contentServed = true,
 }: NavigationSearchParams & {
   contentServed?: boolean,
@@ -278,7 +319,7 @@ function NavigationPad(
 <div className="btn-group">
   <a
     className={ ["btn", "btn-primary"].concat(contentServed ? [] : ["disabled"]).join(" ") }
-    href={ contentServed ? `/?${toURLSearchParams({now: tomorrow, languages, tags}).toString()}` : undefined }
+    href={ contentServed ? `/?${toURLSearchParams({now: tomorrow, languages, tags, wall_mode}).toString()}` : undefined }
   >
     <i className="bi-rewind-fill"/>
   </a>
@@ -293,7 +334,7 @@ function NavigationPad(
 
   <a
     className={ ["btn", "btn-primary"].concat(contentServed ? [] : ["disabled"]).join(" ") }
-    href={ contentServed ? `/?${toURLSearchParams({now: yesterday, languages, tags}).toString()}` : undefined }
+    href={ contentServed ? `/?${toURLSearchParams({now: yesterday, languages, tags, wall_mode}).toString()}` : undefined }
   >
     <i className="bi-fast-forward-fill"/>
   </a>
@@ -305,6 +346,7 @@ export function SideNav({
   now,
   languages,
   tags,
+  wall_mode,
   all_languages,
   all_tags,
 }: NavigationSearchParams & {
@@ -332,6 +374,20 @@ export function SideNav({
       checked={ tags.includes(tag_it.id) }
     />
   );
+  const wall_radio = [
+    "Classic",
+    "Magic",
+    "Random",
+    "Surprise",
+  ].map(wall_it =>
+    <SideNavRadio
+      name="wall_mode"
+      value={ wall_it }
+      label={ wall_it }
+      key={ `wall-${wall_it}` }
+      checked={ wall_it === wall_mode }
+    />
+  )
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -358,8 +414,9 @@ export function SideNav({
     ).map(([k, _]) =>
       parseInt(re_tag.exec(k)![1])
     ).toArray();
+    const wall_mode = data.get("wall_mode") as WallMode;
 
-    router.push(`/?${toURLSearchParams({now, languages, tags})}`);
+    router.push(`/?${toURLSearchParams({now, languages, tags, wall_mode})}`);
   }
 
   return (
@@ -384,6 +441,11 @@ export function SideNav({
       <fieldset style={ {all: "revert"} }>
         <legend style={ {all: "revert"} }>Tags</legend>
         { tags_check }
+      </fieldset>
+
+      <fieldset style={ {all: "revert"} }>
+        <legend style={ {all: "revert"} }>Wall</legend>
+        { wall_radio }
       </fieldset>
 
       <fieldset className="mt-3" style={ {all: "revert"} }>
@@ -415,6 +477,31 @@ function SideNavCheckbox({
   <input
     type="checkbox"
     name={ name }
+    defaultChecked={ checked }
+    className="form-check-input"
+  />
+</div>
+  );
+}
+
+function SideNavRadio({
+  name,
+  value,
+  label,
+  checked = false,
+}: {
+  name: string,
+  value: string,
+  label: string,
+  checked?: boolean,
+}) {
+  return (
+<div className="form-check">
+  <label className="form-check-label">{ label }</label>
+  <input
+    type="radio"
+    name={ name }
+    value={ value }
     defaultChecked={ checked }
     className="form-check-input"
   />

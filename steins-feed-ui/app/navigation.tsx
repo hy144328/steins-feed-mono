@@ -7,6 +7,7 @@ export default async function Navigation({
   now,
   languages,
   tags,
+  wall_mode,
   contentServed = false,
 }: NavigationSearchParams & {
   contentServed?: boolean,
@@ -20,12 +21,14 @@ export default async function Navigation({
   now={ now }
   languages={ languages }
   tags={ tags }
+  wall_mode={ wall_mode }
   contentServed={ contentServed }
 />
 <SideNav
   now={ now }
   languages={ languages }
   tags={ tags }
+  wall_mode={ wall_mode }
   all_languages={ all_languages }
   all_tags={ all_tags }
 />

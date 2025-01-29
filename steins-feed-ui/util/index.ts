@@ -1,4 +1,4 @@
-export function join<A, B>(a: Array<A>, sep: B): Array<A | B> {
+export function join<A, B>(a: A[], sep: B): (A | B)[] {
   return a.flatMap((a_it, a_ct) => (a_ct > 0) ? [sep, a_it] : [a_it]);
 }
 
@@ -76,10 +76,10 @@ export function ensure_primitive<T>(
 }
 
 export function group_by<T>(
-  a: Array<T>,
+  a: T[],
   compare_func: (a: T, b: T) => boolean,
-): Array<Array<T>> {
-  const res: Array<Array<T>> = [];
+): T[][] {
+  const res: T[][] = [];
   let last: T | null = null;
 
   for (const a_it of a) {

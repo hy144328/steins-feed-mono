@@ -2918,6 +2918,7 @@ passlib = {version = "^1.7.4", extras = ["bcrypt"]}
 pyjwt = {version = "^2.10.1", extras = ["crypto"]}
 python-dotenv = "^1.0.1"
 steins-feed-logging = {path = "../steins-feed-logging", develop = true}
+steins-feed-magic = {path = "../steins-feed-magic", develop = true}
 steins-feed-model = {path = "../steins-feed-model", develop = true}
 steins-feed-tasks = {path = "../steins-feed-tasks", develop = true}
 
@@ -3028,8 +3029,8 @@ steins-feed-etl = {path = "../steins-feed-etl", develop = true, optional = true}
 steins-feed-magic = {path = "../steins-feed-magic", develop = true, optional = true}
 
 [package.extras]
-etl = ["steins-feed-etl @ file:///home/hans/Scratch/SF/steins-feed-mono/steins-feed-etl"]
-magic = ["steins-feed-magic @ file:///home/hans/Scratch/SF/steins-feed-mono/steins-feed-magic"]
+etl = ["steins-feed-etl @ file:///home/hansyu/Scratch/Personal/steins-feed-mono/steins-feed-etl"]
+magic = ["steins-feed-magic @ file:///home/hansyu/Scratch/Personal/steins-feed-mono/steins-feed-magic"]
 
 [package.source]
 type = "directory"
