@@ -1,7 +1,13 @@
 "use server"
 
 import { Item, Language, LikeStatus, Tag, WallMode } from "@client"
-import { languagesFeedsLanguagesGet, likeItemsLikePut, rootItemsGet, tagsFeedsTagsGet } from "@client"
+import {
+  analyzeSummaryItemsAnalyzeSummaryGet,
+  languagesFeedsLanguagesGet,
+  likeItemsLikePut,
+  rootItemsGet,
+  tagsFeedsTagsGet,
+} from "@client"
 
 import { authenticate } from "./auth"
 
@@ -64,6 +70,20 @@ export async function doTagsFeedsTagsGet(): Promise<Tag[]> {
   const resp = await tagsFeedsTagsGet();
 
   if (!resp.data) {
+    throw resp.error;
+  }
+
+  return resp.data;
+}
+
+export async function doAnalyzeSummaryGet(
+  item: Item,
+): Promise<Record<string, number>> {
+  await authenticate();
+
+  const resp = await analyzeSummaryItemsAnalyzeSummaryGet({"query": {"item_id": item.id}});
+
+  if (resp.error) {
     throw resp.error;
   }
 
