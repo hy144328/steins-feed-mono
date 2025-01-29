@@ -1,4 +1,4 @@
-import { Item, Language } from "@client"
+import { Item, Language, WallMode } from "@client"
 import {
   day_of_week_short,
   ensure_array,
@@ -33,13 +33,16 @@ export default async function Page({
   const languages = ensure_array(searchParamsSync.languages).map(lang_it => lang_it as Language);
   const tags = ensure_array(searchParamsSync.tags).map(tag_it => parseInt(tag_it));
 
+  const wall_mode_raw = searchParamsSync.wall_mode;
+  const wall_mode = wall_mode_raw ? ensure_primitive(wall_mode_raw) as WallMode : "Classic";
+
   let items: Item[] = [];
 
   try {
-    items = await doRootItemsGet(today, tomorrow, languages, tags);
+    items = await doRootItemsGet(today, tomorrow, languages, tags, wall_mode);
   } catch (e) {
     console.log(e);
-    await require_login(`/?${toURLSearchParams({now, languages, tags})}`);
+    await require_login(`/?${toURLSearchParams({now, languages, tags, wall_mode})}`);
   }
 
   return (
@@ -48,6 +51,7 @@ export default async function Page({
   now={ now }
   languages={ languages }
   tags={ tags }
+  wall_mode={ wall_mode }
   contentServed={ true }
 />
 <Header now={ now } items={ items }/>

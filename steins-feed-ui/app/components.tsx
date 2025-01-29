@@ -7,7 +7,7 @@ import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { useRef, useState } from "react"
 
-import { Item, Language, LikeStatus, Tag } from "@client"
+import { Item, Language, LikeStatus, Tag, WallMode } from "@client"
 import { format_datetime, join } from "@util"
 
 import { doLikeItemsLikePut } from "./actions"
@@ -185,6 +185,7 @@ export function TopNav(
   now,
   languages,
   tags,
+  wall_mode,
   contentServed = false,
 }: NavigationSearchParams & {
   contentServed?: boolean,
@@ -208,7 +209,7 @@ export function TopNav(
       <li className="nav-item">
         <Link
           className="nav-link active"
-          href={ contentServed ? `/?${toURLSearchParams({now, languages, tags}).toString()}` : "/" }
+          href={ contentServed ? `/?${toURLSearchParams({now, languages, tags, wall_mode}).toString()}` : "/" }
         >
           Home
         </Link>
@@ -233,6 +234,7 @@ export function TopNav(
           now={ now }
           languages={ languages }
           tags={ tags }
+          wall_mode={ wall_mode }
           contentServed={ contentServed }
         />
       </li>
@@ -264,6 +266,7 @@ function NavigationPad(
   now,
   languages,
   tags,
+  wall_mode,
   contentServed = true,
 }: NavigationSearchParams & {
   contentServed?: boolean,
@@ -278,7 +281,7 @@ function NavigationPad(
 <div className="btn-group">
   <a
     className={ ["btn", "btn-primary"].concat(contentServed ? [] : ["disabled"]).join(" ") }
-    href={ contentServed ? `/?${toURLSearchParams({now: tomorrow, languages, tags}).toString()}` : undefined }
+    href={ contentServed ? `/?${toURLSearchParams({now: tomorrow, languages, tags, wall_mode}).toString()}` : undefined }
   >
     <i className="bi-rewind-fill"/>
   </a>
@@ -293,7 +296,7 @@ function NavigationPad(
 
   <a
     className={ ["btn", "btn-primary"].concat(contentServed ? [] : ["disabled"]).join(" ") }
-    href={ contentServed ? `/?${toURLSearchParams({now: yesterday, languages, tags}).toString()}` : undefined }
+    href={ contentServed ? `/?${toURLSearchParams({now: yesterday, languages, tags, wall_mode}).toString()}` : undefined }
   >
     <i className="bi-fast-forward-fill"/>
   </a>
@@ -305,6 +308,7 @@ export function SideNav({
   now,
   languages,
   tags,
+  wall_mode,
   all_languages,
   all_tags,
 }: NavigationSearchParams & {
@@ -332,6 +336,20 @@ export function SideNav({
       checked={ tags.includes(tag_it.id) }
     />
   );
+  const wall_radio = [
+    "Classic",
+    "Magic",
+    "Random",
+    "Surprise",
+  ].map(wall_it =>
+    <SideNavRadio
+      name="wall_mode"
+      value={ wall_it }
+      label={ wall_it }
+      key={ `wall-${wall_it}` }
+      checked={ wall_it === wall_mode }
+    />
+  )
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -358,8 +376,9 @@ export function SideNav({
     ).map(([k, _]) =>
       parseInt(re_tag.exec(k)![1])
     ).toArray();
+    const wall_mode = data.get("wall_mode") as WallMode;
 
-    router.push(`/?${toURLSearchParams({now, languages, tags})}`);
+    router.push(`/?${toURLSearchParams({now, languages, tags, wall_mode})}`);
   }
 
   return (
@@ -384,6 +403,11 @@ export function SideNav({
       <fieldset style={ {all: "revert"} }>
         <legend style={ {all: "revert"} }>Tags</legend>
         { tags_check }
+      </fieldset>
+
+      <fieldset style={ {all: "revert"} }>
+        <legend style={ {all: "revert"} }>Wall</legend>
+        { wall_radio }
       </fieldset>
 
       <fieldset className="mt-3" style={ {all: "revert"} }>
@@ -415,6 +439,31 @@ function SideNavCheckbox({
   <input
     type="checkbox"
     name={ name }
+    defaultChecked={ checked }
+    className="form-check-input"
+  />
+</div>
+  );
+}
+
+function SideNavRadio({
+  name,
+  value,
+  label,
+  checked = false,
+}: {
+  name: string,
+  value: string,
+  label: string,
+  checked?: boolean,
+}) {
+  return (
+<div className="form-check">
+  <label className="form-check-label">{ label }</label>
+  <input
+    type="radio"
+    name={ name }
+    value={ value }
     defaultChecked={ checked }
     className="form-check-input"
   />

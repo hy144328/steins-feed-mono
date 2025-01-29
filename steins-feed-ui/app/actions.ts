@@ -1,6 +1,6 @@
 "use server"
 
-import { Item, Language, LikeStatus, Tag } from "@client"
+import { Item, Language, LikeStatus, Tag, WallMode } from "@client"
 import { languagesFeedsLanguagesGet, likeItemsLikePut, rootItemsGet, tagsFeedsTagsGet } from "@client"
 
 import { authenticate } from "./auth"
@@ -25,6 +25,7 @@ export async function doRootItemsGet(
   dt_to: Date,
   languages?: Language[],
   tags?: number[],
+  wall_mode?: WallMode,
 ): Promise<Item[]> {
   await authenticate();
 
@@ -34,6 +35,7 @@ export async function doRootItemsGet(
       dt_to: dt_to.toISOString(),
       languages: languages,
       tags: tags,
+      wall_mode: wall_mode,
     },
   });
 
