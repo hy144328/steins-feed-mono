@@ -8,6 +8,18 @@ def to_iterator[T](
 ) -> typing.Iterator[T]:
     return iter(queue.get, sentinel)
 
+def to_queue[T](
+    result: typing.Iterable[T],
+    sentinel: typing.Any = None,
+) -> queue.Queue[T]:
+    q = queue.Queue[T]()
+
+    for res_it in result:
+        q.put(res_it)
+
+    q.put(sentinel)
+    return q
+
 def _close_queue_when_done(
     queue_in: queue.Queue,
     queue_out: queue.Queue,
@@ -29,11 +41,8 @@ def _produce[T](
 def reduce_publishers[T](
     *publishers: typing.Iterable[T],
 ) -> typing.Generator[T]:
-    queue_in = queue.Queue[typing.Iterable[T]]()
+    queue_in = to_queue(publishers)
     queue_out = queue.Queue[T]()
-
-    for publisher_it in publishers:
-        queue_in.put(publisher_it)
 
     with concurrent.futures.ThreadPoolExecutor(max_workers=4) as executor:
         executor.submit(
