@@ -12,10 +12,10 @@ import pydantic
 import sqlalchemy as sqla
 import sqlalchemy.orm as sqla_orm
 
+import steins_feed_api.measure
 import steins_feed_api.pubsub
+import steins_feed_api.sample
 import steins_feed_logging
-import steins_feed_magic.measure
-import steins_feed_magic.sample
 import steins_feed_model
 import steins_feed_model.feeds
 import steins_feed_model.items
@@ -74,7 +74,7 @@ class Item(pydantic.BaseModel):
     @staticmethod
     def magic2surprise(score: float) -> float:
         p = (score + 1) / 2
-        return steins_feed_magic.measure.entropy_bernoulli(p)
+        return steins_feed_api.measure.entropy_bernoulli(p)
 
 @router.get("/")
 async def root(
@@ -166,7 +166,7 @@ async def root(
                 ]
         case WallMode.RANDOM:
             rng = random.Random()
-            reservoir = steins_feed_magic.sample.Reservoir[Item](rng, 10)
+            reservoir = steins_feed_api.sample.Reservoir[Item](rng, 10)
 
             with sqla_orm.Session(engine) as session:
                 for item_it in session.execute(q).scalars().unique():
@@ -218,7 +218,7 @@ async def root(
                 )
 
                 rng = random.Random()
-                reservoir = steins_feed_magic.sample.Reservoir[Item](rng, 10)
+                reservoir = steins_feed_api.sample.Reservoir[Item](rng, 10)
 
                 for item_it in itertools.chain(scored_items, unscored_items):
                     reservoir.add(item_it, item_it.surprise or 1)
@@ -323,7 +323,7 @@ def _put_scores(
 
             if item_score is not None:
                 item_it.magic = item_score
-                item_it.surprise = steins_feed_magic.measure.entropy_bernoulli(2 * item_score - 1)
+                item_it.surprise = Item.magic2surprise(item_score)
 
             yield item_it
 
