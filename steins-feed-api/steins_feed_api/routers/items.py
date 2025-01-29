@@ -180,7 +180,6 @@ async def root(
 
     with sqla_orm.Session(engine) as session:
         unscored_items = _augment_unscored(
-            session,
             items = session.execute(q_unscored).scalars().unique(),
             user_id = current_user.id,
         )
@@ -222,7 +221,6 @@ async def root(
                 return sorted(reservoir.sample, key=lambda x: x.published, reverse=True)
 
 def _augment_unscored(
-    session: sqla_orm.Session,
     items: typing.Iterable[steins_feed_model.items.Item],
     user_id: int,
 ) -> typing.Generator[Item]:
@@ -246,7 +244,7 @@ def _augment_unscored(
         res_it = task_it.delay()
         assert isinstance(res_it, celery.result.AsyncResult)
 
-        publisher_it = _put_scores(session, res_it, user_id)
+        publisher_it = _put_scores(res_it, user_id)
         publishers.append(publisher_it)
 
     yield from steins_feed_api.pubsub.reduce_publishers(*publishers)
@@ -275,52 +273,54 @@ def _calculate_and_update_scores(
     return calculate_scores.set(link=update_scores)
 
 def _put_scores(
-    session: sqla_orm.Session,
     res: celery.result.AsyncResult,
     user_id: int,
 ) -> typing.Generator[Item]:
     logger.debug(f"Start to process items with scores.")
 
+    engine = steins_feed_model.EngineFactory.get_or_create_engine()
+
     item_ids_and_scores = res.get()
     assert item_ids_and_scores is not None
 
-    for item_id, item_score in item_ids_and_scores:
-        assert isinstance(item_id, int)
-        assert isinstance(item_score, typing.Optional[float])
+    with sqla_orm.Session(engine) as session:
+        for item_id, item_score in item_ids_and_scores:
+            assert isinstance(item_id, int)
+            assert isinstance(item_score, typing.Optional[float])
 
-        item_it = session.get_one(
-            steins_feed_model.items.Item,
-            item_id,
-            options = [
-                sqla_orm.joinedload(
-                    steins_feed_model.items.Item.feed,
-                ).joinedload(
-                    steins_feed_model.feeds.Feed.users.and_(
-                        steins_feed_model.users.User.id == user_id,
+            item_it = session.get_one(
+                steins_feed_model.items.Item,
+                item_id,
+                options = [
+                    sqla_orm.joinedload(
+                        steins_feed_model.items.Item.feed,
+                    ).joinedload(
+                        steins_feed_model.feeds.Feed.users.and_(
+                            steins_feed_model.users.User.id == user_id,
+                        ),
                     ),
-                ),
-                sqla_orm.joinedload(
-                    steins_feed_model.items.Item.feed,
-                ).joinedload(
-                    steins_feed_model.feeds.Feed.tags.and_(
-                        steins_feed_model.feeds.Tag.user_id == user_id,
+                    sqla_orm.joinedload(
+                        steins_feed_model.items.Item.feed,
+                    ).joinedload(
+                        steins_feed_model.feeds.Feed.tags.and_(
+                            steins_feed_model.feeds.Tag.user_id == user_id,
+                        ),
                     ),
-                ),
-                sqla_orm.joinedload(
-                    steins_feed_model.items.Item.likes.and_(
-                        steins_feed_model.items.Like.user_id == user_id,
+                    sqla_orm.joinedload(
+                        steins_feed_model.items.Item.likes.and_(
+                            steins_feed_model.items.Like.user_id == user_id,
+                        ),
                     ),
-                ),
-                sqla_orm.noload(steins_feed_model.items.Item.magic),
-            ],
-        )
-        item_it = Item.from_model(item_it)
+                    sqla_orm.noload(steins_feed_model.items.Item.magic),
+                ],
+            )
+            item_it = Item.from_model(item_it)
 
-        if item_score is not None:
-            item_it.magic = item_score
-            item_it.surprise = steins_feed_magic.measure.entropy_bernoulli(2 * item_score - 1)
+            if item_score is not None:
+                item_it.magic = item_score
+                item_it.surprise = steins_feed_magic.measure.entropy_bernoulli(2 * item_score - 1)
 
-        yield item_it
+            yield item_it
 
     logger.debug(f"Finish to process items with scores.")
 
