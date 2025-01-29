@@ -68,8 +68,13 @@ class Item(pydantic.BaseModel):
             feed = steins_feed_api.routers.feeds.Feed.from_model(item.feed),
             like = item.likes[0].score if len(item.likes) > 0 else None,
             magic = item.magic[0].score if len(item.magic) > 0 else None,
-            surprise = steins_feed_magic.measure.entropy_bernoulli(2 * item.magic[0].score - 1) if len(item.magic) > 0 else None,
+            surprise = Item.magic2surprise(item.magic[0].score) if len(item.magic) > 0 else None,
         )
+
+    @staticmethod
+    def magic2surprise(score: float) -> float:
+        p = (score + 1) / 2
+        return steins_feed_magic.measure.entropy_bernoulli(p)
 
 @router.get("/")
 async def root(
