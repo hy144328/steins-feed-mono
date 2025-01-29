@@ -150,3 +150,40 @@ def update_scores(
         session.commit()
 
     log.magic_logger.info(f"Finish to update scores for {user_id}.")
+
+@app.task
+def analyze_text(
+    s: str,
+    user_id: int,
+    lang: "steins_feed_model.feeds.Language| str",
+) -> dict[str, float]:
+    import sklearn.pipeline
+
+    import steins_feed_magic
+    import steins_feed_magic.feature
+    import steins_feed_magic.io
+    import steins_feed_model.feeds
+
+    from . import log
+
+    log.magic_logger.info(f"Start to analyze text for {user_id} and {lang}.")
+
+    if not isinstance(lang, steins_feed_model.feeds.Language):
+        lang = steins_feed_model.feeds.Language(lang)
+
+    try:
+        clf_item = steins_feed_magic.io.read_classifier(user_id, lang)
+    except FileNotFoundError:
+        log.magic_logger.warning(f"Skip text without classifier.")
+        return {}
+
+    clf_text = sklearn.pipeline.make_pipeline(*[v for _, v in clf_item.steps[1:]])
+    text_vectorizer = steins_feed_magic.feature.CountVectorizer(lang=None)
+    text_analyzer = text_vectorizer.build_analyzer()
+
+    words = text_analyzer(s)
+    res = dict(zip(words, steins_feed_magic.predict_scores(clf_text, words)))
+    print(res)
+
+    log.magic_logger.info(f"Finish to analyze text with {len(words)} words for {user_id} and {lang}.")
+    return res

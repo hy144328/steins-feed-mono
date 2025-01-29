@@ -8,7 +8,6 @@ import sklearn.naive_bayes
 import sklearn.pipeline
 
 import steins_feed_model.feeds
-import steins_feed_model.items
 
 from . import feature
 from . import util
@@ -26,10 +25,10 @@ def build_classifier(
         sklearn.naive_bayes.MultinomialNB(fit_prior=False),
     )
 
-def fit_classifier(
+def fit_classifier[T](
     clf: sklearn.pipeline.Pipeline,
-    liked_items: typing.Sequence[steins_feed_model.items.Item],
-    disliked_items: typing.Sequence[steins_feed_model.items.Item],
+    liked_items: typing.Sequence[T],
+    disliked_items: typing.Sequence[T],
 ):
     if len(liked_items) == 0:
         raise ValueError("No likes.")
@@ -45,9 +44,9 @@ def fit_classifier(
 
     clf.fit(features, targets)
 
-def predict_scores(
+def predict_scores[T](
     clf: sklearn.pipeline.Pipeline,
-    items: typing.Sequence[steins_feed_model.items.Item],
+    items: typing.Sequence[T],
 ) -> npt.NDArray[np.double]:
     res = clf.predict_proba(items)
 
