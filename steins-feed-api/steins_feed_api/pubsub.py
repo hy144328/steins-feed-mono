@@ -13,8 +13,10 @@ def _close_queue_when_done(
     queue_out: queue.Queue,
     sentinel: typing.Any = None,
 ):
-    queue_in.join()
-    queue_out.put(sentinel)
+    try:
+        queue_in.join()
+    finally:
+        queue_out.put(sentinel)
 
 def _produce[T](
     producer: typing.Iterable[T],
