@@ -42,12 +42,16 @@ def reduce_publishers[T](
             queue_out = queue_out,
         )
 
-        while not queue_in.empty():
-            executor.submit(
-                _produce,
-                queue_in.get(),
-                queue_out,
-                task_done = queue_in.task_done,
-            )
+        while True:
+            try:
+                publisher_it = queue_in.get_nowait()
+                executor.submit(
+                    _produce,
+                    publisher_it,
+                    queue_out,
+                    task_done = queue_in.task_done,
+                )
+            except queue.Empty:
+                break
 
         yield from to_iterator(queue_out)
