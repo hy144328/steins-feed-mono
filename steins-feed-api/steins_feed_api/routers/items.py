@@ -356,8 +356,8 @@ async def like(
 
         session.commit()
 
-@router.get("/analyze_text")
-async def analyze_text(
+@router.get("/analyze_summary")
+async def analyze_summary(
     current_user: steins_feed_api.auth.UserDep,
     item_id: int,
 ) -> dict[str, float]:

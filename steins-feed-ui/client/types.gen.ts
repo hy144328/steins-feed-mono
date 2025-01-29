@@ -181,17 +181,17 @@ export type LikeItemsLikePutResponse = (unknown);
 
 export type LikeItemsLikePutError = (HTTPValidationError);
 
-export type AnalyzeTextItemsAnalyzeTextGetData = {
+export type AnalyzeSummaryItemsAnalyzeSummaryGetData = {
     query: {
         item_id: number;
     };
 };
 
-export type AnalyzeTextItemsAnalyzeTextGetResponse = ({
+export type AnalyzeSummaryItemsAnalyzeSummaryGetResponse = ({
     [key: string]: (number);
 });
 
-export type AnalyzeTextItemsAnalyzeTextGetError = (HTTPValidationError);
+export type AnalyzeSummaryItemsAnalyzeSummaryGetError = (HTTPValidationError);
 
 export type RootGetResponse = (unknown);
 
