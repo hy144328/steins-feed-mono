@@ -31,6 +31,7 @@ export type Item = {
     feed: Feed;
     like: (LikeStatus | null);
     magic: (number | null);
+    surprise: (number | null);
 };
 
 export type Language = 'English' | 'German' | 'Swedish';
@@ -52,6 +53,8 @@ export type ValidationError = {
     msg: string;
     type: string;
 };
+
+export type WallMode = 'Classic' | 'Magic' | 'Random' | 'Surprise';
 
 export type LoginTokenPostData = {
     body: Body_login_token_post;
@@ -159,6 +162,7 @@ export type RootItemsGetData = {
         dt_to: string;
         languages?: (Array<Language> | null);
         tags?: (Array<(number)> | null);
+        wall_mode?: WallMode;
     };
 };
 
