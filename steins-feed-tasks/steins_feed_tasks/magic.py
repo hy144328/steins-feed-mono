@@ -120,7 +120,6 @@ def calculate_scores(
 def update_scores(
     item_scores: typing.Sequence[typing.Tuple[int, typing.Optional[float]]],
     user_id: int,
-    lang: "steins_feed_model.feeds.Language | str",
 ):
     import sqlalchemy as sqla
     import sqlalchemy.orm as sqla_orm
@@ -130,7 +129,7 @@ def update_scores(
     from . import db
     from . import log
 
-    log.magic_logger.info(f"Start to update scores for {user_id} and {lang}.")
+    log.magic_logger.info(f"Start to update scores for {user_id}.")
 
     q = sqla.insert(steins_feed_model.items.Magic)
     q = q.prefix_with("OR IGNORE", dialect="sqlite")
@@ -146,8 +145,8 @@ def update_scores(
     ]
 
     with sqla_orm.Session(db.engine) as session:
-        log.magic_logger.info(f"Update scores of {len(item_scores)} {lang} items.")
+        log.magic_logger.info(f"Update scores of {len(item_scores)} items.")
         session.execute(q, res)
         session.commit()
 
-    log.magic_logger.info(f"Finish to update scores for {user_id} and {lang}.")
+    log.magic_logger.info(f"Finish to update scores for {user_id}.")

@@ -269,10 +269,7 @@ def _calculate_and_update_scores(
     )
     assert isinstance(calculate_scores, celery.canvas.Signature)
 
-    update_scores = steins_feed_tasks.magic.update_scores.s(
-        user_id = user_id,
-        lang = lang,
-    )
+    update_scores = steins_feed_tasks.magic.update_scores.s(user_id=user_id)
     assert isinstance(update_scores, celery.canvas.Signature)
 
     return calculate_scores.set(link=update_scores)
