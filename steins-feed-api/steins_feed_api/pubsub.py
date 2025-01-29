@@ -21,10 +21,11 @@ def _produce[T](
     q: queue.Queue[T],
     task_done: typing.Callable[[], None],
 ):
-    for res_it in producer:
-        q.put(res_it)
-
-    task_done()
+    try:
+        for res_it in producer:
+            q.put(res_it)
+    finally:
+        task_done()
 
 def reduce_publishers[T](
     *publishers: typing.Iterable[T],
@@ -41,17 +42,22 @@ def reduce_publishers[T](
             queue_in = queue_in,
             queue_out = queue_out,
         )
+        futures = []
 
         while True:
             try:
                 publisher_it = queue_in.get_nowait()
-                executor.submit(
+                future_it = executor.submit(
                     _produce,
                     publisher_it,
                     queue_out,
                     task_done = queue_in.task_done,
                 )
+                futures.append(future_it)
             except queue.Empty:
                 break
 
         yield from to_iterator(queue_out)
+
+        for future_it in concurrent.futures.as_completed(futures):
+            future_it.result()
