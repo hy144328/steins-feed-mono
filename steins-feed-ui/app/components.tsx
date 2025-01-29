@@ -5,6 +5,7 @@ import DOMPurify from "isomorphic-dompurify"
 import Image from "next/image"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
+import { Fragment, ReactNode } from "react"
 import { useRef, useState } from "react"
 
 import { Item, Language, LikeStatus, Tag, WallMode } from "@client"
@@ -65,25 +66,8 @@ export default function WallArticle({
     className={ is_duplicate ? "card-body collapse" : "card-body collapse show" }
     ref={ card_body_ref }
   >
-    <h5 className="card-title">
-      <a
-        href={ item.link }
-        target="_blank"
-        dangerouslySetInnerHTML={ {__html: DOMPurify.sanitize(item.title)} }
-      />
-    </h5>
-
-    <h6 className="card-subtitle">
-      Source: <a href={ `/feed?feed=${item.feed.id}` }>{ item.feed.title }</a>.
-      Published: { format_datetime(new Date(item.published)) }.
-      Tags: { join(
-        item.feed.tags.map(tag_it =>
-          <a href={ `/tag?tag=${ tag_it.id }` } key={ tag_it.id }>{ tag_it.name }</a>
-        ),
-        ", ",
-      ) }.
-      Score: { (item.magic === null) ? "null" : item.magic.toFixed(2) }.
-    </h6>
+    <WallArticleTitle item={ item }/>
+    <WallArticleSubtitle item={ item }/>
 
     <div
       className={ `card-text ${styles["card-text"]}` }
@@ -99,6 +83,60 @@ export default function WallArticle({
     </div>
   </div>
 </div>
+  );
+}
+
+function WallArticleTitle({
+  item,
+}: {
+  item: Item,
+}) {
+  return (
+<h5 className="card-title">
+  <a
+    href={ item.link }
+    target="_blank"
+    dangerouslySetInnerHTML={ {__html: DOMPurify.sanitize(item.title)} }
+  />
+</h5>
+  );
+}
+
+function WallArticleSubtitle({
+  item,
+}: {
+  item: Item,
+}) {
+  const fields: {k: string, v: ReactNode}[] = [
+    {k: "Source", v: <a href={ `/feed?feed=${item.feed.id}` }>{ item.feed.title }</a>},
+    {k: "Published", v: format_datetime(new Date(item.published))},
+    {k: "Tags", v: join(
+      item.feed.tags.map(tag_it =>
+        <a href={ `/tag?tag=${ tag_it.id }` } key={ tag_it.id }>{ tag_it.name }</a>
+      ),
+      ", ",
+    )},
+  ];
+
+  if (item.magic) {
+    fields.push({k: "Score", v: item.magic.toFixed(2)});
+  }
+
+  if (item.surprise) {
+    fields.push({k: "Entropy", v: item.surprise.toFixed(2)});
+  }
+
+  return (
+<h6 className="card-subtitle">
+  {
+    join(
+      fields.map(field_it =>
+        <Fragment key={field_it.k}>{field_it.k}: {field_it.v}.</Fragment>
+      ),
+      "\n",
+    )
+  }
+</h6>
   );
 }
 
