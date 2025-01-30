@@ -40,20 +40,16 @@ export default function LoginModal({
   }
 
   useEffect(() => {
-    const modal_node = modal_ref.current!;
+    let modal;
 
     import("bootstrap").then(({Modal}) => {
-      const modal = new Modal(modal_node);
+      modal = new Modal(modal_ref.current!);
       modal.show();
     });
 
     return () => {
-      import("bootstrap").then(({Modal}) => {
-        const modal = new Modal(modal_node);
-        modal.hide();
-        console.log('Closed!');
-      });
-    }
+      modal.hide();
+    };
   });
 
   return (
