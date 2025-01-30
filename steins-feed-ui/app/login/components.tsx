@@ -1,6 +1,5 @@
 "use client"
 
-import { Modal } from "bootstrap"
 import { useRouter } from "next/navigation"
 import { useEffect, useRef } from "react"
 
@@ -41,10 +40,21 @@ export default function LoginModal({
   }
 
   useEffect(() => {
-    const modal = new Modal(modal_ref.current!);
-    modal.show();
-    return () => modal.hide();
-  })
+    const modal_node = modal_ref.current!;
+
+    import("bootstrap").then(({Modal}) => {
+      const modal = new Modal(modal_node);
+      modal.show();
+    });
+
+    return () => {
+      import("bootstrap").then(({Modal}) => {
+        const modal = new Modal(modal_node);
+        modal.hide();
+        console.log('Closed!');
+      });
+    }
+  });
 
   return (
 <div className="modal fade" data-bs-backdrop="static" ref={ modal_ref }>
