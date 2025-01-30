@@ -1,6 +1,5 @@
 "use client"
 
-import { Collapse } from "bootstrap"
 import DOMPurify from "isomorphic-dompurify"
 import Image from "next/image"
 import Link from "next/link"
@@ -32,6 +31,8 @@ export default function WallArticle({
   const card_body_ref = useRef<HTMLDivElement>(null);
 
   async function handleCollapse() {
+    const { Collapse } = await import("bootstrap");
+
     const card_body = new Collapse(card_body_ref.current!);
     card_body.toggle();
     setCollapsed(!collapsed);
