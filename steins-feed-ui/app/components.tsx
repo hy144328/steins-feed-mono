@@ -5,13 +5,13 @@ import DOMPurify from "isomorphic-dompurify"
 import Image from "next/image"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
-import { Fragment, ReactNode } from "react"
+import { Fragment, ReactNode, RefObject } from "react"
 import { useRef, useState } from "react"
 
 import { Item, Language, LikeStatus, Tag, WallMode } from "@client"
 import { format_datetime, join } from "@util"
 
-import { doLikeItemsLikePut } from "./actions"
+import { doAnalyzeSummaryGet, doLikeItemsLikePut } from "./actions"
 import { logout } from "./auth"
 import { NavigationSearchParams, toURLSearchParams } from "./util"
 
@@ -30,6 +30,9 @@ export default function WallArticle({
   const is_duplicate = (original !== undefined);
   const [collapsed, setCollapsed] = useState(is_duplicate);
   const card_body_ref = useRef<HTMLDivElement>(null);
+
+  const [summary, setSummary] = useState(item.summary);
+  const summary_ref = useRef<HTMLDivElement>(null);
 
   async function handleCollapse() {
     const card_body = new Collapse(card_body_ref.current!);
@@ -71,7 +74,8 @@ export default function WallArticle({
 
     <div
       className={ `card-text ${styles["card-text"]}` }
-      dangerouslySetInnerHTML={ {__html: DOMPurify.sanitize(item.summary ?? "")} }
+      ref={ summary_ref }
+      dangerouslySetInnerHTML={ {__html: DOMPurify.sanitize(summary ?? "")} }
     />
   </div>
 
@@ -79,7 +83,13 @@ export default function WallArticle({
     <div className="btn-group">
       <LikeButton item={item} liked={liked} setLiked={setLiked}/>
       <DislikeButton item={item} liked={liked} setLiked={setLiked}/>
-      <MagicButton /*item={item}*/ highlight={highlight} setHighlight={setHighlight}/>
+      <MagicButton
+        item={item}
+        highlight={highlight}
+        setHighlight={setHighlight}
+        summaryRef={summary_ref}
+        setSummary={setSummary}
+      />
     </div>
   </div>
 </div>
@@ -203,16 +213,39 @@ function DislikeButton({
 }
 
 function MagicButton({
-  //item,
+  item,
   highlight,
   setHighlight,
+  summaryRef,
+  setSummary,
 }: {
-  //item: Item,
+  item: Item,
   highlight: boolean,
   setHighlight: (value: boolean) => void,
+  summaryRef: RefObject<HTMLElement | null>,
+  setSummary: (value: string | null) => void,
 }) {
+  async function handleHighlight() {
+    if (highlight) {
+      setSummary(item.summary);
+    } else if (item.summary) {
+      let summary = item.summary;
+      const bible = await doAnalyzeSummaryGet(item);
+
+      for (const [k, v] of Object.entries(bible)) {
+        if (Math.abs(v) >= 0.5) {
+          summary = summary.replace(new RegExp(`\\b${k}\\b`, "gi"), "<em>$&</em>");
+        }
+      }
+
+      setSummary(summary);
+    }
+
+    setHighlight(!highlight);
+  }
+
   return (
-<button className={ `btn btn-outline-${highlight?"primary":"secondary"}` } onClick={ () => setHighlight(!highlight) } disabled>
+<button className={ `btn btn-outline-${highlight?"primary":"secondary"}` } onClick={ handleHighlight }>
 <i className="bi-lightbulb-fill"/>
 </button>
   );
