@@ -21,7 +21,7 @@ config_logger = steins_feed_logging.LoggerFactory.get_logger(steins_feed_config.
 steins_feed_logging.LoggerFactory.add_stream_handler(config_logger)
 steins_feed_logging.LoggerFactory.set_level(config_logger, logging.INFO)
 
-engine = steins_feed_model.EngineFactory.get_or_create_engine(database=os.environ["DB_NAME"])
+engine = steins_feed_model.EngineFactory.create_engine(database=os.environ["DB_NAME"])
 pwd_context = passlib.context.CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 user = steins_feed_model.users.User(
