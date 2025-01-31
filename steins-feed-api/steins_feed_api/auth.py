@@ -14,6 +14,8 @@ import sqlalchemy.orm as sqla_orm
 import steins_feed_model
 import steins_feed_model.users
 
+import steins_feed_api.db
+
 router = fastapi.APIRouter()
 oauth2_scheme = fastapi.security.OAuth2PasswordBearer(tokenUrl="token")
 pwd_context = passlib.context.CryptContext(schemes=["bcrypt"], deprecated="auto")
@@ -32,8 +34,6 @@ class User(pydantic.BaseModel):
         )
 
 async def current_user(token: typing.Annotated[str, fastapi.Depends(oauth2_scheme)]) -> User:
-    engine = steins_feed_model.EngineFactory.get_or_create_engine()
-
     payload = jwt.decode(
         token,
         key = os.environ["SECRET_KEY"],
@@ -46,7 +46,7 @@ async def current_user(token: typing.Annotated[str, fastapi.Depends(oauth2_schem
         steins_feed_model.users.User.name == payload["sub"],
     )
 
-    with sqla_orm.Session(engine) as session:
+    with sqla_orm.Session(steins_feed_api.db.engine) as session:
         user = session.execute(q).scalars().one()
         return User.from_model(user)
 
@@ -63,15 +63,13 @@ async def login(
         fastapi.Depends(),
     ],
 ) -> Token:
-    engine = steins_feed_model.EngineFactory.get_or_create_engine()
-
     q = sqla.select(
         steins_feed_model.users.User,
     ).where(
         steins_feed_model.users.User.name == form_data.username,
     )
 
-    with sqla_orm.Session(engine) as session:
+    with sqla_orm.Session(steins_feed_api.db.engine) as session:
         user = session.execute(q).scalars().one()
 
         if not pwd_context.verify(form_data.password, user.password):
