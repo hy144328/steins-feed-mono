@@ -1,14 +1,14 @@
+import logging
 import typing
 
 import nltk.stem.snowball
 import sklearn.feature_extraction.text
 
-import steins_feed_logging
 import steins_feed_model.feeds
 
 from . import util
 
-logger = steins_feed_logging.LoggerFactory.get_logger(__name__)
+logger = logging.getLogger(__name__)
 
 LANG2STEMMER: dict[steins_feed_model.feeds.Language, nltk.stem.snowball.StemmerI] = {
     steins_feed_model.feeds.Language.ENGLISH: nltk.stem.snowball.EnglishStemmer(),

@@ -1,3 +1,4 @@
+import logging
 import typing
 
 import fastapi
@@ -6,7 +7,6 @@ import sqlalchemy as sqla
 import sqlalchemy.exc as sqla_exc
 import sqlalchemy.orm as sqla_orm
 
-import steins_feed_logging
 import steins_feed_model
 import steins_feed_model.feeds
 import steins_feed_model.users
@@ -14,11 +14,12 @@ import steins_feed_model.users
 import steins_feed_api.auth
 import steins_feed_api.db
 
+logger = logging.getLogger(__name__)
+
 router = fastapi.APIRouter(
     prefix = "/feeds",
     tags = ["feeds"],
 )
-logger = steins_feed_logging.LoggerFactory.get_logger(__name__)
 
 class Feed(pydantic.BaseModel):
     id: int

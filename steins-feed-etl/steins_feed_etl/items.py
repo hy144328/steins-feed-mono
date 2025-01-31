@@ -1,5 +1,6 @@
 import asyncio
 import datetime
+import logging
 import random
 import typing
 
@@ -10,14 +11,12 @@ import sqlalchemy as sqla
 import sqlalchemy.orm as sqla_orm
 import tenacity
 
-import steins_feed_logging
 import steins_feed_model.feeds
 import steins_feed_model.items
 
 from . import util
 
-# Logger.
-logger = steins_feed_logging.LoggerFactory.get_logger(__name__)
+logger = logging.getLogger(__name__)
 
 async def parse_feeds(
     session: sqla_orm.Session,
