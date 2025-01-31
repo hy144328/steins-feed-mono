@@ -5,10 +5,8 @@ import sqlalchemy as sqla
 from . import feeds, items, users
 
 class EngineFactory:
-    _engine: typing.Optional[sqla.engine.Engine] = None
-
     @classmethod
-    def get_or_create_engine(
+    def create_engine(
         cls,
         drivername: str = "sqlite",
         username: typing.Optional[str] = None,
@@ -18,27 +16,23 @@ class EngineFactory:
         database: typing.Optional[str] = None,
         echo: bool = False,
     ) -> sqla.engine.Engine:
-        if cls._engine is None:
-            url = sqla.URL.create(
-                drivername,
-                username = username,
-                password = password,
-                host = host,
-                port = int(port) if port is not None else None,
-                database = database,
-            )
-            connect_args = {
-                "check_same_thread": False,
-                "timeout": 5,
-            }
-
-            cls._engine = sqla.create_engine(
-                url,
-                connect_args = connect_args,
-                echo = echo,
-            )
-
-        return cls._engine
+        url = sqla.URL.create(
+            drivername,
+            username = username,
+            password = password,
+            host = host,
+            port = int(port) if port is not None else None,
+            database = database,
+        )
+        connect_args = {
+            "check_same_thread": False,
+            "timeout": 5,
+        }
+        return sqla.create_engine(
+            url,
+            connect_args = connect_args,
+            echo = echo,
+        )
 
     @classmethod
     def create_metadata(cls, engine: sqla.engine.Engine) -> sqla.MetaData:
