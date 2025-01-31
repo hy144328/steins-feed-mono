@@ -9,7 +9,6 @@ import jwt.exceptions
 import passlib.context
 import pydantic
 import sqlalchemy as sqla
-import sqlalchemy.orm as sqla_orm
 
 import steins_feed_model
 import steins_feed_model.users
@@ -33,7 +32,10 @@ class User(pydantic.BaseModel):
             email = user.email,
         )
 
-async def current_user(token: typing.Annotated[str, fastapi.Depends(oauth2_scheme)]) -> User:
+async def current_user(
+    session: steins_feed_api.db.Session,
+    token: typing.Annotated[str, fastapi.Depends(oauth2_scheme)],
+) -> User:
     payload = jwt.decode(
         token,
         key = os.environ["SECRET_KEY"],
@@ -45,10 +47,9 @@ async def current_user(token: typing.Annotated[str, fastapi.Depends(oauth2_schem
     ).where(
         steins_feed_model.users.User.name == payload["sub"],
     )
+    user = session.execute(q).scalars().one()
 
-    with sqla_orm.Session(steins_feed_api.db.engine) as session:
-        user = session.execute(q).scalars().one()
-        return User.from_model(user)
+    return User.from_model(user)
 
 UserDep = typing.Annotated[User, fastapi.Depends(current_user)]
 
@@ -58,6 +59,7 @@ class Token(pydantic.BaseModel):
 
 @router.post("/token")
 async def login(
+    session: steins_feed_api.db.Session,
     form_data: typing.Annotated[
         fastapi.security.OAuth2PasswordRequestForm,
         fastapi.Depends(),
@@ -68,16 +70,14 @@ async def login(
     ).where(
         steins_feed_model.users.User.name == form_data.username,
     )
+    user = session.execute(q).scalars().one()
 
-    with sqla_orm.Session(steins_feed_api.db.engine) as session:
-        user = session.execute(q).scalars().one()
-
-        if not pwd_context.verify(form_data.password, user.password):
-            raise fastapi.HTTPException(
-                status_code = fastapi.status.HTTP_401_UNAUTHORIZED,
-                detail = "Incorrect username or password",
-                headers = {"WWW-Authenticate": "Bearer"},
-            )
+    if not pwd_context.verify(form_data.password, user.password):
+        raise fastapi.HTTPException(
+            status_code = fastapi.status.HTTP_401_UNAUTHORIZED,
+            detail = "Incorrect username or password",
+            headers = {"WWW-Authenticate": "Bearer"},
+        )
 
     dt_now = datetime.datetime.now(datetime.timezone.utc)
     dt_seconds = int(os.getenv("ACCESS_TOKEN_EXPIRE_SECONDS", 1800))
