@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 
 import importlib.resources
-import logging
+import logging.config
 import os
+import tomllib
 
 import dotenv
 import passlib.context
@@ -11,15 +12,13 @@ import sqlalchemy.orm as sqla_orm
 
 import steins_feed_config
 import steins_feed_config.feeds
-import steins_feed_logging
 import steins_feed_model
 import steins_feed_model.users
 
 dotenv.load_dotenv()
 
-config_logger = steins_feed_logging.LoggerFactory.get_logger(steins_feed_config.__name__)
-steins_feed_logging.LoggerFactory.add_stream_handler(config_logger)
-steins_feed_logging.LoggerFactory.set_level(config_logger, logging.INFO)
+with open(os.path.join(os.path.dirname(__file__), "first_steps_logging.toml"), "rb") as f:
+    logging.config.dictConfig(tomllib.load(f))
 
 engine = steins_feed_model.EngineFactory.create_engine(database=os.environ["DB_NAME"])
 pwd_context = passlib.context.CryptContext(schemes=["bcrypt"], deprecated="auto")
