@@ -19,7 +19,7 @@ steins_feed_logging.LoggerFactory.add_stream_handler(logger)
 steins_feed_logging.LoggerFactory.set_level(logger, level=logging.DEBUG)
 
 async def main():
-    engine = steins_feed_model.EngineFactory.get_or_create_engine(database=os.environ["DB_NAME"])
+    engine = steins_feed_model.EngineFactory.create_engine(database=os.environ["DB_NAME"])
 
     with sqla_orm.Session(engine) as session:
         async with aiohttp.ClientSession() as client:

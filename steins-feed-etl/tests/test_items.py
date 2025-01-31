@@ -12,7 +12,7 @@ import steins_feed_model.base
 
 @pytest.fixture
 def engine() -> sqla.engine.Engine:
-    return steins_feed_model.EngineFactory.get_or_create_engine()
+    return steins_feed_model.EngineFactory.create_engine()
 
 @pytest.mark.asyncio
 async def test_parser_feeds(
