@@ -12,9 +12,6 @@ import pydantic
 import sqlalchemy as sqla
 import sqlalchemy.orm as sqla_orm
 
-import steins_feed_api.measure
-import steins_feed_api.pubsub
-import steins_feed_api.sample
 import steins_feed_logging
 import steins_feed_model
 import steins_feed_model.feeds
@@ -23,7 +20,11 @@ import steins_feed_model.users
 import steins_feed_tasks.magic
 
 import steins_feed_api.auth
+import steins_feed_api.db
+import steins_feed_api.measure
+import steins_feed_api.pubsub
 import steins_feed_api.routers.feeds
+import steins_feed_api.sample
 
 router = fastapi.APIRouter(
     prefix = "/items",
@@ -78,6 +79,7 @@ class Item(pydantic.BaseModel):
 
 @router.get("/")
 async def root(
+    session: steins_feed_api.db.Session,
     current_user: steins_feed_api.auth.UserDep,
     dt_from: datetime.datetime,
     dt_to: datetime.datetime,
@@ -91,8 +93,6 @@ async def root(
     ] = None,
     wall_mode: WallMode = WallMode.CLASSIC,
 ) -> list[Item]:
-    engine = steins_feed_model.EngineFactory.get_or_create_engine()
-
     q = sqla.select(
         steins_feed_model.items.Item,
     ).join(
@@ -159,18 +159,16 @@ async def root(
                 steins_feed_model.feeds.Feed.title,
             )
 
-            with sqla_orm.Session(engine) as session:
-                return [
-                    Item.from_model(item_it)
-                    for item_it in session.execute(q).scalars().unique()
-                ]
+            return [
+                Item.from_model(item_it)
+                for item_it in session.execute(q).scalars().unique()
+            ]
         case WallMode.RANDOM:
             rng = random.Random()
             reservoir = steins_feed_api.sample.Reservoir[Item](rng, 10)
 
-            with sqla_orm.Session(engine) as session:
-                for item_it in session.execute(q).scalars().unique():
-                    reservoir.add(Item.from_model(item_it))
+            for item_it in session.execute(q).scalars().unique():
+                reservoir.add(Item.from_model(item_it))
 
             return sorted(reservoir.sample, key=lambda x: x.published, reverse=True)
 
@@ -183,47 +181,46 @@ async def root(
         steins_feed_model.items.Magic.item_id != None,
     )
 
-    with sqla_orm.Session(engine) as session:
-        unscored_items = _augment_unscored(
-            items = session.execute(q_unscored).scalars().unique(),
-            user_id = current_user.id,
-        )
+    unscored_items = _augment_unscored(
+        items = session.execute(q_unscored).scalars().unique(),
+        user_id = current_user.id,
+    )
 
-        match wall_mode:
-            case WallMode.MAGIC:
-                q_scored = q_scored.order_by(
-                    steins_feed_model.items.Magic.score.desc(),
-                    steins_feed_model.items.Item.published.desc(),
-                    steins_feed_model.items.Item.title,
-                    steins_feed_model.feeds.Feed.title,
-                )
-                scored_items = (
-                    Item.from_model(item_it)
-                    for item_it in session.execute(q_scored).scalars().unique()
-                )
+    match wall_mode:
+        case WallMode.MAGIC:
+            q_scored = q_scored.order_by(
+                steins_feed_model.items.Magic.score.desc(),
+                steins_feed_model.items.Item.published.desc(),
+                steins_feed_model.items.Item.title,
+                steins_feed_model.feeds.Feed.title,
+            )
+            scored_items = (
+                Item.from_model(item_it)
+                for item_it in session.execute(q_scored).scalars().unique()
+            )
 
-                return sorted(
-                    itertools.chain(scored_items, unscored_items),
-                    key=lambda x: (
-                        -x.magic if x.magic is not None else 0,
-                        -x.published.timestamp(),
-                        x.title,
-                        x.feed.title,
-                    ),
-                )
-            case WallMode.SURPRISE:
-                scored_items = (
-                    Item.from_model(item_it)
-                    for item_it in session.execute(q_scored).scalars().unique()
-                )
+            return sorted(
+                itertools.chain(scored_items, unscored_items),
+                key=lambda x: (
+                    -x.magic if x.magic is not None else 0,
+                    -x.published.timestamp(),
+                    x.title,
+                    x.feed.title,
+                ),
+            )
+        case WallMode.SURPRISE:
+            scored_items = (
+                Item.from_model(item_it)
+                for item_it in session.execute(q_scored).scalars().unique()
+            )
 
-                rng = random.Random()
-                reservoir = steins_feed_api.sample.Reservoir[Item](rng, 10)
+            rng = random.Random()
+            reservoir = steins_feed_api.sample.Reservoir[Item](rng, 10)
 
-                for item_it in itertools.chain(scored_items, unscored_items):
-                    reservoir.add(item_it, item_it.surprise or 1)
+            for item_it in itertools.chain(scored_items, unscored_items):
+                reservoir.add(item_it, item_it.surprise or 1)
 
-                return sorted(reservoir.sample, key=lambda x: x.published, reverse=True)
+            return sorted(reservoir.sample, key=lambda x: x.published, reverse=True)
 
 def _augment_unscored(
     items: typing.Iterable[steins_feed_model.items.Item],
@@ -283,12 +280,10 @@ def _put_scores(
 ) -> typing.Generator[Item]:
     logger.debug(f"Start to process items with scores.")
 
-    engine = steins_feed_model.EngineFactory.get_or_create_engine()
-
     item_ids_and_scores = res.get()
     assert item_ids_and_scores is not None
 
-    with sqla_orm.Session(engine) as session:
+    with sqla_orm.Session(steins_feed_api.db._ENGINE) as session:
         for item_id, item_score in item_ids_and_scores:
             assert isinstance(item_id, int)
             assert isinstance(item_score, typing.Optional[float])
@@ -331,30 +326,27 @@ def _put_scores(
 
 @router.put("/like/")
 async def like(
+    session: steins_feed_api.db.Session,
     current_user: steins_feed_api.auth.UserDep,
     item_id: int,
     score: steins_feed_model.items.LikeStatus,
 ):
-    engine = steins_feed_model.EngineFactory.get_or_create_engine()
-
     q = sqla.select(
         steins_feed_model.items.Like,
     ).where(
         steins_feed_model.items.Like.item_id == item_id,
         steins_feed_model.items.Like.user_id == current_user.id,
     )
+    like = session.execute(q).scalar()
 
-    with sqla_orm.Session(engine) as session:
-        like = session.execute(q).scalar()
+    if like is None:
+        like = steins_feed_model.items.Like(
+            user_id = current_user.id,
+            item_id = item_id,
+            score = score,
+        )
+        session.add(like)
+    else:
+        like.score = score
 
-        if like is None:
-            like = steins_feed_model.items.Like(
-                user_id = current_user.id,
-                item_id = item_id,
-                score = score,
-            )
-            session.add(like)
-        else:
-            like.score = score
-
-        session.commit()
+    session.commit()
