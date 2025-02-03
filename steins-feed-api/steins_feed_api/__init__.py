@@ -1,13 +1,12 @@
 #!/usr/bin/env python3
 
-import logging
+import logging.config
 import os
+import tomllib
 
 import dotenv
 import fastapi
 import fastapi.middleware.cors
-
-import steins_feed_logging
 
 import steins_feed_api.auth
 import steins_feed_api.db
@@ -16,9 +15,8 @@ import steins_feed_api.routers.items
 
 dotenv.load_dotenv()
 
-api_logger = steins_feed_logging.LoggerFactory.get_logger(steins_feed_api.__name__)
-steins_feed_logging.LoggerFactory.add_stream_handler(api_logger)
-steins_feed_logging.LoggerFactory.set_level(api_logger, logging.DEBUG)
+with open("logging.toml", "rb") as f:
+    logging.config.dictConfig(tomllib.load(f))
 
 steins_feed_api.db.set_up(
     username = os.getenv("DB_USER"),
