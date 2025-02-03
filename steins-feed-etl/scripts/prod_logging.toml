@@ -8,6 +8,6 @@ class = "logging.FileHandler"
 formatter = "default"
 filename = "logs.d/prod.log"
 
-[loggers.steins_feed_etl]
+[loggers."steins_feed_etl.items"]
 handlers = ["file"]
 level = "INFO"
