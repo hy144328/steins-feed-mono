@@ -1,0 +1,30 @@
+version = 1
+
+[formatters.default]
+format = "[%(asctime)s] %(levelname)s:%(name)s: %(message)s"
+
+[handlers.etl]
+class = "logging.FileHandler"
+formatter = "default"
+filename = "logs.d/etl.log"
+
+[handlers.magic]
+class = "logging.FileHandler"
+formatter = "default"
+filename = "logs.d/magic.log"
+
+[loggers."steins_feed_etl.items"]
+handlers = ["etl"]
+level = "INFO"
+
+[loggers.steins_feed_magic]
+handlers = ["magic"]
+level = "INFO"
+
+[loggers."steins_feed_tasks.etl"]
+handlers = ["etl"]
+level = "INFO"
+
+[loggers."steins_feed_tasks.magic"]
+handlers = ["magic"]
+level = "INFO"

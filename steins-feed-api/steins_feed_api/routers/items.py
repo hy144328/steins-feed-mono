@@ -1,6 +1,7 @@
 import datetime
 import enum
 import itertools
+import logging
 import random
 import typing
 
@@ -12,7 +13,6 @@ import pydantic
 import sqlalchemy as sqla
 import sqlalchemy.orm as sqla_orm
 
-import steins_feed_logging
 import steins_feed_model
 import steins_feed_model.feeds
 import steins_feed_model.items
@@ -26,12 +26,12 @@ import steins_feed_api.pubsub
 import steins_feed_api.routers.feeds
 import steins_feed_api.sample
 
+logger = logging.getLogger(__name__)
+
 router = fastapi.APIRouter(
     prefix = "/items",
     tags = ["items"],
 )
-
-logger = steins_feed_logging.LoggerFactory.get_logger(__name__)
 
 class WallMode(enum.Enum):
     CLASSIC = "Classic"

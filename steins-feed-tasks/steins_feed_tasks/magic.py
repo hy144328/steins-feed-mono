@@ -1,6 +1,9 @@
+import logging
 import typing
 
 from .app import app
+
+logger = logging.getLogger(__name__)
 
 if typing.TYPE_CHECKING:
     import steins_feed_model.feeds
@@ -18,9 +21,8 @@ def train_classifier(
     import steins_feed_model.feeds
 
     from . import db
-    from . import log
 
-    log.magic_logger.info(f"Start train_classifier: {user_id}, {lang}.")
+    logger.info(f"Start train_classifier: {user_id}, {lang}.")
 
     if not isinstance(lang, steins_feed_model.feeds.Language):
         lang = steins_feed_model.feeds.Language(lang)
@@ -40,9 +42,9 @@ def train_classifier(
             steins_feed_magic.io.write_classifier(clf, 1, lang, force=True)
             steins_feed_magic.db.reset_magic(session, user_id, lang)
         except ValueError as e:
-            log.magic_logger.warning(e)
+            logger.warning(e)
 
-    log.magic_logger.info(f"Finish train_classifier: {user_id}, {lang}.")
+    logger.info(f"Finish train_classifier: {user_id}, {lang}.")
 
 @app.task
 def train_classifiers_all():
@@ -54,9 +56,8 @@ def train_classifiers_all():
     import steins_feed_model.users
 
     from . import db
-    from . import log
 
-    log.magic_logger.info("Start train_classifiers_all.")
+    logger.info("Start train_classifiers_all.")
 
     assert isinstance(train_classifier, celery.Task)
 
@@ -69,7 +70,7 @@ def train_classifiers_all():
         )
         job()
 
-    log.magic_logger.info("Finish train_classifiers_all.")
+    logger.info("Finish train_classifiers_all.")
 
 @app.task
 def calculate_scores(
@@ -85,9 +86,8 @@ def calculate_scores(
     import steins_feed_model.items
 
     from . import db
-    from . import log
 
-    log.magic_logger.info(f"Start to calculate scores for {user_id} and {lang}.")
+    logger.info(f"Start to calculate scores for {user_id} and {lang}.")
 
     if not isinstance(lang, steins_feed_model.feeds.Language):
         lang = steins_feed_model.feeds.Language(lang)
@@ -95,7 +95,7 @@ def calculate_scores(
     try:
         clf = steins_feed_magic.io.read_classifier(user_id, lang)
     except FileNotFoundError:
-        log.magic_logger.warning(f"Skip {len(item_ids)} {lang} items without classifier.")
+        logger.warning(f"Skip {len(item_ids)} {lang} items without classifier.")
         return [(item_id, None) for item_id in item_ids]
 
     q = sqla.select(
@@ -103,7 +103,7 @@ def calculate_scores(
     ).where(
         steins_feed_model.items.Item.id.in_(item_ids),
     )
-    log.magic_logger.info(f"Calculate scores of {len(item_ids)} {lang} items.")
+    logger.info(f"Calculate scores of {len(item_ids)} {lang} items.")
 
     with sqla_orm.Session(db.engine) as session:
         items = session.execute(q).scalars().all()
@@ -113,7 +113,7 @@ def calculate_scores(
             for item_it, score_it in zip(items, scores)
         ]
 
-    log.magic_logger.info(f"Finish to calculate scores for {user_id} and {lang}.")
+    logger.info(f"Finish to calculate scores for {user_id} and {lang}.")
     return res
 
 @app.task
@@ -128,9 +128,8 @@ def update_scores(
     import steins_feed_model.items
 
     from . import db
-    from . import log
 
-    log.magic_logger.info(f"Start to update scores for {user_id} and {lang}.")
+    logger.info(f"Start to update scores for {user_id} and {lang}.")
 
     q = sqla.insert(steins_feed_model.items.Magic)
     q = q.prefix_with("OR IGNORE", dialect="sqlite")
@@ -146,8 +145,8 @@ def update_scores(
     ]
 
     with sqla_orm.Session(db.engine) as session:
-        log.magic_logger.info(f"Update scores of {len(item_scores)} {lang} items.")
+        logger.info(f"Update scores of {len(item_scores)} {lang} items.")
         session.execute(q, res)
         session.commit()
 
-    log.magic_logger.info(f"Finish to update scores for {user_id} and {lang}.")
+    logger.info(f"Finish to update scores for {user_id} and {lang}.")

@@ -1,3 +1,4 @@
+import logging
 import typing
 
 import lxml.etree
@@ -5,10 +6,9 @@ import sqlalchemy as sqla
 import sqlalchemy.exc as sqla_exc
 import sqlalchemy.orm as sqla_orm
 
-import steins_feed_logging
 import steins_feed_model.feeds
 
-logger = steins_feed_logging.LoggerFactory.get_logger(__name__)
+logger = logging.getLogger(__name__)
 
 def read_xml(
     session: sqla_orm.Session,

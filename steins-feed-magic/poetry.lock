@@ -1612,19 +1612,6 @@ pymysql = ["pymysql"]
 sqlcipher = ["sqlcipher3_binary"]
 
 [[package]]
-name = "steins-feed-logging"
-version = "0.1.0"
-description = "Stein's feed -- logging"
-optional = false
-python-versions = "^3.13"
-files = []
-develop = true
-
-[package.source]
-type = "directory"
-url = "../steins-feed-logging"
-
-[[package]]
 name = "steins-feed-model"
 version = "0.1.0"
 description = "Stein's feed -- model"
@@ -1830,4 +1817,4 @@ test = ["pytest"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.13"
-content-hash = "17a7bc489693966ed9574ab4e008a2cf0d50be98272fe72ebaec7fa27cfbc335"
+content-hash = "836f822e4791e45fbd1e712d03d9e5cdbdabcdde28bdaa82e4d283556d25c16b"

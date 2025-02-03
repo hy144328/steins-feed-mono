@@ -1,14 +1,16 @@
+import logging
+
 from .app import app
+
+logger = logging.getLogger(__name__)
 
 @app.task
 def parse_feeds():
     import asyncio
 
-    from . import log
-
-    log.etl_logger.info("Start parse_feeds.")
+    logger.info("Start parse_feeds.")
     asyncio.run(parse_feeds_async())
-    log.etl_logger.info("Finish parse_feeds.")
+    logger.info("Finish parse_feeds.")
 
 async def parse_feeds_async():
     import aiohttp

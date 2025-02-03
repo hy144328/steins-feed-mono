@@ -1,0 +1,13 @@
+version = 1
+
+[formatters.default]
+format = "[%(asctime)s] %(levelname)s:%(name)s: %(message)s"
+
+[handlers.file]
+class = "logging.FileHandler"
+formatter = "default"
+filename = "logs.d/prod.log"
+
+[loggers."steins_feed_etl.items"]
+handlers = ["file"]
+level = "INFO"
