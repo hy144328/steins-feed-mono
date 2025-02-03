@@ -14,7 +14,6 @@ class EngineFactory:
         host: typing.Optional[str] = None,
         port: typing.Optional[typing.Union[int, str]] = None,
         database: typing.Optional[str] = None,
-        echo: bool = False,
     ) -> sqla.engine.Engine:
         url = sqla.URL.create(
             drivername,
@@ -31,7 +30,6 @@ class EngineFactory:
         return sqla.create_engine(
             url,
             connect_args = connect_args,
-            echo = echo,
         )
 
     @classmethod
