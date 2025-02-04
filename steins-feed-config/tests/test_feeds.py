@@ -79,6 +79,30 @@ def test_read_xml(
     assert len(feeds) == 1
     assert len(feeds[0].tags) == 2
 
+def test_read_and_read_xml(
+    session: sqla_orm.Session,
+    user: steins_feed_model.users.User,
+    temp_dir: str,
+    temp_file: typing.TextIO,
+):
+    steins_feed_config.read_xml(
+        session,
+        temp_file,
+        user_name = "hansolo",
+    )
+    temp_file.seek(0)
+    steins_feed_config.read_xml(
+        session,
+        temp_file,
+        user_name = "hansolo",
+    )
+
+    q = sqla.select(steins_feed_model.feeds.Feed)
+    feeds = session.execute(q).scalars().all()
+
+    assert len(feeds) == 1
+    assert len(feeds[0].tags) == 2
+
 def test_read_and_write_xml(
     session: sqla_orm.Session,
     user: steins_feed_model.users.User,
