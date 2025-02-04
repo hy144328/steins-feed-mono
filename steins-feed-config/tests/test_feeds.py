@@ -61,7 +61,7 @@ def temp_file(temp_dir: str) -> typing.Generator[typing.TextIO]:
     with open(f.name, "r") as f:
         yield f
 
-def test_read_and_write_xml(
+def test_read_xml(
     session: sqla_orm.Session,
     user: steins_feed_model.users.User,
     temp_dir: str,
@@ -74,8 +74,22 @@ def test_read_and_write_xml(
     )
 
     q = sqla.select(steins_feed_model.feeds.Feed)
-    res = session.execute(q).scalars().all()
-    assert len(res) == 1
+    feeds = session.execute(q).scalars().all()
+
+    assert len(feeds) == 1
+    assert len(feeds[0].tags) == 2
+
+def test_read_and_write_xml(
+    session: sqla_orm.Session,
+    user: steins_feed_model.users.User,
+    temp_dir: str,
+    temp_file: typing.TextIO,
+):
+    steins_feed_config.read_xml(
+        session,
+        temp_file,
+        user_name = "hansolo",
+    )
 
     with tempfile.NamedTemporaryFile("w", dir=temp_dir, delete=False) as f:
         pass
