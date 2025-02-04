@@ -76,6 +76,21 @@ def test_read_xml(
     assert len(feeds) == 1
     assert len(feeds[0].tags) == 2
 
+def test_read_xml_no_user(
+    session: sqla_orm.Session,
+    temp_file: typing.TextIO,
+):
+    steins_feed_config.read_xml(
+        session,
+        temp_file,
+        user_id = None,
+    )
+
+    q = sqla.select(steins_feed_model.feeds.Feed)
+    feeds = session.execute(q).scalars().all()
+
+    assert len(feeds) == 1
+
 def test_read_and_read_xml(
     session: sqla_orm.Session,
     user: steins_feed_model.users.User,
@@ -131,3 +146,32 @@ def test_read_and_write_xml(
     feed = feeds[0]
     tags = feed.xpath("tag")
     assert len(tags) == 2
+
+def test_read_and_write_xml_no_user(
+    session: sqla_orm.Session,
+    user: steins_feed_model.users.User,
+    temp_dir: str,
+    temp_file: typing.TextIO,
+):
+    steins_feed_config.read_xml(
+        session,
+        temp_file,
+        user_id = user.id,
+    )
+
+    with tempfile.NamedTemporaryFile("w", dir=temp_dir, delete=False) as f:
+        pass
+
+    with open(f.name, "w") as f:
+        steins_feed_config.write_xml(
+            session,
+            f,
+            user_id = None,
+        )
+
+    with open(f.name, "r") as f:
+        tree = lxml.etree.parse(f)
+        root = tree.getroot()
+
+    feeds = root.xpath("feed")
+    assert len(feeds) == 1
