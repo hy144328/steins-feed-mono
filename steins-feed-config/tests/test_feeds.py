@@ -38,46 +38,57 @@ def user(
 
     return user
 
-def test_read_and_write_xml(
-    session: sqla_orm.Session,
-    user: steins_feed_model.users.User,
-):
+@pytest.fixture
+def temp_dir() -> typing.Generator[str]:
     with tempfile.TemporaryDirectory() as temp_dir:
-        with tempfile.NamedTemporaryFile("w", dir=temp_dir, delete=False) as f:
-            f.write("""
+        yield temp_dir
+
+@pytest.fixture
+def temp_file(temp_dir: str) -> typing.Generator[typing.TextIO]:
+    with tempfile.NamedTemporaryFile("w", dir=temp_dir, delete=False) as f:
+        f.write("""
 <root>
   <feed>
     <title>The Guardian</title>
     <link>https://www.theguardian.com/uk/rss</link>
     <lang>English</lang>
-    <tag>News</tag>
+    <tag>dummy</tag>
+    <tag>news</tag>
   </feed>
 </root>
-            """)
+        """)
 
-        with open(f.name, "r") as f:
-            steins_feed_config.read_xml(
-                session,
-                f,
-                user_name = "hansolo",
-            )
+    with open(f.name, "r") as f:
+        yield f
 
-        q = sqla.select(steins_feed_model.feeds.Feed)
-        res = session.execute(q).scalars().all()
-        assert len(res) == 1
+def test_read_and_write_xml(
+    session: sqla_orm.Session,
+    user: steins_feed_model.users.User,
+    temp_dir: str,
+    temp_file: typing.TextIO,
+):
+    steins_feed_config.read_xml(
+        session,
+        temp_file,
+        user_name = "hansolo",
+    )
 
-        with tempfile.NamedTemporaryFile("w", dir=temp_dir, delete=False) as f:
-            pass
+    q = sqla.select(steins_feed_model.feeds.Feed)
+    res = session.execute(q).scalars().all()
+    assert len(res) == 1
 
-        with open(f.name, "w") as f:
-            steins_feed_config.write_xml(
-                session,
-                f,
-                user_name = "hansolo",
-            )
+    with tempfile.NamedTemporaryFile("w", dir=temp_dir, delete=False) as f:
+        pass
 
-        with open(f.name, "r") as f:
-            tree = lxml.etree.parse(f)
-            root = tree.getroot()
+    with open(f.name, "w") as f:
+        steins_feed_config.write_xml(
+            session,
+            f,
+            user_name = "hansolo",
+        )
 
-        assert len(root.xpath("feed")) == 1
+    with open(f.name, "r") as f:
+        tree = lxml.etree.parse(f)
+        root = tree.getroot()
+
+    assert len(root.xpath("feed")) == 1
