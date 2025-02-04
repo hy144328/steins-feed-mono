@@ -1,6 +1,8 @@
 import logging
 import typing
 
+import lxml.etree
+import lxml.html
 import nltk.stem.snowball
 import sklearn.feature_extraction.text
 
@@ -41,9 +43,18 @@ class CountVectorizer(sklearn.feature_extraction.text.CountVectorizer):
     @typing.override
     def build_preprocessor(self) -> typing.Callable[[str], str]:
         preprocess = super().build_preprocessor()
-        return util.chain(util.text_content, preprocess)
+        return util.chain(text_content, preprocess)
 
     @typing.override
     def build_tokenizer(self) -> typing.Callable[[str], list[str]]:
         tokenize = super().build_tokenizer()
         return util.concatenate(tokenize, util.map_over(self.stemmer.stem))
+
+def text_content(s: str) -> str:
+    try:
+        tree = lxml.html.fromstring(s)
+        res = tree.text_content()
+    except lxml.etree.ParserError:
+        res = ""
+
+    return res
