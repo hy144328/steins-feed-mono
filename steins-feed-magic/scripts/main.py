@@ -8,9 +8,9 @@ import sqlalchemy.orm as sqla_orm
 import steins_feed_magic.classify
 import steins_feed_magic.db
 import steins_feed_magic.io
-import steins_feed_magic.feature
 import steins_feed_model.feeds
 import steins_feed_model.items
+import steins_feed_magic.parse
 
 dotenv.load_dotenv()
 
@@ -22,11 +22,11 @@ clf = steins_feed_magic.classify.build_classifier(lang)
 
 with sqla_orm.Session(engine) as session:
     liked_items = [
-        steins_feed_magic.feature.text_content(item_it.title)
+        steins_feed_magic.parse.text_content(item_it.title)
         for item_it in steins_feed_magic.db.liked_items(session, user_id, lang)
     ]
     disliked_items = [
-        steins_feed_magic.feature.text_content(item_it.title)
+        steins_feed_magic.parse.text_content(item_it.title)
         for item_it in steins_feed_magic.db.disliked_items(session, user_id, lang)
     ]
 
