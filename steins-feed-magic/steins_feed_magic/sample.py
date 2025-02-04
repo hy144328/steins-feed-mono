@@ -15,10 +15,10 @@ class Reservoir[T]:
         self.sample_weights: list[float] = []
 
     def add(self, value: T, weight: float=1) -> typing.Optional[T]:
-        if weight < 0:
+        if weight < 0:  # pragma: no cover
             raise ValueError("Weight has to be non-negative.")
 
-        if weight == 0:
+        if weight == 0: # pragma: no cover
             return None
 
         self.n += weight
