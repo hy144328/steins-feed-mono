@@ -55,7 +55,7 @@ with sqla_orm.Session(engine) as session:
         os.environ["MAGIC_FOLDER"],
         user_id = user.id,
         lang = lang,
-        force=True,
+        force = True,
     )
     clf = steins_feed_magic.io.read_classifier(
         os.environ["MAGIC_FOLDER"],
