@@ -8,6 +8,6 @@ class = "logging.StreamHandler"
 formatter = "default"
 stream = "ext://sys.stdout"
 
-[loggers."steins_feed_etl.items"]
+[loggers.steins_feed_etl]
 handlers = ["stream"]
 level = "DEBUG"

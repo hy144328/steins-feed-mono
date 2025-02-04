@@ -9,7 +9,7 @@ import aiohttp
 import dotenv
 import sqlalchemy.orm as sqla_orm
 
-import steins_feed_etl.items
+import steins_feed_etl
 import steins_feed_model
 
 dotenv.load_dotenv()
@@ -29,7 +29,7 @@ async def main():
 
     with sqla_orm.Session(engine) as session:
         async with aiohttp.ClientSession(connector=connector) as client:
-            await steins_feed_etl.items.parse_feeds(
+            await steins_feed_etl.parse_feeds(
                 session,
                 client,
                 skip_recent = True,

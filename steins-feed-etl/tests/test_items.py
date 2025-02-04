@@ -7,7 +7,7 @@ import sqlalchemy as sqla
 import sqlalchemy.orm as sqla_orm
 
 import steins_feed_config
-import steins_feed_etl.items
+import steins_feed_etl
 import steins_feed_model
 import steins_feed_model.base
 
@@ -87,7 +87,7 @@ async def test_parse_feeds(
     steins_feed_config.read_xml(session, temp_file, user_id=None)
 
     async with aiohttp.ClientSession() as client:
-        await steins_feed_etl.items.parse_feeds(session, client)
+        await steins_feed_etl.parse_feeds(session, client)
 
     q = sqla.select(steins_feed_model.items.Item)
     res = session.execute(q).scalars().all()
@@ -101,11 +101,11 @@ async def test_parse_feeds_long(
     steins_feed_config.read_xml(session, temp_file_long, user_id=None)
 
     async with aiohttp.ClientSession() as client:
-        await steins_feed_etl.items.parse_feeds(session, client)
+        await steins_feed_etl.parse_feeds(session, client)
 
     q = sqla.select(steins_feed_model.items.Item)
     res = session.execute(q).scalars().all()
-    assert len(res) > steins_feed_etl.items.BATCH_SIZE
+    assert len(res) > steins_feed_etl.BATCH_SIZE
 
 @pytest.mark.asyncio
 async def test_parse_feeds_pattern(
@@ -115,7 +115,7 @@ async def test_parse_feeds_pattern(
     steins_feed_config.read_xml(session, temp_file_long, user_id=None)
 
     async with aiohttp.ClientSession() as client:
-        await steins_feed_etl.items.parse_feeds(session, client, title_pattern="Culture")
+        await steins_feed_etl.parse_feeds(session, client, title_pattern="Culture")
 
     q = sqla.select(steins_feed_model.items.Item)
     res = session.execute(q).scalars().all()
@@ -129,8 +129,8 @@ async def test_parse_feeds_skip(
     steins_feed_config.read_xml(session, temp_file, user_id=None)
 
     async with aiohttp.ClientSession() as client:
-        await steins_feed_etl.items.parse_feeds(session, client)
-        await steins_feed_etl.items.parse_feeds(session, client, skip_recent=True)
+        await steins_feed_etl.parse_feeds(session, client)
+        await steins_feed_etl.parse_feeds(session, client, skip_recent=True)
 
     q = sqla.select(steins_feed_model.items.Item)
     res = session.execute(q).scalars().all()
