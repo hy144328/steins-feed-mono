@@ -1,4 +1,3 @@
-import functools
 import logging
 import typing
 
@@ -57,8 +56,12 @@ def predict_scores[T](
     items: typing.Sequence[T],
 ) -> npt.NDArray[np.double]:
     res = clf.predict_proba(items)
+    classes = clf.classes_.tolist()
 
-    return functools.reduce(
-        lambda a, b: a + b,
-        [res[:, class_ct] * class_it.value for class_ct, class_it in enumerate(clf.classes_)],
-    )
+    idx_liked = classes.index(steins_feed_model.items.LikeStatus.UP.value)
+    res_liked = res[:, idx_liked]
+
+    idx_disliked = classes.index(steins_feed_model.items.LikeStatus.DOWN.value)
+    res_disliked = res[:, idx_disliked]
+
+    return res_liked - res_disliked
