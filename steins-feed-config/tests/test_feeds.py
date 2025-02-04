@@ -5,7 +5,7 @@ import pytest
 import sqlalchemy as sqla
 import sqlalchemy.orm as sqla_orm
 
-import steins_feed_config.feeds
+import steins_feed_config
 import steins_feed_model
 import steins_feed_model.base
 import steins_feed_model.users
@@ -49,11 +49,10 @@ def test_read_and_write_xml(engine: sqla.engine.Engine):
 
         with sqla_orm.Session(engine) as session:
             with open(f.name, "r") as f:
-                steins_feed_config.feeds.read_xml(
+                steins_feed_config.read_xml(
                     session,
                     f,
                     user_name = "hansolo",
-                    tag_name = "news",
                 )
 
         q = sqla.select(steins_feed_model.feeds.Feed)
@@ -66,11 +65,10 @@ def test_read_and_write_xml(engine: sqla.engine.Engine):
                 pass
 
             with open(f.name, "w") as f:
-                steins_feed_config.feeds.write_xml(
+                steins_feed_config.write_xml(
                     session,
                     f,
                     user_name = "hansolo",
-                    tag_name = "news",
                 )
 
         with open(f.name, "r") as f:
