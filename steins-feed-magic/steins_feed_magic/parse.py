@@ -5,7 +5,7 @@ def text_content(s: str) -> str:
     try:
         tree = lxml.html.fromstring(s)
         res = tree.text_content()
-    except lxml.etree.ParserError:
+    except lxml.etree.ParserError:  # pragma: no cover
         res = ""
 
     return res
