@@ -1,5 +1,5 @@
-import sqlalchemy as sqla
 import pytest
+import sqlalchemy as sqla
 
 import steins_feed_model
 import steins_feed_model.base
