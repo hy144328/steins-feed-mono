@@ -91,4 +91,9 @@ def test_read_and_write_xml(
         tree = lxml.etree.parse(f)
         root = tree.getroot()
 
-    assert len(root.xpath("feed")) == 1
+    feeds = root.xpath("feed")
+    assert len(feeds) == 1
+
+    feed = feeds[0]
+    tags = feed.xpath("tag")
+    assert len(tags) == 2
