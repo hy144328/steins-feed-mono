@@ -3,13 +3,8 @@ import collections
 import lxml.etree
 import lxml.html
 
-class HtmlElementTail(lxml.html.HtmlElement):
-    def __init__(self, text: str):
-        super().__init__()
-        self.text = text
-
 def text_content(s: str) -> str:
-    que = collections.deque[lxml.html.HtmlElement]()
+    que = collections.deque[lxml.html.HtmlElement | str]()
     res = []
 
     try:
@@ -21,13 +16,17 @@ def text_content(s: str) -> str:
     while len(que) > 0:
         node_it = que.pop()
 
-        if node_it.text is not None:
-            res.append(node_it.text)
+        if isinstance(node_it, str):
+            res.append(node_it)
+            continue
 
         for child_it in reversed(node_it):
             if child_it.tail is not None:
-                que.append(HtmlElementTail(child_it.tail))
+                que.append(child_it.tail)
 
             que.append(child_it)
+
+        if node_it.text is not None:
+            que.append(node_it.text)
 
     return "".join(res)
