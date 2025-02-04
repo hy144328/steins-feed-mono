@@ -55,9 +55,3 @@ def _mapped_over[S, T](
     function: typing.Callable[[S], T],
 ) -> list[T]:
     return [function(s) for s in initial]
-
-def getattr_from(
-    o: object,
-    name: str,
-):
-    return getattr(o, name)
