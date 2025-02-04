@@ -19,7 +19,7 @@ def build_classifier(
 ) -> sklearn.pipeline.Pipeline:
     try:
         vect = stem.StemmingCountVectorizer(lang)
-    except KeyError:
+    except KeyError:    # pragma: no cover
         logger.warning(f"No stemmer of language {lang}.")
         vect = sklearn.feature_extraction.text.CountVectorizer()
 
@@ -34,10 +34,10 @@ def fit_classifier[T](
     liked_items: typing.Sequence[T],
     disliked_items: typing.Sequence[T],
 ):
-    if len(liked_items) == 0:
+    if len(liked_items) == 0:   # pragma: no cover
         raise ValueError("No likes.")
 
-    if len(disliked_items) == 0:
+    if len(disliked_items) == 0:    # pragma: no cover
         raise ValueError("No dislikes.")
 
     features = [*liked_items, *disliked_items]
