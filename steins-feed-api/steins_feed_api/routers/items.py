@@ -13,6 +13,8 @@ import pydantic
 import sqlalchemy as sqla
 import sqlalchemy.orm as sqla_orm
 
+import steins_feed_magic.measure
+import steins_feed_magic.sample
 import steins_feed_model
 import steins_feed_model.feeds
 import steins_feed_model.items
@@ -21,10 +23,8 @@ import steins_feed_tasks.magic
 
 import steins_feed_api.auth
 import steins_feed_api.db
-import steins_feed_api.measure
 import steins_feed_api.pubsub
 import steins_feed_api.routers.feeds
-import steins_feed_api.sample
 
 logger = logging.getLogger(__name__)
 
@@ -75,7 +75,7 @@ class Item(pydantic.BaseModel):
     @staticmethod
     def magic2surprise(score: float) -> float:
         p = (score + 1) / 2
-        return steins_feed_api.measure.entropy_bernoulli(p)
+        return steins_feed_magic.measure.entropy_bernoulli(p)
 
 @router.get("/")
 async def root(
@@ -165,7 +165,7 @@ async def root(
             ]
         case WallMode.RANDOM:
             rng = random.Random()
-            reservoir = steins_feed_api.sample.Reservoir[Item](rng, 10)
+            reservoir = steins_feed_magic.sample.Reservoir[Item](rng, 10)
 
             for item_it in session.execute(q).scalars().unique():
                 reservoir.add(Item.from_model(item_it))
@@ -215,7 +215,7 @@ async def root(
             )
 
             rng = random.Random()
-            reservoir = steins_feed_api.sample.Reservoir[Item](rng, 10)
+            reservoir = steins_feed_magic.sample.Reservoir[Item](rng, 10)
 
             for item_it in itertools.chain(scored_items, unscored_items):
                 reservoir.add(item_it, item_it.surprise or 1)
