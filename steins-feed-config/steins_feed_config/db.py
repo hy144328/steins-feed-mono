@@ -83,12 +83,16 @@ def add_tag(
     feed: steins_feed_model.feeds.Feed,
     tag: steins_feed_model.feeds.Tag,
 ):
+    feed_title = feed.title
+    tag_name = tag.name
+
     try:
         feed.tags.append(tag)
         session.commit()
-        logger.info(f"Add {tag.name} to {feed.title}.")
+        logger.info(f"Add {tag_name} to {feed_title}.")
     except sqla_exc.IntegrityError:
-        logger.warning(f"{feed.title} already in {tag.name}.")
+        logger.warning(f"{feed_title} already in {tag_name}.")
+        session.rollback()
 
 def get_feeds(
     session: sqla_orm.Session,
