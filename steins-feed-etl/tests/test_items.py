@@ -106,3 +106,32 @@ async def test_parse_feeds_long(
     q = sqla.select(steins_feed_model.items.Item)
     res = session.execute(q).scalars().all()
     assert len(res) > steins_feed_etl.items.BATCH_SIZE
+
+@pytest.mark.asyncio
+async def test_parse_feeds_pattern(
+    session: sqla_orm.Session,
+    temp_file_long: typing.TextIO,
+):
+    steins_feed_config.read_xml(session, temp_file_long, user_id=None)
+
+    async with aiohttp.ClientSession() as client:
+        await steins_feed_etl.items.parse_feeds(session, client, title_pattern="Culture")
+
+    q = sqla.select(steins_feed_model.items.Item)
+    res = session.execute(q).scalars().all()
+    assert len(res) > 0
+
+@pytest.mark.asyncio
+async def test_parse_feeds_skip(
+    session: sqla_orm.Session,
+    temp_file: typing.TextIO,
+):
+    steins_feed_config.read_xml(session, temp_file, user_id=None)
+
+    async with aiohttp.ClientSession() as client:
+        await steins_feed_etl.items.parse_feeds(session, client)
+        await steins_feed_etl.items.parse_feeds(session, client, skip_recent=True)
+
+    q = sqla.select(steins_feed_model.items.Item)
+    res = session.execute(q).scalars().all()
+    assert len(res) > 0

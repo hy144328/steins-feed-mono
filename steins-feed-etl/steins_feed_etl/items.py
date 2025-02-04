@@ -160,7 +160,7 @@ async def read_feed(
                 logger.error(f"Skip item from {feed.title}:\n{entry_it}")
 
         logger.info(f"{len(res.entries)} valid items from {feed.title}.")
-    except aiohttp.ClientResponseError as e:
+    except aiohttp.ClientResponseError as e:    # pragma: no cover
         logger.error(f"No items from {feed.title}.\n{e}")
     finally:
         task_done()
@@ -206,7 +206,7 @@ def read_item_summary(item) -> typing.Optional[str]:
     except AttributeError:  # pragma: no cover
         logger.warning("Item has no summary field.")
 
-    return None
+    return None # pragma: no cover
 
 def read_item_time(item) -> datetime.datetime:
     try:
