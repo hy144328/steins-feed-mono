@@ -6,6 +6,7 @@ import tomllib
 
 import dotenv
 import passlib.context
+import sqlalchemy as sqla
 import sqlalchemy.exc as sqla_exc
 import sqlalchemy.orm as sqla_orm
 
@@ -36,9 +37,16 @@ with sqla_orm.Session(engine) as session:
         logger.warning(f"User {os.environ["DEV_USER"]} already exists.")
         session.rollback()
 
+        q = sqla.select(
+            steins_feed_model.users.User,
+        ).where(
+            steins_feed_model.users.User.name == os.environ["DEV_USER"],
+        )
+        user = session.execute(q).scalars().one()
+
     with open("feeds.xml", "r") as f:
         steins_feed_config.read_xml(
             session,
             f,
-            user_name = os.environ["DEV_USER"],
+            user_id = user.id,
         )

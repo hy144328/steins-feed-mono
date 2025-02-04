@@ -12,13 +12,8 @@ logger = logging.getLogger(__name__)
 def read_xml(
     session: sqla_orm.Session,
     f: typing.TextIO,
-    user_name: str,
+    user_id: typing.Optional[int],
 ):
-    user = steins_feed_config.db.get_user(
-        session,
-        user_name = user_name,
-    )
-
     tree = lxml.etree.parse(f)
     root = tree.getroot()
 
@@ -30,10 +25,13 @@ def read_xml(
             language = steins_feed_model.feeds.Language(feed_it.xpath("lang")[0].text),
         )
 
+        if user_id is None:
+            continue
+
         for tag_it in feed_it.xpath("tag"):
             tag = steins_feed_config.db.get_or_create_tag(
                 session,
-                user = user,
+                user_id = user_id,
                 tag_name = tag_it.text,
             )
             steins_feed_config.db.add_tag(
@@ -45,18 +43,10 @@ def read_xml(
 def write_xml(
     session: sqla_orm.Session,
     f: typing.TextIO,
-    user_name: str,
+    user_id: typing.Optional[int],
 ):
+    feeds = steins_feed_config.db.get_feeds(session)
     root = lxml.etree.Element("root")
-
-    user = steins_feed_config.db.get_user(
-        session,
-        user_name = user_name,
-    )
-    feeds = steins_feed_config.db.get_feeds(
-        session,
-        user = user,
-    )
 
     for feed_it in feeds:
         node_it = lxml.etree.Element("feed")
@@ -74,6 +64,9 @@ def write_xml(
         node_it.append(lang_it)
 
         for tag_it in feed_it.tags:
+            if tag_it.user_id != user_id:
+                continue
+
             tag_node_it = lxml.etree.Element("tag")
             tag_node_it.text = tag_it.name
             node_it.append(tag_node_it)

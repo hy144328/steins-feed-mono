@@ -10,17 +10,6 @@ import steins_feed_model.users
 
 logger = logging.getLogger(__name__)
 
-def get_user(
-    session: sqla_orm.Session,
-    user_name: str,
-) -> steins_feed_model.users.User:
-    q = sqla.select(
-        steins_feed_model.users.User,
-    ).where(
-        steins_feed_model.users.User.name == user_name,
-    )
-    return session.execute(q).scalars().one()
-
 def get_or_create_feed(
     session: sqla_orm.Session,
     title: str,
@@ -52,13 +41,13 @@ def get_or_create_feed(
 
 def get_or_create_tag(
     session: sqla_orm.Session,
-    user: steins_feed_model.users.User,
+    user_id: int,
     tag_name: str,
 ) -> steins_feed_model.feeds.Tag:
     q = sqla.select(
         steins_feed_model.feeds.Tag,
     ).where(
-        steins_feed_model.feeds.Tag.user_id == user.id,
+        steins_feed_model.feeds.Tag.user_id == user_id,
         steins_feed_model.feeds.Tag.name == tag_name,
     )
 
@@ -68,7 +57,7 @@ def get_or_create_tag(
         logger.info(f"Get {tag_name}.")
     except sqla_exc.NoResultFound:
         tag = steins_feed_model.feeds.Tag(
-            user_id = user.id,
+            user_id = user_id,
             name = tag_name,
         )
         session.add(tag)
@@ -94,22 +83,10 @@ def add_tag(
         logger.warning(f"{feed_title} already in {tag_name}.")
         session.rollback()
 
-def get_feeds(
-    session: sqla_orm.Session,
-    user: steins_feed_model.users.User,
-) -> list[steins_feed_model.feeds.Feed]:
+def get_feeds(session: sqla_orm.Session) -> list[steins_feed_model.feeds.Feed]:
     q = sqla.select(
         steins_feed_model.feeds.Feed,
-    ).join(
-        steins_feed_model.feeds.Feed.tags.and_(
-            steins_feed_model.feeds.Tag.user_id == user.id,
-        ),
-        isouter = True,
     ).order_by(
         sqla.collate(steins_feed_model.feeds.Feed.title, "NOCASE"),
-        sqla.collate(steins_feed_model.feeds.Tag.name, "NOCASE"),
-    ).options(
-        sqla_orm.contains_eager(steins_feed_model.feeds.Feed.tags),
     )
-
     return list(session.execute(q).scalars().unique())

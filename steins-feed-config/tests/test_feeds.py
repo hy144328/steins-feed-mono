@@ -18,9 +18,7 @@ def engine() -> sqla.engine.Engine:
     return engine
 
 @pytest.fixture
-def session(
-    engine: sqla.engine.Engine,
-) -> typing.Generator[sqla_orm.Session]:
+def session(engine: sqla.engine.Engine) -> typing.Generator[sqla_orm.Session]:
     with sqla_orm.Session(engine) as session:
         yield session
 
@@ -64,13 +62,12 @@ def temp_file(temp_dir: str) -> typing.Generator[typing.TextIO]:
 def test_read_xml(
     session: sqla_orm.Session,
     user: steins_feed_model.users.User,
-    temp_dir: str,
     temp_file: typing.TextIO,
 ):
     steins_feed_config.read_xml(
         session,
         temp_file,
-        user_name = "hansolo",
+        user_id = user.id,
     )
 
     q = sqla.select(steins_feed_model.feeds.Feed)
@@ -82,19 +79,18 @@ def test_read_xml(
 def test_read_and_read_xml(
     session: sqla_orm.Session,
     user: steins_feed_model.users.User,
-    temp_dir: str,
     temp_file: typing.TextIO,
 ):
     steins_feed_config.read_xml(
         session,
         temp_file,
-        user_name = "hansolo",
+        user_id = user.id,
     )
     temp_file.seek(0)
     steins_feed_config.read_xml(
         session,
         temp_file,
-        user_name = "hansolo",
+        user_id = user.id,
     )
 
     q = sqla.select(steins_feed_model.feeds.Feed)
@@ -112,7 +108,7 @@ def test_read_and_write_xml(
     steins_feed_config.read_xml(
         session,
         temp_file,
-        user_name = "hansolo",
+        user_id = user.id,
     )
 
     with tempfile.NamedTemporaryFile("w", dir=temp_dir, delete=False) as f:
@@ -122,7 +118,7 @@ def test_read_and_write_xml(
         steins_feed_config.write_xml(
             session,
             f,
-            user_name = "hansolo",
+            user_id = user.id,
         )
 
     with open(f.name, "r") as f:
