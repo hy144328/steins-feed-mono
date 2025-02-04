@@ -18,6 +18,8 @@ from . import util
 
 logger = logging.getLogger(__name__)
 
+BATCH_SIZE = 200
+
 async def parse_feeds(
     session: sqla_orm.Session,
     client: aiohttp.ClientSession,
@@ -88,7 +90,7 @@ async def parse_feeds(
 async def write_items(
     session: sqla_orm.Session,
     q_items: asyncio.Queue,
-    batch_size: int = 200,
+    batch_size: int = BATCH_SIZE,
 ):
     q = sqla.insert(steins_feed_model.items.Item)
     q = q.prefix_with("OR IGNORE", dialect="sqlite")
