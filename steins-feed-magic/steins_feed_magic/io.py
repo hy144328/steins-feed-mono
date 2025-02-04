@@ -16,32 +16,35 @@ def mkdir_p(*nested_folders: str):
 
 @contextlib.contextmanager
 def open_pickle(
+    root_folder: str,
     user_id: int,
     lang: steins_feed_model.feeds.Language,
     open_mode: str = "r",
     force: bool = False,
 ) -> typing.Generator[typing.IO]:
     if force:
-        mkdir_p(os.environ["MAGIC_FOLDER"], str(user_id))
+        mkdir_p(root_folder, str(user_id))
 
-    folder_name = os.path.join(os.environ["MAGIC_FOLDER"], str(user_id))
+    folder_name = os.path.join(root_folder, str(user_id))
     file_name = f"{lang}.pickle"
 
     with open(os.path.join(folder_name, file_name), f"{open_mode}b") as f:
         yield f
 
 def read_classifier(
+    root_folder: str,
     user_id: int,
     lang: steins_feed_model.feeds.Language,
 ) -> sklearn.pipeline.Pipeline:
-    with open_pickle(user_id, lang, "r") as f:
+    with open_pickle(root_folder, user_id, lang, open_mode="r") as f:
         return pickle.load(f)
 
 def write_classifier(
     clf: sklearn.pipeline.Pipeline,
+    root_folder: str,
     user_id: int,
     lang: steins_feed_model.feeds.Language,
     force: bool = False,
 ):
-    with open_pickle(user_id, lang, open_mode="w", force=force) as f:
+    with open_pickle(root_folder, user_id, lang, open_mode="w", force=force) as f:
         pickle.dump(clf, f)

@@ -21,7 +21,14 @@ logger = logging.getLogger()
 with open(os.path.join(os.path.dirname(__file__), "first_steps_logging.toml"), "rb") as f:
     logging.config.dictConfig(tomllib.load(f))
 
-engine = steins_feed_model.EngineFactory.create_engine(database=os.environ["DB_NAME"])
+engine = steins_feed_model.EngineFactory.create_engine(
+    username = os.getenv("DB_USER"),
+    password = os.getenv("DB_PASS"),
+    host = os.getenv("DB_HOST"),
+    port = os.getenv("DB_PORT"),
+    database = os.getenv("DB_NAME"),
+)
+
 pwd_context = passlib.context.CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 with sqla_orm.Session(engine) as session:

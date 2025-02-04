@@ -9,5 +9,11 @@ import steins_feed_model.base
 
 dotenv.load_dotenv()
 
-engine = steins_feed_model.EngineFactory.create_engine(database=os.environ["DB_NAME"])
+engine = steins_feed_model.EngineFactory.create_engine(
+    username = os.getenv("DB_USER"),
+    password = os.getenv("DB_PASS"),
+    host = os.getenv("DB_HOST"),
+    port = os.getenv("DB_PORT"),
+    database = os.getenv("DB_NAME"),
+)
 steins_feed_model.base.Base.metadata.create_all(engine)
