@@ -14,7 +14,13 @@ import steins_feed_magic.parse
 
 dotenv.load_dotenv()
 
-engine = steins_feed_model.EngineFactory.create_engine(database=os.environ["DB_NAME"])
+engine = steins_feed_model.EngineFactory.create_engine(
+    username = os.getenv("DB_USER"),
+    password = os.getenv("DB_PASS"),
+    host = os.getenv("DB_HOST"),
+    port = os.getenv("DB_PORT"),
+    database = os.getenv("DB_NAME"),
+)
 
 user_id = 1
 lang = steins_feed_model.feeds.Language.ENGLISH
