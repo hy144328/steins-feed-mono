@@ -50,8 +50,18 @@ with sqla_orm.Session(engine) as session:
         disliked_items = disliked_items,
     )
 
-    steins_feed_magic.io.write_classifier(clf, user.id, lang, force=True)
-    clf = steins_feed_magic.io.read_classifier(user.id, lang)
+    steins_feed_magic.io.write_classifier(
+        clf,
+        os.environ["MAGIC_FOLDER"],
+        user_id = user.id,
+        lang = lang,
+        force=True,
+    )
+    clf = steins_feed_magic.io.read_classifier(
+        os.environ["MAGIC_FOLDER"],
+        user_id = user.id,
+        lang = lang,
+    )
 
     liked_scores = steins_feed_magic.classify.predict_scores(clf, liked_items)
     disliked_scores = steins_feed_magic.classify.predict_scores(clf, disliked_items)
