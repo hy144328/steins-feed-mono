@@ -13,11 +13,14 @@ def train_classifier(
     user_id: int,
     lang: "steins_feed_model.feeds.Language | str",
 ):
+    import os
+
     import sqlalchemy.orm as sqla_orm
 
-    import steins_feed_magic
+    import steins_feed_magic.classify
     import steins_feed_magic.db
     import steins_feed_magic.io
+    import steins_feed_magic.parse
     import steins_feed_model.feeds
 
     from . import db
@@ -27,20 +30,36 @@ def train_classifier(
     if not isinstance(lang, steins_feed_model.feeds.Language):
         lang = steins_feed_model.feeds.Language(lang)
 
-    clf = steins_feed_magic.build_classifier(lang)
+    clf = steins_feed_magic.classify.build_classifier(lang)
 
     with sqla_orm.Session(db.engine) as session:
-        liked_items = steins_feed_magic.db.liked_items(session, user_id, lang)
-        disliked_items = steins_feed_magic.db.disliked_items(session, user_id, lang)
+        liked_items = [
+            steins_feed_magic.parse.text_content(item_it.title)
+            for item_it in steins_feed_magic.db.liked_items(session, user_id, lang)
+        ]
+        disliked_items = [
+            steins_feed_magic.parse.text_content(item_it.title)
+            for item_it in steins_feed_magic.db.disliked_items(session, user_id, lang)
+        ]
 
         try:
-            steins_feed_magic.fit_classifier(
+            steins_feed_magic.classify.fit_classifier(
                 clf,
                 liked_items = liked_items,
                 disliked_items = disliked_items,
             )
-            steins_feed_magic.io.write_classifier(clf, 1, lang, force=True)
-            steins_feed_magic.db.reset_magic(session, user_id, lang)
+            steins_feed_magic.io.write_classifier(
+                clf,
+                os.environ["MAGIC_FOLDER"],
+                user_id = user_id,
+                lang = lang,
+                force = True,
+            )
+            steins_feed_magic.db.reset_magic(
+                session,
+                user_id = user_id,
+                lang = lang,
+            )
         except ValueError as e:
             logger.warning(e)
 
@@ -78,11 +97,14 @@ def calculate_scores(
     user_id: int,
     lang: "steins_feed_model.feeds.Language | str",
 ) -> list[typing.Tuple[int, float]] | list[typing.Tuple[int, None]]:
+    import os
+
     import sqlalchemy as sqla
     import sqlalchemy.orm as sqla_orm
 
-    import steins_feed_magic
+    import steins_feed_magic.classify
     import steins_feed_magic.io
+    import steins_feed_magic.parse
     import steins_feed_model.items
 
     from . import db
@@ -93,7 +115,11 @@ def calculate_scores(
         lang = steins_feed_model.feeds.Language(lang)
 
     try:
-        clf = steins_feed_magic.io.read_classifier(user_id, lang)
+        clf = steins_feed_magic.io.read_classifier(
+            os.environ["MAGIC_FOLDER"],
+            user_id = user_id,
+            lang = lang,
+        )
     except FileNotFoundError:
         logger.warning(f"Skip {len(item_ids)} {lang} items without classifier.")
         return [(item_id, None) for item_id in item_ids]
@@ -107,7 +133,13 @@ def calculate_scores(
 
     with sqla_orm.Session(db.engine) as session:
         items = session.execute(q).scalars().all()
-        scores = steins_feed_magic.predict_scores(clf, items)
+        scores = steins_feed_magic.classify.predict_scores(
+            clf,
+            [
+                steins_feed_magic.parse.text_content(item_it.title)
+                for item_it in items
+            ],
+        )
         res = [
             (item_it.id, score_it)
             for item_it, score_it in zip(items, scores)
