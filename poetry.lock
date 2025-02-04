@@ -2917,6 +2917,7 @@ fastapi = {version = "^0.115.6", extras = ["standard"]}
 passlib = {version = "^1.7.4", extras = ["bcrypt"]}
 pyjwt = {version = "^2.10.1", extras = ["crypto"]}
 python-dotenv = "^1.0.1"
+steins-feed-magic = {path = "../steins-feed-magic", develop = true}
 steins-feed-model = {path = "../steins-feed-model", develop = true}
 steins-feed-tasks = {path = "../steins-feed-tasks", develop = true}
 
