@@ -5,7 +5,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { Fragment, ReactNode } from "react"
-import { useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 
 import { Item, Language, LikeStatus, Tag, WallMode } from "@client"
 import { format_datetime, join } from "@util"
@@ -40,6 +40,16 @@ export default function WallArticle({
     card_body.toggle();
     setCollapsed(!collapsed);
   }
+
+  useEffect(() => {
+    import("bootstrap").then(({Popover}) => {
+      const card_body_element = card_body_ref.current!
+      const popoverTriggerList = card_body_element.querySelectorAll('[data-bs-toggle="popover"]');
+      Array.from(popoverTriggerList).map(popoverTriggerEl =>
+        new Popover(popoverTriggerEl, {trigger: "hover"})
+      );
+    });
+  });
 
   return (
 <div id={ `article-${item.id}` } className="card">
@@ -222,9 +232,14 @@ function MagicButton({
   setHighlight: (value: boolean) => void,
   setSummary: (value: string | null) => void,
 }) {
-  function markWord(word: string): HTMLElement {
+  function markWord(word: string, bible: Record<string, number>): HTMLElement {
     const res = document.createElement("mark");
+
     res.textContent = word;
+    res.setAttribute("data-bs-toggle", "popover");
+    res.setAttribute("data-bs-title", word);
+    res.setAttribute("data-bs-content", bible[word].toFixed(2));
+
     return res;
   }
 
@@ -240,7 +255,7 @@ function MagicButton({
         ).map(([k, _]) =>
           k
         ),
-        markWord,
+        frag => markWord(frag, bible),
       );
       setSummary(summary);
     }
