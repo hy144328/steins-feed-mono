@@ -6,7 +6,7 @@ import { client, loginTokenPost } from "@client"
 
 client.setConfig({"baseUrl": process.env.API_BASE_URL});
 
-export async function doLoginTokenPost(
+export async function setTokenAction(
   username: string,
   password: string
 ) {
