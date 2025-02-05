@@ -1,1062 +1,2240 @@
 <root>
   <feed>
+    <title>Aeon.co</title>
+    <link>https://aeon.co/feed.rss</link>
+    <lang>English</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>Aeon.co Culture</title>
+    <link>https://aeon.co/culture.rss</link>
+    <lang>English</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>Aeon.co Philosophy</title>
+    <link>https://aeon.co/philosophy.rss</link>
+    <lang>English</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>Aeon.co Psychology</title>
+    <link>https://aeon.co/psychology.rss</link>
+    <lang>English</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>Aeon.co Science</title>
+    <link>https://aeon.co/science.rss</link>
+    <lang>English</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>Aeon.co Society</title>
+    <link>https://aeon.co/society.rss</link>
+    <lang>English</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
     <title>Bild</title>
     <link>http://www.bild.de/rss-feeds/rss-16725492,feed=home.bild.html</link>
     <lang>German</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Bild Auto</title>
     <link>https://www.bild.de/rss-feeds/rss-16725492,feed=auto.bild.html</link>
     <lang>German</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Bild Digital</title>
     <link>https://www.bild.de/rss-feeds/rss-16725492,feed=digital.bild.html</link>
     <lang>German</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Bild Lifestyle</title>
     <link>https://www.bild.de/rss-feeds/rss-16725492,feed=lifestyle.bild.html</link>
     <lang>German</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Bild News</title>
     <link>https://www.bild.de/rss-feeds/rss-16725492,feed=news.bild.html</link>
     <lang>German</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Bild Politik</title>
     <link>https://www.bild.de/rss-feeds/rss-16725492,feed=politik.bild.html</link>
     <lang>German</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Bild Ratgeber</title>
     <link>https://www.bild.de/rss-feeds/rss-16725492,feed=ratgeber.bild.html</link>
     <lang>German</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Bild Spiele</title>
     <link>https://www.bild.de/rss-feeds/rss-16725492,feed=spiele.bild.html</link>
     <lang>German</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Bild Sport</title>
     <link>https://www.bild.de/rss-feeds/rss-16725492,feed=sport.bild.html</link>
     <lang>German</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Bild Unterhaltung</title>
     <link>https://www.bild.de/rss-feeds/rss-16725492,feed=unterhaltung.bild.html</link>
     <lang>German</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Boston.com</title>
     <link>https://www.boston.com/feed/</link>
     <lang>English</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Boston.com Cars</title>
     <link>https://www.boston.com/category/cars/feed/</link>
     <lang>English</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Boston.com Community</title>
     <link>https://www.boston.com/category/community/feed/</link>
     <lang>English</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Boston.com Culture</title>
     <link>https://www.boston.com/category/culture/feed/</link>
     <lang>English</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Boston.com Food</title>
     <link>https://www.boston.com/category/food/feed/</link>
     <lang>English</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Boston.com Love Letters</title>
     <link>https://www.boston.com/category/love-letters/feed/</link>
     <lang>English</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Boston.com News</title>
     <link>https://www.boston.com/category/news/feed/</link>
     <lang>English</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Boston.com Real Estate</title>
     <link>https://www.boston.com/category/real-estate/feed/</link>
     <lang>English</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Boston.com Sports</title>
     <link>https://www.boston.com/category/sports/feed/</link>
     <lang>English</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Boston.com Things to Do</title>
     <link>https://www.boston.com/category/things-to-do/feed/</link>
     <lang>English</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Boston.com Travel</title>
     <link>https://www.boston.com/category/travel/feed/</link>
     <lang>English</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Boston.com Weather</title>
     <link>https://www.boston.com/category/weather/feed/</link>
     <lang>English</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Breitbart</title>
     <link>https://feeds.feedburner.com/breitbart</link>
     <lang>English</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Corren</title>
     <link>https://www.corren.se/nyheter/rss/</link>
     <lang>Swedish</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Dagens Industri</title>
     <link>https://www.di.se/rss</link>
     <lang>Swedish</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Dagens Nyheter</title>
     <link>https://www.dn.se/rss</link>
     <lang>Swedish</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Daily Mail</title>
     <link>https://www.dailymail.co.uk/home/index.rss</link>
     <lang>English</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Daily Mail Australia</title>
     <link>https://www.dailymail.co.uk/auhome/index.rss</link>
     <lang>English</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Daily Mail Femail</title>
     <link>https://www.dailymail.co.uk/femail/index.rss</link>
     <lang>English</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Daily Mail Health</title>
     <link>https://www.dailymail.co.uk/health/index.rss</link>
     <lang>English</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Daily Mail Money</title>
     <link>https://www.dailymail.co.uk/money/index.rss</link>
     <lang>English</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Daily Mail News</title>
     <link>https://www.dailymail.co.uk/news/index.rss</link>
     <lang>English</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Daily Mail Science</title>
     <link>https://www.dailymail.co.uk/sciencetech/index.rss</link>
     <lang>English</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Daily Mail Showbiz</title>
     <link>https://www.dailymail.co.uk/tvshowbiz/index.rss</link>
     <lang>English</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Daily Mail Sport</title>
     <link>https://www.dailymail.co.uk/sport/index.rss</link>
     <lang>English</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Daily Mail Travel</title>
     <link>https://www.dailymail.co.uk/travel/index.rss</link>
     <lang>English</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Daily Mail US</title>
     <link>https://www.dailymail.co.uk/ushome/index.rss</link>
     <lang>English</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Daily Mail Video</title>
     <link>https://www.dailymail.co.uk/video/index.rss</link>
     <lang>English</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Der Tagesspiegel</title>
     <link>http://www.tagesspiegel.de/contentexport/feed/home</link>
     <lang>German</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Der Tagesspiegel Berlin</title>
     <link>http://www.tagesspiegel.de/contentexport/feed/berlin</link>
     <lang>German</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Der Tagesspiegel Gesellschaft</title>
     <link>http://www.tagesspiegel.de/contentexport/feed/gesellschaft</link>
     <lang>German</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Der Tagesspiegel Gesundheit</title>
     <link>http://www.tagesspiegel.de/contentexport/feed/gesundheit</link>
     <lang>German</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Der Tagesspiegel Internationales</title>
     <link>http://www.tagesspiegel.de/contentexport/feed/internationales</link>
     <lang>German</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Der Tagesspiegel Kultur</title>
     <link>http://www.tagesspiegel.de/contentexport/feed/kultur</link>
     <lang>German</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Der Tagesspiegel Meinung</title>
     <link>http://www.tagesspiegel.de/contentexport/feed/meinung</link>
     <lang>German</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Der Tagesspiegel Politik</title>
     <link>http://www.tagesspiegel.de/contentexport/feed/politik</link>
     <lang>German</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Der Tagesspiegel Podcasts</title>
     <link>http://www.tagesspiegel.de/contentexport/feed/podcasts</link>
     <lang>German</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Der Tagesspiegel Potsdam</title>
     <link>http://www.tagesspiegel.de/contentexport/feed/potsdam</link>
     <lang>German</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Der Tagesspiegel Sport</title>
     <link>http://www.tagesspiegel.de/contentexport/feed/sport</link>
     <lang>German</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Der Tagesspiegel Videos</title>
     <link>http://www.tagesspiegel.de/contentexport/feed/videos</link>
     <lang>German</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Der Tagesspiegel Wirtschaft</title>
     <link>http://www.tagesspiegel.de/contentexport/feed/wirtschaft</link>
     <lang>German</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Der Tagesspiegel Wissen</title>
     <link>http://www.tagesspiegel.de/contentexport/feed/wissen</link>
     <lang>German</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Die WELT</title>
     <link>https://www.welt.de/feeds/topnews.rss</link>
     <lang>German</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Die WELT Geschichte</title>
     <link>https://www.welt.de/feeds/section/geschichte.rss</link>
     <lang>German</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Die WELT Gesundheit</title>
     <link>https://www.welt.de/feeds/section/gesundheit.rss</link>
     <lang>German</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Die WELT ICON</title>
     <link>https://www.welt.de/feeds/section/iconmagazine.rss</link>
     <lang>German</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Die WELT Kultur</title>
     <link>https://www.welt.de/feeds/section/kultur.rss</link>
     <lang>German</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Die WELT LIFESTYLE</title>
     <link>https://www.welt.de/feeds/section/iconist.rss</link>
     <lang>German</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Die WELT Mediathek</title>
     <link>https://www.welt.de/feeds/section/mediathek.rss</link>
     <lang>German</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Die WELT Meinung</title>
     <link>https://www.welt.de/feeds/section/debatte.rss</link>
     <lang>German</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Die WELT Panorama</title>
     <link>https://www.welt.de/feeds/section/vermischtes.rss</link>
     <lang>German</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Die WELT Politik</title>
     <link>https://www.welt.de/feeds/section/politik.rss</link>
     <lang>German</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Die WELT Regional</title>
     <link>https://www.welt.de/feeds/section/regionales.rss</link>
     <lang>German</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Die WELT Reise</title>
     <link>https://www.welt.de/feeds/section/reise.rss</link>
     <lang>German</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Die WELT Sonderthemen</title>
     <link>https://www.welt.de/feeds/section/sonderthemen.rss</link>
     <lang>German</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Die WELT Sport</title>
     <link>https://www.welt.de/feeds/section/sport.rss</link>
     <lang>German</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Die WELT Wirtschaft</title>
     <link>https://www.welt.de/feeds/section/wirtschaft.rss</link>
     <lang>German</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Die ZEIT</title>
     <link>http://newsfeed.zeit.de/index</link>
     <lang>German</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Die ZEIT -- ZEITmagazin</title>
     <link>http://newsfeed.zeit.de/zeit-magazin/index</link>
     <lang>German</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Die ZEIT -- ze.tt</title>
     <link>http://newsfeed.zeit.de/zett/index</link>
     <lang>German</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Die ZEIT Arbeit</title>
     <link>http://newsfeed.zeit.de/arbeit/index</link>
     <lang>German</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Die ZEIT Campus</title>
     <link>http://newsfeed.zeit.de/campus/index</link>
     <lang>German</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Die ZEIT Digital</title>
     <link>http://newsfeed.zeit.de/digital/index</link>
     <lang>German</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Die ZEIT Entdecken</title>
     <link>http://newsfeed.zeit.de/entdecken/index</link>
     <lang>German</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Die ZEIT Familie</title>
     <link>http://newsfeed.zeit.de/familie/index</link>
     <lang>German</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Die ZEIT Geld</title>
     <link>http://newsfeed.zeit.de/geld/index</link>
     <lang>German</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Die ZEIT Gesellschaft</title>
     <link>http://newsfeed.zeit.de/gesellschaft/index</link>
     <lang>German</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Die ZEIT Gesundheit</title>
     <link>http://newsfeed.zeit.de/gesundheit/index</link>
     <lang>German</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Die ZEIT Green</title>
     <link>http://newsfeed.zeit.de/green/index</link>
     <lang>German</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Die ZEIT Hamburg</title>
     <link>http://newsfeed.zeit.de/hamburg/index</link>
     <lang>German</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Die ZEIT Kultur</title>
     <link>http://newsfeed.zeit.de/kultur/index</link>
     <lang>German</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Die ZEIT Mobilität</title>
     <link>http://newsfeed.zeit.de/mobilitaet/index</link>
     <lang>German</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Die ZEIT Österreich</title>
     <link>http://newsfeed.zeit.de/oesterreich/index</link>
     <lang>German</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Die ZEIT Podcasts</title>
     <link>http://newsfeed.zeit.de/podcasts/index</link>
     <lang>German</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Die ZEIT Politik</title>
     <link>http://newsfeed.zeit.de/politik/index</link>
     <lang>German</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Die ZEIT Politisches Feuilleton</title>
     <link>http://newsfeed.zeit.de/politisches-feuilleton/index</link>
     <lang>German</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Die ZEIT Schweiz</title>
     <link>http://newsfeed.zeit.de/schweiz/index</link>
     <lang>German</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Die ZEIT Sinn</title>
     <link>http://newsfeed.zeit.de/sinn/index</link>
     <lang>German</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Die ZEIT Spiele</title>
     <link>http://newsfeed.zeit.de/spiele/index</link>
     <lang>German</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Die ZEIT Sport</title>
     <link>http://newsfeed.zeit.de/sport/index</link>
     <lang>German</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Die ZEIT Video</title>
     <link>http://newsfeed.zeit.de/video/index</link>
     <lang>German</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Die ZEIT Wirtschaft</title>
     <link>http://newsfeed.zeit.de/wirtschaft/index</link>
     <lang>German</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Die ZEIT Wissen</title>
     <link>http://newsfeed.zeit.de/wissen/index</link>
     <lang>German</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Die ZEIT Wochenende</title>
     <link>http://newsfeed.zeit.de/wochenende/index</link>
     <lang>German</lang>
+    <tag>news</tag>
+  </feed>
+  <feed>
+    <title>Edge.org</title>
+    <link>https://www.edge.org/feed</link>
+    <lang>English</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>FOCUS</title>
+    <link>https://rss.focus.de/</link>
+    <lang>German</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>FOCUS Auto</title>
+    <link>https://rss.focus.de/auto/</link>
+    <lang>German</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>FOCUS Digital</title>
+    <link>https://rss.focus.de/digital/</link>
+    <lang>German</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>FOCUS Earth</title>
+    <link>https://rss.focus.de/earth/</link>
+    <lang>German</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>FOCUS Familie</title>
+    <link>https://rss.focus.de/familie/</link>
+    <lang>German</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>FOCUS Finanzen</title>
+    <link>https://rss.focus.de/finanzen/</link>
+    <lang>German</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>FOCUS Gesundheit</title>
+    <link>https://rss.focus.de/gesundheit/</link>
+    <lang>German</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>FOCUS Immobilien</title>
+    <link>https://rss.focus.de/immobilien/</link>
+    <lang>German</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>FOCUS Panorama</title>
+    <link>https://rss.focus.de/panorama/</link>
+    <lang>German</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>FOCUS Perspektiven</title>
+    <link>https://rss.focus.de/perspektiven/</link>
+    <lang>German</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>FOCUS Politik</title>
+    <link>https://rss.focus.de/politik/</link>
+    <lang>German</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>FOCUS Reisen</title>
+    <link>https://rss.focus.de/reisen/</link>
+    <lang>German</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>FOCUS Sport</title>
+    <link>https://rss.focus.de/sport/</link>
+    <lang>German</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>FOCUS Unterhaltung</title>
+    <link>https://rss.focus.de/kultur/</link>
+    <lang>German</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>FOCUS Video</title>
+    <link>https://rss.focus.de/videos/</link>
+    <lang>German</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>FOCUS Wissen</title>
+    <link>https://rss.focus.de/wissen/</link>
+    <lang>German</lang>
+    <tag>magazines</tag>
   </feed>
   <feed>
     <title>Frankfurter Allgemeine Zeitung</title>
     <link>https://www.faz.net/rss/aktuell/</link>
     <lang>German</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Frankfurter Allgemeine Zeitung Feuilleton</title>
     <link>https://www.faz.net/rss/aktuell/feuilleton/</link>
     <lang>German</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Frankfurter Allgemeine Zeitung Finanzen</title>
     <link>https://www.faz.net/rss/aktuell/finanzen/</link>
     <lang>German</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Frankfurter Allgemeine Zeitung Gesellschaft</title>
     <link>https://www.faz.net/rss/aktuell/gesellschaft/</link>
     <lang>German</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Frankfurter Allgemeine Zeitung Karriere &amp; Hochschule</title>
     <link>https://www.faz.net/rss/aktuell/karriere-hochschule/</link>
     <lang>German</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Frankfurter Allgemeine Zeitung Politik</title>
     <link>https://www.faz.net/rss/aktuell/politik/</link>
     <lang>German</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Frankfurter Allgemeine Zeitung Reise</title>
     <link>https://www.faz.net/rss/aktuell/reise/</link>
     <lang>German</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Frankfurter Allgemeine Zeitung Rhein-Main</title>
     <link>https://www.faz.net/rss/aktuell/rhein-main/</link>
     <lang>German</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Frankfurter Allgemeine Zeitung Sport</title>
     <link>https://www.faz.net/rss/aktuell/sport/</link>
     <lang>German</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Frankfurter Allgemeine Zeitung Stil</title>
     <link>https://www.faz.net/rss/aktuell/stil/</link>
     <lang>German</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Frankfurter Allgemeine Zeitung Technik &amp; Motor</title>
     <link>https://www.faz.net/rss/aktuell/technik-motor/</link>
     <lang>German</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Frankfurter Allgemeine Zeitung Wirtschaft</title>
     <link>https://www.faz.net/rss/aktuell/wirtschaft/</link>
     <lang>German</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Frankfurter Allgemeine Zeitung Wissen</title>
     <link>https://www.faz.net/rss/aktuell/wissen/</link>
     <lang>German</lang>
+    <tag>news</tag>
+  </feed>
+  <feed>
+    <title>Inc.com</title>
+    <link>https://www.inc.com/rss/</link>
+    <lang>English</lang>
+    <tag>magazines</tag>
   </feed>
   <feed>
     <title>Los Angeles Times Business</title>
     <link>https://www.latimes.com/business/rss2.0.xml</link>
     <lang>English</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Los Angeles Times California</title>
     <link>https://www.latimes.com/california/rss2.0.xml</link>
     <lang>English</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Los Angeles Times Climate &amp; Environment</title>
     <link>https://www.latimes.com/environment/rss2.0.xml</link>
     <lang>English</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Los Angeles Times Entertainment &amp; Arts</title>
     <link>https://www.latimes.com/entertainment-arts/rss2.0.xml</link>
     <lang>English</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Los Angeles Times Food</title>
     <link>https://www.latimes.com/food/rss2.0.xml</link>
     <lang>English</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Los Angeles Times Lifestyle</title>
     <link>https://www.latimes.com/lifestyle/rss2.0.xml</link>
     <lang>English</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Los Angeles Times Obituaries</title>
     <link>https://www.latimes.com/obituaries/rss2.0.xml</link>
     <lang>English</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Los Angeles Times Opinion</title>
     <link>https://www.latimes.com/opinion/rss2.0.xml</link>
     <lang>English</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Los Angeles Times Politics</title>
     <link>https://www.latimes.com/politics/rss2.0.xml</link>
     <lang>English</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Los Angeles Times Science</title>
     <link>https://www.latimes.com/science/rss2.0.xml</link>
     <lang>English</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Los Angeles Times Sports</title>
     <link>https://www.latimes.com/sports/rss2.0.xml</link>
     <lang>English</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Los Angeles Times Travel</title>
     <link>https://www.latimes.com/travel/rss2.0.xml</link>
     <lang>English</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Los Angeles Times World &amp; Nation</title>
     <link>https://www.latimes.com/world-nation/rss2.0.xml</link>
     <lang>English</lang>
+    <tag>news</tag>
+  </feed>
+  <feed>
+    <title>MIT Technology Review</title>
+    <link>https://www.technologyreview.com/feed/</link>
+    <lang>English</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>MIT Technology Review Artificial Intelligence</title>
+    <link>https://www.technologyreview.com/topic/artificial-intelligence/feed/</link>
+    <lang>English</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>MIT Technology Review Biotechnology &amp; Health</title>
+    <link>https://www.technologyreview.com/topic/biotechnology/feed/</link>
+    <lang>English</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>MIT Technology Review Business</title>
+    <link>https://www.technologyreview.com/topic/business/feed/</link>
+    <lang>English</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>MIT Technology Review Climate Change &amp; Energy</title>
+    <link>https://www.technologyreview.com/topic/climate-change/feed/</link>
+    <lang>English</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>MIT Technology Review Computing</title>
+    <link>https://www.technologyreview.com/topic/computing/feed/</link>
+    <lang>English</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>MIT Technology Review Culture</title>
+    <link>https://www.technologyreview.com/topic/culture/feed/</link>
+    <lang>English</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>MIT Technology Review Policy</title>
+    <link>https://www.technologyreview.com/topic/policy/feed/</link>
+    <lang>English</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>MIT Technology Review Space</title>
+    <link>https://www.technologyreview.com/topic/space/feed/</link>
+    <lang>English</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>Netzpolitik.org</title>
+    <link>https://netzpolitik.org/feed</link>
+    <lang>German</lang>
+    <tag>tech</tag>
+  </feed>
+  <feed>
+    <title>Netzpolitik.org Datenschutz</title>
+    <link>https://netzpolitik.org/category/datenschutz/feed</link>
+    <lang>German</lang>
+    <tag>tech</tag>
+  </feed>
+  <feed>
+    <title>Netzpolitik.org Demokratie</title>
+    <link>https://netzpolitik.org/category/demokratie/feed</link>
+    <lang>German</lang>
+    <tag>tech</tag>
+  </feed>
+  <feed>
+    <title>Netzpolitik.org Kultur</title>
+    <link>https://netzpolitik.org/category/kultur/feed</link>
+    <lang>German</lang>
+    <tag>tech</tag>
+  </feed>
+  <feed>
+    <title>Netzpolitik.org Netze</title>
+    <link>https://netzpolitik.org/category/netze/feed</link>
+    <lang>German</lang>
+    <tag>tech</tag>
+  </feed>
+  <feed>
+    <title>Netzpolitik.org Nutzerrechte</title>
+    <link>https://netzpolitik.org/category/nutzerrechte/feed</link>
+    <lang>German</lang>
+    <tag>tech</tag>
+  </feed>
+  <feed>
+    <title>Netzpolitik.org Öffentlichkeit</title>
+    <link>https://netzpolitik.org/category/oeffentlichkeit/feed</link>
+    <lang>German</lang>
+    <tag>tech</tag>
+  </feed>
+  <feed>
+    <title>Netzpolitik.org Technologie</title>
+    <link>https://netzpolitik.org/category/technologie/feed</link>
+    <lang>German</lang>
+    <tag>tech</tag>
+  </feed>
+  <feed>
+    <title>Netzpolitik.org Überwachung</title>
+    <link>https://netzpolitik.org/category/ueberwachung/feed</link>
+    <lang>German</lang>
+    <tag>tech</tag>
+  </feed>
+  <feed>
+    <title>Netzpolitik.org Wissen</title>
+    <link>https://netzpolitik.org/category/wissen/feed</link>
+    <lang>German</lang>
+    <tag>tech</tag>
+  </feed>
+  <feed>
+    <title>Quanta Magazine</title>
+    <link>https://www.quantamagazine.org/feed/</link>
+    <lang>English</lang>
+    <tag>science</tag>
+  </feed>
+  <feed>
+    <title>Quanta Magazine Biology</title>
+    <link>https://www.quantamagazine.org/biology/feed/</link>
+    <lang>English</lang>
+    <tag>science</tag>
+  </feed>
+  <feed>
+    <title>Quanta Magazine Computer Science</title>
+    <link>https://www.quantamagazine.org/computer-science/feed/</link>
+    <lang>English</lang>
+    <tag>science</tag>
+  </feed>
+  <feed>
+    <title>Quanta Magazine Mathematics</title>
+    <link>https://www.quantamagazine.org/mathematics/feed/</link>
+    <lang>English</lang>
+    <tag>science</tag>
+  </feed>
+  <feed>
+    <title>Quanta Magazine Physics</title>
+    <link>https://www.quantamagazine.org/physics/feed/</link>
+    <lang>English</lang>
+    <tag>science</tag>
+  </feed>
+  <feed>
+    <title>Quartz</title>
+    <link>https://qz.com/rss</link>
+    <lang>English</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>Quillette</title>
+    <link>https://quillette.com/rss/</link>
+    <lang>English</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>Quillette Art &amp; Culture</title>
+    <link>https://quillette.com/tag/art-and-culture/rss/</link>
+    <lang>English</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>Quillette Education</title>
+    <link>https://quillette.com/tag/education/rss/</link>
+    <lang>English</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>Quillette Podcast</title>
+    <link>https://quillette.com/tag/podcast/rss/</link>
+    <lang>English</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>Quillette Politics</title>
+    <link>https://quillette.com/tag/politics/rss/</link>
+    <lang>English</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>Quillette Science/Tech</title>
+    <link>https://quillette.com/tag/science-tech/rss/</link>
+    <lang>English</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>Salon.com</title>
+    <link>https://www.salon.com/feed</link>
+    <lang>English</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>Salon.com Culture</title>
+    <link>https://www.salon.com/category/culture/feed</link>
+    <lang>English</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>Salon.com Food</title>
+    <link>https://www.salon.com/category/food/feed</link>
+    <lang>English</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>Salon.com Life Stories</title>
+    <link>https://www.salon.com/category/life-stories/feed</link>
+    <lang>English</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>Salon.com Money</title>
+    <link>https://www.salon.com/category/money/feed</link>
+    <lang>English</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>Salon.com News &amp; Politics</title>
+    <link>https://www.salon.com/category/news-and-politics/feed</link>
+    <lang>English</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>Salon.com Science &amp; Health</title>
+    <link>https://www.salon.com/category/science-and-health/feed</link>
+    <lang>English</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>Slate</title>
+    <link>https://slate.com/feeds/all.rss</link>
+    <lang>English</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>Slate Advice</title>
+    <link>https://slate.com/feeds/advice.rss</link>
+    <lang>English</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>Slate Business</title>
+    <link>https://slate.com/feeds/business.rss</link>
+    <lang>English</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>Slate Culture</title>
+    <link>https://slate.com/feeds/culture.rss</link>
+    <lang>English</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>Slate Life</title>
+    <link>https://slate.com/feeds/life.rss</link>
+    <lang>English</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>Slate News &amp; Politics</title>
+    <link>https://slate.com/feeds/news-and-politics.rss</link>
+    <lang>English</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>Slate Technology</title>
+    <link>https://slate.com/feeds/technology.rss</link>
+    <lang>English</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>Spiegel</title>
+    <link>https://www.spiegel.de/schlagzeilen/tops/index.rss</link>
+    <lang>German</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>Spiegel Geschichte</title>
+    <link>https://www.spiegel.de/geschichte/index.rss</link>
+    <lang>German</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>Spiegel Gesundheit</title>
+    <link>https://www.spiegel.de/gesundheit/index.rss</link>
+    <lang>German</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>Spiegel Kultur</title>
+    <link>https://www.spiegel.de/kultur/index.rss</link>
+    <lang>German</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>Spiegel Mobilität</title>
+    <link>https://www.spiegel.de/auto/index.rss</link>
+    <lang>German</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>Spiegel Netzwelt</title>
+    <link>https://www.spiegel.de/netzwelt/index.rss</link>
+    <lang>German</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>Spiegel Panorama</title>
+    <link>https://www.spiegel.de/panorama/index.rss</link>
+    <lang>German</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>Spiegel Politik</title>
+    <link>https://www.spiegel.de/politik/index.rss</link>
+    <lang>German</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>Spiegel Reise</title>
+    <link>https://www.spiegel.de/reise/index.rss</link>
+    <lang>German</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>Spiegel Sport</title>
+    <link>https://www.spiegel.de/sport/index.rss</link>
+    <lang>German</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>Spiegel Wirtschaft</title>
+    <link>https://www.spiegel.de/wirtschaft/index.rss</link>
+    <lang>German</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>Spiegel Wissenschaft</title>
+    <link>https://www.spiegel.de/wissenschaft/index.rss</link>
+    <lang>German</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>Stern</title>
+    <link>https://www.stern.de/feed/standard/all/</link>
+    <lang>German</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>Stern Auto</title>
+    <link>https://www.stern.de/feed/standard/auto/</link>
+    <lang>German</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>Stern Digital</title>
+    <link>https://www.stern.de/feed/standard/digital/</link>
+    <lang>German</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>Stern Familie</title>
+    <link>https://www.stern.de/feed/standard/familie/</link>
+    <lang>German</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>Stern Genuss</title>
+    <link>https://www.stern.de/feed/standard/genuss/</link>
+    <lang>German</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>Stern Gesundheit</title>
+    <link>https://www.stern.de/feed/standard/gesundheit/</link>
+    <lang>German</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>Stern Kultur</title>
+    <link>https://www.stern.de/feed/standard/kultur/</link>
+    <lang>German</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>Stern Lifestyle</title>
+    <link>https://www.stern.de/feed/standard/lifestyle/</link>
+    <lang>German</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>Stern Panorama</title>
+    <link>https://www.stern.de/feed/standard/panorama/</link>
+    <lang>German</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>Stern Politik</title>
+    <link>https://www.stern.de/feed/standard/politik/</link>
+    <lang>German</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>Stern Reise</title>
+    <link>https://www.stern.de/feed/standard/reise/</link>
+    <lang>German</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>Stern Sport</title>
+    <link>https://www.stern.de/feed/standard/sport/</link>
+    <lang>German</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>Stern Wirtschaft</title>
+    <link>https://www.stern.de/feed/standard/wirtschaft/</link>
+    <lang>German</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>Stern Wissen</title>
+    <link>https://www.stern.de/feed/standard/wissen/</link>
+    <lang>German</lang>
+    <tag>magazines</tag>
   </feed>
   <feed>
     <title>Süddeutsche Zeitung</title>
     <link>http://rss.sueddeutsche.de/rss/Topthemen</link>
     <lang>German</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Süddeutsche Zeitung -- SZ Magazin</title>
     <link>https://sz-magazin.sueddeutsche.de/rssredaktion</link>
     <lang>German</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Süddeutsche Zeitung -- jetzt.de</title>
     <link>https://www.jetzt.de/alle_artikel.rss</link>
     <lang>German</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Süddeutsche Zeitung Auto</title>
     <link>http://rss.sueddeutsche.de/rss/auto</link>
     <lang>German</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Süddeutsche Zeitung Bayern</title>
     <link>http://rss.sueddeutsche.de/rss/bayern</link>
     <lang>German</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Süddeutsche Zeitung Bildung</title>
     <link>http://rss.sueddeutsche.de/rss/bildung</link>
     <lang>German</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Süddeutsche Zeitung Gesellschaft</title>
     <link>http://rss.sueddeutsche.de/rss/leben</link>
     <lang>German</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Süddeutsche Zeitung Gesundheit</title>
     <link>http://rss.sueddeutsche.de/rss/gesundheit</link>
     <lang>German</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Süddeutsche Zeitung Karriere</title>
     <link>http://rss.sueddeutsche.de/rss/karriere</link>
     <lang>German</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Süddeutsche Zeitung Kultur</title>
     <link>http://rss.sueddeutsche.de/rss/kultur</link>
     <lang>German</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Süddeutsche Zeitung Medien</title>
     <link>http://rss.sueddeutsche.de/rss/medien</link>
     <lang>German</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Süddeutsche Zeitung München</title>
     <link>http://rss.sueddeutsche.de/rss/muenchen</link>
     <lang>German</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Süddeutsche Zeitung Panorama</title>
     <link>http://rss.sueddeutsche.de/rss/panorama</link>
     <lang>German</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Süddeutsche Zeitung Politik</title>
     <link>http://rss.sueddeutsche.de/rss/politik</link>
     <lang>German</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Süddeutsche Zeitung Reise</title>
     <link>http://rss.sueddeutsche.de/rss/reise</link>
     <lang>German</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Süddeutsche Zeitung Sport</title>
     <link>http://rss.sueddeutsche.de/rss/sport</link>
     <lang>German</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Süddeutsche Zeitung Stil</title>
     <link>http://rss.sueddeutsche.de/rss/stil</link>
     <lang>German</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Süddeutsche Zeitung Wirtschaft</title>
     <link>http://rss.sueddeutsche.de/rss/wirtschaft</link>
     <lang>German</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Süddeutsche Zeitung Wissen</title>
     <link>http://rss.sueddeutsche.de/rss/wissen</link>
     <lang>German</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Svenska Dagbladet</title>
     <link>https://www.svd.se/feed/articles.rss</link>
     <lang>Swedish</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>taz</title>
     <link>https://taz.de/!p4608;rss/</link>
     <lang>German</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>taz Berlin</title>
     <link>https://taz.de/!p4649;rss/</link>
     <lang>German</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>taz Gesellschaft</title>
     <link>https://taz.de/!p4611;rss/</link>
     <lang>German</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>taz Kultur</title>
     <link>https://taz.de/!p4639;rss/</link>
     <lang>German</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>taz Nord</title>
     <link>https://taz.de/!p4650;rss/</link>
     <lang>German</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>taz Öko</title>
     <link>https://taz.de/!p4610;rss/</link>
     <lang>German</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>taz Politik</title>
     <link>https://taz.de/!p4615;rss/</link>
     <lang>German</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>taz Sport</title>
     <link>https://taz.de/!p4646;rss/</link>
     <lang>German</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>taz Wahrheit</title>
     <link>https://taz.de/!p4644;rss/</link>
     <lang>German</lang>
+    <tag>news</tag>
+  </feed>
+  <feed>
+    <title>The Atlantic</title>
+    <link>https://www.theatlantic.com/feed/best-of/</link>
+    <lang>English</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>The Atlantic Books</title>
+    <link>https://www.theatlantic.com/feed/channel/books/</link>
+    <lang>English</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>The Atlantic Business</title>
+    <link>https://www.theatlantic.com/feed/channel/business/</link>
+    <lang>English</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>The Atlantic Culture</title>
+    <link>https://www.theatlantic.com/feed/channel/culture/</link>
+    <lang>English</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>The Atlantic Education</title>
+    <link>https://www.theatlantic.com/feed/channel/education/</link>
+    <lang>English</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>The Atlantic Family</title>
+    <link>https://www.theatlantic.com/feed/channel/family/</link>
+    <lang>English</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>The Atlantic Global</title>
+    <link>https://www.theatlantic.com/feed/channel/international/</link>
+    <lang>English</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>The Atlantic Health</title>
+    <link>https://www.theatlantic.com/feed/channel/health/</link>
+    <lang>English</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>The Atlantic Ideas</title>
+    <link>https://www.theatlantic.com/feed/channel/ideas/</link>
+    <lang>English</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>The Atlantic Politics</title>
+    <link>https://www.theatlantic.com/feed/channel/politics/</link>
+    <lang>English</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>The Atlantic Science</title>
+    <link>https://www.theatlantic.com/feed/channel/science/</link>
+    <lang>English</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>The Atlantic Technology</title>
+    <link>https://www.theatlantic.com/feed/channel/technology/</link>
+    <lang>English</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>The Economist</title>
+    <link>https://www.economist.com/the-world-this-week/rss.xml</link>
+    <lang>English</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>The Economist -- By Invitation</title>
+    <link>https://www.economist.com/by-invitation/rss.xml</link>
+    <lang>English</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>The Economist -- The Economist Explains</title>
+    <link>https://www.economist.com/the-economist-explains/rss.xml</link>
+    <lang>English</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>The Economist -- The Economist Reads</title>
+    <link>https://www.economist.com/the-economist-reads/rss.xml</link>
+    <lang>English</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>The Economist Americas</title>
+    <link>https://www.economist.com/the-americas/rss.xml</link>
+    <lang>English</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>The Economist Asia</title>
+    <link>https://www.economist.com/asia/rss.xml</link>
+    <lang>English</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>The Economist Books &amp; Arts</title>
+    <link>https://www.economist.com/books-and-arts/rss.xml</link>
+    <lang>English</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>The Economist Briefings</title>
+    <link>https://www.economist.com/briefing/rss.xml</link>
+    <lang>English</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>The Economist Britain</title>
+    <link>https://www.economist.com/britain/rss.xml</link>
+    <lang>English</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>The Economist Business</title>
+    <link>https://www.economist.com/business/rss.xml</link>
+    <lang>English</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>The Economist China</title>
+    <link>https://www.economist.com/china/rss.xml</link>
+    <lang>English</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>The Economist Christmas Specials</title>
+    <link>https://www.economist.com/christmas-specials/rss.xml</link>
+    <lang>English</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>The Economist Essay</title>
+    <link>https://www.economist.com/essay</link>
+    <lang>English</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>The Economist Europe</title>
+    <link>https://www.economist.com/europe/rss.xml</link>
+    <lang>English</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>The Economist Finance &amp; Economics</title>
+    <link>https://www.economist.com/finance-and-economics/rss.xml</link>
+    <lang>English</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>The Economist Graphic Detail</title>
+    <link>https://www.economist.com/graphic-detail/rss.xml</link>
+    <lang>English</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>The Economist Indicators</title>
+    <link>https://www.economist.com/economic-and-financial-indicators/rss.xml</link>
+    <lang>English</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>The Economist International</title>
+    <link>https://www.economist.com/international/rss.xml</link>
+    <lang>English</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>The Economist Leaders</title>
+    <link>https://www.economist.com/leaders/rss.xml</link>
+    <lang>English</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>The Economist Letters</title>
+    <link>https://www.economist.com/letters/rss.xml</link>
+    <lang>English</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>The Economist Middle East &amp; Africa</title>
+    <link>https://www.economist.com/middle-east-and-africa/rss.xml</link>
+    <lang>English</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>The Economist Obituaries</title>
+    <link>https://www.economist.com/obituary/rss.xml</link>
+    <lang>English</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>The Economist Science &amp; Technology</title>
+    <link>https://www.economist.com/science-and-technology/rss.xml</link>
+    <lang>English</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>The Economist Schools Brief</title>
+    <link>https://www.economist.com/schools-brief/rss.xml</link>
+    <lang>English</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>The Economist Special Reports</title>
+    <link>https://www.economist.com/special-report/rss.xml</link>
+    <lang>English</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>The Economist United States</title>
+    <link>https://www.economist.com/united-states/rss.xml</link>
+    <lang>English</lang>
+    <tag>magazines</tag>
   </feed>
   <feed>
     <title>The Guardian</title>
     <link>https://www.theguardian.com/uk/rss</link>
     <lang>English</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>The Guardian Culture</title>
     <link>https://www.theguardian.com/uk/culture/rss</link>
     <lang>English</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>The Guardian Lifestyle</title>
     <link>https://www.theguardian.com/uk/lifeandstyle/rss</link>
     <lang>English</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>The Guardian Opinion</title>
     <link>https://www.theguardian.com/uk/commentisfree/rss</link>
     <lang>English</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>The Guardian Sport</title>
     <link>https://www.theguardian.com/uk/sport/rss</link>
     <lang>English</lang>
+    <tag>news</tag>
+  </feed>
+  <feed>
+    <title>The Intercept</title>
+    <link>https://theintercept.com/feed/?lang=en</link>
+    <lang>English</lang>
+    <tag>magazines</tag>
   </feed>
   <feed>
     <title>The New York Times</title>
     <link>https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml</link>
     <lang>English</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>The New York Times -- T Magazine</title>
     <link>https://rss.nytimes.com/services/xml/rss/nyt/tmagazine.xml</link>
     <lang>English</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>The New York Times Africa</title>
     <link>https://rss.nytimes.com/services/xml/rss/nyt/Africa.xml</link>
     <lang>English</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>The New York Times Americas</title>
     <link>https://rss.nytimes.com/services/xml/rss/nyt/Americas.xml</link>
     <lang>English</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>The New York Times Art &amp; Design</title>
     <link>https://rss.nytimes.com/services/xml/rss/nyt/ArtandDesign.xml</link>
     <lang>English</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>The New York Times Arts</title>
     <link>https://rss.nytimes.com/services/xml/rss/nyt/Arts.xml</link>
     <lang>English</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>The New York Times Asia Pacific</title>
     <link>https://rss.nytimes.com/services/xml/rss/nyt/AsiaPacific.xml</link>
     <lang>English</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>The New York Times Baseball</title>
     <link>https://rss.nytimes.com/services/xml/rss/nyt/Baseball.xml</link>
     <lang>English</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>The New York Times Basketball</title>
     <link>https://rss.nytimes.com/services/xml/rss/nyt/ProBasketball.xml</link>
     <lang>English</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>The New York Times Books</title>
     <link>https://rss.nytimes.com/services/xml/rss/nyt/Books.xml</link>
     <lang>English</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>The New York Times Business</title>
     <link>https://rss.nytimes.com/services/xml/rss/nyt/Business.xml</link>
     <lang>English</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>The New York Times College Basketball</title>
     <link>https://rss.nytimes.com/services/xml/rss/nyt/CollegeBasketball.xml</link>
     <lang>English</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>The New York Times College Football</title>
     <link>https://rss.nytimes.com/services/xml/rss/nyt/CollegeFootball.xml</link>
     <lang>English</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>The New York Times Dance</title>
     <link>https://rss.nytimes.com/services/xml/rss/nyt/Dance.xml</link>
     <lang>English</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>The New York Times DealBook</title>
     <link>https://rss.nytimes.com/services/xml/rss/nyt/Dealbook.xml</link>
     <lang>English</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>The New York Times Dining &amp; Wine</title>
     <link>https://rss.nytimes.com/services/xml/rss/nyt/DiningandWine.xml</link>
     <lang>English</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>The New York Times Economy</title>
     <link>https://rss.nytimes.com/services/xml/rss/nyt/Economy.xml</link>
     <lang>English</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>The New York Times Education</title>
     <link>https://rss.nytimes.com/services/xml/rss/nyt/Education.xml</link>
     <lang>English</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>The New York Times Energy &amp; Environment</title>
     <link>https://rss.nytimes.com/services/xml/rss/nyt/EnergyEnvironment.xml</link>
     <lang>English</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>The New York Times Environment</title>
     <link>https://rss.nytimes.com/services/xml/rss/nyt/Climate.xml</link>
     <lang>English</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>The New York Times Europe</title>
     <link>https://rss.nytimes.com/services/xml/rss/nyt/Europe.xml</link>
     <lang>English</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>The New York Times Fashion &amp; Style</title>
     <link>https://rss.nytimes.com/services/xml/rss/nyt/FashionandStyle.xml</link>
     <lang>English</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>The New York Times Football</title>
     <link>https://rss.nytimes.com/services/xml/rss/nyt/ProFootball.xml</link>
     <lang>English</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>The New York Times Golf</title>
     <link>https://rss.nytimes.com/services/xml/rss/nyt/Golf.xml</link>
     <lang>English</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>The New York Times Health</title>
     <link>https://rss.nytimes.com/services/xml/rss/nyt/Health.xml</link>
     <lang>English</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>The New York Times Hockey</title>
     <link>https://rss.nytimes.com/services/xml/rss/nyt/Hockey.xml</link>
     <lang>English</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>The New York Times Love</title>
     <link>https://rss.nytimes.com/services/xml/rss/nyt/Weddings.xml</link>
     <lang>English</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>The New York Times Media &amp; Advertising</title>
     <link>https://rss.nytimes.com/services/xml/rss/nyt/MediaandAdvertising.xml</link>
     <lang>English</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>The New York Times Middle East</title>
     <link>https://rss.nytimes.com/services/xml/rss/nyt/MiddleEast.xml</link>
     <lang>English</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>The New York Times Movies</title>
     <link>https://rss.nytimes.com/services/xml/rss/nyt/Movies.xml</link>
     <lang>English</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>The New York Times Music</title>
     <link>https://rss.nytimes.com/services/xml/rss/nyt/Music.xml</link>
     <lang>English</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>The New York Times New York</title>
     <link>https://rss.nytimes.com/services/xml/rss/nyt/NYRegion.xml</link>
     <lang>English</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>The New York Times Personal Tech</title>
     <link>https://rss.nytimes.com/services/xml/rss/nyt/PersonalTech.xml</link>
     <lang>English</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>The New York Times Politics</title>
     <link>https://rss.nytimes.com/services/xml/rss/nyt/Politics.xml</link>
     <lang>English</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>The New York Times Science</title>
     <link>https://rss.nytimes.com/services/xml/rss/nyt/Science.xml</link>
     <lang>English</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>The New York Times Small Business</title>
     <link>https://rss.nytimes.com/services/xml/rss/nyt/SmallBusiness.xml</link>
     <lang>English</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>The New York Times Soccer</title>
     <link>https://rss.nytimes.com/services/xml/rss/nyt/Soccer.xml</link>
     <lang>English</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>The New York Times Space &amp; Cosmos</title>
     <link>https://rss.nytimes.com/services/xml/rss/nyt/Space.xml</link>
     <lang>English</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>The New York Times Sports</title>
     <link>https://rss.nytimes.com/services/xml/rss/nyt/Sports.xml</link>
     <lang>English</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>The New York Times Technology</title>
     <link>https://rss.nytimes.com/services/xml/rss/nyt/Technology.xml</link>
     <lang>English</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>The New York Times Television</title>
     <link>https://rss.nytimes.com/services/xml/rss/nyt/Television.xml</link>
     <lang>English</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>The New York Times Tennis</title>
     <link>https://rss.nytimes.com/services/xml/rss/nyt/Tennis.xml</link>
     <lang>English</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>The New York Times Theater</title>
     <link>https://rss.nytimes.com/services/xml/rss/nyt/Theater.xml</link>
     <lang>English</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>The New York Times Travel</title>
     <link>https://rss.nytimes.com/services/xml/rss/nyt/Travel.xml</link>
     <lang>English</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>The New York Times US</title>
     <link>https://rss.nytimes.com/services/xml/rss/nyt/US.xml</link>
     <lang>English</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>The New York Times Well Blog</title>
     <link>https://rss.nytimes.com/services/xml/rss/nyt/Well.xml</link>
     <lang>English</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>The New York Times World</title>
     <link>https://rss.nytimes.com/services/xml/rss/nyt/World.xml</link>
     <lang>English</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>The New York Times Your Money</title>
     <link>https://rss.nytimes.com/services/xml/rss/nyt/YourMoney.xml</link>
     <lang>English</lang>
+    <tag>news</tag>
+  </feed>
+  <feed>
+    <title>The New Yorker</title>
+    <link>https://www.newyorker.com/feed/rss</link>
+    <lang>English</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>The New Yorker Books &amp; Culture</title>
+    <link>https://www.newyorker.com/feed/culture/rss</link>
+    <lang>English</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>The New Yorker Fiction &amp; Poetry</title>
+    <link>https://www.newyorker.com/feed/fiction-and-poetry/rss</link>
+    <lang>English</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>The New Yorker Humor &amp; Cartoons</title>
+    <link>https://www.newyorker.com/feed/humor/rss</link>
+    <lang>English</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>The New Yorker News</title>
+    <link>https://www.newyorker.com/feed/news/rss</link>
+    <lang>English</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>t3n</title>
+    <link>https://t3n.de/rss.xml</link>
+    <lang>German</lang>
+    <tag>tech</tag>
+  </feed>
+  <feed>
+    <title>t3n Arbeitswelt</title>
+    <link>https://t3n.de/tag/arbeitswelt/rss.xml</link>
+    <lang>German</lang>
+    <tag>tech</tag>
+  </feed>
+  <feed>
+    <title>t3n Buzz &amp; Memes</title>
+    <link>https://t3n.de/tag/buzz-memes/rss.xml</link>
+    <lang>German</lang>
+    <tag>tech</tag>
+  </feed>
+  <feed>
+    <title>t3n E-Commerce</title>
+    <link>https://t3n.de/tag/e-commerce/rss.xml</link>
+    <lang>German</lang>
+    <tag>tech</tag>
+  </feed>
+  <feed>
+    <title>t3n Future &amp; Science</title>
+    <link>https://t3n.de/tag/future-science/rss.xml</link>
+    <lang>German</lang>
+    <tag>tech</tag>
+  </feed>
+  <feed>
+    <title>t3n Gaming</title>
+    <link>https://t3n.de/tag/gaming/rss.xml</link>
+    <lang>German</lang>
+    <tag>tech</tag>
+  </feed>
+  <feed>
+    <title>t3n Hardware &amp; Gadgets</title>
+    <link>https://t3n.de/tag/hardware-gadgets/rss.xml</link>
+    <lang>German</lang>
+    <tag>tech</tag>
+  </feed>
+  <feed>
+    <title>t3n Marketing</title>
+    <link>https://t3n.de/tag/marketing/rss.xml</link>
+    <lang>German</lang>
+    <tag>tech</tag>
+  </feed>
+  <feed>
+    <title>t3n Mobilität</title>
+    <link>https://t3n.de/tag/mobilitaet/rss.xml</link>
+    <lang>German</lang>
+    <tag>tech</tag>
+  </feed>
+  <feed>
+    <title>t3n New Finance</title>
+    <link>https://t3n.de/tag/finance/rss.xml</link>
+    <lang>German</lang>
+    <tag>tech</tag>
+  </feed>
+  <feed>
+    <title>t3n Software &amp; Entwicklung</title>
+    <link>https://t3n.de/tag/software-entwicklung/rss.xml</link>
+    <lang>German</lang>
+    <tag>tech</tag>
+  </feed>
+  <feed>
+    <title>t3n Startups &amp; Economy</title>
+    <link>https://t3n.de/tag/startups-economy/rss.xml</link>
+    <lang>German</lang>
+    <tag>tech</tag>
+  </feed>
+  <feed>
+    <title>t3n UX &amp; Design</title>
+    <link>https://t3n.de/tag/ux-and-design/rss.xml</link>
+    <lang>German</lang>
+    <tag>tech</tag>
   </feed>
   <feed>
     <title>Washington Post Business</title>
     <link>http://feeds.washingtonpost.com/rss/business</link>
     <lang>English</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Washington Post Entertainment</title>
     <link>http://feeds.washingtonpost.com/rss/entertainment</link>
     <lang>English</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Washington Post Lifestyle</title>
     <link>http://feeds.washingtonpost.com/rss/lifestyle</link>
     <lang>English</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Washington Post Local</title>
     <link>http://feeds.washingtonpost.com/rss/local</link>
     <lang>English</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Washington Post National</title>
     <link>http://feeds.washingtonpost.com/rss/national</link>
     <lang>English</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Washington Post Opinions</title>
     <link>http://feeds.washingtonpost.com/rss/opinions</link>
     <lang>English</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Washington Post Politics</title>
     <link>http://feeds.washingtonpost.com/rss/politics</link>
     <lang>English</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Washington Post Sports</title>
     <link>http://feeds.washingtonpost.com/rss/sports</link>
     <lang>English</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Washington Post Technology</title>
     <link>http://feeds.washingtonpost.com/rss/business/technology</link>
     <lang>English</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Washington Post World</title>
     <link>http://feeds.washingtonpost.com/rss/world</link>
     <lang>English</lang>
+    <tag>news</tag>
+  </feed>
+  <feed>
+    <title>WIRED</title>
+    <link>https://www.wired.com/feed/rss</link>
+    <lang>English</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>WIRED Backchannel</title>
+    <link>https://www.wired.com/feed/category/backchannel/latest/rss</link>
+    <lang>English</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>WIRED Business</title>
+    <link>https://www.wired.com/feed/category/business/latest/rss</link>
+    <lang>English</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>WIRED Culture</title>
+    <link>https://www.wired.com/feed/category/culture/latest/rss</link>
+    <lang>English</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>WIRED Gear</title>
+    <link>https://www.wired.com/feed/category/gear/latest/rss</link>
+    <lang>English</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>WIRED Guides</title>
+    <link>https://www.wired.com/feed/tag/wired-guide/latest/rss</link>
+    <lang>English</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>WIRED Ideas</title>
+    <link>https://www.wired.com/feed/category/ideas/latest/rss</link>
+    <lang>English</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>WIRED Science</title>
+    <link>https://www.wired.com/feed/category/science/latest/rss</link>
+    <lang>English</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>WIRED Security</title>
+    <link>https://www.wired.com/feed/category/security/latest/rss</link>
+    <lang>English</lang>
+    <tag>magazines</tag>
   </feed>
 </root>

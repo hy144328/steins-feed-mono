@@ -1,0 +1,13 @@
+version = 1
+
+[formatters.default]
+format = "[%(asctime)s] %(levelname)s:%(name)s: %(message)s"
+
+[handlers.stream]
+class = "logging.StreamHandler"
+formatter = "default"
+stream = "ext://sys.stdout"
+
+[loggers.steins_feed_api]
+handlers = ["stream"]
+level = "INFO"

@@ -2300,26 +2300,12 @@ develop = true
 aiohttp = "^3.11.11"
 feedparser = "^6.0.11"
 python-dateutil = "^2.9.0.post0"
-steins-feed-logging = {path = "../steins-feed-logging", develop = true}
 steins-feed-model = {path = "../steins-feed-model", develop = true}
 tenacity = "^9.0.0"
 
 [package.source]
 type = "directory"
 url = "../steins-feed-etl"
-
-[[package]]
-name = "steins-feed-logging"
-version = "0.1.0"
-description = "Stein's feed -- logging"
-optional = true
-python-versions = "^3.13"
-files = []
-develop = true
-
-[package.source]
-type = "directory"
-url = "../steins-feed-logging"
 
 [[package]]
 name = "steins-feed-magic"
@@ -2334,7 +2320,6 @@ develop = true
 lxml = "^5.3.0"
 nltk = "^3.9.1"
 scikit-learn = "^1.6.1"
-steins-feed-logging = {path = "../steins-feed-logging", develop = true}
 steins-feed-model = {path = "../steins-feed-model", develop = true}
 
 [package.source]

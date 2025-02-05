@@ -1,12 +1,12 @@
-import sqlalchemy as sqla
 import pytest
+import sqlalchemy as sqla
 
 import steins_feed_model
 import steins_feed_model.base
 
 @pytest.fixture
 def engine() -> sqla.engine.Engine:
-    return steins_feed_model.EngineFactory.get_or_create_engine()
+    return steins_feed_model.EngineFactory.create_engine()
 
 def test_create_schema(engine: sqla.engine.Engine):
     steins_feed_model.base.Base.metadata.create_all(engine)

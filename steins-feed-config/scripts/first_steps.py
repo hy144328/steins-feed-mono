@@ -1,77 +1,59 @@
 #!/usr/bin/env python3
 
-import importlib.resources
-import logging
+import logging.config
 import os
+import tomllib
 
 import dotenv
 import passlib.context
 import sqlalchemy as sqla
+import sqlalchemy.exc as sqla_exc
 import sqlalchemy.orm as sqla_orm
 
 import steins_feed_config
-import steins_feed_config.feeds
-import steins_feed_logging
 import steins_feed_model
 import steins_feed_model.users
 
 dotenv.load_dotenv()
 
-config_logger = steins_feed_logging.LoggerFactory.get_logger(steins_feed_config.__name__)
-steins_feed_logging.LoggerFactory.add_stream_handler(config_logger)
-steins_feed_logging.LoggerFactory.set_level(config_logger, logging.INFO)
+logger = logging.getLogger()
 
-engine = steins_feed_model.EngineFactory.get_or_create_engine(database=os.environ["DB_NAME"])
+with open(os.path.join(os.path.dirname(__file__), "first_steps_logging.toml"), "rb") as f:
+    logging.config.dictConfig(tomllib.load(f))
+
+engine = steins_feed_model.EngineFactory.create_engine(
+    username = os.getenv("DB_USER"),
+    password = os.getenv("DB_PASS"),
+    host = os.getenv("DB_HOST"),
+    port = os.getenv("DB_PORT"),
+    database = os.getenv("DB_NAME"),
+)
+
 pwd_context = passlib.context.CryptContext(schemes=["bcrypt"], deprecated="auto")
 
-user = steins_feed_model.users.User(
-    name = os.environ["DEV_USER"],
-    password = pwd_context.hash(os.environ["DEV_PASS"]),
-    email = os.environ["DEV_MAIL"],
-)
-
-q = sqla.insert(
-    steins_feed_model.users.User,
-).values(
-    name = user.name,
-    password = user.password,
-    email = user.email,
-)
-q = q.prefix_with("OR IGNORE", dialect="sqlite")
-
 with sqla_orm.Session(engine) as session:
-    session.execute(q)
-    session.commit()
-
-with sqla_orm.Session(engine) as session:
-    with importlib.resources.open_text(steins_feed_config, "feeds.d/magazines.xml") as f:
-        steins_feed_config.feeds.read_xml(
-            session,
-            f,
-            user_name = os.environ["DEV_USER"],
-            tag_name = "magazines",
+    try:
+        user = steins_feed_model.users.User(
+            name = os.environ["DEV_USER"],
+            password = pwd_context.hash(os.environ["DEV_PASS"]),
+            email = os.environ["DEV_MAIL"],
         )
+        session.add(user)
+        session.commit()
+    except sqla_exc.IntegrityError:
+        logger.warning(f"User {os.environ["DEV_USER"]} already exists.")
+        session.rollback()
 
-    with importlib.resources.open_text(steins_feed_config, "feeds.d/news.xml") as f:
-        steins_feed_config.feeds.read_xml(
-            session,
-            f,
-            user_name = os.environ["DEV_USER"],
-            tag_name = "news",
+        q = sqla.select(
+            steins_feed_model.users.User,
+        ).where(
+            steins_feed_model.users.User.name == os.environ["DEV_USER"],
         )
+        user = session.execute(q).scalars().one()
 
-    with importlib.resources.open_text(steins_feed_config, "feeds.d/science.xml") as f:
-        steins_feed_config.feeds.read_xml(
+    with open("feeds.xml", "r") as f:
+        steins_feed_config.read_xml(
             session,
             f,
-            user_name = os.environ["DEV_USER"],
-            tag_name = "science",
-        )
-
-    with importlib.resources.open_text(steins_feed_config, "feeds.d/tech.xml") as f:
-        steins_feed_config.feeds.read_xml(
-            session,
-            f,
-            user_name = os.environ["DEV_USER"],
-            tag_name = "tech",
+            user_id = user.id,
         )

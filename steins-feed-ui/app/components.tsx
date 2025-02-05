@@ -10,7 +10,7 @@ import { useRef, useState } from "react"
 import { Item, Language, LikeStatus, Tag, WallMode } from "@client"
 import { format_datetime, join } from "@util"
 
-import { doAnalyzeSummaryGet, doLikeItemsLikePut } from "./actions"
+import { analyzeSummaryAction, putLikeAction } from "./actions"
 import { logout } from "./auth"
 import { NavigationSearchParams, toURLSearchParams } from "./util"
 
@@ -166,7 +166,7 @@ function LikeButton({
     const score = (liked === 1) ? 0 : 1;
 
     try {
-      await doLikeItemsLikePut(item, score);
+      await putLikeAction(item.id, score);
     } catch(e) {
       console.log(e);
       router.refresh();
@@ -197,7 +197,7 @@ function DislikeButton({
     const score = (liked === -1) ? 0 : -1;
 
     try {
-      await doLikeItemsLikePut(item, score);
+      await putLikeAction(item.id, score);
     } catch(e) {
       console.log(e);
       router.refresh();
@@ -231,7 +231,7 @@ function MagicButton({
       setSummary(item.summary);
     } else if (item.summary) {
       let summary = item.summary;
-      const bible = await doAnalyzeSummaryGet(item);
+      const bible = await analyzeSummaryAction(item.id);
 
       for (const [k, v] of Object.entries(bible)) {
         if (Math.abs(v) >= 0.5) {

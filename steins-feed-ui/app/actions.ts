@@ -1,6 +1,12 @@
 "use server"
 
-import { Item, Language, LikeStatus, Tag, WallMode } from "@client"
+import {
+  Item,
+  Language,
+  LikeStatus,
+  Tag,
+  WallMode,
+} from "@client"
 import {
   analyzeSummaryItemsAnalyzeSummaryGet,
   languagesFeedsLanguagesGet,
@@ -11,12 +17,12 @@ import {
 
 import { authenticate } from "./auth"
 
-export async function doLikeItemsLikePut(item: Item, score: LikeStatus) {
+export async function putLikeAction(item_id: number, score: LikeStatus) {
   await authenticate();
 
   const resp = await likeItemsLikePut({
     "query": {
-      "item_id": item.id,
+      "item_id": item_id,
       "score": score,
     },
   });
@@ -26,7 +32,7 @@ export async function doLikeItemsLikePut(item: Item, score: LikeStatus) {
   }
 }
 
-export async function doRootItemsGet(
+export async function getItemsAction(
   dt_from: Date,
   dt_to: Date,
   languages?: Language[],
@@ -52,7 +58,7 @@ export async function doRootItemsGet(
   return resp.data;
 }
 
-export async function doLanguagesFeedsLangaugesGet(): Promise<Language[]> {
+export async function getLanguagesAction(): Promise<Language[]> {
   await authenticate();
 
   const resp = await languagesFeedsLanguagesGet();
@@ -64,7 +70,7 @@ export async function doLanguagesFeedsLangaugesGet(): Promise<Language[]> {
   return resp.data;
 }
 
-export async function doTagsFeedsTagsGet(): Promise<Tag[]> {
+export async function getTagsAction(): Promise<Tag[]> {
   await authenticate();
 
   const resp = await tagsFeedsTagsGet();
@@ -76,12 +82,12 @@ export async function doTagsFeedsTagsGet(): Promise<Tag[]> {
   return resp.data;
 }
 
-export async function doAnalyzeSummaryGet(
-  item: Item,
+export async function analyzeSummaryAction(
+  item_id: number,
 ): Promise<Record<string, number>> {
   await authenticate();
 
-  const resp = await analyzeSummaryItemsAnalyzeSummaryGet({"query": {"item_id": item.id}});
+  const resp = await analyzeSummaryItemsAnalyzeSummaryGet({"query": {"item_id": item_id}});
 
   if (resp.error) {
     throw resp.error;

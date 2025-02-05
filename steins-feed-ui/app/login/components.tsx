@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation"
 import { useEffect, useRef } from "react"
 
-import { doLoginTokenPost } from "./actions"
+import { setTokenAction } from "./actions"
 
 export default function LoginModal({
   callback,
@@ -26,7 +26,7 @@ export default function LoginModal({
     const password = data.get("password") as string;
 
     try {
-      await doLoginTokenPost(username, password);
+      await setTokenAction(username, password);
     } catch(exc) {
       alert("Incorrect username or password.");
       throw exc;
@@ -40,20 +40,16 @@ export default function LoginModal({
   }
 
   useEffect(() => {
-    const modal_node = modal_ref.current!;
+    let modal;
 
     import("bootstrap").then(({Modal}) => {
-      const modal = new Modal(modal_node);
+      modal = new Modal(modal_ref.current!);
       modal.show();
     });
 
     return () => {
-      import("bootstrap").then(({Modal}) => {
-        const modal = new Modal(modal_node);
-        modal.hide();
-        console.log('Closed!');
-      });
-    }
+      modal.hide();
+    };
   });
 
   return (

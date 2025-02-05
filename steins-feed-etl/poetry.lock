@@ -1848,19 +1848,6 @@ type = "directory"
 url = "../steins-feed-config"
 
 [[package]]
-name = "steins-feed-logging"
-version = "0.1.0"
-description = "Stein's feed -- logging"
-optional = false
-python-versions = "^3.13"
-files = []
-develop = true
-
-[package.source]
-type = "directory"
-url = "../steins-feed-logging"
-
-[[package]]
 name = "steins-feed-model"
 version = "0.1.0"
 description = "Stein's feed -- model"
@@ -2133,4 +2120,4 @@ propcache = ">=0.2.0"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.13"
-content-hash = "7cb1192ace1c61b63c60e0b965f1cdebddd343202fa6ba62b86e5a215bce7522"
+content-hash = "7bf7997181621b713707a0c053ee3d919e002d6b0790fef39b70bf1c5efe6703"
