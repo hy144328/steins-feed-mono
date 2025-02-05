@@ -1,4 +1,4 @@
-import {text_content, replace_word} from "@parse"
+import {text_content, wrap_word} from "@parse"
 
 test("text_content() works", () => {
   const s = "Hello <em>world</em>!";
@@ -6,7 +6,7 @@ test("text_content() works", () => {
   expect(text_content(s)).toBe(t);
 });
 
-test("replace_word() works with simple replacement", () => {
+test("wrap_word() works within a single element", () => {
   function emphasize(word: string): HTMLSpanElement {
     const res = document.createElement("span");
     res.textContent = word;
@@ -16,10 +16,10 @@ test("replace_word() works with simple replacement", () => {
   const s = "Hello <em>world</em>!";
   const t = "H<span>ell</span>o <em>world</em>!";
 
-  expect(replace_word(s, "ell", emphasize)).toBe(t);
+  expect(wrap_word(s, "ell", emphasize)).toBe(t);
 });
 
-test("replace_word() works with complex replacement", () => {
+test("wrap_word() works across multiple elements", () => {
   function emphasize(word: string): HTMLSpanElement {
     const res = document.createElement("span");
     res.textContent = word;
@@ -29,5 +29,5 @@ test("replace_word() works with complex replacement", () => {
   const s = "Hello <em>world</em>!";
   const t = "Hell<span>o </span><em><span>world</span></em><span>!</span>";
 
-  expect(replace_word(s, "o world!", emphasize)).toBe(t);
+  expect(wrap_word(s, "o world!", emphasize)).toBe(t);
 });

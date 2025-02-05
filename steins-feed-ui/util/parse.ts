@@ -10,7 +10,7 @@ export function text_content(s: string): string {
   return res.map(x => x.nodeValue).join("");
 }
 
-export function replace_word(
+export function wrap_word(
   s: string,
   word: string,
   wrap: (arg0: string) => Node,
@@ -53,7 +53,7 @@ export function replace_word(
         node_it = node_it.nextSibling as Text;
       }
 
-      replace_with_multiple_nodes(node_it, [wrap(node_it.nodeValue!)]);
+      replace_node(node_it, wrap(node_it.nodeValue!));
     }
   }
 
@@ -80,10 +80,7 @@ function* iterate_deep(node: Node): Generator<Node> {
   }
 }
 
-function replace_with_multiple_nodes(
-  node: Node,
-  nodes: Node[],
-) {
+function replace_node(node: Node, ...nodes: Node[]) {
   for (const node_it of nodes) {
     node.parentNode!.insertBefore(node_it, node);
   }
