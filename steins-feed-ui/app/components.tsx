@@ -9,7 +9,7 @@ import { useRef, useState } from "react"
 
 import { Item, Language, LikeStatus, Tag, WallMode } from "@client"
 import { format_datetime, join } from "@util"
-import { wrap_word } from "@parse"
+import { wrap_words } from "@parse"
 
 import { analyzeSummaryAction, putLikeAction } from "./actions"
 import { logout } from "./auth"
@@ -232,21 +232,16 @@ function MagicButton({
     if (highlight) {
       setSummary(item.summary);
     } else if (item.summary) {
-      let summary = item.summary;
       const bible = await analyzeSummaryAction(item.id);
-
-      for (const [k, v] of Object.entries(bible)) {
-        if (Math.abs(v) >= 0.5) {
-          summary = wrap_word(
-            summary,
-            k,
-            markWord,
-            false,
-            true,
-          );
-        }
-      }
-
+      const summary = wrap_words(
+        item.summary,
+        Object.entries(bible).filter(([_, v]) =>
+          Math.abs(v) >= 0.5
+        ).map(([k, _]) =>
+          k
+        ),
+        markWord,
+      );
       setSummary(summary);
     }
 
