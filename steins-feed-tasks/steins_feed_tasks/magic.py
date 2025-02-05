@@ -152,7 +152,6 @@ def calculate_scores(
 def update_scores(
     item_scores: typing.Sequence[typing.Tuple[int, typing.Optional[float]]],
     user_id: int,
-    lang: "steins_feed_model.feeds.Language | str",
 ):
     import sqlalchemy as sqla
     import sqlalchemy.orm as sqla_orm
@@ -161,7 +160,7 @@ def update_scores(
 
     from . import db
 
-    logger.info(f"Start to update scores for {user_id} and {lang}.")
+    logger.info(f"Start to update scores for {user_id}.")
 
     q = sqla.insert(steins_feed_model.items.Magic)
     q = q.prefix_with("OR IGNORE", dialect="sqlite")
@@ -177,8 +176,40 @@ def update_scores(
     ]
 
     with sqla_orm.Session(db.engine) as session:
-        logger.info(f"Update scores of {len(item_scores)} {lang} items.")
+        logger.info(f"Update scores of {len(item_scores)} items.")
         session.execute(q, res)
         session.commit()
 
-    logger.info(f"Finish to update scores for {user_id} and {lang}.")
+    logger.info(f"Finish to update scores for {user_id}.")
+
+@app.task
+def analyze_text(
+    s: str,
+    user_id: int,
+    lang: "steins_feed_model.feeds.Language| str",
+) -> dict[str, float]:
+    import os
+
+    import steins_feed_magic.classify
+    import steins_feed_magic.io
+    import steins_feed_magic.parse
+    import steins_feed_model.feeds
+
+    logger.info(f"Start to analyze text for {user_id} and {lang}.")
+
+    if not isinstance(lang, steins_feed_model.feeds.Language):
+        lang = steins_feed_model.feeds.Language(lang)
+
+    try:
+        clf = steins_feed_magic.io.read_classifier(os.environ["MAGIC_FOLDER"], user_id, lang)
+        text_vectorizer = clf.steps[0][1]
+        text_tokenizer = text_vectorizer.build_tokenizer(skip_stem=True)
+    except FileNotFoundError:
+        logger.warning(f"Skip text without classifier.")
+        return {}
+
+    words = text_tokenizer(steins_feed_magic.parse.text_content(s))
+    res = dict(zip(words, steins_feed_magic.classify.predict_scores(clf, words)))
+
+    logger.info(f"Finish to analyze text with {len(words)} words for {user_id} and {lang}.")
+    return res

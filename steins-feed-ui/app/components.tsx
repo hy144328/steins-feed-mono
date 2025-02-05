@@ -5,12 +5,13 @@ import Image from "next/image"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { Fragment, ReactNode } from "react"
-import { useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 
 import { Item, Language, LikeStatus, Tag, WallMode } from "@client"
 import { format_datetime, join } from "@util"
+import { wrap_words } from "@parse"
 
-import { putLikeAction } from "./actions"
+import { analyzeSummaryAction, putLikeAction } from "./actions"
 import { logout } from "./auth"
 import { NavigationSearchParams, toURLSearchParams } from "./util"
 
@@ -30,6 +31,8 @@ export default function WallArticle({
   const [collapsed, setCollapsed] = useState(is_duplicate);
   const card_body_ref = useRef<HTMLDivElement>(null);
 
+  const [summary, setSummary] = useState(item.summary);
+
   async function handleCollapse() {
     const { Collapse } = await import("bootstrap");
 
@@ -37,6 +40,16 @@ export default function WallArticle({
     card_body.toggle();
     setCollapsed(!collapsed);
   }
+
+  useEffect(() => {
+    import("bootstrap").then(({Popover}) => {
+      const card_body_element = card_body_ref.current!
+      const popoverTriggerList = card_body_element.querySelectorAll('[data-bs-toggle="popover"]');
+      Array.from(popoverTriggerList).map(popoverTriggerEl =>
+        new Popover(popoverTriggerEl, {trigger: "hover"})
+      );
+    });
+  });
 
   return (
 <div id={ `article-${item.id}` } className="card">
@@ -72,7 +85,7 @@ export default function WallArticle({
 
     <div
       className={ `card-text ${styles["card-text"]}` }
-      dangerouslySetInnerHTML={ {__html: DOMPurify.sanitize(item.summary ?? "")} }
+      dangerouslySetInnerHTML={ {__html: DOMPurify.sanitize(summary ?? "")} }
     />
   </div>
 
@@ -80,7 +93,12 @@ export default function WallArticle({
     <div className="btn-group">
       <LikeButton item={item} liked={liked} setLiked={setLiked}/>
       <DislikeButton item={item} liked={liked} setLiked={setLiked}/>
-      <MagicButton /*item={item}*/ highlight={highlight} setHighlight={setHighlight}/>
+      <MagicButton
+        item={item}
+        highlight={highlight}
+        setHighlight={setHighlight}
+        setSummary={setSummary}
+      />
     </div>
   </div>
 </div>
@@ -204,16 +222,49 @@ function DislikeButton({
 }
 
 function MagicButton({
-  //item,
+  item,
   highlight,
   setHighlight,
+  setSummary,
 }: {
-  //item: Item,
+  item: Item,
   highlight: boolean,
   setHighlight: (value: boolean) => void,
+  setSummary: (value: string | null) => void,
 }) {
+  function markWord(word: string, bible: Record<string, number>): HTMLElement {
+    const res = document.createElement("mark");
+
+    res.textContent = word;
+    res.setAttribute("data-bs-toggle", "popover");
+    res.setAttribute("data-bs-title", word);
+    res.setAttribute("data-bs-content", bible[word].toFixed(2));
+
+    return res;
+  }
+
+  async function handleHighlight() {
+    if (highlight) {
+      setSummary(item.summary);
+    } else if (item.summary) {
+      const bible = await analyzeSummaryAction(item.id);
+      const summary = wrap_words(
+        item.summary,
+        Object.entries(bible).filter(([_, v]) =>
+          Math.abs(v) >= 0.5
+        ).map(([k, _]) =>
+          k
+        ),
+        frag => markWord(frag, bible),
+      );
+      setSummary(summary);
+    }
+
+    setHighlight(!highlight);
+  }
+
   return (
-<button className={ `btn btn-outline-${highlight?"primary":"secondary"}` } onClick={ () => setHighlight(!highlight) } disabled>
+<button className={ `btn btn-outline-${highlight?"primary":"secondary"}` } onClick={ handleHighlight }>
 <i className="bi-lightbulb-fill"/>
 </button>
   );

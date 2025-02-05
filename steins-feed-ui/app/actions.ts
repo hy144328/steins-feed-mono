@@ -8,6 +8,7 @@ import {
   WallMode,
 } from "@client"
 import {
+  analyzeSummaryItemsAnalyzeSummaryGet,
   languagesFeedsLanguagesGet,
   likeItemsLikePut,
   rootItemsGet,
@@ -75,6 +76,20 @@ export async function getTagsAction(): Promise<Tag[]> {
   const resp = await tagsFeedsTagsGet();
 
   if (!resp.data) {
+    throw resp.error;
+  }
+
+  return resp.data;
+}
+
+export async function analyzeSummaryAction(
+  item_id: number,
+): Promise<Record<string, number>> {
+  await authenticate();
+
+  const resp = await analyzeSummaryItemsAnalyzeSummaryGet({"query": {"item_id": item_id}});
+
+  if (resp.error) {
     throw resp.error;
   }
 

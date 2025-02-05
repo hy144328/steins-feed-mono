@@ -1,4 +1,4 @@
-import {text_content, wrap_word} from "@parse"
+import {text_content, wrap_word, wrap_words} from "@parse"
 
 test("text_content() works", () => {
   const s = "Hello <em>world</em>!";
@@ -56,4 +56,17 @@ test("wrap_word() is able to respect word boundaries", () => {
   const t = "Hello <em>world</em>!";
 
   expect(wrap_word(s, "ell", emphasize, true, true)).toBe(t);
+});
+
+test("wrap_words() handles multiple words", () => {
+  function emphasize(word: string): HTMLSpanElement {
+    const res = document.createElement("span");
+    res.textContent = word;
+    return res;
+  }
+
+  const s = "1 2  3   4    5";
+  const t = "1 <span>2</span>  <span>3</span>   <span>4</span>    5";
+
+  expect(wrap_words(s, ["2", "3", "4"], emphasize)).toBe(t);
 });

@@ -266,10 +266,7 @@ def _calculate_and_update_scores(
     )
     assert isinstance(calculate_scores, celery.canvas.Signature)
 
-    update_scores = steins_feed_tasks.magic.update_scores.s(
-        user_id = user_id,
-        lang = lang,
-    )
+    update_scores = steins_feed_tasks.magic.update_scores.s(user_id=user_id)
     assert isinstance(update_scores, celery.canvas.Signature)
 
     return calculate_scores.set(link=update_scores)
@@ -350,3 +347,33 @@ async def like(
         like.score = score
 
     session.commit()
+
+@router.get("/analyze_summary")
+async def analyze_summary(
+    session: steins_feed_api.db.Session,
+    current_user: steins_feed_api.auth.UserDep,
+    item_id: int,
+) -> dict[str, float]:
+    item = session.get_one(
+        steins_feed_model.items.Item,
+        item_id,
+        options = [sqla_orm.joinedload(steins_feed_model.items.Item.feed)],
+    )
+
+    if item.summary is None:
+        return {}
+
+    if item.feed.language is None:
+        return {}
+
+    assert isinstance(steins_feed_tasks.magic.analyze_text, celery.Task)
+    result = steins_feed_tasks.magic.analyze_text.delay(
+        item.summary,
+        user_id = current_user.id,
+        lang = item.feed.language,
+    )
+
+    res = result.get()
+    assert isinstance(res, dict)
+
+    return res
