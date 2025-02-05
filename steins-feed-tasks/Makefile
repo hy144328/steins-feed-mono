@@ -24,4 +24,4 @@ train_classifiers:
 
 .PHONY: analyze_test
 analyze_text:
-	celery -A steins_feed_tasks call "steins_feed_tasks.magic.analyze_text" --args='["$(S)", $(USER_ID), "$(Language)"]'
+	celery -A steins_feed_tasks call "steins_feed_tasks.magic.analyze_text" --args='["$(S)", $(USER_ID), "$(LANGUAGE)"]'
