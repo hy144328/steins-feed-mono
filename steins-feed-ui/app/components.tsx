@@ -11,7 +11,7 @@ import { Item, Language, LikeStatus, Tag, WallMode } from "@client"
 import { format_datetime, join } from "@util"
 import { wrap_words } from "@parse"
 
-import { analyzeSummaryAction, putLikeAction } from "./actions"
+import { analyzeSummaryAction, analyzeTitleAction, putLikeAction } from "./actions"
 import { logout } from "./auth"
 import { NavigationSearchParams, toURLSearchParams } from "./util"
 
@@ -31,6 +31,7 @@ export default function WallArticle({
   const [collapsed, setCollapsed] = useState(is_duplicate);
   const card_body_ref = useRef<HTMLDivElement>(null);
 
+  const [title, setTitle] = useState(item.title);
   const [summary, setSummary] = useState(item.summary);
 
   async function handleCollapse() {
@@ -80,7 +81,7 @@ export default function WallArticle({
     className={ is_duplicate ? "card-body collapse" : "card-body collapse show" }
     ref={ card_body_ref }
   >
-    <WallArticleTitle item={ item }/>
+    <WallArticleTitle item={ item } title={ title }/>
     <WallArticleSubtitle item={ item }/>
 
     <div
@@ -97,6 +98,7 @@ export default function WallArticle({
         item={item}
         highlight={highlight}
         setHighlight={setHighlight}
+        setTitle={setTitle}
         setSummary={setSummary}
       />
     </div>
@@ -107,15 +109,17 @@ export default function WallArticle({
 
 function WallArticleTitle({
   item,
+  title,
 }: {
   item: Item,
+  title?: string,
 }) {
   return (
 <h5 className="card-title">
   <a
     href={ item.link }
     target="_blank"
-    dangerouslySetInnerHTML={ {__html: DOMPurify.sanitize(item.title)} }
+    dangerouslySetInnerHTML={ {__html: DOMPurify.sanitize(title ?? item.title)} }
   />
 </h5>
   );
@@ -225,11 +229,13 @@ function MagicButton({
   item,
   highlight,
   setHighlight,
+  setTitle,
   setSummary,
 }: {
   item: Item,
   highlight: boolean,
   setHighlight: (value: boolean) => void,
+  setTitle: (value: string) => void,
   setSummary: (value: string | null) => void,
 }) {
   function markWord(word: string, bible: Record<string, number>): HTMLElement {
@@ -245,19 +251,34 @@ function MagicButton({
 
   async function handleHighlight() {
     if (highlight) {
+      setTitle(item.title);
       setSummary(item.summary);
     } else if (item.summary) {
-      const bible = await analyzeSummaryAction(item.id);
-      const summary = wrap_words(
-        item.summary,
-        Object.entries(bible).filter(([_, v]) =>
-          Math.abs(v) >= 0.5
-        ).map(([k, _]) =>
-          k
-        ),
-        frag => markWord(frag, bible),
-      );
-      setSummary(summary);
+      analyzeTitleAction(item.id).then(bible => {
+        const title = wrap_words(
+          item.title,
+          Object.entries(bible).filter(([_, v]) =>
+            Math.abs(v) >= 0.5
+          ).map(([k, _]) =>
+            k
+          ),
+          frag => markWord(frag, bible),
+        );
+        setTitle(title);
+      });
+
+      analyzeSummaryAction(item.id).then(bible => {
+        const summary = wrap_words(
+          item.summary!,
+          Object.entries(bible).filter(([_, v]) =>
+            Math.abs(v) >= 0.5
+          ).map(([k, _]) =>
+            k
+          ),
+          frag => markWord(frag, bible),
+        );
+        setSummary(summary);
+      });
     }
 
     setHighlight(!highlight);
