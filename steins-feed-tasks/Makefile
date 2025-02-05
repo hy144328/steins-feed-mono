@@ -22,6 +22,6 @@ parse_feeds:
 train_classifiers:
 	celery -A steins_feed_tasks call steins_feed_tasks.magic.train_classifiers_all
 
-.PHONY: analyze_test
+.PHONY: analyze_text
 analyze_text:
 	celery -A steins_feed_tasks call "steins_feed_tasks.magic.analyze_text" --args='["$(S)", $(USER_ID), "$(LANGUAGE)"]'
