@@ -24,7 +24,10 @@ class StemmingCountVectorizer(sklearn.feature_extraction.text.CountVectorizer):
         self.stemmer = LANG2STEMMER[lang]
 
     @typing.override
-    def build_tokenizer(self) -> typing.Callable[[str], list[str]]:
+    def build_tokenizer(self, skip_stem: bool=False) -> typing.Callable[[str], list[str]]:
         tokenize: typing.Callable[[str], list[str]] = super().build_tokenizer()
+        if skip_stem:
+            return tokenize
+
         stem: typing.Callable[[str], str] = self.stemmer.stem
         return util.concatenate(tokenize, util.map_over(stem))

@@ -190,9 +190,6 @@ def analyze_text(
 ) -> dict[str, float]:
     import os
 
-    import sklearn.feature_extraction.text
-    import sklearn.pipeline
-
     import steins_feed_magic.classify
     import steins_feed_magic.io
     import steins_feed_magic.parse
@@ -204,18 +201,15 @@ def analyze_text(
         lang = steins_feed_model.feeds.Language(lang)
 
     try:
-        clf_item = steins_feed_magic.io.read_classifier(os.environ["MAGIC_FOLDER"], user_id, lang)
+        clf = steins_feed_magic.io.read_classifier(os.environ["MAGIC_FOLDER"], user_id, lang)
+        text_vectorizer = clf.steps[0][1]
+        text_tokenizer = text_vectorizer.build_tokenizer(skip_stem=True)
     except FileNotFoundError:
         logger.warning(f"Skip text without classifier.")
         return {}
 
-    clf_text = sklearn.pipeline.make_pipeline(*[v for _, v in clf_item.steps[1:]])
-    text_vectorizer = sklearn.feature_extraction.text.CountVectorizer()
-    text_analyzer = text_vectorizer.build_analyzer()
-
-    words = text_analyzer(steins_feed_magic.parse.text_content(s))
-    res = dict(zip(words, steins_feed_magic.classify.predict_scores(clf_text, words)))
-    print(res)
+    words = text_tokenizer(steins_feed_magic.parse.text_content(s))
+    res = dict(zip(words, steins_feed_magic.classify.predict_scores(clf, words)))
 
     logger.info(f"Finish to analyze text with {len(words)} words for {user_id} and {lang}.")
     return res
