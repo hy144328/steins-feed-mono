@@ -25,7 +25,8 @@
     "strictNullChecks": true,
     "paths": {
       "@client": ["./client/index.ts"],
-      "@util": ["./util/index.ts"]
+      "@util": ["./util/index.ts"],
+      "@parse": ["./util/parse.ts"]
     }
   },
   "include": [

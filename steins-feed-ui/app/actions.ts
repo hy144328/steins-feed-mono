@@ -1,16 +1,27 @@
 "use server"
 
-import { Item, Language, LikeStatus, Tag, WallMode } from "@client"
-import { languagesFeedsLanguagesGet, likeItemsLikePut, rootItemsGet, tagsFeedsTagsGet } from "@client"
+import {
+  Item,
+  Language,
+  LikeStatus,
+  Tag,
+  WallMode,
+} from "@client"
+import {
+  languagesFeedsLanguagesGet,
+  likeItemsLikePut,
+  rootItemsGet,
+  tagsFeedsTagsGet,
+} from "@client"
 
 import { authenticate } from "./auth"
 
-export async function doLikeItemsLikePut(item: Item, score: LikeStatus) {
+export async function putLikeAction(item_id: number, score: LikeStatus) {
   await authenticate();
 
   const resp = await likeItemsLikePut({
     "query": {
-      "item_id": item.id,
+      "item_id": item_id,
       "score": score,
     },
   });
@@ -20,7 +31,7 @@ export async function doLikeItemsLikePut(item: Item, score: LikeStatus) {
   }
 }
 
-export async function doRootItemsGet(
+export async function getItemsAction(
   dt_from: Date,
   dt_to: Date,
   languages?: Language[],
@@ -46,7 +57,7 @@ export async function doRootItemsGet(
   return resp.data;
 }
 
-export async function doLanguagesFeedsLangaugesGet(): Promise<Language[]> {
+export async function getLanguagesAction(): Promise<Language[]> {
   await authenticate();
 
   const resp = await languagesFeedsLanguagesGet();
@@ -58,7 +69,7 @@ export async function doLanguagesFeedsLangaugesGet(): Promise<Language[]> {
   return resp.data;
 }
 
-export async function doTagsFeedsTagsGet(): Promise<Tag[]> {
+export async function getTagsAction(): Promise<Tag[]> {
   await authenticate();
 
   const resp = await tagsFeedsTagsGet();
