@@ -14,6 +14,8 @@ export function wrap_word(
   s: string,
   word: string,
   wrap: (arg0: string) => Node,
+  ignore_case: boolean = false,
+  full_match: boolean = false,
 ): string {
   const body = parse_body(s);
   const res: {node: Text, start: number, finish: number}[] = [];
@@ -35,8 +37,11 @@ export function wrap_word(
   }
 
   const full_text = res.map(x => x.node.nodeValue).join("");
+  const re_pat = full_match ? `\\b${word}\\b` : word;
+  const re_flags = ignore_case ? "gi" : "g";
+  const re = new RegExp(re_pat, re_flags);
 
-  for (const match_it of full_text.matchAll(new RegExp(word, "g"))) {
+  for (const match_it of full_text.matchAll(re)) {
     const res_match = res.filter(res_it =>
       (res_it.finish > match_it.index) && (res_it.start < match_it.index + word.length)
     );
