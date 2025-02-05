@@ -5,12 +5,12 @@ import { useState } from "react"
 import { Feed, Language, Tag } from "@client"
 
 import {
-  doAttachTag,
-  doAttachUser,
-  doCreateAndAttachTag,
-  doDetachTag,
-  doDetachUser,
-  doUpdateFeed,
+  attachTagAction,
+  attachUserAction,
+  createAndAttachTagAction,
+  detachTagAction,
+  detachUserAction,
+  updateFeedAction,
 } from "./actions"
 import {
   contains_tag,
@@ -52,7 +52,7 @@ export function FeedForm({
     const language = data.get("language") as Language | null;
 
     try {
-      await doUpdateFeed(feed.id, title, link, language);
+      await updateFeedAction(feed.id, title, link, language);
     } catch(exc) {
       alert("Not an admin.");
       throw exc;
@@ -133,7 +133,7 @@ export function TagsForm({
         set_tags_state(insert_tag(tags_state, tag));
         set_tags_sync_state(insert_by_mirror_tag(tags_sync_state, tags_state, tag, false));
 
-        doAttachTag(feed.id, tag.id).then(() => {
+        attachTagAction(feed.id, tag.id).then(() => {
           set_tags_sync_state(next_tags_sync_state =>
             replace_by_mirror_tag(next_tags_sync_state, insert_tag(tags_state, tag), tag, true)
           );
@@ -143,7 +143,7 @@ export function TagsForm({
         set_tags_state(insert_tag(tags_state, tag));
         set_tags_sync_state(insert_by_mirror_tag(tags_sync_state, tags_state, tag, false));
 
-        doCreateAndAttachTag(feed.id, tag_name).then(next_tag => {
+        createAndAttachTagAction(feed.id, tag_name).then(next_tag => {
           set_all_tags_state(next_all_tags_state =>
             replace_tag(next_all_tags_state, next_tag)
           );
@@ -197,9 +197,9 @@ export function DisplayForm({
 }) {
   async function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     if (e.target.checked) {
-      await doAttachUser(feed.id);
+      await attachUserAction(feed.id);
     } else {
-      await doDetachUser(feed.id);
+      await detachUserAction(feed.id);
     }
   }
 
@@ -209,7 +209,7 @@ export function DisplayForm({
     <input
       type="checkbox"
       className="form-check-input"
-      defaultChecked={ feed!.displayed }
+      defaultChecked={ feed.displayed }
       onChange={ handleChange }
     />
     <label className="form-check-label">Feed #{ feed.id }</label>
@@ -265,7 +265,7 @@ function TagPill({
 }) {
   async function handleClose() {
     before_detach();
-    doDetachTag(feed.id, tag.id).then(after_detach);
+    detachTagAction(feed.id, tag.id).then(after_detach);
   }
 
   return (

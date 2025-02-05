@@ -2,7 +2,7 @@ import { Feed, Tag } from "@client"
 
 import Navigation from "../../navigation"
 
-import { doFeed, doTags } from "./actions"
+import { getFeedAction, getTagsAction } from "./actions"
 import { require_login } from "../../auth"
 import { DisplayForm, FeedForm, TagsForm } from "./components"
 
@@ -13,15 +13,16 @@ export default async function Page({
 }) {
   const paramsSync = await params;
 
-  let feed: Feed | undefined = undefined;
-  let all_tags: Tag[] = [];
+  let feed: Feed;
+  let all_tags: Tag[];
 
   try {
-    feed = await doFeed(paramsSync.feed_id);
-    all_tags = await doTags();
+    feed = await getFeedAction(paramsSync.feed_id);
+    all_tags = await getTagsAction();
   } catch (e) {
     console.log(e);
     await require_login(`/feed/${paramsSync.feed_id}`);
+    return;
   }
 
   return (
@@ -33,10 +34,10 @@ export default async function Page({
     contentServed={ false }
   />
 
-  <DisplayForm feed={ feed! }/>
+  <DisplayForm feed={ feed }/>
 
   <FeedForm
-    feed={ feed! }
+    feed={ feed }
     all_languages={ ["English", "German", "Swedish"] }
     is_admin={ true }
   />
@@ -44,7 +45,7 @@ export default async function Page({
   <hr/>
 
   <TagsForm
-    feed ={ feed! }
+    feed ={ feed }
     all_tags={ all_tags }
   />
 </div>

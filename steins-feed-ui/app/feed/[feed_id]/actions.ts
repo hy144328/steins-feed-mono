@@ -7,17 +7,15 @@ import {
   createAndAttachTagFeedsFeedFeedIdCreateAndAttachTagPut,
   detachTagFeedsFeedFeedIdDetachTagDelete,
   detachUserFeedsFeedFeedIdDetachUserDelete,
-  updateFeedFeedsFeedFeedIdUpdateFeedPost,
-} from "@client"
-import {
   feedFeedsFeedFeedIdGet,
   tagsFeedsTagsGet,
+  updateFeedFeedsFeedFeedIdUpdateFeedPost,
 } from "@client"
 
 
 import { authenticate } from "../../auth"
 
-export async function doCreateAndAttachTag(
+export async function createAndAttachTagAction(
   feed_id: number,
   tag_name: string,
 ): Promise<Tag> {
@@ -35,7 +33,7 @@ export async function doCreateAndAttachTag(
   return resp.data;
 }
 
-export async function doAttachTag(
+export async function attachTagAction(
   feed_id: number,
   tag_id: number,
 ) {
@@ -51,7 +49,7 @@ export async function doAttachTag(
   }
 }
 
-export async function doDetachTag(
+export async function detachTagAction(
   feed_id: number,
   tag_id: number,
 ) {
@@ -67,7 +65,7 @@ export async function doDetachTag(
   }
 }
 
-export async function doAttachUser(
+export async function attachUserAction(
   feed_id: number,
 ) {
   await authenticate();
@@ -81,7 +79,7 @@ export async function doAttachUser(
   }
 }
 
-export async function doDetachUser(
+export async function detachUserAction(
   feed_id: number,
 ) {
   await authenticate();
@@ -95,7 +93,7 @@ export async function doDetachUser(
   }
 }
 
-export async function doFeed(
+export async function getFeedAction(
   feed_id: number,
 ): Promise<Feed> {
   await authenticate();
@@ -111,7 +109,7 @@ export async function doFeed(
   return resp.data;
 }
 
-export async function doTags(): Promise<Tag[]> {
+export async function getTagsAction(): Promise<Tag[]> {
   await authenticate();
 
   const resp = await tagsFeedsTagsGet();
@@ -123,7 +121,7 @@ export async function doTags(): Promise<Tag[]> {
   return resp.data ?? [];
 }
 
-export async function doUpdateFeed(
+export async function updateFeedAction(
   feed_id: number,
   title: string,
   link: string,

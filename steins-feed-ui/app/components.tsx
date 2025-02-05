@@ -10,7 +10,7 @@ import { useRef, useState } from "react"
 import { Item, Language, LikeStatus, Tag, WallMode } from "@client"
 import { format_datetime, join } from "@util"
 
-import { doLikeItemsLikePut } from "./actions"
+import { putLikeAction } from "./actions"
 import { logout } from "./auth"
 import { NavigationSearchParams, toURLSearchParams } from "./util"
 
@@ -156,7 +156,7 @@ function LikeButton({
     const score = (liked === 1) ? 0 : 1;
 
     try {
-      await doLikeItemsLikePut(item, score);
+      await putLikeAction(item.id, score);
     } catch(e) {
       console.log(e);
       router.refresh();
@@ -187,7 +187,7 @@ function DislikeButton({
     const score = (liked === -1) ? 0 : -1;
 
     try {
-      await doLikeItemsLikePut(item, score);
+      await putLikeAction(item.id, score);
     } catch(e) {
       console.log(e);
       router.refresh();

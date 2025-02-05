@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation"
 import { useEffect, useRef } from "react"
 
-import { doLoginTokenPost } from "./actions"
+import { setTokenAction } from "./actions"
 
 export default function LoginModal({
   callback,
@@ -26,7 +26,7 @@ export default function LoginModal({
     const password = data.get("password") as string;
 
     try {
-      await doLoginTokenPost(username, password);
+      await setTokenAction(username, password);
     } catch(exc) {
       alert("Incorrect username or password.");
       throw exc;
