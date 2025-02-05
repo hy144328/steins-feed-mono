@@ -222,6 +222,12 @@ function MagicButton({
   setHighlight: (value: boolean) => void,
   setSummary: (value: string | null) => void,
 }) {
+  function markWord(word: string): HTMLElement {
+    const res = document.createElement("mark");
+    res.textContent = word;
+    return res;
+  }
+
   async function handleHighlight() {
     if (highlight) {
       setSummary(item.summary);
@@ -234,7 +240,7 @@ function MagicButton({
           summary = wrap_word(
             summary,
             k,
-            frag => new Text(frag.toUpperCase()),
+            markWord,
             false,
             true,
           );
