@@ -181,6 +181,18 @@ export type LikeItemsLikePutResponse = (unknown);
 
 export type LikeItemsLikePutError = (HTTPValidationError);
 
+export type AnalyzeTitleItemsAnalyzeTitleGetData = {
+    query: {
+        item_id: number;
+    };
+};
+
+export type AnalyzeTitleItemsAnalyzeTitleGetResponse = ({
+    [key: string]: (number);
+});
+
+export type AnalyzeTitleItemsAnalyzeTitleGetError = (HTTPValidationError);
+
 export type AnalyzeSummaryItemsAnalyzeSummaryGetData = {
     query: {
         item_id: number;

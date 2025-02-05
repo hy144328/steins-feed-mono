@@ -348,6 +348,33 @@ async def like(
 
     session.commit()
 
+@router.get("/analyze_title")
+async def analyze_title(
+    session: steins_feed_api.db.Session,
+    current_user: steins_feed_api.auth.UserDep,
+    item_id: int,
+) -> dict[str, float]:
+    item = session.get_one(
+        steins_feed_model.items.Item,
+        item_id,
+        options = [sqla_orm.joinedload(steins_feed_model.items.Item.feed)],
+    )
+
+    if item.feed.language is None:
+        return {}
+
+    assert isinstance(steins_feed_tasks.magic.analyze_text, celery.Task)
+    result = steins_feed_tasks.magic.analyze_text.delay(
+        item.title,
+        user_id = current_user.id,
+        lang = item.feed.language,
+    )
+
+    res = result.get()
+    assert isinstance(res, dict)
+
+    return res
+
 @router.get("/analyze_summary")
 async def analyze_summary(
     session: steins_feed_api.db.Session,
