@@ -8,7 +8,7 @@ import {
   month_of_year_short
 } from "@util"
 
-import { doRootItemsGet } from "./actions"
+import { getItemsAction } from "./actions"
 import { require_login } from "./auth"
 import WallArticle from "./components"
 import Navigation from "./navigation"
@@ -36,13 +36,14 @@ export default async function Page({
   const wall_mode_raw = searchParamsSync.wall_mode;
   const wall_mode = wall_mode_raw ? ensure_primitive(wall_mode_raw) as WallMode : "Classic";
 
-  let items: Item[] = [];
+  let items: Item[];
 
   try {
-    items = await doRootItemsGet(today, tomorrow, languages, tags, wall_mode);
+    items = await getItemsAction(today, tomorrow, languages, tags, wall_mode);
   } catch (e) {
     console.log(e);
     await require_login(`/?${toURLSearchParams({now, languages, tags, wall_mode})}`);
+    return;
   }
 
   return (
