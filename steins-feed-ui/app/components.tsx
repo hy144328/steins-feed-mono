@@ -4,11 +4,12 @@ import DOMPurify from "isomorphic-dompurify"
 import Image from "next/image"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
-import { Fragment, ReactNode, RefObject } from "react"
+import { Fragment, ReactNode } from "react"
 import { useRef, useState } from "react"
 
 import { Item, Language, LikeStatus, Tag, WallMode } from "@client"
 import { format_datetime, join } from "@util"
+import { wrap_word } from "@parse"
 
 import { analyzeSummaryAction, putLikeAction } from "./actions"
 import { logout } from "./auth"
@@ -31,7 +32,6 @@ export default function WallArticle({
   const card_body_ref = useRef<HTMLDivElement>(null);
 
   const [summary, setSummary] = useState(item.summary);
-  const summary_ref = useRef<HTMLDivElement>(null);
 
   async function handleCollapse() {
     const { Collapse } = await import("bootstrap");
@@ -75,7 +75,6 @@ export default function WallArticle({
 
     <div
       className={ `card-text ${styles["card-text"]}` }
-      ref={ summary_ref }
       dangerouslySetInnerHTML={ {__html: DOMPurify.sanitize(summary ?? "")} }
     />
   </div>
@@ -88,7 +87,6 @@ export default function WallArticle({
         item={item}
         highlight={highlight}
         setHighlight={setHighlight}
-        summaryRef={summary_ref}
         setSummary={setSummary}
       />
     </div>
@@ -217,13 +215,11 @@ function MagicButton({
   item,
   highlight,
   setHighlight,
-  summaryRef,
   setSummary,
 }: {
   item: Item,
   highlight: boolean,
   setHighlight: (value: boolean) => void,
-  summaryRef: RefObject<HTMLElement | null>,
   setSummary: (value: string | null) => void,
 }) {
   async function handleHighlight() {
@@ -235,7 +231,13 @@ function MagicButton({
 
       for (const [k, v] of Object.entries(bible)) {
         if (Math.abs(v) >= 0.5) {
-          summary = summary.replace(new RegExp(`\\b${k}\\b`, "gi"), "<em>$&</em>");
+          summary = wrap_word(
+            summary,
+            k,
+            frag => new Text(frag.toUpperCase()),
+            false,
+            true,
+          );
         }
       }
 
