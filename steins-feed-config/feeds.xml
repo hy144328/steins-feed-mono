@@ -978,6 +978,12 @@
     <tag>tech</tag>
   </feed>
   <feed>
+    <title>Pirate Wires</title>
+    <link>https://www.piratewires.com/api/rss</link>
+    <lang>English</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
     <title>Quanta Magazine</title>
     <link>https://www.quantamagazine.org/feed/</link>
     <lang>English</lang>
@@ -1050,6 +1056,12 @@
     <tag>magazines</tag>
   </feed>
   <feed>
+    <title>Reason Magazine</title>
+    <link>https://reason.com/latest/feed/</link>
+    <lang>English</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
     <title>Salon.com</title>
     <link>https://www.salon.com/feed</link>
     <lang>English</lang>
@@ -1088,6 +1100,12 @@
   <feed>
     <title>Salon.com Science &amp; Health</title>
     <link>https://www.salon.com/category/science-and-health/feed</link>
+    <lang>English</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>Semafor</title>
+    <link>https://www.semafor.com/rss.xml</link>
     <lang>English</lang>
     <tag>magazines</tag>
   </feed>
