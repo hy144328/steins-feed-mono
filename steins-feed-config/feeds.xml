@@ -174,6 +174,12 @@
     <tag>news</tag>
   </feed>
   <feed>
+    <title>Chalkdust</title>
+    <link>http://chalkdustmagazine.com/feed/</link>
+    <lang>English</lang>
+    <tag>science</tag>
+  </feed>
+  <feed>
     <title>Corren</title>
     <link>https://www.corren.se/nyheter/rss/</link>
     <lang>Swedish</lang>
@@ -780,6 +786,12 @@
     <tag>news</tag>
   </feed>
   <feed>
+    <title>FY Fluid Dynamics</title>
+    <link>https://fyfluiddynamics.com/feed/</link>
+    <lang>English</lang>
+    <tag>science</tag>
+  </feed>
+  <feed>
     <title>Inc.com</title>
     <link>https://www.inc.com/rss/</link>
     <lang>English</lang>
@@ -868,54 +880,75 @@
     <link>https://www.technologyreview.com/feed/</link>
     <lang>English</lang>
     <tag>magazines</tag>
+    <tag>tech</tag>
   </feed>
   <feed>
     <title>MIT Technology Review Artificial Intelligence</title>
     <link>https://www.technologyreview.com/topic/artificial-intelligence/feed/</link>
     <lang>English</lang>
     <tag>magazines</tag>
+    <tag>tech</tag>
   </feed>
   <feed>
     <title>MIT Technology Review Biotechnology &amp; Health</title>
     <link>https://www.technologyreview.com/topic/biotechnology/feed/</link>
     <lang>English</lang>
     <tag>magazines</tag>
+    <tag>tech</tag>
   </feed>
   <feed>
     <title>MIT Technology Review Business</title>
     <link>https://www.technologyreview.com/topic/business/feed/</link>
     <lang>English</lang>
     <tag>magazines</tag>
+    <tag>tech</tag>
   </feed>
   <feed>
     <title>MIT Technology Review Climate Change &amp; Energy</title>
     <link>https://www.technologyreview.com/topic/climate-change/feed/</link>
     <lang>English</lang>
     <tag>magazines</tag>
+    <tag>tech</tag>
   </feed>
   <feed>
     <title>MIT Technology Review Computing</title>
     <link>https://www.technologyreview.com/topic/computing/feed/</link>
     <lang>English</lang>
     <tag>magazines</tag>
+    <tag>tech</tag>
   </feed>
   <feed>
     <title>MIT Technology Review Culture</title>
     <link>https://www.technologyreview.com/topic/culture/feed/</link>
     <lang>English</lang>
     <tag>magazines</tag>
+    <tag>tech</tag>
   </feed>
   <feed>
     <title>MIT Technology Review Policy</title>
     <link>https://www.technologyreview.com/topic/policy/feed/</link>
     <lang>English</lang>
     <tag>magazines</tag>
+    <tag>tech</tag>
   </feed>
   <feed>
     <title>MIT Technology Review Space</title>
     <link>https://www.technologyreview.com/topic/space/feed/</link>
     <lang>English</lang>
     <tag>magazines</tag>
+    <tag>tech</tag>
+  </feed>
+  <feed>
+    <title>Nature</title>
+    <link>https://www.nature.com/nature.rss</link>
+    <lang>English</lang>
+    <tag>science</tag>
+  </feed>
+  <feed>
+    <title>Nautilus</title>
+    <link>http://nautil.us/rss/all</link>
+    <lang>English</lang>
+    <tag>science</tag>
   </feed>
   <feed>
     <title>Netzpolitik.org</title>
@@ -1104,10 +1137,22 @@
     <tag>magazines</tag>
   </feed>
   <feed>
+    <title>Science</title>
+    <link>https://www.science.org/action/showFeed?type=etoc&amp;feed=rss&amp;jc=science</link>
+    <lang>English</lang>
+    <tag>science</tag>
+  </feed>
+  <feed>
     <title>Semafor</title>
     <link>https://www.semafor.com/rss.xml</link>
     <lang>English</lang>
     <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>SIAM News</title>
+    <link>https://www.siam.org/rss-feed/siam-news/current-issue</link>
+    <lang>English</lang>
+    <tag>science</tag>
   </feed>
   <feed>
     <title>Slate</title>
@@ -1150,6 +1195,12 @@
     <link>https://slate.com/feeds/technology.rss</link>
     <lang>English</lang>
     <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>Spektrum der Wissenschaft</title>
+    <link>https://www.spektrum.de/alias/rss/spektrum-de-rss-feed/996406</link>
+    <lang>German</lang>
+    <tag>science</tag>
   </feed>
   <feed>
     <title>Spiegel</title>
@@ -2206,53 +2257,62 @@
     <link>https://www.wired.com/feed/rss</link>
     <lang>English</lang>
     <tag>magazines</tag>
+    <tag>tech</tag>
   </feed>
   <feed>
     <title>WIRED Backchannel</title>
     <link>https://www.wired.com/feed/category/backchannel/latest/rss</link>
     <lang>English</lang>
     <tag>magazines</tag>
+    <tag>tech</tag>
   </feed>
   <feed>
     <title>WIRED Business</title>
     <link>https://www.wired.com/feed/category/business/latest/rss</link>
     <lang>English</lang>
     <tag>magazines</tag>
+    <tag>tech</tag>
   </feed>
   <feed>
     <title>WIRED Culture</title>
     <link>https://www.wired.com/feed/category/culture/latest/rss</link>
     <lang>English</lang>
     <tag>magazines</tag>
+    <tag>tech</tag>
   </feed>
   <feed>
     <title>WIRED Gear</title>
     <link>https://www.wired.com/feed/category/gear/latest/rss</link>
     <lang>English</lang>
     <tag>magazines</tag>
+    <tag>tech</tag>
   </feed>
   <feed>
     <title>WIRED Guides</title>
     <link>https://www.wired.com/feed/tag/wired-guide/latest/rss</link>
     <lang>English</lang>
     <tag>magazines</tag>
+    <tag>tech</tag>
   </feed>
   <feed>
     <title>WIRED Ideas</title>
     <link>https://www.wired.com/feed/category/ideas/latest/rss</link>
     <lang>English</lang>
     <tag>magazines</tag>
+    <tag>tech</tag>
   </feed>
   <feed>
     <title>WIRED Science</title>
     <link>https://www.wired.com/feed/category/science/latest/rss</link>
     <lang>English</lang>
     <tag>magazines</tag>
+    <tag>tech</tag>
   </feed>
   <feed>
     <title>WIRED Security</title>
     <link>https://www.wired.com/feed/category/security/latest/rss</link>
     <lang>English</lang>
     <tag>magazines</tag>
+    <tag>tech</tag>
   </feed>
 </root>
