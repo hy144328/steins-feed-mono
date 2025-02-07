@@ -39,6 +39,22 @@ def get_or_create_feed(
 
     return feed
 
+def add_user(
+    session: sqla_orm.Session,
+    feed: steins_feed_model.feeds.Feed,
+    user: steins_feed_model.users.User,
+):
+    feed_title = feed.title
+    user_name = user.name
+
+    try:
+        feed.users.append(user)
+        session.commit()
+        logger.info(f"Add {user_name} to display {feed_title}.")
+    except sqla_exc.IntegrityError:
+        logger.warning(f"{feed_title} already displayed to {user_name}.")
+        session.rollback()
+
 def get_or_create_tag(
     session: sqla_orm.Session,
     user_id: int,

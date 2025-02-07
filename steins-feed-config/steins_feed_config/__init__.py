@@ -28,6 +28,13 @@ def read_xml(
         if user_id is None:
             continue
 
+        user = session.get_one(steins_feed_model.users.User, user_id)
+        steins_feed_config.db.add_user(
+            session,
+            feed = feed,
+            user = user,
+        )
+
         for tag_it in feed_it.xpath("tag"):
             tag = steins_feed_config.db.get_or_create_tag(
                 session,
