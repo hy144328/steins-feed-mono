@@ -939,6 +939,14 @@
     <tag>tech</tag>
   </feed>
   <feed>
+    <title>Nate Silver</title>
+    <link>https://www.natesilver.net/feed</link>
+    <lang>English</lang>
+    <tag>people</tag>
+    <tag>politics</tag>
+    <tag>sports</tag>
+  </feed>
+  <feed>
     <title>Nature</title>
     <link>https://www.nature.com/nature.rss</link>
     <lang>English</lang>
@@ -2329,6 +2337,12 @@
     <link>https://t3n.de/tag/ux-and-design/rss.xml</link>
     <lang>German</lang>
     <tag>tech</tag>
+  </feed>
+  <feed>
+    <title>Varsity</title>
+    <link>http://feeds.varsity.co.uk/varsity/rss</link>
+    <lang>English</lang>
+    <tag>cambridge</tag>
   </feed>
   <feed>
     <title>Washington Post Business</title>
