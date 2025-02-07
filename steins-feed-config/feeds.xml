@@ -1258,6 +1258,54 @@
     <tag>magazines</tag>
   </feed>
   <feed>
+    <title>Politico</title>
+    <link>https://www.politico.com/rss/politicopicks.xml</link>
+    <lang>English</lang>
+    <tag>politics</tag>
+  </feed>
+  <feed>
+    <title>Politico Congress</title>
+    <link>http://www.politico.com/rss/congress.xml</link>
+    <lang>English</lang>
+    <tag>politics</tag>
+  </feed>
+  <feed>
+    <title>Politico Defense</title>
+    <link>http://www.politico.com/rss/defense.xml</link>
+    <lang>English</lang>
+    <tag>politics</tag>
+  </feed>
+  <feed>
+    <title>Politico Economy</title>
+    <link>http://www.politico.com/rss/economy.xml</link>
+    <lang>English</lang>
+    <tag>politics</tag>
+  </feed>
+  <feed>
+    <title>Politico Energy &amp; Environment</title>
+    <link>http://www.politico.com/rss/energy.xml</link>
+    <lang>English</lang>
+    <tag>politics</tag>
+  </feed>
+  <feed>
+    <title>Politico Health Care</title>
+    <link>http://www.politico.com/rss/healthcare.xml</link>
+    <lang>English</lang>
+    <tag>politics</tag>
+  </feed>
+  <feed>
+    <title>Politico Politics</title>
+    <link>http://www.politico.com/rss/politics08.xml</link>
+    <lang>English</lang>
+    <tag>politics</tag>
+  </feed>
+  <feed>
+    <title>Politico -- Europe</title>
+    <link>https://www.politico.eu/feed/</link>
+    <lang>English</lang>
+    <tag>politics</tag>
+  </feed>
+  <feed>
     <title>Quanta Magazine</title>
     <link>https://www.quantamagazine.org/feed/</link>
     <lang>English</lang>
@@ -2161,6 +2209,36 @@
     <link>https://www.theguardian.com/uk/sport/rss</link>
     <lang>English</lang>
     <tag>news</tag>
+  </feed>
+  <feed>
+    <title>The Hill</title>
+    <link>https://thehill.com/feed/</link>
+    <lang>English</lang>
+    <tag>politics</tag>
+  </feed>
+  <feed>
+    <title>The Hill Business</title>
+    <link>https://thehill.com/business/feed/</link>
+    <lang>English</lang>
+    <tag>politics</tag>
+  </feed>
+  <feed>
+    <title>The Hill News</title>
+    <link>https://thehill.com/news/feed/</link>
+    <lang>English</lang>
+    <tag>politics</tag>
+  </feed>
+  <feed>
+    <title>The Hill Opinion</title>
+    <link>https://thehill.com/opinion/feed/</link>
+    <lang>English</lang>
+    <tag>politics</tag>
+  </feed>
+  <feed>
+    <title>The Hill Policy</title>
+    <link>https://thehill.com/policy/feed/</link>
+    <lang>English</lang>
+    <tag>politics</tag>
   </feed>
   <feed>
     <title>The Intercept</title>
