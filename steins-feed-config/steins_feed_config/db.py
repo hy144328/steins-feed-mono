@@ -10,32 +10,30 @@ import steins_feed_model.users
 
 logger = logging.getLogger(__name__)
 
-def get_or_create_feed(
+def get_feed(
     session: sqla_orm.Session,
     title: str,
-    link: str,
-    language: typing.Optional[steins_feed_model.feeds.Language],
 ) -> steins_feed_model.feeds.Feed:
     q = sqla.select(
         steins_feed_model.feeds.Feed,
     ).where(
         steins_feed_model.feeds.Feed.title == title,
     )
+    return session.execute(q).scalars().one()
 
-    try:
-        feed = session.execute(q).scalars().one()
-
-        logger.info(f"Get {title}.")
-    except sqla_exc.NoResultFound:
-        feed = steins_feed_model.feeds.Feed(
-            title = title,
-            link = link,
-            language = language,
-        )
-        session.add(feed)
-        session.commit()
-
-        logger.warning(f"Create {title}.")
+def create_feed(
+    session: sqla_orm.Session,
+    title: str,
+    link: str,
+    language: typing.Optional[steins_feed_model.feeds.Language],
+) -> steins_feed_model.feeds.Feed:
+    feed = steins_feed_model.feeds.Feed(
+        title = title,
+        link = link,
+        language = language,
+    )
+    session.add(feed)
+    session.commit()
 
     return feed
 
@@ -55,7 +53,7 @@ def add_user(
         logger.warning(f"{feed_title} already displayed to {user_name}.")
         session.rollback()
 
-def get_or_create_tag(
+def get_tag(
     session: sqla_orm.Session,
     user_id: int,
     tag_name: str,
@@ -66,20 +64,19 @@ def get_or_create_tag(
         steins_feed_model.feeds.Tag.user_id == user_id,
         steins_feed_model.feeds.Tag.name == tag_name,
     )
+    return session.execute(q).scalars().one()
 
-    try:
-        tag = session.execute(q).scalars().one()
-
-        logger.info(f"Get {tag_name}.")
-    except sqla_exc.NoResultFound:
-        tag = steins_feed_model.feeds.Tag(
-            user_id = user_id,
-            name = tag_name,
-        )
-        session.add(tag)
-        session.commit()
-
-        logger.warning(f"Create {tag_name}.")
+def create_tag(
+    session: sqla_orm.Session,
+    user_id: int,
+    tag_name: str,
+) -> steins_feed_model.feeds.Tag:
+    tag = steins_feed_model.feeds.Tag(
+        user_id = user_id,
+        name = tag_name,
+    )
+    session.add(tag)
+    session.commit()
 
     return tag
 

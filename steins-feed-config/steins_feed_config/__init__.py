@@ -2,6 +2,7 @@ import logging
 import typing
 
 import lxml.etree
+import sqlalchemy.exc as sqla_exc
 import sqlalchemy.orm as sqla_orm
 
 import steins_feed_config.db
@@ -18,12 +19,16 @@ def read_xml(
     root = tree.getroot()
 
     for feed_it in root.xpath("feed"):
-        feed = steins_feed_config.db.get_or_create_feed(
-            session,
-            title = feed_it.xpath("title")[0].text,
-            link = feed_it.xpath("link")[0].text,
-            language = steins_feed_model.feeds.Language(feed_it.xpath("lang")[0].text),
-        )
+        try:
+            feed = steins_feed_config.db.create_feed(
+                session,
+                title = feed_it.xpath("title")[0].text,
+                link = feed_it.xpath("link")[0].text,
+                language = steins_feed_model.feeds.Language(feed_it.xpath("lang")[0].text),
+            )
+        except sqla_exc.IntegrityError:
+            logger.warning(f"Feed {feed_it.xpath('title')[0].text} already exists.")
+            continue
 
         if user_id is None:
             continue
@@ -36,11 +41,20 @@ def read_xml(
         )
 
         for tag_it in feed_it.xpath("tag"):
-            tag = steins_feed_config.db.get_or_create_tag(
-                session,
-                user_id = user_id,
-                tag_name = tag_it.text,
-            )
+            try:
+                tag = steins_feed_config.db.get_tag(
+                    session,
+                    user_id = user_id,
+                    tag_name = tag_it.text,
+                )
+            except sqla_exc.NoResultFound:
+                tag = steins_feed_config.db.create_tag(
+                    session,
+                    user_id = user_id,
+                    tag_name = tag_it.text,
+                )
+                logger.info(f"Create {tag.name}.")
+
             steins_feed_config.db.add_tag(
                 session,
                 feed = feed,
