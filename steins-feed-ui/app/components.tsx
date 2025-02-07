@@ -131,7 +131,7 @@ function WallArticleSubtitle({
   item: Item,
 }) {
   const fields: {k: string, v: ReactNode}[] = [
-    {k: "Source", v: <a href={ `/feed?feed=${item.feed.id}` }>{ item.feed.title }</a>},
+    {k: "Source", v: <a href={ `/feed/${item.feed.id}/` }>{ item.feed.title }</a>},
     {k: "Published", v: format_datetime(new Date(item.published))},
     {k: "Tags", v: join(
       item.feed.tags.map(tag_it =>
