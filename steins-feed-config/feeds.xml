@@ -36,6 +36,12 @@
     <tag>magazines</tag>
   </feed>
   <feed>
+    <title>Arcade Rage</title>
+    <link>https://arcaderage.co/feed/</link>
+    <lang>English</lang>
+    <tag>comics</tag>
+  </feed>
+  <feed>
     <title>Bild</title>
     <link>http://www.bild.de/rss-feeds/rss-16725492,feed=home.bild.html</link>
     <lang>German</lang>
@@ -94,6 +100,12 @@
     <link>https://www.bild.de/rss-feeds/rss-16725492,feed=unterhaltung.bild.html</link>
     <lang>German</lang>
     <tag>news</tag>
+  </feed>
+  <feed>
+    <title>Bundesministerium für wirtschaftliche Zusammenarbeit und Entwicklung</title>
+    <link>https://www.bmz.de/de/feed.rss</link>
+    <lang>German</lang>
+    <tag>activism</tag>
   </feed>
   <feed>
     <title>Boston.com</title>
@@ -612,6 +624,12 @@
     <tag>magazines</tag>
   </feed>
   <feed>
+    <title>Existential Comics</title>
+    <link>http://existentialcomics.com/rss.xml</link>
+    <lang>English</lang>
+    <tag>comics</tag>
+  </feed>
+  <feed>
     <title>FOCUS</title>
     <link>https://rss.focus.de/</link>
     <lang>German</lang>
@@ -792,10 +810,28 @@
     <tag>science</tag>
   </feed>
   <feed>
+    <title>Global Citizen</title>
+    <link>https://www.globalcitizen.org/content/feed/</link>
+    <lang>English</lang>
+    <tag>activism</tag>
+  </feed>
+  <feed>
     <title>Inc.com</title>
     <link>https://www.inc.com/rss/</link>
     <lang>English</lang>
     <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>Incidental Comics</title>
+    <link>http://www.incidentalcomics.com/feeds/posts/default?alt=rss</link>
+    <lang>English</lang>
+    <tag>comics</tag>
+  </feed>
+  <feed>
+    <title>Inside Philanthropy</title>
+    <link>https://www.insidephilanthropy.com/feed</link>
+    <lang>English</lang>
+    <tag>activism</tag>
   </feed>
   <feed>
     <title>Los Angeles Times Business</title>
@@ -937,6 +973,12 @@
     <lang>English</lang>
     <tag>magazines</tag>
     <tag>tech</tag>
+  </feed>
+  <feed>
+    <title>Monkey User</title>
+    <link>https://www.monkeyuser.com/feed.xml</link>
+    <lang>English</lang>
+    <tag>comics</tag>
   </feed>
   <feed>
     <title>Nate Silver</title>
@@ -1677,6 +1719,12 @@
     <link>https://taz.de/!p4644;rss/</link>
     <lang>German</lang>
     <tag>news</tag>
+  </feed>
+  <feed>
+    <title>The Aspen Institute</title>
+    <link>https://www.aspeninstitute.org/feed/</link>
+    <lang>English</lang>
+    <tag>activism</tag>
   </feed>
   <feed>
     <title>The Atlantic</title>
@@ -2466,5 +2514,11 @@
     <lang>English</lang>
     <tag>magazines</tag>
     <tag>tech</tag>
+  </feed>
+  <feed>
+    <title>XKCD</title>
+    <link>https://www.xkcd.com/rss.xml</link>
+    <lang>English</lang>
+    <tag>comics</tag>
   </feed>
 </root>
