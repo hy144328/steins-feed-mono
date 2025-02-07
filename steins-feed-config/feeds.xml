@@ -1011,6 +1011,84 @@
     <tag>tech</tag>
   </feed>
   <feed>
+    <title>New Scientist</title>
+    <link>https://www.newscientist.com/section/features/feed/</link>
+    <lang>English</lang>
+    <tag>science</tag>
+  </feed>
+  <feed>
+    <title>New Scientist Chemistry</title>
+    <link>https://www.newscientist.com/subject/chemistry/feed/</link>
+    <lang>English</lang>
+    <tag>science</tag>
+  </feed>
+  <feed>
+    <title>New Scientist Earth</title>
+    <link>https://www.newscientist.com/subject/earth/feed/</link>
+    <lang>English</lang>
+    <tag>science</tag>
+  </feed>
+  <feed>
+    <title>New Scientist Environment</title>
+    <link>https://www.newscientist.com/subject/environment/feed/</link>
+    <lang>English</lang>
+    <tag>science</tag>
+  </feed>
+  <feed>
+    <title>New Scientist Health</title>
+    <link>https://www.newscientist.com/subject/health/feed/</link>
+    <lang>English</lang>
+    <tag>science</tag>
+  </feed>
+  <feed>
+    <title>New Scientist Humans</title>
+    <link>https://www.newscientist.com/subject/humans/feed/</link>
+    <lang>English</lang>
+    <tag>science</tag>
+  </feed>
+  <feed>
+    <title>New Scientist Life</title>
+    <link>https://www.newscientist.com/subject/life/feed/</link>
+    <lang>English</lang>
+    <tag>science</tag>
+  </feed>
+  <feed>
+    <title>New Scientist Mathematics</title>
+    <link>https://www.newscientist.com/subject/mathematics/feed/</link>
+    <lang>English</lang>
+    <tag>science</tag>
+  </feed>
+  <feed>
+    <title>New Scientist Mind</title>
+    <link>https://www.newscientist.com/subject/life/mind/</link>
+    <lang>English</lang>
+    <tag>science</tag>
+  </feed>
+  <feed>
+    <title>New Scientist Physics</title>
+    <link>https://www.newscientist.com/subject/physics/feed/</link>
+    <lang>English</lang>
+    <tag>science</tag>
+  </feed>
+  <feed>
+    <title>New Scientist Society</title>
+    <link>https://www.newscientist.com/subject/society/feed/</link>
+    <lang>English</lang>
+    <tag>science</tag>
+  </feed>
+  <feed>
+    <title>New Scientist Space</title>
+    <link>https://www.newscientist.com/subject/space/feed/</link>
+    <lang>English</lang>
+    <tag>science</tag>
+  </feed>
+  <feed>
+    <title>New Scientist Technology</title>
+    <link>https://www.newscientist.com/subject/technology/feed/</link>
+    <lang>English</lang>
+    <tag>science</tag>
+  </feed>
+  <feed>
     <title>Pirate Wires</title>
     <link>https://www.piratewires.com/api/rss</link>
     <lang>English</lang>
@@ -1139,6 +1217,66 @@
   <feed>
     <title>Science</title>
     <link>https://www.science.org/action/showFeed?type=etoc&amp;feed=rss&amp;jc=science</link>
+    <lang>English</lang>
+    <tag>science</tag>
+  </feed>
+  <feed>
+    <title>Science News</title>
+    <link>https://www.sciencenews.org/feed</link>
+    <lang>English</lang>
+    <tag>science</tag>
+  </feed>
+  <feed>
+    <title>Science News Chemistry</title>
+    <link>https://www.sciencenews.org/topic/chemistry/feed</link>
+    <lang>English</lang>
+    <tag>science</tag>
+  </feed>
+  <feed>
+    <title>Science News Earth</title>
+    <link>https://www.sciencenews.org/topic/earth/feed</link>
+    <lang>English</lang>
+    <tag>science</tag>
+  </feed>
+  <feed>
+    <title>Science News Humans</title>
+    <link>https://www.sciencenews.org/topic/humans/feed</link>
+    <lang>English</lang>
+    <tag>science</tag>
+  </feed>
+  <feed>
+    <title>Science News Life</title>
+    <link>https://www.sciencenews.org/topic/life/feed</link>
+    <lang>English</lang>
+    <tag>science</tag>
+  </feed>
+  <feed>
+    <title>Science News Math</title>
+    <link>https://www.sciencenews.org/topic/math/feed</link>
+    <lang>English</lang>
+    <tag>science</tag>
+  </feed>
+  <feed>
+    <title>Science News Physics</title>
+    <link>https://www.sciencenews.org/topic/physics/feed</link>
+    <lang>English</lang>
+    <tag>science</tag>
+  </feed>
+  <feed>
+    <title>Science News Science &amp; Society</title>
+    <link>https://www.sciencenews.org/topic/science-society/feed</link>
+    <lang>English</lang>
+    <tag>science</tag>
+  </feed>
+  <feed>
+    <title>Science News Space</title>
+    <link>https://www.sciencenews.org/topic/space/feed</link>
+    <lang>English</lang>
+    <tag>science</tag>
+  </feed>
+  <feed>
+    <title>Science News Tech</title>
+    <link>https://www.sciencenews.org/topic/tech/feed</link>
     <lang>English</lang>
     <tag>science</tag>
   </feed>
