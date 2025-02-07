@@ -26,6 +26,7 @@ def read_xml(
                 link = feed_it.xpath("link")[0].text,
                 language = steins_feed_model.feeds.Language(feed_it.xpath("lang")[0].text),
             )
+            logger.info(f"Create {feed_it.xpath('title')[0].text}.")
         except sqla_exc.IntegrityError:
             logger.warning(f"Feed {feed_it.xpath('title')[0].text} already exists.")
             continue

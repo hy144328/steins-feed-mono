@@ -27,13 +27,17 @@ def create_feed(
     link: str,
     language: typing.Optional[steins_feed_model.feeds.Language],
 ) -> steins_feed_model.feeds.Feed:
-    feed = steins_feed_model.feeds.Feed(
-        title = title,
-        link = link,
-        language = language,
-    )
-    session.add(feed)
-    session.commit()
+    try:
+        feed = steins_feed_model.feeds.Feed(
+            title = title,
+            link = link,
+            language = language,
+        )
+        session.add(feed)
+        session.commit()
+    except sqla_exc.IntegrityError as e:
+        session.rollback()
+        raise e
 
     return feed
 
@@ -71,12 +75,16 @@ def create_tag(
     user_id: int,
     tag_name: str,
 ) -> steins_feed_model.feeds.Tag:
-    tag = steins_feed_model.feeds.Tag(
-        user_id = user_id,
-        name = tag_name,
-    )
-    session.add(tag)
-    session.commit()
+    try:
+        tag = steins_feed_model.feeds.Tag(
+            user_id = user_id,
+            name = tag_name,
+        )
+        session.add(tag)
+        session.commit()
+    except sqla_exc.IntegrityError as e:
+        session.rollback()
+        raise e
 
     return tag
 
