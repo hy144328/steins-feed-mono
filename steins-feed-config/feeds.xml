@@ -102,6 +102,13 @@
     <tag>news</tag>
   </feed>
   <feed>
+    <title>bit-player</title>
+    <link>http://bit-player.org/feed</link>
+    <lang>English</lang>
+    <tag>people</tag>
+    <tag>science</tag>
+  </feed>
+  <feed>
     <title>Bundesministerium für wirtschaftliche Zusammenarbeit und Entwicklung</title>
     <link>https://www.bmz.de/de/feed.rss</link>
     <lang>German</lang>
@@ -280,6 +287,12 @@
     <link>https://www.dailymail.co.uk/video/index.rss</link>
     <lang>English</lang>
     <tag>news</tag>
+  </feed>
+  <feed>
+    <title>Der Postillon</title>
+    <link>https://follow.it/der-postillon2</link>
+    <lang>German</lang>
+    <tag>satire</tag>
   </feed>
   <feed>
     <title>Der Tagesspiegel</title>
@@ -624,10 +637,58 @@
     <tag>magazines</tag>
   </feed>
   <feed>
+    <title>Esquire</title>
+    <link>https://www.esquire.com/rss/default.xml</link>
+    <lang>English</lang>
+    <tag>fashion</tag>
+  </feed>
+  <feed>
+    <title>Esquire Entertainment</title>
+    <link>https://www.esquire.com/rss/entertainment.xml</link>
+    <lang>English</lang>
+    <tag>fashion</tag>
+  </feed>
+  <feed>
+    <title>Esquire Food &amp; Drinks</title>
+    <link>https://www.esquire.com/rss/food-drink.xml</link>
+    <lang>English</lang>
+    <tag>fashion</tag>
+  </feed>
+  <feed>
+    <title>Esquire Lifestyle</title>
+    <link>https://www.esquire.com/rss/lifestyle.xml</link>
+    <lang>English</lang>
+    <tag>fashion</tag>
+  </feed>
+  <feed>
+    <title>Esquire News &amp; Politics</title>
+    <link>https://www.esquire.com/rss/news-politics.xml</link>
+    <lang>English</lang>
+    <tag>fashion</tag>
+  </feed>
+  <feed>
+    <title>Esquire Sports</title>
+    <link>https://www.esquire.com/rss/sports.xml</link>
+    <lang>English</lang>
+    <tag>fashion</tag>
+  </feed>
+  <feed>
+    <title>Esquire Style</title>
+    <link>https://www.esquire.com/rss/style.xml</link>
+    <lang>English</lang>
+    <tag>fashion</tag>
+  </feed>
+  <feed>
     <title>Existential Comics</title>
     <link>http://existentialcomics.com/rss.xml</link>
     <lang>English</lang>
     <tag>comics</tag>
+  </feed>
+  <feed>
+    <title>Five Books</title>
+    <link>https://fivebooks.com/feed/</link>
+    <lang>English</lang>
+    <tag>culture</tag>
   </feed>
   <feed>
     <title>FOCUS</title>
@@ -732,6 +793,13 @@
     <tag>news</tag>
   </feed>
   <feed>
+    <title>Frank Karlitschek</title>
+    <link>http://karlitschek.de/feed/</link>
+    <lang>English</lang>
+    <tag>people</tag>
+    <tag>tech</tag>
+  </feed>
+  <feed>
     <title>Frankfurter Allgemeine Zeitung Feuilleton</title>
     <link>https://www.faz.net/rss/aktuell/feuilleton/</link>
     <lang>German</lang>
@@ -834,6 +902,31 @@
     <tag>activism</tag>
   </feed>
   <feed>
+    <title>John Carlos Baez</title>
+    <link>https://johncarlosbaez.wordpress.com/feed/</link>
+    <lang>English</lang>
+    <tag>people</tag>
+    <tag>science</tag>
+  </feed>
+  <feed>
+    <title>Literary Hub</title>
+    <link>https://lithub.com/feed/</link>
+    <lang>English</lang>
+    <tag>culture</tag>
+  </feed>
+  <feed>
+    <title>London Review of Books</title>
+    <link>https://lrb.co.uk/feeds/rss</link>
+    <lang>English</lang>
+    <tag>culture</tag>
+  </feed>
+  <feed>
+    <title>Longreads</title>
+    <link>https://longreads.com/feed/</link>
+    <lang>English</lang>
+    <tag>culture</tag>
+  </feed>
+  <feed>
     <title>Los Angeles Times Business</title>
     <link>https://www.latimes.com/business/rss2.0.xml</link>
     <lang>English</lang>
@@ -912,6 +1005,20 @@
     <tag>news</tag>
   </feed>
   <feed>
+    <title>Martin Fowler</title>
+    <link>https://martinfowler.com/feed.atom</link>
+    <lang>English</lang>
+    <tag>people</tag>
+    <tag>tech</tag>
+  </feed>
+  <feed>
+    <title>Martin Kleppmann</title>
+    <link>https://feeds.feedburner.com/martinkl</link>
+    <lang>English</lang>
+    <tag>people</tag>
+    <tag>tech</tag>
+  </feed>
+  <feed>
     <title>MIT Technology Review</title>
     <link>https://www.technologyreview.com/feed/</link>
     <lang>English</lang>
@@ -979,6 +1086,12 @@
     <link>https://www.monkeyuser.com/feed.xml</link>
     <lang>English</lang>
     <tag>comics</tag>
+  </feed>
+  <feed>
+    <title>Mr. Money Moustache</title>
+    <link>https://feeds.feedburner.com/mrmoneymustache</link>
+    <lang>English</lang>
+    <tag>people</tag>
   </feed>
   <feed>
     <title>Nate Silver</title>
@@ -1139,6 +1252,12 @@
     <tag>science</tag>
   </feed>
   <feed>
+    <title>NYLON</title>
+    <link>https://www.nylon.com/rss</link>
+    <lang>English</lang>
+    <tag>fashion</tag>
+  </feed>
+  <feed>
     <title>Pirate Wires</title>
     <link>https://www.piratewires.com/api/rss</link>
     <lang>English</lang>
@@ -1223,6 +1342,43 @@
     <tag>magazines</tag>
   </feed>
   <feed>
+    <title>Robert Reich</title>
+    <link>https://robertreich.substack.com/feed</link>
+    <lang>English</lang>
+    <tag>people</tag>
+    <tag>politics</tag>
+  </feed>
+  <feed>
+    <title>Rolling Stone</title>
+    <link>https://www.rollingstone.com/feed/</link>
+    <lang>English</lang>
+    <tag>culture</tag>
+  </feed>
+  <feed>
+    <title>Rolling Stone Culture</title>
+    <link>https://www.rollingstone.com/culture/feed/</link>
+    <lang>English</lang>
+    <tag>culture</tag>
+  </feed>
+  <feed>
+    <title>Rolling Stone Music</title>
+    <link>https://www.rollingstone.com/music/feed/</link>
+    <lang>English</lang>
+    <tag>culture</tag>
+  </feed>
+  <feed>
+    <title>Rolling Stone Politics</title>
+    <link>https://www.rollingstone.com/politics/feed/</link>
+    <lang>English</lang>
+    <tag>culture</tag>
+  </feed>
+  <feed>
+    <title>Rolling Stone TV &amp; Movies</title>
+    <link>https://www.rollingstone.com/tv-movies/feed/</link>
+    <lang>English</lang>
+    <tag>culture</tag>
+  </feed>
+  <feed>
     <title>Salon.com</title>
     <link>https://www.salon.com/feed</link>
     <lang>English</lang>
@@ -1263,6 +1419,13 @@
     <link>https://www.salon.com/category/science-and-health/feed</link>
     <lang>English</lang>
     <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>Schneier on Security</title>
+    <link>https://www.schneier.com/feed/atom/</link>
+    <lang>English</lang>
+    <tag>people</tag>
+    <tag>tech</tag>
   </feed>
   <feed>
     <title>Science</title>
@@ -1335,6 +1498,13 @@
     <link>https://www.semafor.com/rss.xml</link>
     <lang>English</lang>
     <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>Shtetl Optimized</title>
+    <link>https://www.scottaaronson.com/blog/?feed=rss2</link>
+    <lang>English</lang>
+    <tag>people</tag>
+    <tag>science</tag>
   </feed>
   <feed>
     <title>SIAM News</title>
@@ -1461,6 +1631,13 @@
     <link>https://www.spiegel.de/wissenschaft/index.rss</link>
     <lang>German</lang>
     <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>Stephen Wolfram</title>
+    <link>https://writings.stephenwolfram.com/feed/</link>
+    <lang>English</lang>
+    <tag>people</tag>
+    <tag>science</tag>
   </feed>
   <feed>
     <title>Stern</title>
@@ -1719,6 +1896,13 @@
     <link>https://taz.de/!p4644;rss/</link>
     <lang>German</lang>
     <tag>news</tag>
+  </feed>
+  <feed>
+    <title>Terence Tao</title>
+    <link>https://terrytao.wordpress.com/feed/</link>
+    <lang>English</lang>
+    <tag>people</tag>
+    <tag>science</tag>
   </feed>
   <feed>
     <title>The Aspen Institute</title>
@@ -1989,6 +2173,12 @@
     <link>https://theintercept.com/feed/?lang=en</link>
     <lang>English</lang>
     <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>New York Review of Books</title>
+    <link>http://feeds.feedburner.com/nybooks</link>
+    <lang>English</lang>
+    <tag>culture</tag>
   </feed>
   <feed>
     <title>The New York Times</title>
@@ -2309,6 +2499,54 @@
     <tag>magazines</tag>
   </feed>
   <feed>
+    <title>The Onion</title>
+    <link>https://www.theonion.com/feed/</link>
+    <lang>English</lang>
+    <tag>satire</tag>
+  </feed>
+  <feed>
+    <title>The Onion Entertainment</title>
+    <link>https://www.theonion.com/entertainment/feed/</link>
+    <lang>English</lang>
+    <tag>satire</tag>
+  </feed>
+  <feed>
+    <title>The Onion Local</title>
+    <link>https://www.theonion.com/local/feed/</link>
+    <lang>English</lang>
+    <tag>satire</tag>
+  </feed>
+  <feed>
+    <title>The Onion News</title>
+    <link>https://www.theonion.com/news/feed/</link>
+    <lang>English</lang>
+    <tag>satire</tag>
+  </feed>
+  <feed>
+    <title>The Onion Opinion</title>
+    <link>https://www.theonion.com/opinion/feed/</link>
+    <lang>English</lang>
+    <tag>satire</tag>
+  </feed>
+  <feed>
+    <title>The Onion Politics</title>
+    <link>https://www.theonion.com/politics/feed/</link>
+    <lang>English</lang>
+    <tag>satire</tag>
+  </feed>
+  <feed>
+    <title>The Onion Sports</title>
+    <link>https://www.theonion.com/sports/feed/</link>
+    <lang>English</lang>
+    <tag>satire</tag>
+  </feed>
+  <feed>
+    <title>Titanic</title>
+    <link>http://www.titanic-magazin.de/ich.war.bei.der.waffen.rss</link>
+    <lang>German</lang>
+    <tag>satire</tag>
+  </feed>
+  <feed>
     <title>t3n</title>
     <link>https://t3n.de/rss.xml</link>
     <lang>German</lang>
@@ -2387,10 +2625,34 @@
     <tag>tech</tag>
   </feed>
   <feed>
+    <title>Vanity Fair</title>
+    <link>https://www.vanityfair.com/feed/rss</link>
+    <lang>English</lang>
+    <tag>fashion</tag>
+  </feed>
+  <feed>
+    <title>Variety</title>
+    <link>https://variety.com/feed/</link>
+    <lang>English</lang>
+    <tag>culture</tag>
+  </feed>
+  <feed>
     <title>Varsity</title>
     <link>http://feeds.varsity.co.uk/varsity/rss</link>
     <lang>English</lang>
     <tag>cambridge</tag>
+  </feed>
+  <feed>
+    <title>Vogue</title>
+    <link>https://www.vogue.com/feed/rss</link>
+    <lang>English</lang>
+    <tag>fashion</tag>
+  </feed>
+  <feed>
+    <title>Wait But Why</title>
+    <link>https://waitbutwhy.com/feed</link>
+    <lang>English</lang>
+    <tag>people</tag>
   </feed>
   <feed>
     <title>Washington Post Business</title>
