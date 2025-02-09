@@ -1252,6 +1252,13 @@
     <tag>fashion</tag>
   </feed>
   <feed>
+    <title>O'Reilly Radar</title>
+    <link>https://www.oreilly.com/radar/feed/index.xml</link>
+    <lang>English</lang>
+    <tag>company</tag>
+    <tag>tech</tag>
+  </feed>
+  <feed>
     <title>Pirate Wires</title>
     <link>https://www.piratewires.com/api/rss</link>
     <lang>English</lang>
