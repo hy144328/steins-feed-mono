@@ -2218,6 +2218,12 @@
     <tag>news</tag>
   </feed>
   <feed>
+    <title>The Hechinger Report</title>
+    <link>http://feeds.feedburner.com/HechingerReport</link>
+    <lang>English</lang>
+    <tag>education</tag>
+  </feed>
+  <feed>
     <title>The Hill</title>
     <link>https://thehill.com/feed/</link>
     <lang>English</lang>
