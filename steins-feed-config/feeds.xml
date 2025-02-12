@@ -1470,6 +1470,12 @@
     <tag>magazines</tag>
   </feed>
   <feed>
+    <title>Saturday Morning Breakfast Cereal</title>
+    <link>https://www.smbc-comics.com/comic/rss</link>
+    <lang>English</lang>
+    <tag>comics</tag>
+  </feed>
+  <feed>
     <title>Schneier on Security</title>
     <link>https://www.schneier.com/feed/atom/</link>
     <lang>English</lang>
