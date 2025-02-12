@@ -2639,6 +2639,12 @@
     <tag>satire</tag>
   </feed>
   <feed>
+    <title>Thunderbird</title>
+    <link>https://blog.thunderbird.net/feed/</link>
+    <lang>English</lang>
+    <tag>open source</tag>
+  </feed>
+  <feed>
     <title>Titanic</title>
     <link>http://www.titanic-magazin.de/ich.war.bei.der.waffen.rss</link>
     <lang>German</lang>
