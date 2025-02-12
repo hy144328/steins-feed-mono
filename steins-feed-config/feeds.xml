@@ -1682,6 +1682,13 @@
     <tag>magazines</tag>
   </feed>
   <feed>
+    <title>Stack Overflow</title>
+    <link>https://stackoverflow.blog/feed/</link>
+    <lang>English</lang>
+    <tag>companies</tag>
+    <tag>tech</tag>
+  </feed>
+  <feed>
     <title>Stephen Wolfram</title>
     <link>https://writings.stephenwolfram.com/feed/</link>
     <lang>English</lang>
