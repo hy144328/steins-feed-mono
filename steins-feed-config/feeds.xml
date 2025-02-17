@@ -1013,6 +1013,12 @@
     <tag>tech</tag>
   </feed>
   <feed>
+    <title>McKinsey Insights</title>
+    <link>https://www.mckinsey.com/insights/rss</link>
+    <lang>English</lang>
+    <tag>companies</tag>
+  </feed>
+  <feed>
     <title>MIT Technology Review</title>
     <link>https://www.technologyreview.com/feed/</link>
     <lang>English</lang>
