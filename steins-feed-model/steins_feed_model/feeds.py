@@ -8,6 +8,7 @@ from . import base, types, users
 
 class Language(str, enum.Enum):
     ENGLISH = "English"
+    FRENCH = "French"
     GERMAN = "German"
     SWEDISH = "Swedish"
 

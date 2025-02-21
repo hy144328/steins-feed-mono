@@ -34,7 +34,7 @@ export type Item = {
     surprise: (number | null);
 };
 
-export type Language = 'English' | 'German' | 'Swedish';
+export type Language = 'English' | 'French' | 'German' | 'Swedish';
 
 export type LikeStatus = 1 | 0 | -1;
 
