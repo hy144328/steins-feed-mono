@@ -903,6 +903,66 @@
     <tag>science</tag>
   </feed>
   <feed>
+    <title>Le Monde</title>
+    <link>https://www.lemonde.fr/rss/une.xml</link>
+    <lang>French</lang>
+    <tag>news</tag>
+  </feed>
+  <feed>
+    <title>Le Monde Culture</title>
+    <link>https://www.lemonde.fr/culture/rss_full.xml</link>
+    <lang>French</lang>
+    <tag>news</tag>
+  </feed>
+  <feed>
+    <title>Le Monde Economie</title>
+    <link>https://www.lemonde.fr/economie/rss_full.xml</link>
+    <lang>French</lang>
+    <tag>news</tag>
+  </feed>
+  <feed>
+    <title>Le Monde International</title>
+    <link>https://www.lemonde.fr/international/rss_full.xml</link>
+    <lang>French</lang>
+    <tag>news</tag>
+  </feed>
+  <feed>
+    <title>Le Monde Opinions</title>
+    <link>https://www.lemonde.fr/idees/rss_full.xml</link>
+    <lang>French</lang>
+    <tag>news</tag>
+  </feed>
+  <feed>
+    <title>Le Monde Pixels</title>
+    <link>https://www.lemonde.fr/pixels/rss_full.xml</link>
+    <lang>French</lang>
+    <tag>news</tag>
+  </feed>
+  <feed>
+    <title>Le Monde Planète</title>
+    <link>https://www.lemonde.fr/planete/rss_full.xml</link>
+    <lang>French</lang>
+    <tag>news</tag>
+  </feed>
+  <feed>
+    <title>Le Monde Sciences</title>
+    <link>https://www.lemonde.fr/sciences/rss_full.xml</link>
+    <lang>French</lang>
+    <tag>news</tag>
+  </feed>
+  <feed>
+    <title>Le Monde Sport</title>
+    <link>https://www.lemonde.fr/sport/rss_full.xml</link>
+    <lang>French</lang>
+    <tag>news</tag>
+  </feed>
+  <feed>
+    <title>Le Monde -- M Le Mag</title>
+    <link>https://www.lemonde.fr/m-le-mag/rss_full.xml</link>
+    <lang>French</lang>
+    <tag>news</tag>
+  </feed>
+  <feed>
     <title>Literary Hub</title>
     <link>https://lithub.com/feed/</link>
     <lang>English</lang>
