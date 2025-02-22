@@ -1765,6 +1765,12 @@
     <tag>science</tag>
   </feed>
   <feed>
+    <title>Scientific American</title>
+    <link>https://www.scientificamerican.com/platform/syndication/rss/</link>
+    <lang>English</lang>
+    <tag>science</tag>
+  </feed>
+  <feed>
     <title>Semafor</title>
     <link>https://www.semafor.com/rss.xml</link>
     <lang>English</lang>
@@ -1824,6 +1830,42 @@
     <link>https://slate.com/feeds/technology.rss</link>
     <lang>English</lang>
     <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>Smithsonian Magazine</title>
+    <link>https://www.smithsonianmag.com/rss/smart-news/</link>
+    <lang>English</lang>
+    <tag>science</tag>
+  </feed>
+  <feed>
+    <title>Smithsonian Magazine Arts &amp; Culture</title>
+    <link>https://www.smithsonianmag.com/rss/arts-culture/</link>
+    <lang>English</lang>
+    <tag>science</tag>
+  </feed>
+  <feed>
+    <title>Smithsonian Magazine History</title>
+    <link>https://www.smithsonianmag.com/rss/history/</link>
+    <lang>English</lang>
+    <tag>science</tag>
+  </feed>
+  <feed>
+    <title>Smithsonian Magazine Innovation</title>
+    <link>https://www.smithsonianmag.com/rss/innovation/</link>
+    <lang>English</lang>
+    <tag>science</tag>
+  </feed>
+  <feed>
+    <title>Smithsonian Magazine Science</title>
+    <link>https://www.smithsonianmag.com/rss/science-nature/</link>
+    <lang>English</lang>
+    <tag>science</tag>
+  </feed>
+  <feed>
+    <title>Smithsonian Magazine Travel</title>
+    <link>https://www.smithsonianmag.com/rss/travel/</link>
+    <lang>English</lang>
+    <tag>science</tag>
   </feed>
   <feed>
     <title>Spektrum der Wissenschaft</title>
@@ -3047,7 +3089,7 @@
     <tag>news</tag>
   </feed>
   <feed>
-    <title>Wikimedia</title>
+    <title>Wikimedia Foundation</title>
     <link>https://wikimediafoundation.org/feed/</link>
     <lang>English</lang>
     <tag>activism</tag>
