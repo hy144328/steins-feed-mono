@@ -1,5 +1,11 @@
 <root>
   <feed>
+    <title>addy.io</title>
+    <link>https://addy.io/blog/feed.atom</link>
+    <lang>English</lang>
+    <tag>open source</tag>
+  </feed>
+  <feed>
     <title>Aeon.co</title>
     <link>https://aeon.co/feed.rss</link>
     <lang>English</lang>
@@ -799,17 +805,17 @@
     <tag>magazines</tag>
   </feed>
   <feed>
-    <title>Frankfurter Allgemeine Zeitung</title>
-    <link>https://www.faz.net/rss/aktuell/</link>
-    <lang>German</lang>
-    <tag>news</tag>
-  </feed>
-  <feed>
     <title>Frank Karlitschek</title>
     <link>http://karlitschek.de/feed/</link>
     <lang>English</lang>
     <tag>people</tag>
     <tag>tech</tag>
+  </feed>
+  <feed>
+    <title>Frankfurter Allgemeine Zeitung</title>
+    <link>https://www.faz.net/rss/aktuell/</link>
+    <lang>German</lang>
+    <tag>news</tag>
   </feed>
   <feed>
     <title>Frankfurter Allgemeine Zeitung Feuilleton</title>
@@ -888,6 +894,20 @@
     <link>https://fyfluiddynamics.com/feed/</link>
     <lang>English</lang>
     <tag>science</tag>
+  </feed>
+  <feed>
+    <title>GitHub</title>
+    <link>https://github.blog/feed/</link>
+    <lang>English</lang>
+    <tag>companies</tag>
+    <tag>tech</tag>
+  </feed>
+  <feed>
+    <title>GitLab</title>
+    <link>https://about.gitlab.com/atom.xml</link>
+    <lang>English</lang>
+    <tag>companies</tag>
+    <tag>tech</tag>
   </feed>
   <feed>
     <title>Global Citizen</title>
@@ -1348,6 +1368,12 @@
     <tag>science</tag>
   </feed>
   <feed>
+    <title>Nieman Lab</title>
+    <link>https://www.niemanlab.org/feed/</link>
+    <lang>English</lang>
+    <tag>activism</tag>
+  </feed>
+  <feed>
     <title>NYLON</title>
     <link>https://www.nylon.com/rss</link>
     <lang>English</lang>
@@ -1377,6 +1403,12 @@
     <lang>English</lang>
     <tag>companies</tag>
     <tag>tech</tag>
+  </feed>
+  <feed>
+    <title>Pew Research Center</title>
+    <link>https://www.pewresearch.org/feed/</link>
+    <lang>English</lang>
+    <tag>activism</tag>
   </feed>
   <feed>
     <title>Pirate Wires</title>
