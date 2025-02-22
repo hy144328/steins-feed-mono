@@ -2160,6 +2160,12 @@
     <tag>magazines</tag>
   </feed>
   <feed>
+    <title>Smashing Magazine</title>
+    <link>https://www.smashingmagazine.com/feed/</link>
+    <lang>English</lang>
+    <tag>tech</tag>
+  </feed>
+  <feed>
     <title>Smithsonian Magazine</title>
     <link>https://www.smithsonianmag.com/rss/smart-news/</link>
     <lang>English</lang>
