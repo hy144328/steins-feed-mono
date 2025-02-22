@@ -228,7 +228,6 @@
     <link>https://creativecommons.org/feed/</link>
     <lang>English</lang>
     <tag>activism</tag>
-    <tag>education</tag>
   </feed>
   <feed>
     <title>Dagens Industri</title>
@@ -1449,14 +1448,12 @@
     <link>https://okfn.de/blog/atom.xml</link>
     <lang>German</lang>
     <tag>activism</tag>
-    <tag>education</tag>
   </feed>
   <feed>
     <title>Open Knowledge Foundation</title>
     <link>https://blog.okfn.org/feed/</link>
     <lang>English</lang>
     <tag>activism</tag>
-    <tag>education</tag>
   </feed>
   <feed>
     <title>O'Reilly Radar</title>
@@ -3048,6 +3045,12 @@
     <link>http://feeds.washingtonpost.com/rss/world</link>
     <lang>English</lang>
     <tag>news</tag>
+  </feed>
+  <feed>
+    <title>Wikimedia</title>
+    <link>https://wikimediafoundation.org/feed/</link>
+    <lang>English</lang>
+    <tag>activism</tag>
   </feed>
   <feed>
     <title>WIRED</title>
