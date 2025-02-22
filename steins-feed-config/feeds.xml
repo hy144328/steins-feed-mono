@@ -199,6 +199,78 @@
     <tag>education</tag>
   </feed>
   <feed>
+    <title>Business Insider Karriere</title>
+    <link>https://www.businessinsider.de/karriere/feed/</link>
+    <lang>German</lang>
+    <tag>business</tag>
+  </feed>
+  <feed>
+    <title>Business Insider Leben</title>
+    <link>https://www.businessinsider.de/leben/feed/</link>
+    <lang>German</lang>
+    <tag>business</tag>
+  </feed>
+  <feed>
+    <title>Business Insider Panorama</title>
+    <link>https://www.businessinsider.de/panorama/feed/</link>
+    <lang>German</lang>
+    <tag>business</tag>
+  </feed>
+  <feed>
+    <title>Business Insider Politik</title>
+    <link>https://www.businessinsider.de/politik/feed/</link>
+    <lang>German</lang>
+    <tag>business</tag>
+  </feed>
+  <feed>
+    <title>Business Insider Tech</title>
+    <link>https://www.businessinsider.de/tech/feed/</link>
+    <lang>German</lang>
+    <tag>business</tag>
+  </feed>
+  <feed>
+    <title>Business Insider Wirtschaft</title>
+    <link>https://www.businessinsider.de/wirtschaft/feed/</link>
+    <lang>German</lang>
+    <tag>business</tag>
+  </feed>
+  <feed>
+    <title>Business Insider Wissenschaft</title>
+    <link>https://www.businessinsider.de/wissenschaft/feed/</link>
+    <lang>German</lang>
+    <tag>business</tag>
+  </feed>
+  <feed>
+    <title>Capital.de</title>
+    <link>https://www.capital.de/feed/standard/</link>
+    <lang>German</lang>
+  </feed>
+  <feed>
+    <title>Capital.de Geld &amp; Versicherungen</title>
+    <link>https://www.capital.de/feed/standard/geld-versicherungen/</link>
+    <lang>German</lang>
+  </feed>
+  <feed>
+    <title>Capital.de Immobilien</title>
+    <link>https://www.capital.de/feed/standard/immobilien/</link>
+    <lang>German</lang>
+  </feed>
+  <feed>
+    <title>Capital.de Karriere</title>
+    <link>https://www.capital.de/feed/standard/karriere/</link>
+    <lang>German</lang>
+  </feed>
+  <feed>
+    <title>Capital.de Leben</title>
+    <link>https://www.capital.de/feed/standard/leben/</link>
+    <lang>German</lang>
+  </feed>
+  <feed>
+    <title>Capital.de Politik &amp; Wirtschaft</title>
+    <link>https://www.capital.de/feed/standard/wirtschaft-politik/</link>
+    <lang>German</lang>
+  </feed>
+  <feed>
     <title>Chalkdust</title>
     <link>http://chalkdustmagazine.com/feed/</link>
     <lang>English</lang>
@@ -761,6 +833,90 @@
     <tag>open source</tag>
   </feed>
   <feed>
+    <title>Financial Times</title>
+    <link>https://www.ft.com/?format=rss</link>
+    <lang>English</lang>
+    <tag>business</tag>
+    <tag>news</tag>
+  </feed>
+  <feed>
+    <title>Financial Times Climate</title>
+    <link>https://www.ft.com/climate-capital?format=rss</link>
+    <lang>English</lang>
+    <tag>business</tag>
+    <tag>news</tag>
+  </feed>
+  <feed>
+    <title>Financial Times Companies</title>
+    <link>https://www.ft.com/companies?format=rss</link>
+    <lang>English</lang>
+    <tag>business</tag>
+    <tag>news</tag>
+  </feed>
+  <feed>
+    <title>Financial Times Lex</title>
+    <link>https://www.ft.com/lex?format=rss</link>
+    <lang>English</lang>
+    <tag>business</tag>
+    <tag>news</tag>
+  </feed>
+  <feed>
+    <title>Financial Times Life &amp; Arts</title>
+    <link>https://www.ft.com/life-arts?format=rss</link>
+    <lang>English</lang>
+    <tag>business</tag>
+    <tag>news</tag>
+  </feed>
+  <feed>
+    <title>Financial Times Markets</title>
+    <link>https://www.ft.com/markets?format=rss</link>
+    <lang>English</lang>
+    <tag>business</tag>
+    <tag>news</tag>
+  </feed>
+  <feed>
+    <title>Financial Times Opinion</title>
+    <link>https://www.ft.com/opinion?format=rss</link>
+    <lang>English</lang>
+    <tag>business</tag>
+    <tag>news</tag>
+  </feed>
+  <feed>
+    <title>Financial Times Tech</title>
+    <link>https://www.ft.com/technology?format=rss</link>
+    <lang>English</lang>
+    <tag>business</tag>
+    <tag>news</tag>
+  </feed>
+  <feed>
+    <title>Financial Times US</title>
+    <link>https://www.ft.com/us?format=rss</link>
+    <lang>English</lang>
+    <tag>business</tag>
+    <tag>news</tag>
+  </feed>
+  <feed>
+    <title>Financial Times Work &amp; Careers</title>
+    <link>https://www.ft.com/work-careers?format=rss</link>
+    <lang>English</lang>
+    <tag>business</tag>
+    <tag>news</tag>
+  </feed>
+  <feed>
+    <title>Financial Times World</title>
+    <link>https://www.ft.com/world?format=rss</link>
+    <lang>English</lang>
+    <tag>business</tag>
+    <tag>news</tag>
+  </feed>
+  <feed>
+    <title>Financial Times -- How To Spend It</title>
+    <link>https://www.ft.com/?format=rss</link>
+    <lang>English</lang>
+    <tag>business</tag>
+    <tag>news</tag>
+  </feed>
+  <feed>
     <title>Five Books</title>
     <link>https://fivebooks.com/feed/</link>
     <lang>English</lang>
@@ -1007,6 +1163,67 @@
     <tag>companies</tag>
   </feed>
   <feed>
+    <title>Gründerszene</title>
+    <link>https://www.businessinsider.de/gruenderszene/feed/</link>
+    <lang>German</lang>
+    <tag>business</tag>
+  </feed>
+  <feed>
+    <title>Handelsblatt</title>
+    <link>http://www.handelsblatt.com/contentexport/feed/top-themen</link>
+    <lang>German</lang>
+    <tag>business</tag>
+    <tag>news</tag>
+  </feed>
+  <feed>
+    <title>Handelsblatt Arts &amp; Style</title>
+    <link>http://www.handelsblatt.com/contentexport/feed/panorama</link>
+    <lang>German</lang>
+    <tag>business</tag>
+    <tag>news</tag>
+  </feed>
+  <feed>
+    <title>Handelsblatt Finanzen</title>
+    <link>http://www.handelsblatt.com/contentexport/feed/finanzen</link>
+    <lang>German</lang>
+    <tag>business</tag>
+    <tag>news</tag>
+  </feed>
+  <feed>
+    <title>Handelsblatt Marktberichte</title>
+    <link>http://www.handelsblatt.com/contentexport/feed/marktberichte</link>
+    <lang>German</lang>
+    <tag>business</tag>
+    <tag>news</tag>
+  </feed>
+  <feed>
+    <title>Handelsblatt Politik</title>
+    <link>http://www.handelsblatt.com/contentexport/feed/politik</link>
+    <lang>German</lang>
+    <tag>business</tag>
+    <tag>news</tag>
+  </feed>
+  <feed>
+    <title>Handelsblatt Technik</title>
+    <link>http://www.handelsblatt.com/contentexport/feed/technologie</link>
+    <lang>German</lang>
+    <tag>business</tag>
+    <tag>news</tag>
+  </feed>
+  <feed>
+    <title>Handelsblatt Unternehmen</title>
+    <link>http://www.handelsblatt.com/contentexport/feed/unternehmen</link>
+    <lang>German</lang>
+    <tag>business</tag>
+    <tag>news</tag>
+  </feed>
+  <feed>
+    <title>Harvard Business Review</title>
+    <link>http://feeds.harvardbusiness.org/harvardbusiness/</link>
+    <lang>English</lang>
+    <tag>business</tag>
+  </feed>
+  <feed>
     <title>Inc.com</title>
     <link>https://www.inc.com/rss/</link>
     <lang>English</lang>
@@ -1204,6 +1421,36 @@
     <link>https://www.latimes.com/world-nation/rss2.0.xml</link>
     <lang>English</lang>
     <tag>news</tag>
+  </feed>
+  <feed>
+    <title>manager magazin</title>
+    <link>https://www.manager-magazin.de/news/index.rss</link>
+    <lang>German</lang>
+    <tag>business</tag>
+  </feed>
+  <feed>
+    <title>manager magazin Finanzen</title>
+    <link>https://www.manager-magazin.de/finanzen/index.rss</link>
+    <lang>German</lang>
+    <tag>business</tag>
+  </feed>
+  <feed>
+    <title>manager magazin Lifestyle</title>
+    <link>https://www.manager-magazin.de/lifestyle/index.rss</link>
+    <lang>German</lang>
+    <tag>business</tag>
+  </feed>
+  <feed>
+    <title>manager magazin Politik</title>
+    <link>https://www.manager-magazin.de/politik/index.rss</link>
+    <lang>German</lang>
+    <tag>business</tag>
+  </feed>
+  <feed>
+    <title>manager magazin Unternehmen</title>
+    <link>https://www.manager-magazin.de/unternehmen/index.rss</link>
+    <lang>German</lang>
+    <tag>business</tag>
   </feed>
   <feed>
     <title>Martin Fowler</title>
@@ -3086,6 +3333,111 @@
     <tag>satire</tag>
   </feed>
   <feed>
+    <title>The Wall Street Journal Arts</title>
+    <link>https://feeds.content.dowjones.io/public/rss/RSSArtsCulture</link>
+    <lang>English</lang>
+    <tag>business</tag>
+    <tag>news</tag>
+  </feed>
+  <feed>
+    <title>The Wall Street Journal Business</title>
+    <link>https://feeds.content.dowjones.io/public/rss/WSJcomUSBusiness</link>
+    <lang>English</lang>
+    <tag>business</tag>
+    <tag>news</tag>
+  </feed>
+  <feed>
+    <title>The Wall Street Journal Economy</title>
+    <link>https://feeds.content.dowjones.io/public/rss/socialeconomyfeed</link>
+    <lang>English</lang>
+    <tag>business</tag>
+    <tag>news</tag>
+  </feed>
+  <feed>
+    <title>The Wall Street Journal Health</title>
+    <link>https://feeds.content.dowjones.io/public/rss/socialhealth</link>
+    <lang>English</lang>
+    <tag>business</tag>
+    <tag>news</tag>
+  </feed>
+  <feed>
+    <title>The Wall Street Journal Lifestyle</title>
+    <link>https://feeds.content.dowjones.io/public/rss/RSSLifestyle</link>
+    <lang>English</lang>
+    <tag>business</tag>
+    <tag>news</tag>
+  </feed>
+  <feed>
+    <title>The Wall Street Journal Markets &amp; Finance</title>
+    <link>https://feeds.content.dowjones.io/public/rss/RSSMarketsMain</link>
+    <lang>English</lang>
+    <tag>business</tag>
+    <tag>news</tag>
+  </feed>
+  <feed>
+    <title>The Wall Street Journal Opinion</title>
+    <link>https://feeds.content.dowjones.io/public/rss/RSSOpinion</link>
+    <lang>English</lang>
+    <tag>business</tag>
+    <tag>news</tag>
+  </feed>
+  <feed>
+    <title>The Wall Street Journal Personal Finance</title>
+    <link>https://feeds.content.dowjones.io/public/rss/RSSPersonalFinance</link>
+    <lang>English</lang>
+    <tag>business</tag>
+    <tag>news</tag>
+  </feed>
+  <feed>
+    <title>The Wall Street Journal Politics</title>
+    <link>https://feeds.content.dowjones.io/public/rss/socialpoliticsfeed</link>
+    <lang>English</lang>
+    <tag>business</tag>
+    <tag>news</tag>
+  </feed>
+  <feed>
+    <title>The Wall Street Journal Real Estate</title>
+    <link>https://feeds.content.dowjones.io/public/rss/latestnewsrealestate</link>
+    <lang>English</lang>
+    <tag>business</tag>
+    <tag>news</tag>
+  </feed>
+  <feed>
+    <title>The Wall Street Journal Sports</title>
+    <link>https://feeds.content.dowjones.io/public/rss/rsssportsfeed</link>
+    <lang>English</lang>
+    <tag>business</tag>
+    <tag>news</tag>
+  </feed>
+  <feed>
+    <title>The Wall Street Journal Style</title>
+    <link>https://feeds.content.dowjones.io/public/rss/RSSStyle</link>
+    <lang>English</lang>
+    <tag>business</tag>
+    <tag>news</tag>
+  </feed>
+  <feed>
+    <title>The Wall Street Journal Tech</title>
+    <link>https://feeds.content.dowjones.io/public/rss/RSSWSJD</link>
+    <lang>English</lang>
+    <tag>business</tag>
+    <tag>news</tag>
+  </feed>
+  <feed>
+    <title>The Wall Street Journal US</title>
+    <link>https://feeds.content.dowjones.io/public/rss/RSSUSnews</link>
+    <lang>English</lang>
+    <tag>business</tag>
+    <tag>news</tag>
+  </feed>
+  <feed>
+    <title>The Wall Street Journal World</title>
+    <link>https://feeds.content.dowjones.io/public/rss/RSSWorldNews</link>
+    <lang>English</lang>
+    <tag>business</tag>
+    <tag>news</tag>
+  </feed>
+  <feed>
     <title>Thunderbird</title>
     <link>https://blog.thunderbird.net/feed/</link>
     <lang>English</lang>
@@ -3339,6 +3691,48 @@
     <lang>English</lang>
     <tag>magazines</tag>
     <tag>tech</tag>
+  </feed>
+  <feed>
+    <title>WirtschaftsWoche</title>
+    <link>https://www.wiwo.de/contentexport/feed/rss/schlagzeilen</link>
+    <lang>German</lang>
+    <tag>business</tag>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>WirtschaftsWoche Erfolg</title>
+    <link>https://www.wiwo.de/contentexport/feed/rss/erfolg</link>
+    <lang>German</lang>
+    <tag>business</tag>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>WirtschaftsWoche Finanzen</title>
+    <link>https://www.wiwo.de/contentexport/feed/rss/finanzen</link>
+    <lang>German</lang>
+    <tag>business</tag>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>WirtschaftsWoche Politik</title>
+    <link>https://www.wiwo.de/contentexport/feed/rss/politik</link>
+    <lang>German</lang>
+    <tag>business</tag>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>WirtschaftsWoche Technologie</title>
+    <link>https://www.wiwo.de/contentexport/feed/rss/technologie</link>
+    <lang>German</lang>
+    <tag>business</tag>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>WirtschaftsWoche Unternehmen</title>
+    <link>https://www.wiwo.de/contentexport/feed/rss/unternehmen</link>
+    <lang>German</lang>
+    <tag>business</tag>
+    <tag>magazines</tag>
   </feed>
   <feed>
     <title>XKCD</title>
