@@ -205,10 +205,30 @@
     <tag>science</tag>
   </feed>
   <feed>
+    <title>Chaos Computer Club</title>
+    <link>https://www.ccc.de/de/rss/updates.xml</link>
+    <lang>German</lang>
+    <tag>activism</tag>
+    <tag>tech</tag>
+  </feed>
+  <feed>
+    <title>Code for Germany</title>
+    <link>https://www.codefor.de/feed.xml</link>
+    <lang>German</lang>
+    <tag>education</tag>
+  </feed>
+  <feed>
     <title>Corren</title>
     <link>https://www.corren.se/nyheter/rss/</link>
     <lang>Swedish</lang>
     <tag>news</tag>
+  </feed>
+  <feed>
+    <title>Creative Commons</title>
+    <link>https://creativecommons.org/feed/</link>
+    <lang>English</lang>
+    <tag>activism</tag>
+    <tag>education</tag>
   </feed>
   <feed>
     <title>Dagens Industri</title>
@@ -637,6 +657,12 @@
     <tag>news</tag>
   </feed>
   <feed>
+    <title>Digitale Gesellschaft</title>
+    <link>https://digitalegesellschaft.de/feed/</link>
+    <lang>German</lang>
+    <tag>activism</tag>
+  </feed>
+  <feed>
     <title>eBildungslabor</title>
     <link>https://ebildungslabor.de/feed/</link>
     <lang>German</lang>
@@ -653,6 +679,13 @@
     <link>https://www.edge.org/feed</link>
     <lang>English</lang>
     <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>Electronic Frontier Foundation</title>
+    <link>https://www.eff.org/rss/updates.xml</link>
+    <lang>English</lang>
+    <tag>activism</tag>
+    <tag>tech</tag>
   </feed>
   <feed>
     <title>Esquire</title>
@@ -695,6 +728,12 @@
     <link>https://www.esquire.com/rss/style.xml</link>
     <lang>English</lang>
     <tag>fashion</tag>
+  </feed>
+  <feed>
+    <title>EU Code Week</title>
+    <link>https://blog.codeweek.eu/rss</link>
+    <lang>English</lang>
+    <tag>education</tag>
   </feed>
   <feed>
     <title>Existential Comics</title>
@@ -888,6 +927,26 @@
     <link>https://www.faz.net/rss/aktuell/wissen/</link>
     <lang>German</lang>
     <tag>news</tag>
+  </feed>
+  <feed>
+    <title>Free Software Foundation</title>
+    <link>https://www.fsf.org/static/fsforg/rss/news.xml</link>
+    <lang>English</lang>
+    <tag>activism</tag>
+    <tag>tech</tag>
+  </feed>
+  <feed>
+    <title>Free Software Foundation Europe</title>
+    <link>https://fsfe.org/news/news.en.rss</link>
+    <lang>English</lang>
+    <tag>activism</tag>
+    <tag>tech</tag>
+  </feed>
+  <feed>
+    <title>Freedom of the Press Foundation</title>
+    <link>https://freedom.press/issues/feed/</link>
+    <lang>English</lang>
+    <tag>activism</tag>
   </feed>
   <feed>
     <title>FY Fluid Dynamics</title>
@@ -1389,12 +1448,14 @@
     <title>Open Knowledge Foundation Deutschland</title>
     <link>https://okfn.de/blog/atom.xml</link>
     <lang>German</lang>
+    <tag>activism</tag>
     <tag>education</tag>
   </feed>
   <feed>
     <title>Open Knowledge Foundation</title>
     <link>https://blog.okfn.org/feed/</link>
     <lang>English</lang>
+    <tag>activism</tag>
     <tag>education</tag>
   </feed>
   <feed>
@@ -1415,6 +1476,12 @@
     <link>https://www.piratewires.com/api/rss</link>
     <lang>English</lang>
     <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>Planet Schule</title>
+    <link>https://www.planet-schule.de/~rss/index.xml</link>
+    <lang>German</lang>
+    <tag>education</tag>
   </feed>
   <feed>
     <title>Politico</title>
