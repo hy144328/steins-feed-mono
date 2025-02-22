@@ -187,6 +187,12 @@
     <tag>news</tag>
   </feed>
   <feed>
+    <title>Bündnis Freie Bildung</title>
+    <link>http://buendnis-freie-bildung.de/feed/</link>
+    <lang>German</lang>
+    <tag>education</tag>
+  </feed>
+  <feed>
     <title>Chalkdust</title>
     <link>http://chalkdustmagazine.com/feed/</link>
     <lang>English</lang>
@@ -625,6 +631,18 @@
     <tag>news</tag>
   </feed>
   <feed>
+    <title>eBildungslabor</title>
+    <link>https://ebildungslabor.de/feed/</link>
+    <lang>German</lang>
+    <tag>education</tag>
+  </feed>
+  <feed>
+    <title>edu-sharing.net</title>
+    <link>https://edu-sharing-network.org/feed/</link>
+    <lang>German</lang>
+    <tag>education</tag>
+  </feed>
+  <feed>
     <title>Edge.org</title>
     <link>https://www.edge.org/feed</link>
     <lang>English</lang>
@@ -903,6 +921,18 @@
     <tag>science</tag>
   </feed>
   <feed>
+    <title>Jöran und Konsorten</title>
+    <link>https://www.joeran.de/feed/</link>
+    <lang>German</lang>
+    <tag>education</tag>
+  </feed>
+  <feed>
+    <title>learninglab</title>
+    <link>https://www.learninglab.de/feed/</link>
+    <lang>German</lang>
+    <tag>education</tag>
+  </feed>
+  <feed>
     <title>Le Monde</title>
     <link>https://www.lemonde.fr/rss/une.xml</link>
     <lang>French</lang>
@@ -1077,6 +1107,12 @@
     <link>https://www.mckinsey.com/insights/rss</link>
     <lang>English</lang>
     <tag>companies</tag>
+  </feed>
+  <feed>
+    <title>Mediale Pfade</title>
+    <link>https://medialepfade.org/feed/</link>
+    <lang>German</lang>
+    <tag>education</tag>
   </feed>
   <feed>
     <title>MIT Technology Review</title>
@@ -1316,6 +1352,24 @@
     <link>https://www.nylon.com/rss</link>
     <lang>English</lang>
     <tag>fashion</tag>
+  </feed>
+  <feed>
+    <title>OERinfo</title>
+    <link>https://open-educational-resources.de/feed/</link>
+    <lang>German</lang>
+    <tag>education</tag>
+  </feed>
+  <feed>
+    <title>Open Knowledge Foundation Deutschland</title>
+    <link>https://okfn.de/blog/atom.xml</link>
+    <lang>German</lang>
+    <tag>education</tag>
+  </feed>
+  <feed>
+    <title>Open Knowledge Foundation</title>
+    <link>https://blog.okfn.org/feed/</link>
+    <lang>English</lang>
+    <tag>education</tag>
   </feed>
   <feed>
     <title>O'Reilly Radar</title>
@@ -2723,6 +2777,12 @@
     <tag>satire</tag>
   </feed>
   <feed>
+    <title>twillo</title>
+    <link>https://www.twillo.de/oer/web/feed/</link>
+    <lang>German</lang>
+    <tag>education</tag>
+  </feed>
+  <feed>
     <title>t3n</title>
     <link>https://t3n.de/rss.xml</link>
     <lang>German</lang>
@@ -2958,5 +3018,11 @@
     <link>https://www.xkcd.com/rss.xml</link>
     <lang>English</lang>
     <tag>comics</tag>
+  </feed>
+  <feed>
+    <title>Zentrale für Unterrichtsmedien im Internet e.V.</title>
+    <link>https://www.zum.de/portal/feed/</link>
+    <lang>German</lang>
+    <tag>education</tag>
   </feed>
 </root>
