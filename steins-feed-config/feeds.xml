@@ -741,6 +741,26 @@
     <tag>comics</tag>
   </feed>
   <feed>
+    <title>Facebook</title>
+    <link>https://about.fb.com/news/feed/</link>
+    <lang>English</lang>
+    <tag>companies</tag>
+    <tag>tech</tag>
+  </feed>
+  <feed>
+    <title>Factorio</title>
+    <link>https://www.factorio.com/blog/rss</link>
+    <lang>English</lang>
+    <tag>companies</tag>
+  </feed>
+  <feed>
+    <title>Fairphone Blog</title>
+    <link>https://www.fairphone.com/en/feed/</link>
+    <lang>English</lang>
+    <tag>companies</tag>
+    <tag>open source</tag>
+  </feed>
+  <feed>
     <title>Five Books</title>
     <link>https://fivebooks.com/feed/</link>
     <lang>English</lang>
@@ -974,6 +994,19 @@
     <tag>activism</tag>
   </feed>
   <feed>
+    <title>Google</title>
+    <link>https://www.blog.google/rss/</link>
+    <lang>English</lang>
+    <tag>companies</tag>
+    <tag>tech</tag>
+  </feed>
+  <feed>
+    <title>Google DeepMind</title>
+    <link>https://deepmind.google/blog/rss.xml</link>
+    <lang>English</lang>
+    <tag>companies</tag>
+  </feed>
+  <feed>
     <title>Inc.com</title>
     <link>https://www.inc.com/rss/</link>
     <lang>English</lang>
@@ -1069,6 +1102,12 @@
     <link>https://www.lemonde.fr/m-le-mag/rss_full.xml</link>
     <lang>French</lang>
     <tag>news</tag>
+  </feed>
+  <feed>
+    <title>LineageOS</title>
+    <link>https://www.lineageos.org/feed.xml</link>
+    <lang>English</lang>
+    <tag>open source</tag>
   </feed>
   <feed>
     <title>Literary Hub</title>
@@ -1193,6 +1232,13 @@
     <tag>education</tag>
   </feed>
   <feed>
+    <title>Microsoft</title>
+    <link>https://blogs.microsoft.com/feed/</link>
+    <lang>English</lang>
+    <tag>companies</tag>
+    <tag>tech</tag>
+  </feed>
+  <feed>
     <title>MIT Technology Review</title>
     <link>https://www.technologyreview.com/feed/</link>
     <lang>English</lang>
@@ -1260,6 +1306,15 @@
     <link>https://www.monkeyuser.com/feed.xml</link>
     <lang>English</lang>
     <tag>comics</tag>
+  </feed>
+  <feed>
+    <title>Mozilla</title>
+    <link>https://blog.mozilla.org/feed/</link>
+    <lang>English</lang>
+    <tag>activism</tag>
+    <tag>companies</tag>
+    <tag>open source</tag>
+    <tag>tech</tag>
   </feed>
   <feed>
     <title>Mr. Money Moustache</title>
@@ -1426,6 +1481,13 @@
     <tag>science</tag>
   </feed>
   <feed>
+    <title>Nextcloud</title>
+    <link>https://nextcloud.com/blogfeed</link>
+    <lang>English</lang>
+    <tag>companies</tag>
+    <tag>open source</tag>
+  </feed>
+  <feed>
     <title>Nieman Lab</title>
     <link>https://www.niemanlab.org/feed/</link>
     <lang>English</lang>
@@ -1529,6 +1591,12 @@
     <tag>politics</tag>
   </feed>
   <feed>
+    <title>Pornhub Insights</title>
+    <link>https://pornhub.com/insights/feed/</link>
+    <lang>English</lang>
+    <tag>companies</tag>
+  </feed>
+  <feed>
     <title>Quanta Magazine</title>
     <link>https://www.quantamagazine.org/feed/</link>
     <lang>English</lang>
@@ -1599,6 +1667,13 @@
     <link>https://quillette.com/tag/science-tech/rss/</link>
     <lang>English</lang>
     <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>Raspberry Pi</title>
+    <link>https://www.raspberrypi.org/blog/feed/</link>
+    <lang>English</lang>
+    <tag>companies</tag>
+    <tag>open source</tag>
   </feed>
   <feed>
     <title>Reason Magazine</title>
@@ -1788,6 +1863,12 @@
     <link>https://www.siam.org/rss-feed/siam-news/current-issue</link>
     <lang>English</lang>
     <tag>science</tag>
+  </feed>
+  <feed>
+    <title>Signal</title>
+    <link>https://signal.org/blog/rss.xml</link>
+    <lang>English</lang>
+    <tag>open source</tag>
   </feed>
   <feed>
     <title>Slate</title>
