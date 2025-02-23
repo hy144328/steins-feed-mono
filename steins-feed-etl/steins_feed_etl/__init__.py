@@ -121,11 +121,6 @@ async def write_items(
 
     session.commit()
 
-@tenacity.retry(
-    retry=tenacity.retry_if_exception_type(aiohttp.ClientResponseError),
-    stop=tenacity.stop_after_attempt(3),
-    wait=tenacity.wait_exponential(),
-)
 async def read_feed(
     client: aiohttp.ClientSession,
     q_items: asyncio.Queue,
@@ -133,37 +128,54 @@ async def read_feed(
     task_done: typing.Callable[[], None],
 ):
     try:
-        async with client.get(feed.link) as resp:
-            status = resp.status
+        async for attempt_it in tenacity.AsyncRetrying(
+            retry=tenacity.retry_if_exception_type(aiohttp.ClientError),
+            stop=tenacity.stop_after_attempt(3),
+            wait=tenacity.wait_exponential(),
+        ):
+            with attempt_it:
+                try:
+                    async with client.get(feed.link) as resp:
+                        status = resp.status
 
-            if status < 300:
-                logger.info(f"{feed.title} -- {status}.")
-            elif status < 400:  # pragma: no cover
-                logger.warning(f"{feed.title} -- {status}.")
-            elif status == 429:     # pragma: no cover
-                logger.warning(f"{feed.title} -- {status}.")
-                resp.raise_for_status()
-            else:   # pragma: no cover
-                logger.error(f"{feed.title} -- {status}.")
-                resp.raise_for_status()
+                        if status < 300:
+                            logger.info(f"{feed.title} -- {status}.")
+                        elif status < 400:  # pragma: no cover
+                            logger.warning(f"{feed.title} -- {status}.")
+                        elif status == 429:     # pragma: no cover
+                            logger.warning(f"{feed.title} -- {status}.")
+                            resp.raise_for_status()
+                        else:   # pragma: no cover
+                            logger.error(f"{feed.title} -- {status}.")
+                            resp.raise_for_status()
 
-            text = await resp.text()
+                        text = await resp.text()
 
-        res = feedparser.parse(text)
-        logger.info(f"{len(res.entries)} items from {feed.title} total.")
+                    res = feedparser.parse(text)
+                    logger.info(f"{len(res.entries)} items from {feed.title} total.")
 
-        for entry_it in res.entries:
-            try:
-                item_it = read_item(entry_it, feed)
-                await q_items.put(item_it)
-            except AttributeError:  # pragma: no cover
-                logger.error(f"Skip item from {feed.title}:\n{entry_it}")
+                    for entry_it in res.entries:
+                        try:
+                            item_it = read_item(entry_it, feed)
+                            await q_items.put(item_it)
+                        except AttributeError:  # pragma: no cover
+                            logger.error(f"Skip item from {feed.title}:\n{entry_it}")
 
-        logger.info(f"{len(res.entries)} valid items from {feed.title}.")
-    except aiohttp.ClientResponseError as e:    # pragma: no cover
-        logger.error(f"No items from {feed.title}.\n{e}")
-    finally:
-        task_done()
+                    logger.info(f"{len(res.entries)} valid items from {feed.title}.")
+                except aiohttp.ClientResponseError as e:    # pragma: no cover
+                    logger.error(f"No items from {feed.title}.\n{e}")
+                except aiohttp.ConnectionTimeoutError as e: # pragma: no cover
+                    logger.warning(f"Too slow for {feed.title}.\n{e}")
+                    raise e
+                except aiohttp.ClientConnectorCertificateError as e:    # pragma: no cover
+                    logger.error(f"Bad certificate for {feed.title}.\n{e}")
+                except aiohttp.ClientConnectorError as e:   # pragma: no cover
+                    logger.warning(f"Bad luck for {feed.title}.\n{e}")
+                    raise e
+    except tenacity.RetryError:
+        pass
+
+    task_done()
 
 def read_item(
     entry,
