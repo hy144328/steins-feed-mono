@@ -1570,14 +1570,6 @@
     <tag>people</tag>
   </feed>
   <feed>
-    <title>Nate Silver</title>
-    <link>https://www.natesilver.net/feed</link>
-    <lang>English</lang>
-    <tag>people</tag>
-    <tag>politics</tag>
-    <tag>sports</tag>
-  </feed>
-  <feed>
     <title>Nature</title>
     <link>https://www.nature.com/nature.rss</link>
     <lang>English</lang>
@@ -1927,13 +1919,6 @@
     <link>https://reason.com/latest/feed/</link>
     <lang>English</lang>
     <tag>magazines</tag>
-  </feed>
-  <feed>
-    <title>Robert Reich</title>
-    <link>https://robertreich.substack.com/feed</link>
-    <lang>English</lang>
-    <tag>people</tag>
-    <tag>politics</tag>
   </feed>
   <feed>
     <title>Rolling Stone</title>
