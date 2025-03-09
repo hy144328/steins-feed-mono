@@ -1169,6 +1169,13 @@
     <tag>business</tag>
   </feed>
   <feed>
+    <title>Guillaume Endignoux</title>
+    <link>https://gendignoux.com/blog/feed.xml</link>
+    <lang>English</lang>
+    <tag>people</tag>
+    <tag>tech</tag>
+  </feed>
+  <feed>
     <title>Handelsblatt</title>
     <link>http://www.handelsblatt.com/contentexport/feed/top-themen</link>
     <lang>German</lang>
@@ -2958,6 +2965,12 @@
     <tag>magazines</tag>
   </feed>
   <feed>
+    <title>The New Republic</title>
+    <link>https://newrepublic.com/rss.xml</link>
+    <lang>English</lang>
+    <tag>politics</tag>
+  </feed>
+  <feed>
     <title>The New Stack</title>
     <link>https://thenewstack.io/blog/feed/</link>
     <lang>English</lang>
@@ -3328,6 +3341,12 @@
     <link>https://www.theonion.com/sports/feed/</link>
     <lang>English</lang>
     <tag>satire</tag>
+  </feed>
+  <feed>
+    <title>The Village Voice</title>
+    <link>https://www.villagevoice.com/feed/</link>
+    <lang>English</lang>
+    <tag>magazine</tag>
   </feed>
   <feed>
     <title>The Wall Street Journal Arts</title>
