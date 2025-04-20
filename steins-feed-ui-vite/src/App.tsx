@@ -1,8 +1,3 @@
-import './App.css'
-
-
-
-
 import { useSearchParams } from "react-router"
 
 import { Item, Language, WallMode } from "@/client"
