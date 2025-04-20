@@ -1,4 +1,4 @@
-import { Language, WallMode } from "./client"
+import { Language, WallMode } from "@/client"
 
 export interface NavigationSearchParams {
   now: Date,
