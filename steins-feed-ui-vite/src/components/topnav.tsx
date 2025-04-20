@@ -1,7 +1,7 @@
 import { NavLink, useNavigate } from "react-router"
 
 import { logout } from "@/auth"
-import { NavigationSearchParams, toURLSearchParams } from "@/util"
+import { NavigationSearchParams, toURLSearchParams } from "./util"
 
 export default function TopNav(
 {
