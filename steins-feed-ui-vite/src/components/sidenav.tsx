@@ -2,7 +2,7 @@ import { useNavigate } from "react-router"
 
 import { Language, Tag, WallMode } from "@/client"
 
-import { NavigationSearchParams, toURLSearchParams } from "@/util"
+import { NavigationSearchParams, toURLSearchParams } from "./util"
 
 export default function SideNav({
   now,

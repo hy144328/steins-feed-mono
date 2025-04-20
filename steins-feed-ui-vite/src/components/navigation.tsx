@@ -2,10 +2,10 @@ import { Language, Tag } from "@/client"
 import { languagesFeedsLanguagesGet, tagsFeedsTagsGet } from "@/client"
 
 import { authenticate } from "@/auth"
-import { NavigationSearchParams } from "@/util"
 
 import SideNav from "./sidenav"
 import TopNav from "./topnav"
+import { NavigationSearchParams } from "./util"
 
 export default async function Navigation({
   now,
