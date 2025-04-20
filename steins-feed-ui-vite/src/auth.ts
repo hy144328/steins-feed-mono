@@ -1,33 +1,26 @@
-/*
-import { cookies } from "next/headers"
-import { redirect } from "next/navigation"
+import Cookies from "js-cookie"
 
-import { client } from "@client"
+//import { redirect } from "next/navigation"
+
+import { client } from "@/client/client.gen"
 
 client.setConfig({"baseUrl": process.env.API_BASE_URL});
-*/
 
 export async function logout() {
-  /*
-  const cookie_store = await cookies();
-  cookie_store.delete("api_token");
-  */
+  Cookies.remove("api_token");
 }
 
 export async function authenticate() {
-  /*
-  const cookie_store = await cookies();
-  const cookie = cookie_store.get("api_token");
+  const cookie = Cookies.get("api_token");
 
   if (!cookie) {
     throw {"detail": "Not authenticated"};
   }
 
   client.interceptors.request.use(request => {
-    request.headers.set("Authorization", `Bearer ${cookie.value}`);
+    request.headers.set("Authorization", `Bearer ${cookie}`);
     return request;
   });
-  */
 }
 
 /*
