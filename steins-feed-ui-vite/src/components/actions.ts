@@ -1,20 +1,20 @@
 import {
   //Item,
-  Language,
+  //Language,
   //LikeStatus,
-  Tag,
+  ////Tag,
   //WallMode,
 } from "@/client"
 import {
   //analyzeSummaryItemsAnalyzeSummaryGet,
   //analyzeTitleItemsAnalyzeTitleGet,
-  languagesFeedsLanguagesGet,
+  //languagesFeedsLanguagesGet,
   //likeItemsLikePut,
   //rootItemsGet,
-  tagsFeedsTagsGet,
+  //tagsFeedsTagsGet,
 } from "@/client"
 
-import { authenticate } from "@/auth"
+//import { authenticate } from "@/auth"
 
 /*
 export async function putLikeAction(item_id: number, score: LikeStatus) {
@@ -58,30 +58,6 @@ export async function getItemsAction(
   return resp.data;
 }
 */
-
-export async function getLanguagesAction(): Promise<Language[]> {
-  await authenticate();
-
-  const resp = await languagesFeedsLanguagesGet();
-
-  if (!resp.data) {
-    throw resp.error;
-  }
-
-  return resp.data;
-}
-
-export async function getTagsAction(): Promise<Tag[]> {
-  await authenticate();
-
-  const resp = await tagsFeedsTagsGet();
-
-  if (!resp.data) {
-    throw resp.error;
-  }
-
-  return resp.data;
-}
 
 /*
 export async function analyzeTitleAction(

@@ -1,6 +1,9 @@
+import { Language, Tag } from "@/client"
+import { languagesFeedsLanguagesGet, tagsFeedsTagsGet } from "@/client"
+
+import { authenticate } from "@/auth"
 import { NavigationSearchParams } from "@/util"
 
-import { getLanguagesAction, getTagsAction } from "./actions"
 import SideNav from "./sidenav"
 import TopNav from "./topnav"
 
@@ -13,8 +16,8 @@ export default async function Navigation({
 }: NavigationSearchParams & {
   contentServed?: boolean,
 }) {
-  const all_languages = await getLanguagesAction();
-  const all_tags = await getTagsAction();
+  const all_languages = await getAllLanguages();
+  const all_tags = await getAllTags();
 
   return (
 <>
@@ -35,4 +38,28 @@ export default async function Navigation({
 />
 </>
   );
+}
+
+async function getAllLanguages(): Promise<Language[]> {
+  await authenticate();
+
+  const resp = await languagesFeedsLanguagesGet();
+
+  if (!resp.data) {
+    throw resp.error;
+  }
+
+  return resp.data;
+}
+
+async function getAllTags(): Promise<Tag[]> {
+  await authenticate();
+
+  const resp = await tagsFeedsTagsGet();
+
+  if (!resp.data) {
+    throw resp.error;
+  }
+
+  return resp.data;
 }
