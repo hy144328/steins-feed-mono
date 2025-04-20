@@ -1,6 +1,5 @@
 import Cookies from "js-cookie"
-
-//import { redirect } from "next/navigation"
+import { useNavigate } from "react-router"
 
 import { client } from "@/client/client.gen"
 
@@ -23,11 +22,12 @@ export async function authenticate() {
   });
 }
 
-/*
 export async function require_login(pathname: string) {
-  redirect(`/login?pathname=${encodeURIComponent(pathname)}`);
+  const navigate = useNavigate();
+  navigate(`/login?pathname=${encodeURIComponent(pathname)}`);
 }
 
+/*
 export async function skip_login_if_unnecessary(pathname: string) {
   const cookie_store = await cookies();
   const cookie = cookie_store.get("api_token");
