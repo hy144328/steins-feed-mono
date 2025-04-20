@@ -3,7 +3,7 @@ import { useNavigate } from "react-router"
 
 import { client } from "@/client/client.gen"
 
-client.setConfig({"baseUrl": process.env.API_BASE_URL});
+client.setConfig({"baseUrl": import.meta.env.VITE_API_BASE_URL});
 
 export async function logout() {
   Cookies.remove("api_token");
