@@ -1,6 +1,10 @@
+import { useEffect, useState } from "react"
 import { useNavigate } from "react-router"
 
 import { Language, Tag, WallMode } from "@/client"
+import { languagesFeedsLanguagesGet, tagsFeedsTagsGet } from "@/client"
+
+import { authenticate } from "@/auth"
 
 import { NavigationSearchParams, toURLSearchParams } from "./util"
 
@@ -9,18 +13,31 @@ export default function SideNav({
   languages,
   tags,
   wall_mode,
-  all_languages,
-  all_tags,
-}: NavigationSearchParams & {
-  all_languages: Language[],
-  all_tags: Tag[],
-}) {
+}: NavigationSearchParams) {
   const navigate = useNavigate();
 
   const re_lang = /lang-([A-Za-z]+)/;
   const re_tag = /tag-([0-9]+)/;
 
-  const languages_check = all_languages.map(lang_it =>
+  const [allLanguages, setAllLanguages] = useState<Language[]>([]);
+  const [allTags, setAllTags] = useState<Tag[]>([]);
+
+  useEffect(() => {
+    async function loadLanguages() {
+        setAllLanguages(await getAllLanguages());
+    }
+
+    loadLanguages();
+  }, []);
+  useEffect(() => {
+    async function loadTags() {
+        setAllTags(await getAllTags());
+    }
+
+    loadTags();
+  }, []);
+
+  const languages_check = allLanguages.map(lang_it =>
     <SideNavCheckbox
       name={ `lang-${lang_it}` }
       label={ lang_it }
@@ -28,7 +45,7 @@ export default function SideNav({
       checked={ languages.includes(lang_it) }
     />
   );
-  const tags_check = all_tags.map(tag_it =>
+  const tags_check = allTags.map(tag_it =>
     <SideNavCheckbox
       name={ `tag-${tag_it.id}` }
       label={ tag_it.name }
@@ -169,4 +186,28 @@ function SideNavRadio({
   />
 </div>
   );
+}
+
+async function getAllLanguages(): Promise<Language[]> {
+  await authenticate();
+
+  const resp = await languagesFeedsLanguagesGet();
+
+  if (!resp.data) {
+    throw resp.error;
+  }
+
+  return resp.data;
+}
+
+async function getAllTags(): Promise<Tag[]> {
+  await authenticate();
+
+  const resp = await tagsFeedsTagsGet();
+
+  if (!resp.data) {
+    throw resp.error;
+  }
+
+  return resp.data;
 }
