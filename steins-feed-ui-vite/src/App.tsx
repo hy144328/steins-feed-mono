@@ -2,6 +2,9 @@ import './App.css'
 
 
 
+
+import { useSearchParams } from "react-router"
+
 import { Item, Language, WallMode } from "@/client"
 import { rootItemsGet } from "@/client"
 
@@ -20,14 +23,10 @@ import WallArticle from "./components/article"
 import Navigation from "./components/navigation"
 import { toURLSearchParams } from "./components/util"
 
-export default async function App({
-  searchParams,
-}: {
-  searchParams: Promise<{[key: string]: undefined | string | string[]}>,
-}) {
-  const searchParamsSync = await searchParams;
+export default function App() {
+  const [searchParams] = useSearchParams();
 
-  const now_raw = searchParamsSync.now;
+  const now_raw = searchParams.get("now");
   const now = now_raw ? new Date(ensure_primitive(now_raw)) : new Date();
 
   const today = new Date(now);
@@ -36,10 +35,10 @@ export default async function App({
   const tomorrow = new Date(today);
   tomorrow.setUTCDate(today.getUTCDate() + 1);
 
-  const languages = ensure_array(searchParamsSync.languages).map(lang_it => lang_it as Language);
-  const tags = ensure_array(searchParamsSync.tags).map(tag_it => parseInt(tag_it));
+  const languages = ensure_array(searchParams.get("languages")).map(lang_it => lang_it as Language);
+  const tags = ensure_array(searchParams.get("tags")).map(tag_it => parseInt(tag_it as string));
 
-  const wall_mode_raw = searchParamsSync.wall_mode;
+  const wall_mode_raw = searchParams.get("wall_mode");
   const wall_mode = wall_mode_raw ? ensure_primitive(wall_mode_raw) as WallMode : "Classic";
 
   let items: Item[];
@@ -70,7 +69,7 @@ export default async function App({
   );
 }
 
-async function Header({
+function Header({
   now,
   items,
 }: {
@@ -94,7 +93,7 @@ Last published: { format_datetime(last_published) }.
   );
 }
 
-async function Footer() {
+function Footer() {
   return (
 <footer>
 <a href="https://github.com/steins-feed/steins-feed-mono">GitHub</a>
@@ -102,7 +101,7 @@ async function Footer() {
   );
 }
 
-async function Main({
+function Main({
   items,
 }: {
   items: Item[],
