@@ -14,8 +14,8 @@ export async function logout() {
   */
 }
 
-/*
 export async function authenticate() {
+  /*
   const cookie_store = await cookies();
   const cookie = cookie_store.get("api_token");
 
@@ -27,8 +27,10 @@ export async function authenticate() {
     request.headers.set("Authorization", `Bearer ${cookie.value}`);
     return request;
   });
+  */
 }
 
+/*
 export async function require_login(pathname: string) {
   redirect(`/login?pathname=${encodeURIComponent(pathname)}`);
 }
