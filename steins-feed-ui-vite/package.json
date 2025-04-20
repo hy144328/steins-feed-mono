@@ -13,6 +13,7 @@
   "dependencies": {
     "@hey-api/client-fetch": "^0.10.0",
     "bootstrap": "^5.3.5",
+    "bootstrap-icons": "^1.11.3",
     "dompurify": "^3.2.5",
     "js-cookie": "^3.0.5",
     "react": "^19.0.0",
