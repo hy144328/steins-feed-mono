@@ -2,6 +2,7 @@ import { Collapse, Popover } from "bootstrap"
 import DOMPurify from "dompurify"
 import { Fragment, ReactNode } from "react"
 import { useEffect, useRef, useState } from "react"
+import { useNavigate } from "react-router"
 
 import {
   Item,
@@ -81,7 +82,7 @@ export default function WallArticle({
     <WallArticleSubtitle item={ item }/>
 
     <div
-      className={ `card-text ${styles["card-text"]}` }
+      className="card-text"
       dangerouslySetInnerHTML={ {__html: DOMPurify.sanitize(summary ?? "")} }
     />
   </div>
@@ -168,7 +169,7 @@ function LikeButton({
   liked: LikeStatus,
   setLiked: (value: LikeStatus) => void,
 }) {
-  const router = useRouter();
+  const navigate = useNavigate();
 
   async function handleLiked() {
     const score = (liked === 1) ? 0 : 1;
@@ -177,7 +178,7 @@ function LikeButton({
       await putLike(item.id, score);
     } catch(e) {
       console.log(e);
-      router.refresh();
+      navigate(0);
     }
 
     setLiked(score);
@@ -199,7 +200,7 @@ function DislikeButton({
   liked: LikeStatus,
   setLiked: (value: LikeStatus) => void,
 }) {
-  const router = useRouter();
+  const navigate = useNavigate();
 
   async function handleDisliked() {
     const score = (liked === -1) ? 0 : -1;
@@ -208,7 +209,7 @@ function DislikeButton({
       await putLike(item.id, score);
     } catch(e) {
       console.log(e);
-      router.refresh();
+      navigate(0);
     }
 
     setLiked(score);
