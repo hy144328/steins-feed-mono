@@ -50,7 +50,7 @@ export default function Page() {
     }
 
     loadItems();
-  }, [])
+  }, [today, languages, tags, wall_mode])
 
   return (
 <div className="container">
