@@ -5,7 +5,7 @@ import { Item, Language, WallMode } from "@/client"
 import { rootItemsGet } from "@/client"
 
 import { authenticate, require_login } from "@/auth"
-
+import { toURLSearchParams } from "@/components/util"
 import {
   day_of_week_short,
   ensure_array,
@@ -13,13 +13,12 @@ import {
   format_datetime,
   group_by,
   month_of_year_short
-} from "./util"
+} from "@/util"
 
-import WallArticle from "./components/article"
-import Navigation from "./components/navigation"
-import { toURLSearchParams } from "./components/util"
+import WallArticle from "./article"
+import Navigation from "./navigation"
 
-export default function App() {
+export default function Page() {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
 
