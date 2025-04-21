@@ -30,14 +30,19 @@ export default function TagsForm({
   feed: Feed,
 }) {
   const navigate = useNavigate();
+
+  const [tags, setTags] = useState<Tag[]>([]);
+  const [tagsSync, setTagsSync] = useState<boolean[]>([]);
   const [allTags, setAllTags] = useState<Tag[]>([]);
 
-  const tags_state = sort_tags(feed.tags);
-  const tags_sync_state = feed.tags.map(() => true);
-  const alternative_tags_state = allTags.filter(tag_it =>
-    !contains_tag(tags_state, tag_it.name)
+  const otherTags = allTags.filter(tag_it =>
+    !contains_tag(feed.tags, tag_it.name)
   );
 
+  useEffect(() => {
+    setTags(sort_tags(feed.tags));
+    setTagsSync(feed.tags.map(() => true));
+  }, [feed]);
   useEffect(() => {
     async function loadTags() {
       try {
@@ -62,52 +67,55 @@ export default function TagsForm({
     const data = new FormData(target);
     const tag_name = (data.get("tag") as string).trim();
 
-    if (!contains_tag(tags_state, tag_name)) {
-      const tag = allTags.find(tag_it => tag_it.name === tag_name) ?? {id: -1, name: tag_name};
+    if (contains_tag(tags, tag_name)) {
+      target.reset();
+      return;
+    }
 
-      if (tag.id > 0) {
-        set_tags_state(insert_tag(tags_state, tag));
-        set_tags_sync_state(insert_by_mirror_tag(tags_sync_state, tags_state, tag, false));
+    const tag = allTags.find(tag_it => tag_it.name === tag_name) ?? {id: -1, name: tag_name};
 
-        attachTag(feed.id, tag.id).then(() => {
-          set_tags_sync_state(next_tags_sync_state =>
-            replace_by_mirror_tag(next_tags_sync_state, insert_tag(tags_state, tag), tag, true)
-          );
-        });
-      } else {
-        setAllTags(insert_tag(allTags, tag));
-        set_tags_state(insert_tag(tags_state, tag));
-        set_tags_sync_state(insert_by_mirror_tag(tags_sync_state, tags_state, tag, false));
+    if (tag.id > 0) {
+      setTags(insert_tag(tags, tag));
+      setTagsSync(insert_by_mirror_tag(tagsSync, tags, tag, false));
 
-        createAndAttachTag(feed.id, tag_name).then(next_tag => {
-          setAllTags(next_all_tags_state =>
-            replace_tag(next_all_tags_state, next_tag)
-          );
-          set_tags_state(next_tags_state =>
-            replace_tag(next_tags_state, next_tag)
-          );
-          set_tags_sync_state(next_tags_sync_state =>
-            replace_by_mirror_tag(next_tags_sync_state, insert_tag(tags_state, next_tag), next_tag, true)
-          );
-        });
-      }
+      attachTag(feed.id, tag.id).then(() => {
+        setTagsSync(next_tags_sync_state =>
+          replace_by_mirror_tag(next_tags_sync_state, insert_tag(tags, tag), tag, true)
+        );
+      });
+    } else {
+      setAllTags(insert_tag(allTags, tag));
+      setTags(insert_tag(tags, tag));
+      setTagsSync(insert_by_mirror_tag(tagsSync, tags, tag, false));
+
+      createAndAttachTag(feed.id, tag_name).then(next_tag => {
+        setAllTags(next_all_tags_state =>
+          replace_tag(next_all_tags_state, next_tag)
+        );
+        setTags(next_tags_state =>
+          replace_tag(next_tags_state, next_tag)
+        );
+        setTagsSync(next_tags_sync_state =>
+          replace_by_mirror_tag(next_tags_sync_state, insert_tag(tags, next_tag), next_tag, true)
+        );
+      });
     }
 
     target.reset();
   }
 
-  const displayedTags = tags_state.map((tag_it, tag_ct) =>
+  const displayedTags = tags.map((tag_it, tag_ct) =>
 <TagPill
   key={ tag_it.name }
   feed={ feed }
   tag={ tag_it }
-  in_sync={ tags_sync_state[tag_ct] }
+  in_sync={ tagsSync[tag_ct] }
   before_detach={ () => {
-    set_tags_sync_state(replace_by_mirror_tag(tags_sync_state, tags_state, tag_it, false));
+    setTagsSync(replace_by_mirror_tag(tagsSync, tags, tag_it, false));
   } }
   after_detach={ () => {
-    set_tags_state(remove_tag(tags_state, tag_it));
-    set_tags_sync_state(remove_by_mirror_tag(tags_sync_state, tags_state, tag_it));
+    setTags(remove_tag(tags, tag_it));
+    setTagsSync(remove_by_mirror_tag(tagsSync, tags, tag_it));
   } }
 />
   );
@@ -117,7 +125,7 @@ export default function TagsForm({
   <div>{ displayedTags }</div>
 
   <InputWithAutoDropdown
-    alternatives={ alternative_tags_state }
+    alternatives={ otherTags }
     name="tag"
     placeholder="Enter tag."
     toString={ arg0 => arg0.name }
@@ -141,7 +149,8 @@ function TagPill({
 }) {
   async function handleClose() {
     before_detach();
-    detachTag(feed.id, tag.id).then(after_detach);
+    await detachTag(feed.id, tag.id);
+    after_detach();
   }
 
   return (
