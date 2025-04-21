@@ -8,6 +8,7 @@ import { Item } from "@/client"
 
 import { format_datetime, join } from "@/util"
 
+import classes from "./article.module.css"
 import { LikeButton, DislikeButton } from "./like_button"
 import MagicButton from "./magic_button"
 
@@ -75,7 +76,7 @@ export default function WallArticle({
     <WallArticleSubtitle item={ item }/>
 
     <div
-      className="card-text"
+      className={ `card-text ${classes["card-text"]}` }
       dangerouslySetInnerHTML={ {__html: DOMPurify.sanitize(summary ?? "")} }
     />
   </div>
