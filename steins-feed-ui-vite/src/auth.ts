@@ -49,7 +49,7 @@ export function skip_login_if_unnecessary(
 
 function decode_jwt(token: string): {sub: string, exp: Date} {
   const payload_enc = token.split(".")[1];
-  const payload_dec = Buffer.from(payload_enc, "base64").toString();
+  const payload_dec = atob(payload_enc);
   const payload = JSON.parse(payload_dec);
 
   return {
