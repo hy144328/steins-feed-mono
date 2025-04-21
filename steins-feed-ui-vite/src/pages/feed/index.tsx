@@ -57,7 +57,7 @@ export default function Page() {
 
   <hr/>
 
-  <TagsForm feed ={ feed }/>
+  <TagsForm feed={ feed }/>
 </div>
   )
 }

@@ -36,7 +36,7 @@ export default function TagsForm({
   const [allTags, setAllTags] = useState<Tag[]>([]);
 
   const otherTags = allTags.filter(tag_it =>
-    !contains_tag(feed.tags, tag_it.name)
+    !contains_tag(tags, tag_it.name)
   );
 
   useEffect(() => {
