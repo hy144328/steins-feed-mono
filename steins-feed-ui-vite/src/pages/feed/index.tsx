@@ -36,7 +36,7 @@ export default function Page() {
     }
 
     loadFeed();
-  }, []);
+  }, [feed_id]);
 
   return (
 <div className="container">
