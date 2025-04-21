@@ -5,7 +5,6 @@ import { Item, Language, WallMode } from "@/client"
 import { rootItemsGet } from "@/client"
 
 import { authenticate, require_login } from "@/auth"
-import { toURLSearchParams } from "@/components/util"
 import {
   day_of_week_short,
   ensure_array,
@@ -17,6 +16,7 @@ import {
 
 import WallArticle from "./article"
 import Navigation from "./navigation"
+import { toURLSearchParams } from "./util"
 
 export default function Page() {
   const [searchParams] = useSearchParams();
