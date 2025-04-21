@@ -1,3 +1,4 @@
+import { useEffect } from "react"
 import { useNavigate, useSearchParams } from "react-router"
 
 import { skip_login_if_unnecessary } from "@/auth"
@@ -9,7 +10,9 @@ export default function Page() {
   const navigate = useNavigate();
   const pathname = searchParams.get("pathname") ?? "/";
 
-  skip_login_if_unnecessary(navigate, pathname);
+  useEffect(() => {
+    skip_login_if_unnecessary(navigate, pathname);
+  }, []);
 
   return (
 <div className="container">
