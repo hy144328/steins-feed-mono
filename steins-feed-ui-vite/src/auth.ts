@@ -27,21 +27,20 @@ export async function require_login(pathname: string) {
   navigate(`/login?pathname=${encodeURIComponent(pathname)}`);
 }
 
-/*
 export async function skip_login_if_unnecessary(pathname: string) {
-  const cookie_store = await cookies();
-  const cookie = cookie_store.get("api_token");
+  const navigate = useNavigate();
+  const cookie = Cookies.get("api_token");
 
   if (!cookie) {
     return;
   }
 
-  const payload = decode_jwt(cookie.value);
+  const payload = decode_jwt(cookie);
   if (payload.exp <= new Date()) {
     return;
   }
 
-  redirect(pathname);
+  navigate(pathname);
 }
 
 function decode_jwt(token: string): {sub: string, exp: Date} {
@@ -54,4 +53,3 @@ function decode_jwt(token: string): {sub: string, exp: Date} {
     exp: new Date(1000 * payload.exp),
   };
 }
-*/
