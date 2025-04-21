@@ -2,6 +2,7 @@ import { Collapse, Popover } from "bootstrap"
 import DOMPurify from "dompurify"
 import { Fragment, ReactNode } from "react"
 import { useEffect, useRef, useState } from "react"
+import { Link } from "react-router"
 
 import { Item } from "@/client"
 
@@ -120,11 +121,11 @@ function WallArticleSubtitle({
   item: Item,
 }) {
   const fields: {k: string, v: ReactNode}[] = [
-    {k: "Source", v: <a href={ `/feed/${item.feed.id}/` }>{ item.feed.title }</a>},
+    {k: "Source", v: <Link to={ `/feed/${item.feed.id}/` }>{ item.feed.title }</Link>},
     {k: "Published", v: format_datetime(new Date(item.published))},
     {k: "Tags", v: join(
       item.feed.tags.map(tag_it =>
-        <a href={ `/tag?tag=${ tag_it.id }` } key={ tag_it.id }>{ tag_it.name }</a>
+        <Link to={ `/tag?tag=${ tag_it.id }` } key={ tag_it.id }>{ tag_it.name }</Link>
       ),
       ", ",
     )},

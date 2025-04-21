@@ -1,4 +1,4 @@
-import { NavLink, useNavigate } from "react-router"
+import { Link, NavLink, useNavigate } from "react-router"
 
 import { logout } from "@/auth"
 import { NavigationSearchParams, toURLSearchParams } from "./util"
@@ -102,12 +102,12 @@ function NavigationPad(
 
   return (
 <div className="btn-group">
-  <a
+  <Link
     className={ ["btn", "btn-primary"].concat(contentServed ? [] : ["disabled"]).join(" ") }
-    href={ contentServed ? `/?${toURLSearchParams({now: tomorrow, languages, tags, wall_mode}).toString()}` : undefined }
+    to={ contentServed ? `/?${toURLSearchParams({now: tomorrow, languages, tags, wall_mode}).toString()}` : "/" }
   >
     <i className="bi-rewind-fill"/>
-  </a>
+  </Link>
 
   <button className="btn btn-primary" disabled={ true }>
     <i className="bi-caret-up-fill"/>
@@ -117,12 +117,12 @@ function NavigationPad(
     <i className="bi-caret-down-fill"/>
   </button>
 
-  <a
+  <Link
     className={ ["btn", "btn-primary"].concat(contentServed ? [] : ["disabled"]).join(" ") }
-    href={ contentServed ? `/?${toURLSearchParams({now: yesterday, languages, tags, wall_mode}).toString()}` : undefined }
+    to={ contentServed ? `/?${toURLSearchParams({now: yesterday, languages, tags, wall_mode}).toString()}` : "/" }
   >
     <i className="bi-fast-forward-fill"/>
-  </a>
+  </Link>
 </div>
   )
 }
