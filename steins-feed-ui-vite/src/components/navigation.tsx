@@ -1,13 +1,8 @@
-import { Language, Tag } from "@/client"
-import { languagesFeedsLanguagesGet, tagsFeedsTagsGet } from "@/client"
-
-import { authenticate } from "@/auth"
-
 import SideNav from "./sidenav"
 import TopNav from "./topnav"
 import { NavigationSearchParams } from "./util"
 
-export default async function Navigation({
+export default function Navigation({
   now,
   languages,
   tags,
@@ -16,9 +11,6 @@ export default async function Navigation({
 }: NavigationSearchParams & {
   contentServed?: boolean,
 }) {
-  const all_languages = await getAllLanguages();
-  const all_tags = await getAllTags();
-
   return (
 <>
 <TopNav
@@ -33,33 +25,7 @@ export default async function Navigation({
   languages={ languages }
   tags={ tags }
   wall_mode={ wall_mode }
-  all_languages={ all_languages }
-  all_tags={ all_tags }
 />
 </>
   );
-}
-
-async function getAllLanguages(): Promise<Language[]> {
-  await authenticate();
-
-  const resp = await languagesFeedsLanguagesGet();
-
-  if (!resp.data) {
-    throw resp.error;
-  }
-
-  return resp.data;
-}
-
-async function getAllTags(): Promise<Tag[]> {
-  await authenticate();
-
-  const resp = await tagsFeedsTagsGet();
-
-  if (!resp.data) {
-    throw resp.error;
-  }
-
-  return resp.data;
 }
