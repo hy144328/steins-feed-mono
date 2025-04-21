@@ -25,7 +25,7 @@ export default function DisplayForm({
     <input
       type="checkbox"
       className="form-check-input"
-      defaultChecked={ feed.displayed }
+      checked={ feed.displayed }
       onChange={ handleChange }
     />
     <label className="form-check-label">Feed #{ feed.id }</label>

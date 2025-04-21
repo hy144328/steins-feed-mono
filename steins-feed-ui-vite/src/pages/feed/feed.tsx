@@ -17,7 +17,7 @@ export default function FeedForm({
   const languageOptions = [
 <option key="null"/>
   ].concat(all_languages.map(lang_it =>
-<option key={ lang_it } defaultValue={ lang_it }>{ lang_it }</option>
+<option key={ lang_it } value={ lang_it }>{ lang_it }</option>
   ));
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -46,7 +46,7 @@ export default function FeedForm({
   <div className="form-floating mt-3 mb-3">
     <input
       name="title"
-      defaultValue={ feed.title }
+      value={ feed.title }
       disabled={ !is_admin }
       className="form-control"
     />
@@ -56,7 +56,7 @@ export default function FeedForm({
   <div className="form-floating mt-3 mb-3">
     <input
       name="link"
-      defaultValue={ feed.link }
+      value={ feed.link }
       disabled={ !is_admin }
       className="form-control"
     />
@@ -67,7 +67,7 @@ export default function FeedForm({
     <select
       name="language"
       className="form-select"
-      defaultValue={ feed.language ? feed.language : undefined }
+      value={ feed.language ? feed.language : undefined }
       disabled={ !is_admin }
     >
       { languageOptions }
