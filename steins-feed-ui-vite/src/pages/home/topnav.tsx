@@ -1,6 +1,8 @@
 import { Link, NavLink, useNavigate } from "react-router"
 
 import { logout } from "@/auth"
+
+import sf from "./apple-touch-icon.png"
 import { NavigationSearchParams, toURLSearchParams } from "./util"
 
 export default function TopNav(
@@ -18,7 +20,7 @@ export default function TopNav(
   <div className="container">
     <NavLink to="/" className="navbar-brand">
       <img
-        src="/apple-touch-icon.png"
+        src={ sf }
         height={ 30 }
         width={ 30 }
         alt="Stein's Feed logo"
