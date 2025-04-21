@@ -1,15 +1,15 @@
+import { useNavigate, useSearchParams } from "react-router"
+
 import { skip_login_if_unnecessary } from "@/auth"
 
 import LoginModal from "./modal"
 
-export default async function Page({
-  searchParams,
-}: {
-  searchParams: Promise<{pathname?: string}>,
-}) {
-  const pathname = (await searchParams).pathname ?? "/";
+export default function Page() {
+  const [searchParams] = useSearchParams()
+  const navigate = useNavigate();
+  const pathname = searchParams.get("pathname") ?? "/";
 
-  await skip_login_if_unnecessary(pathname);
+  skip_login_if_unnecessary(navigate, pathname);
 
   return (
 <div className="container">
