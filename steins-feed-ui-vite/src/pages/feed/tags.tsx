@@ -1,13 +1,15 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import { useNavigate } from "react-router"
 
 import { Feed, Tag } from "@/client"
 import {
   attachTagFeedsFeedFeedIdAttachTagPut,
   createAndAttachTagFeedsFeedFeedIdCreateAndAttachTagPut,
   detachTagFeedsFeedFeedIdDetachTagDelete,
+  tagsFeedsTagsGet,
 } from "@/client"
 
-import { authenticate } from "@/auth"
+import { authenticate, require_login } from "@/auth"
 
 import { InputWithAutoDropdown } from "./components"
 
@@ -24,17 +26,30 @@ import {
 
 export default function TagsForm({
   feed,
-  all_tags,
 }: {
   feed: Feed,
-  all_tags: Tag[],
 }) {
-  const [tags_state, set_tags_state] = useState(sort_tags(feed.tags));
-  const [tags_sync_state, set_tags_sync_state] = useState(feed.tags.map(() => true));
-  const [all_tags_state, set_all_tags_state] = useState(all_tags);
-  const alternative_tags_state = all_tags_state.filter(tag_it =>
+  const navigate = useNavigate();
+  const [allTags, setAllTags] = useState<Tag[]>([]);
+
+  const tags_state = sort_tags(feed.tags);
+  const tags_sync_state = feed.tags.map(() => true);
+  const alternative_tags_state = allTags.filter(tag_it =>
     !contains_tag(tags_state, tag_it.name)
   );
+
+  useEffect(() => {
+    async function loadTags() {
+      try {
+        setAllTags(await getTags());
+      } catch (e) {
+        console.log(e);
+        require_login(navigate, `/feed/${feed.id}`);
+      }
+    }
+
+    loadTags();
+  }, []);
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -48,24 +63,24 @@ export default function TagsForm({
     const tag_name = (data.get("tag") as string).trim();
 
     if (!contains_tag(tags_state, tag_name)) {
-      const tag = all_tags_state.find(tag_it => tag_it.name === tag_name) ?? {id: -1, name: tag_name};
+      const tag = allTags.find(tag_it => tag_it.name === tag_name) ?? {id: -1, name: tag_name};
 
       if (tag.id > 0) {
         set_tags_state(insert_tag(tags_state, tag));
         set_tags_sync_state(insert_by_mirror_tag(tags_sync_state, tags_state, tag, false));
 
-        attachTagAction(feed.id, tag.id).then(() => {
+        attachTag(feed.id, tag.id).then(() => {
           set_tags_sync_state(next_tags_sync_state =>
             replace_by_mirror_tag(next_tags_sync_state, insert_tag(tags_state, tag), tag, true)
           );
         });
       } else {
-        set_all_tags_state(insert_tag(all_tags_state, tag));
+        setAllTags(insert_tag(allTags, tag));
         set_tags_state(insert_tag(tags_state, tag));
         set_tags_sync_state(insert_by_mirror_tag(tags_sync_state, tags_state, tag, false));
 
-        createAndAttachTagAction(feed.id, tag_name).then(next_tag => {
-          set_all_tags_state(next_all_tags_state =>
+        createAndAttachTag(feed.id, tag_name).then(next_tag => {
+          setAllTags(next_all_tags_state =>
             replace_tag(next_all_tags_state, next_tag)
           );
           set_tags_state(next_tags_state =>
@@ -126,7 +141,7 @@ function TagPill({
 }) {
   async function handleClose() {
     before_detach();
-    detachTagAction(feed.id, tag.id).then(after_detach);
+    detachTag(feed.id, tag.id).then(after_detach);
   }
 
   return (
@@ -145,7 +160,19 @@ function TagPill({
   );
 }
 
-async function createAndAttachTagAction(
+async function getTags(): Promise<Tag[]> {
+  await authenticate();
+
+  const resp = await tagsFeedsTagsGet();
+
+  if (resp.error) {
+    throw resp.error;
+  }
+
+  return resp.data ?? [];
+}
+
+async function createAndAttachTag(
   feed_id: number,
   tag_name: string,
 ): Promise<Tag> {
@@ -163,7 +190,7 @@ async function createAndAttachTagAction(
   return resp.data;
 }
 
-async function attachTagAction(
+async function attachTag(
   feed_id: number,
   tag_id: number,
 ) {
@@ -179,7 +206,7 @@ async function attachTagAction(
   }
 }
 
-async function detachTagAction(
+async function detachTag(
   feed_id: number,
   tag_id: number,
 ) {

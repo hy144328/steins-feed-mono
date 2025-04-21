@@ -1,11 +1,8 @@
 import { useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router"
 
-import { Feed, Tag } from "@/client"
-import {
-  feedFeedsFeedFeedIdGet,
-  tagsFeedsTagsGet,
-} from "@/client"
+import { Feed } from "@/client"
+import { feedFeedsFeedFeedIdGet } from "@/client"
 
 import { authenticate, require_login } from "@/auth"
 import Navigation from "@/pages/home/navigation"
@@ -27,7 +24,6 @@ export default function Page() {
     tags: [],
     displayed: false,
   });
-  const [allTags, setAllTags] = useState<Tag[]>([]);
 
   useEffect(() => {
     async function loadFeed() {
@@ -40,18 +36,6 @@ export default function Page() {
     }
 
     loadFeed();
-  }, []);
-  useEffect(() => {
-    async function loadTags() {
-      try {
-        setAllTags(await getTags());
-      } catch (e) {
-        console.log(e);
-        require_login(navigate, `/feed/${feed_id}`);
-      }
-    }
-
-    loadTags();
   }, []);
 
   return (
@@ -73,10 +57,7 @@ export default function Page() {
 
   <hr/>
 
-  <TagsForm
-    feed ={ feed }
-    all_tags={ allTags }
-  />
+  <TagsForm feed ={ feed }/>
 </div>
   )
 }
@@ -95,16 +76,4 @@ async function getFeed(
   }
 
   return resp.data;
-}
-
-async function getTags(): Promise<Tag[]> {
-  await authenticate();
-
-  const resp = await tagsFeedsTagsGet();
-
-  if (resp.error) {
-    throw resp.error;
-  }
-
-  return resp.data ?? [];
 }
