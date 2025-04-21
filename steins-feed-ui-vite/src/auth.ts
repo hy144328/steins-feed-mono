@@ -1,5 +1,5 @@
 import Cookies from "js-cookie"
-import { useNavigate } from "react-router"
+import { NavigateFunction } from "react-router"
 
 import { client } from "@/client/client.gen"
 
@@ -22,31 +22,34 @@ export async function authenticate() {
   });
 }
 
-export async function require_login(pathname: string) {
-  const navigate = useNavigate();
+export function require_login(
+  navigate: NavigateFunction,
+  pathname: string,
+) {
   navigate(`/login?pathname=${encodeURIComponent(pathname)}`);
 }
 
-/*
-export async function skip_login_if_unnecessary(pathname: string) {
-  const cookie_store = await cookies();
-  const cookie = cookie_store.get("api_token");
+export function skip_login_if_unnecessary(
+  navigate: NavigateFunction,
+  pathname: string,
+) {
+  const cookie = Cookies.get("api_token");
 
   if (!cookie) {
     return;
   }
 
-  const payload = decode_jwt(cookie.value);
+  const payload = decode_jwt(cookie);
   if (payload.exp <= new Date()) {
     return;
   }
 
-  redirect(pathname);
+  navigate(pathname);
 }
 
 function decode_jwt(token: string): {sub: string, exp: Date} {
   const payload_enc = token.split(".")[1];
-  const payload_dec = Buffer.from(payload_enc, "base64").toString();
+  const payload_dec = atob(payload_enc);
   const payload = JSON.parse(payload_dec);
 
   return {
@@ -54,4 +57,3 @@ function decode_jwt(token: string): {sub: string, exp: Date} {
     exp: new Date(1000 * payload.exp),
   };
 }
-*/

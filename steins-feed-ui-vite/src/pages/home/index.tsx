@@ -1,10 +1,10 @@
-import { useSearchParams } from "react-router"
+import { useEffect, useState } from "react"
+import { useNavigate, useSearchParams } from "react-router"
 
 import { Item, Language, WallMode } from "@/client"
 import { rootItemsGet } from "@/client"
 
 import { authenticate, require_login } from "@/auth"
-
 import {
   day_of_week_short,
   ensure_array,
@@ -12,14 +12,15 @@ import {
   format_datetime,
   group_by,
   month_of_year_short
-} from "./util"
+} from "@/util"
 
-import WallArticle from "./components/article"
-import Navigation from "./components/navigation"
-import { toURLSearchParams } from "./components/util"
+import WallArticle from "./article"
+import Navigation from "./navigation"
+import { toURLSearchParams } from "./util"
 
-export default function App() {
+export default function Page() {
   const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
 
   const now_raw = searchParams.get("now");
   const now = now_raw ? new Date(ensure_primitive(now_raw)) : new Date();
@@ -30,21 +31,26 @@ export default function App() {
   const tomorrow = new Date(today);
   tomorrow.setUTCDate(today.getUTCDate() + 1);
 
-  const languages = ensure_array(searchParams.get("languages")).map(lang_it => lang_it as Language);
-  const tags = ensure_array(searchParams.get("tags")).map(tag_it => parseInt(tag_it as string));
+  const languages = ensure_array(searchParams.getAll("languages")).map(lang_it => lang_it as Language);
+  const tags = ensure_array(searchParams.getAll("tags")).map(tag_it => parseInt(tag_it as string));
 
   const wall_mode_raw = searchParams.get("wall_mode");
   const wall_mode = wall_mode_raw ? ensure_primitive(wall_mode_raw) as WallMode : "Classic";
 
-  let items: Item[];
+  const [items, setItems] = useState<Item[]>([]);
 
-  try {
-    items = await getItemsAction(today, tomorrow, languages, tags, wall_mode);
-  } catch (e) {
-    console.log(e);
-    await require_login(`/?${toURLSearchParams({now, languages, tags, wall_mode})}`);
-    return;
-  }
+  useEffect(() => {
+    async function loadItems() {
+      try {
+        setItems(await getItems(today, tomorrow, languages, tags, wall_mode));
+      } catch (e) {
+        console.log(e);
+        require_login(navigate, `/?${toURLSearchParams({now, languages, tags, wall_mode})}`);
+      }
+    }
+
+    loadItems();
+  }, [])
 
   return (
 <div className="container">
@@ -122,7 +128,7 @@ function Main({
   );
 }
 
-async function getItemsAction(
+async function getItems(
   dt_from: Date,
   dt_to: Date,
   languages?: Language[],
