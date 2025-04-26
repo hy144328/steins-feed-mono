@@ -349,6 +349,33 @@ def _put_scores(
 
     logger.debug(f"Finish to process items with scores.")
 
+@router.get("/last_updated")
+async def last_updated(
+    session: steins_feed_api.db.Session,
+    current_user: steins_feed_api.auth.UserDep,
+    languages: typing.Annotated[
+        typing.Optional[typing.Sequence[steins_feed_model.feeds.Language]],
+        fastapi.Query(),
+    ] = None,
+    tags: typing.Annotated[
+        typing.Optional[typing.Sequence[int]],
+        fastapi.Query(),
+    ] = None,
+) -> datetime.datetime:
+    q = _query_root(
+        current_user,
+        languages = languages,
+        tags = tags,
+        load_display = False,
+        load_tags = False,
+        load_like = False,
+    ).with_only_columns(
+        sqla.func.max(steins_feed_model.items.Item.published),
+    )
+    res = session.execute(q).scalar()
+
+    return res or datetime.datetime.fromtimestamp(0)
+
 @router.put("/like/")
 async def like(
     session: steins_feed_api.db.Session,
