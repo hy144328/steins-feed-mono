@@ -372,9 +372,10 @@ async def last_updated(
     ).with_only_columns(
         sqla.func.max(steins_feed_model.items.Item.published),
     )
-    res = session.execute(q).scalar()
+    res = session.execute(q).scalar() or datetime.datetime.fromtimestamp(0)
+    res = res.replace(tzinfo = datetime.timezone.utc)
 
-    return res or datetime.datetime.fromtimestamp(0)
+    return res
 
 @router.put("/like/")
 async def like(
