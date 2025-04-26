@@ -79,7 +79,7 @@ export default function MagicButton({
 
 async function analyzeTitle(
   item_id: number,
-): Promise<Record<string, number>> {
+): Promise<[string, string, number][]> {
   await authenticate();
 
   const resp = await analyzeTitleItemsAnalyzeTitleGet({"query": {"item_id": item_id}});
@@ -93,7 +93,7 @@ async function analyzeTitle(
 
 async function analyzeSummary(
   item_id: number,
-): Promise<Record<string, number>> {
+): Promise<[string, string, number][]> {
   await authenticate();
 
   const resp = await analyzeSummaryItemsAnalyzeSummaryGet({"query": {"item_id": item_id}});
