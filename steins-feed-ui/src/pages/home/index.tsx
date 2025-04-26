@@ -72,16 +72,16 @@ export default function Page() {
 
 function Header({
   now,
+  last_published,
   items,
 }: {
   now: Date,
+  last_published: Date,
   items: Item[],
 }) {
   const day = now.getUTCDate();
   const month = now.getUTCMonth();
   const year = now.getUTCFullYear();
-
-  const last_published = new Date((items.length > 0) ? items[0].published : 0);
 
   return (
 <header>
