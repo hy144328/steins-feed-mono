@@ -93,48 +93,13 @@ async def root(
     ] = None,
     wall_mode: WallMode = WallMode.CLASSIC,
 ) -> list[Item]:
-    q = sqla.select(
-        steins_feed_model.items.Item,
-    ).join(
-        steins_feed_model.items.Item.feed,
-    ).join(
-        steins_feed_model.feeds.Feed.users.and_(
-            steins_feed_model.users.User.id == current_user.id,
-        ),
-    ).join(
-        steins_feed_model.feeds.Feed.tags.and_(
-            steins_feed_model.feeds.Tag.user_id == current_user.id,
-        ),
-        isouter = True,
+    q = _query_root(
+        current_user,
+        languages = languages,
+        tags = tags,
     ).where(
         steins_feed_model.items.Item.published >= dt_from,
         steins_feed_model.items.Item.published < dt_to,
-        (
-            steins_feed_model.feeds.Feed.language.in_(languages)
-            if languages is not None
-            else sqla.true()
-        ),
-        (
-            steins_feed_model.feeds.Tag.id.in_(tags)
-            if tags is not None
-            else sqla.true()
-        ),
-    ).options(
-        sqla_orm.contains_eager(
-            steins_feed_model.items.Item.feed,
-        ).contains_eager(
-            steins_feed_model.feeds.Feed.users,
-        ),
-        sqla_orm.contains_eager(
-            steins_feed_model.items.Item.feed,
-        ).contains_eager(
-            steins_feed_model.feeds.Feed.tags,
-        ),
-        sqla_orm.joinedload(
-            steins_feed_model.items.Item.likes.and_(
-                steins_feed_model.items.Like.user_id == current_user.id,
-            ),
-        ),
     )
 
     if wall_mode.is_biased:
@@ -221,6 +186,69 @@ async def root(
                 reservoir.add(item_it, item_it.surprise or 1)
 
             return sorted(reservoir.sample, key=lambda x: x.published, reverse=True)
+
+def _query_root(
+    current_user: steins_feed_api.auth.UserDep,
+    languages: typing.Optional[typing.Sequence[steins_feed_model.feeds.Language]],
+    tags: typing.Optional[typing.Sequence[int]],
+    load_display: bool = True,
+    load_tags: bool = True,
+    load_like: bool = True,
+) -> sqla.Select[tuple[steins_feed_model.items.Item]]:
+    q = sqla.select(
+        steins_feed_model.items.Item,
+    ).join(
+        steins_feed_model.items.Item.feed,
+    ).join(
+        steins_feed_model.feeds.Feed.users.and_(
+            steins_feed_model.users.User.id == current_user.id,
+        ),
+    ).join(
+        steins_feed_model.feeds.Feed.tags.and_(
+            steins_feed_model.feeds.Tag.user_id == current_user.id,
+        ),
+        isouter = True,
+    ).where(
+        (
+            steins_feed_model.feeds.Feed.language.in_(languages)
+            if languages is not None
+            else sqla.true()
+        ),
+        (
+            steins_feed_model.feeds.Tag.id.in_(tags)
+            if tags is not None
+            else sqla.true()
+        ),
+    )
+
+    if load_display:
+        q = q.options(
+            sqla_orm.contains_eager(
+                steins_feed_model.items.Item.feed,
+            ).contains_eager(
+                steins_feed_model.feeds.Feed.users,
+            ),
+        )
+
+    if load_tags:
+        q = q.options(
+            sqla_orm.contains_eager(
+                steins_feed_model.items.Item.feed,
+            ).contains_eager(
+                steins_feed_model.feeds.Feed.tags,
+            ),
+        )
+
+    if load_like:
+        q = q.options(
+            sqla_orm.joinedload(
+                steins_feed_model.items.Item.likes.and_(
+                    steins_feed_model.items.Like.user_id == current_user.id,
+                ),
+            ),
+        )
+
+    return q
 
 def _augment_unscored(
     items: typing.Iterable[steins_feed_model.items.Item],
@@ -320,6 +348,33 @@ def _put_scores(
             yield item_it
 
     logger.debug(f"Finish to process items with scores.")
+
+@router.get("/last_updated")
+async def last_updated(
+    session: steins_feed_api.db.Session,
+    current_user: steins_feed_api.auth.UserDep,
+    languages: typing.Annotated[
+        typing.Optional[typing.Sequence[steins_feed_model.feeds.Language]],
+        fastapi.Query(),
+    ] = None,
+    tags: typing.Annotated[
+        typing.Optional[typing.Sequence[int]],
+        fastapi.Query(),
+    ] = None,
+) -> datetime.datetime:
+    q = _query_root(
+        current_user,
+        languages = languages,
+        tags = tags,
+        load_display = False,
+        load_tags = False,
+        load_like = False,
+    ).with_only_columns(
+        sqla.func.max(steins_feed_model.items.Item.published),
+    )
+    res = session.execute(q).scalar()
+
+    return res or datetime.datetime.fromtimestamp(0)
 
 @router.put("/like/")
 async def like(

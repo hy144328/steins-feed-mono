@@ -335,6 +335,34 @@ export type RootItemsGetResponses = {
 
 export type RootItemsGetResponse = RootItemsGetResponses[keyof RootItemsGetResponses];
 
+export type LastUpdatedItemsLastUpdatedGetData = {
+    body?: never;
+    path?: never;
+    query?: {
+        languages?: Array<Language> | null;
+        tags?: Array<number> | null;
+    };
+    url: '/items/last_updated';
+};
+
+export type LastUpdatedItemsLastUpdatedGetErrors = {
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type LastUpdatedItemsLastUpdatedGetError = LastUpdatedItemsLastUpdatedGetErrors[keyof LastUpdatedItemsLastUpdatedGetErrors];
+
+export type LastUpdatedItemsLastUpdatedGetResponses = {
+    /**
+     * Successful Response
+     */
+    200: string;
+};
+
+export type LastUpdatedItemsLastUpdatedGetResponse = LastUpdatedItemsLastUpdatedGetResponses[keyof LastUpdatedItemsLastUpdatedGetResponses];
+
 export type LikeItemsLikePutData = {
     body?: never;
     path?: never;

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import { useNavigate, useSearchParams } from "react-router"
 
 import { Item, Language, WallMode } from "@/client"
-import { rootItemsGet } from "@/client"
+import { rootItemsGet, lastUpdatedItemsLastUpdatedGet } from "@/client"
 
 import { authenticate, require_login } from "@/auth"
 import {
@@ -38,6 +38,7 @@ export default function Page() {
   const wall_mode = wall_mode_raw ? ensure_primitive(wall_mode_raw) as WallMode : "Classic";
 
   const [items, setItems] = useState<Item[]>([]);
+  const [lastPublished, setLastPublished] = useState(new Date(0));
 
   useEffect(() => {
     async function loadItems() {
@@ -49,6 +50,7 @@ export default function Page() {
       }
     }
 
+    lastUpdated(languages, tags).then(d => setLastPublished(d));
     loadItems();
   }, [searchParams])
 
@@ -61,7 +63,7 @@ export default function Page() {
   wall_mode={ wall_mode }
   contentServed={ true }
 />
-<Header now={ now } items={ items }/>
+<Header now={ now } last_published={ lastPublished } items={ items }/>
 <hr/>
 <Main items={ items }/>
 <hr/>
@@ -72,16 +74,16 @@ export default function Page() {
 
 function Header({
   now,
+  last_published,
   items,
 }: {
   now: Date,
+  last_published: Date,
   items: Item[],
 }) {
   const day = now.getUTCDate();
   const month = now.getUTCMonth();
   const year = now.getUTCFullYear();
-
-  const last_published = new Date((items.length > 0) ? items[0].published : 0);
 
   return (
 <header>
@@ -152,4 +154,24 @@ async function getItems(
   }
 
   return resp.data;
+}
+
+async function lastUpdated(
+  languages?: Language[],
+  tags?: number[],
+): Promise<Date> {
+  await authenticate();
+
+  const resp = await lastUpdatedItemsLastUpdatedGet({
+    query: {
+      languages: languages,
+      tags: tags,
+    },
+  });
+
+  if (resp.error) {
+    throw resp.error;
+  }
+
+  return new Date(resp.data);
 }
