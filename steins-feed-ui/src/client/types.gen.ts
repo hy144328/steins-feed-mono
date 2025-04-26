@@ -383,9 +383,11 @@ export type AnalyzeTitleItemsAnalyzeTitleGetResponses = {
     /**
      * Successful Response
      */
-    200: {
-        [key: string]: number;
-    };
+    200: Array<[
+        string,
+        string,
+        number
+    ]>;
 };
 
 export type AnalyzeTitleItemsAnalyzeTitleGetResponse = AnalyzeTitleItemsAnalyzeTitleGetResponses[keyof AnalyzeTitleItemsAnalyzeTitleGetResponses];
@@ -412,9 +414,11 @@ export type AnalyzeSummaryItemsAnalyzeSummaryGetResponses = {
     /**
      * Successful Response
      */
-    200: {
-        [key: string]: number;
-    };
+    200: Array<[
+        string,
+        string,
+        number
+    ]>;
 };
 
 export type AnalyzeSummaryItemsAnalyzeSummaryGetResponse = AnalyzeSummaryItemsAnalyzeSummaryGetResponses[keyof AnalyzeSummaryItemsAnalyzeSummaryGetResponses];

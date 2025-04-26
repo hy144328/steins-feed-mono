@@ -187,7 +187,7 @@ def analyze_text(
     s: str,
     user_id: int,
     lang: "steins_feed_model.feeds.Language| str",
-) -> dict[str, float]:
+) -> list[tuple[str, str, float]]:
     import os
 
     import steins_feed_magic.classify
@@ -203,13 +203,18 @@ def analyze_text(
     try:
         clf = steins_feed_magic.io.read_classifier(os.environ["MAGIC_FOLDER"], user_id, lang)
         text_vectorizer = clf.steps[0][1]
-        text_tokenizer = text_vectorizer.build_tokenizer(skip_stem=True)
+        text_preprocessor = text_vectorizer.build_preprocessor()
+        text_tokenizer = text_vectorizer.build_tokenizer()
+        text_tokenizer_wo_stem = text_vectorizer.build_tokenizer(skip_stem=True)
     except FileNotFoundError:
         logger.warning(f"Skip text without classifier.")
-        return {}
+        return []
 
-    words = text_tokenizer(steins_feed_magic.parse.text_content(s))
-    res = dict(zip(words, steins_feed_magic.classify.predict_scores(clf, words)))
+    content = steins_feed_magic.parse.text_content(s)
+    words = text_tokenizer_wo_stem(content)
+    words_stem = text_tokenizer(text_preprocessor(content))
+    scores = steins_feed_magic.classify.predict_scores(clf, words)
+    res = zip(words, words_stem, scores)
 
     logger.info(f"Finish to analyze text with {len(words)} words for {user_id} and {lang}.")
-    return res
+    return list(res)

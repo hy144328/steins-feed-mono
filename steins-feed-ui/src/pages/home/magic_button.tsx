@@ -20,13 +20,17 @@ export default function MagicButton({
   setTitle: (value: string) => void,
   setSummary: (value: string | null) => void,
 }) {
-  function markWord(word: string, bible: Record<string, number>): HTMLElement {
+  function markWord(
+    word: string,
+    stem: string,
+    score: number,
+  ): HTMLElement {
     const res = document.createElement("mark");
 
     res.textContent = word;
     res.setAttribute("data-bs-toggle", "popover");
-    res.setAttribute("data-bs-title", word);
-    res.setAttribute("data-bs-content", bible[word].toFixed(2));
+    res.setAttribute("data-bs-title", stem);
+    res.setAttribute("data-bs-content", score.toFixed(2));
 
     return res;
   }
@@ -36,28 +40,32 @@ export default function MagicButton({
       setTitle(item.title);
       setSummary(item.summary);
     } else if (item.summary) {
-      analyzeTitle(item.id).then(bible => {
+      analyzeTitle(item.id).then(records => {
+        const stemmer = Object.fromEntries(records.map(([a, b, _]) => [a, b]));
+        const scorer = Object.fromEntries(records.map(([a, _, c]) => [a, c]));
         const title = wrap_words(
           item.title,
-          Object.entries(bible).filter(([_, v]) =>
+          records.filter(([_, __, v]) =>
             Math.abs(v) >= 0.5
           ).map(([k, _]) =>
             k
           ),
-          frag => markWord(frag, bible),
+          frag => markWord(frag, stemmer[frag], scorer[frag]),
         );
         setTitle(title);
       });
 
-      analyzeSummary(item.id).then(bible => {
+      analyzeSummary(item.id).then(records => {
+        const stemmer = Object.fromEntries(records.map(([a, b, _]) => [a, b]));
+        const scorer = Object.fromEntries(records.map(([a, _, c]) => [a, c]));
         const summary = wrap_words(
           item.summary!,
-          Object.entries(bible).filter(([_, v]) =>
+          records.filter(([_, __, v]) =>
             Math.abs(v) >= 0.5
           ).map(([k, _]) =>
             k
           ),
-          frag => markWord(frag, bible),
+          frag => markWord(frag, stemmer[frag], scorer[frag]),
         );
         setSummary(summary);
       });
@@ -75,7 +83,7 @@ export default function MagicButton({
 
 async function analyzeTitle(
   item_id: number,
-): Promise<Record<string, number>> {
+): Promise<[string, string, number][]> {
   await authenticate();
 
   const resp = await analyzeTitleItemsAnalyzeTitleGet({"query": {"item_id": item_id}});
@@ -89,7 +97,7 @@ async function analyzeTitle(
 
 async function analyzeSummary(
   item_id: number,
-): Promise<Record<string, number>> {
+): Promise<[string, string, number][]> {
   await authenticate();
 
   const resp = await analyzeSummaryItemsAnalyzeSummaryGet({"query": {"item_id": item_id}});
