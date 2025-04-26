@@ -20,13 +20,17 @@ export default function MagicButton({
   setTitle: (value: string) => void,
   setSummary: (value: string | null) => void,
 }) {
-  function markWord(word: string, bible: Record<string, number>): HTMLElement {
+  function markWord(
+    word: string,
+    stem: string,
+    score: number,
+  ): HTMLElement {
     const res = document.createElement("mark");
 
     res.textContent = word;
     res.setAttribute("data-bs-toggle", "popover");
-    res.setAttribute("data-bs-title", word);
-    res.setAttribute("data-bs-content", bible[word].toFixed(2));
+    res.setAttribute("data-bs-title", stem);
+    res.setAttribute("data-bs-content", score.toFixed(2));
 
     return res;
   }
