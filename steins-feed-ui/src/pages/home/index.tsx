@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import { useNavigate, useSearchParams } from "react-router"
 
 import { Item, Language, WallMode } from "@/client"
-import { rootItemsGet } from "@/client"
+import { rootItemsGet, lastUpdatedItemsLastUpdatedGet } from "@/client"
 
 import { authenticate, require_login } from "@/auth"
 import {
@@ -152,4 +152,24 @@ async function getItems(
   }
 
   return resp.data;
+}
+
+async function lastUpdated(
+  languages?: Language[],
+  tags?: number[],
+): Promise<Date> {
+  await authenticate();
+
+  const resp = await lastUpdatedItemsLastUpdatedGet({
+    query: {
+      languages: languages,
+      tags: tags,
+    },
+  });
+
+  if (resp.error) {
+    throw resp.error;
+  }
+
+  return new Date(resp.data);
 }
