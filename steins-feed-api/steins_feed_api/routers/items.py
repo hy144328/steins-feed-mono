@@ -353,7 +353,7 @@ async def analyze_title(
     session: steins_feed_api.db.Session,
     current_user: steins_feed_api.auth.UserDep,
     item_id: int,
-) -> dict[str, float]:
+) -> list[tuple[str, str, float]]:
     item = session.get_one(
         steins_feed_model.items.Item,
         item_id,
@@ -361,7 +361,7 @@ async def analyze_title(
     )
 
     if item.feed.language is None:
-        return {}
+        return []
 
     assert isinstance(steins_feed_tasks.magic.analyze_text, celery.Task)
     result = steins_feed_tasks.magic.analyze_text.delay(
@@ -371,7 +371,7 @@ async def analyze_title(
     )
 
     res = result.get()
-    assert isinstance(res, dict)
+    assert isinstance(res, list)
 
     return res
 
@@ -380,7 +380,7 @@ async def analyze_summary(
     session: steins_feed_api.db.Session,
     current_user: steins_feed_api.auth.UserDep,
     item_id: int,
-) -> dict[str, float]:
+) -> list[tuple[str, str, float]]:
     item = session.get_one(
         steins_feed_model.items.Item,
         item_id,
@@ -388,10 +388,10 @@ async def analyze_summary(
     )
 
     if item.summary is None:
-        return {}
+        return []
 
     if item.feed.language is None:
-        return {}
+        return []
 
     assert isinstance(steins_feed_tasks.magic.analyze_text, celery.Task)
     result = steins_feed_tasks.magic.analyze_text.delay(
@@ -401,6 +401,6 @@ async def analyze_summary(
     )
 
     res = result.get()
-    assert isinstance(res, dict)
+    assert isinstance(res, list)
 
     return res
