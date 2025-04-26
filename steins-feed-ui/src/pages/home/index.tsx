@@ -38,6 +38,7 @@ export default function Page() {
   const wall_mode = wall_mode_raw ? ensure_primitive(wall_mode_raw) as WallMode : "Classic";
 
   const [items, setItems] = useState<Item[]>([]);
+  const [lastPublished, setLastPublished] = useState(new Date(0));
 
   useEffect(() => {
     async function loadItems() {
@@ -49,6 +50,7 @@ export default function Page() {
       }
     }
 
+    lastUpdated(languages, tags).then(d => setLastPublished(d));
     loadItems();
   }, [searchParams])
 
@@ -61,7 +63,7 @@ export default function Page() {
   wall_mode={ wall_mode }
   contentServed={ true }
 />
-<Header now={ now } items={ items }/>
+<Header now={ now } last_published={ lastPublished } items={ items }/>
 <hr/>
 <Main items={ items }/>
 <hr/>
