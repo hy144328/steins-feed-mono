@@ -40,28 +40,32 @@ export default function MagicButton({
       setTitle(item.title);
       setSummary(item.summary);
     } else if (item.summary) {
-      analyzeTitle(item.id).then(bible => {
+      analyzeTitle(item.id).then(records => {
+        const stemmer = Object.fromEntries(records.map(([a, b, _]) => [a, b]));
+        const scorer = Object.fromEntries(records.map(([a, _, c]) => [a, c]));
         const title = wrap_words(
           item.title,
-          Object.entries(bible).filter(([_, v]) =>
+          records.filter(([_, __, v]) =>
             Math.abs(v) >= 0.5
           ).map(([k, _]) =>
             k
           ),
-          frag => markWord(frag, bible),
+          frag => markWord(frag, stemmer[frag], scorer[frag]),
         );
         setTitle(title);
       });
 
-      analyzeSummary(item.id).then(bible => {
+      analyzeSummary(item.id).then(records => {
+        const stemmer = Object.fromEntries(records.map(([a, b, _]) => [a, b]));
+        const scorer = Object.fromEntries(records.map(([a, _, c]) => [a, c]));
         const summary = wrap_words(
           item.summary!,
-          Object.entries(bible).filter(([_, v]) =>
+          records.filter(([_, __, v]) =>
             Math.abs(v) >= 0.5
           ).map(([k, _]) =>
             k
           ),
-          frag => markWord(frag, bible),
+          frag => markWord(frag, stemmer[frag], scorer[frag]),
         );
         setSummary(summary);
       });
