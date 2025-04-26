@@ -105,8 +105,18 @@ function WallArticleTitle({
   item: Item,
   title?: string,
 }) {
+  const link_wo_search_parameters = new URL(item.link);
+  link_wo_search_parameters.search = "";
+
   return (
 <h5 className="card-title">
+  <a
+    href={ `https://archive.is/newest/${link_wo_search_parameters}` }
+    target="_blank"
+  >
+  <i className="bi-box-arrow-up-right"/>
+  </a>
+  &nbsp;
   <a
     href={ item.link }
     target="_blank"
