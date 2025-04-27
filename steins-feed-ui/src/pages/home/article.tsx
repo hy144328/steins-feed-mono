@@ -69,7 +69,7 @@ export default function WallArticle({
   </div>
 
   <div
-    className={ is_duplicate ? "card-body collapse" : "card-body collapse show" }
+    className={ collapsed ? "card-body collapse" : "card-body collapse show" }
     ref={ card_body_ref }
   >
     <WallArticleTitle item={ item } title={ title }/>
