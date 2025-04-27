@@ -4,17 +4,13 @@ export default class Graph<K extends string | number | symbol> {
 
   add_node(k: K) {
     this.nodes.add(k);
-  }
 
-  add_edge(k: K, l: K) {
     if (!(k in this.edges)) {
       this.edges[k] = new Set();
     }
+  }
 
-    if (!(l in this.edges)) {
-      this.edges[l] = new Set();
-    }
-
+  add_edge(k: K, l: K) {
     this.edges[k].add(l);
     this.edges[l].add(k);
   }
