@@ -43,6 +43,10 @@ export default function WallArticle({
     );
   });
 
+  useEffect(() => {
+    setCollapsed(is_duplicate);
+  }, [original]);
+
   return (
 <div id={ `article-${item.id}` } className="card">
   <div className="card-header" style={ {display: "flex"} }>
