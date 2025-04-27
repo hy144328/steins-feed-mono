@@ -110,13 +110,17 @@ function Main({
 }: {
   items: Item[],
 }) {
-  const res = represent_cluster(items).map(([item_it, item_repr]) =>
+  console.log("Start represent_cluster.", new Date());
+  //const items_repr: (Item | undefined)[] = Array(items.length).fill(undefined);
+  const items_repr = pick_representatives(items);
+  const res = items.map((item_it, item_ct) =>
     <WallArticle
       item={ item_it }
-      original={ item_repr }
+      original={ items_repr[item_ct] }
       key={ `article_${item_it.id}` }
     />
-  )
+  );
+  console.log("Finish represent_cluster.", new Date());
 
   return (
 <main>
@@ -125,9 +129,9 @@ function Main({
   );
 }
 
-function represent_cluster(
+function pick_representatives(
   items: Item[],
-): [Item, Item | undefined][] {
+): (Item | undefined)[] {
   const g = new Graph<number>();
 
   for (let i = 0; i < items.length; i++) {
@@ -163,12 +167,11 @@ function represent_cluster(
   });
   const dict_repr = Object.fromEntries(entries_repr) as Record<number, number>;
 
-  return items.map((item_it, item_ct) => {
-      const repr_ct = dict_repr[item_ct];
-      const repr_it = items[repr_ct];
-      return [item_it, (item_ct === repr_ct) ? undefined : repr_it];
-    }
-  );
+  return items.map((_, item_ct) => {
+    const repr_ct = dict_repr[item_ct];
+    const repr_it = items[repr_ct];
+    return (item_ct === repr_ct) ? undefined : repr_it;
+  });
 }
 
 async function getItems(
