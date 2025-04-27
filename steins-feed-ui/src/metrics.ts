@@ -10,11 +10,11 @@ export function similar_edit(
   }
 
   if (i === s.length) {
-    return t.length <= thresh;
+    return t.length - j <= thresh;
   }
 
   if (j === t.length) {
-    return s.length <= thresh;
+    return s.length - i <= thresh;
   }
 
   if (s[i] === t[j]) {
