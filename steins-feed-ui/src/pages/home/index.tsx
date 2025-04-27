@@ -5,12 +5,13 @@ import { Item, Language, WallMode } from "@/client"
 import { rootItemsGet, lastUpdatedItemsLastUpdatedGet } from "@/client"
 
 import { authenticate, require_login } from "@/auth"
+import Graph from "@/graph"
+import { similar_edit } from "@/metrics"
 import {
   day_of_week_short,
   ensure_array,
   ensure_primitive,
   format_datetime,
-  group_by,
   month_of_year_short
 } from "@/util"
 
@@ -109,10 +110,7 @@ function Main({
 }: {
   items: Item[],
 }) {
-  const items_grouped = group_by(
-    items,
-    (a, b) => (a.published === b.published) && (a.title == b.title)
-  );
+  const items_grouped = cluster_items(items);
   const res = items_grouped.flatMap(item_group_it =>
     item_group_it.map((item_it, item_ct) =>
       <WallArticle
@@ -128,6 +126,36 @@ function Main({
 { res }
 </main>
   );
+}
+
+function cluster_items(
+  items: Item[],
+): Item[][] {
+  const g = new Graph<number>();
+
+  for (let i = 0; i < items.length; i++) {
+    g.add_node(i);
+  }
+
+  for (let i = 0; i < items.length; i++) {
+    for (let j = i+1; j < items.length; j++) {
+      const title_i = items[i].title;
+      const title_j = items[j].title;
+
+      if (similar_edit(title_i, title_j, 0.05 * Math.min(title_i.length, title_j.length))) {
+        g.add_edge(i, j);
+      }
+    }
+  }
+
+  const clusters = g.clusters();
+  const res = Array.from(clusters).map(cluster_it =>
+    Array.from(cluster_it).map(item_ct =>
+      items[item_ct]
+    )
+  );
+
+  return res;
 }
 
 async function getItems(
