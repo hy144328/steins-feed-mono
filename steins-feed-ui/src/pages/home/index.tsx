@@ -110,16 +110,13 @@ function Main({
 }: {
   items: Item[],
 }) {
-  const items_grouped = cluster_items(items);
-  const res = items_grouped.flatMap(item_group_it =>
-    item_group_it.map((item_it, item_ct) =>
-      <WallArticle
-        item={ item_it }
-        original={ item_ct === 0 ? undefined : item_group_it[0] }
-        key={ `article_${item_it.id}` }
-      />
-    )
-  );
+  const res = represent_cluster(items).map(([item_it, item_repr]) =>
+    <WallArticle
+      item={ item_it }
+      original={ item_repr }
+      key={ `article_${item_it.id}` }
+    />
+  )
 
   return (
 <main>
@@ -128,9 +125,9 @@ function Main({
   );
 }
 
-function cluster_items(
+function represent_cluster(
   items: Item[],
-): Item[][] {
+): [Item, Item | undefined][] {
   const g = new Graph<number>();
 
   for (let i = 0; i < items.length; i++) {
@@ -148,14 +145,30 @@ function cluster_items(
     }
   }
 
-  const clusters = g.clusters();
-  const res = Array.from(clusters).map(cluster_it =>
-    Array.from(cluster_it).map(item_ct =>
-      items[item_ct]
-    )
-  );
+  const entries_repr = Array.from(g.clusters()).flatMap(cluster_it => {
+    const array_it = Array.from(cluster_it);
+    const item_ct_min = array_it.reduce((prev_ct, curr_ct) => {
+      const prev_dt = items[prev_ct].published;
+      const curr_dt = items[curr_ct].published;
 
-  return res;
+      if (prev_dt < curr_dt) {
+        return curr_ct;
+      } else if (prev_dt > curr_dt) {
+        return prev_ct;
+      } else {
+        return (prev_ct < curr_ct) ? prev_ct : curr_ct;
+      }
+    });
+    return array_it.map(item_ct => [item_ct, item_ct_min])
+  });
+  const dict_repr = Object.fromEntries(entries_repr) as Record<number, number>;
+
+  return items.map((item_it, item_ct) => {
+      const repr_ct = dict_repr[item_ct];
+      const repr_it = items[repr_ct];
+      return [item_it, (item_ct === repr_ct) ? undefined : repr_it];
+    }
+  );
 }
 
 async function getItems(
