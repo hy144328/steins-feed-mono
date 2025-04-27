@@ -1,4 +1,4 @@
-export class Graph<K extends string | number | symbol> {
+export default class Graph<K extends string | number | symbol> {
   nodes: Set<K> = new Set<K>();
   edges: Record<K, Set<K>> = {} as Record<K, Set<K>>;
 
