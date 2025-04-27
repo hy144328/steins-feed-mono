@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { memo, useEffect, useState } from "react"
 import { useNavigate, useSearchParams } from "react-router"
 
 import { Item, Language, WallMode } from "@/client"
@@ -10,7 +10,6 @@ import {
   ensure_array,
   ensure_primitive,
   format_datetime,
-  group_by,
   month_of_year_short
 } from "@/util"
 
@@ -104,30 +103,53 @@ function Footer() {
   );
 }
 
+const WallArticleMemo = memo(WallArticle);
+
 function Main({
   items,
 }: {
   items: Item[],
 }) {
-  const items_grouped = group_by(
-    items,
-    (a, b) => (a.published === b.published) && (a.title == b.title)
+  const [itemsRepr, setItemsRepr] = useState(Array<Item | undefined>(items.length).fill(undefined));
+  const res = items.map((item_it, item_ct) =>
+    <WallArticleMemo
+      item={ item_it }
+      original={ itemsRepr[item_ct] }
+      key={ `article_${item_it.id}` }
+    />
   );
-  const res = items_grouped.flatMap(item_group_it =>
-    item_group_it.map((item_it, item_ct) =>
-      <WallArticle
-        item={ item_it }
-        original={ item_ct === 0 ? undefined : item_group_it[0] }
-        key={ `article_${item_it.id}` }
-      />
-    )
-  );
+
+  useEffect(() => {
+    const worker = new Worker(new URL("./worker.ts", import.meta.url), {type: "module"});
+    pick_representatives(worker, items, setItemsRepr);
+    return () => {worker.terminate()};
+  }, [items]);
 
   return (
 <main>
 { res }
 </main>
   );
+}
+
+function pick_representatives(
+  worker: Worker,
+  items: Item[],
+  setItems: (is: (Item | undefined)[]) => void,
+) {
+  worker.onmessage = (e: MessageEvent<number[]>) => {
+    const items_repr = e.data;
+    const res = items.map((_, item_ct) => {
+      const repr_ct = items_repr[item_ct];
+      const repr_it = items[repr_ct];
+      return (item_ct === repr_ct) ? undefined : repr_it;
+    });
+    setItems(res);
+  };
+
+  worker.postMessage(items.map(item_it => {
+    return {title: item_it.title, published: item_it.published}
+  }));
 }
 
 async function getItems(
