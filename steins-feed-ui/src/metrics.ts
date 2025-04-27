@@ -21,7 +21,7 @@ export function similar_edit(
     return similar_edit(s, t, thresh, i+1, j+1);
   }
 
-  return similar_edit(s, t, thresh-1, i+1, j) || similar_edit(s, t, thresh-1, i, j+1) || similar_edit(s, t, thresh-1, i+1, j+1);
+  return similar_edit(s, t, thresh-1, i+1, j+1) || similar_edit(s, t, thresh-1, i+1, j) || similar_edit(s, t, thresh-1, i, j+1);
 }
 
 export function similar_prefix(
