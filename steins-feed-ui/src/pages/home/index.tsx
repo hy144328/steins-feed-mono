@@ -5,8 +5,6 @@ import { Item, Language, WallMode } from "@/client"
 import { rootItemsGet, lastUpdatedItemsLastUpdatedGet } from "@/client"
 
 import { authenticate, require_login } from "@/auth"
-import Graph from "@/graph"
-import { similar_edit } from "@/metrics"
 import {
   day_of_week_short,
   ensure_array,
@@ -112,7 +110,6 @@ function Main({
 }: {
   items: Item[],
 }) {
-  console.log("Start represent_cluster.", new Date());
   const [itemsRepr, setItemsRepr] = useState(Array<Item | undefined>(items.length).fill(undefined));
   const res = items.map((item_it, item_ct) =>
     <WallArticleMemo
@@ -121,10 +118,11 @@ function Main({
       key={ `article_${item_it.id}` }
     />
   );
-  console.log("Finish represent_cluster.", new Date());
 
   useEffect(() => {
-    setItemsRepr(pick_representatives(items));
+    const worker = new Worker(new URL("./worker.ts", import.meta.url), {type: "module"});
+    pick_representatives(worker, items, setItemsRepr);
+    return () => {worker.terminate()};
   }, [items]);
 
   return (
@@ -135,52 +133,23 @@ function Main({
 }
 
 function pick_representatives(
+  worker: Worker,
   items: Item[],
-): (Item | undefined)[] {
-  const g = new Graph<number>();
-
-  for (let i = 0; i < items.length; i++) {
-    g.add_node(i);
-  }
-
-  for (let i = 0; i < items.length; i++) {
-    for (let j = i+1; j < items.length; j++) {
-      const title_i = items[i].title;
-      const title_j = items[j].title;
-
-      if (similar_edit(title_i, title_j, 0.05 * Math.min(title_i.length, title_j.length))) {
-        g.add_edge(i, j);
-      }
-    }
-  }
-
-  console.log("Find clusters.", new Date());
-  const clusters = g.clusters();
-  console.log("Find clusters finished.", new Date());
-  console.log("Find representatives of clusters.", new Date());
-  const entries_repr = Array.from(clusters).flatMap(cluster_it => {
-    const array_it = Array.from(cluster_it);
-    const item_ct_min = array_it.reduce((prev_ct, curr_ct) => {
-      const prev_dt = items[prev_ct].published;
-      const curr_dt = items[curr_ct].published;
-
-      if (prev_dt < curr_dt) {
-        return curr_ct;
-      } else if (prev_dt > curr_dt) {
-        return prev_ct;
-      } else {
-        return (prev_ct < curr_ct) ? prev_ct : curr_ct;
-      }
+  setItems: (is: (Item | undefined)[]) => void,
+) {
+  worker.onmessage = (e: MessageEvent<number[]>) => {
+    const items_repr = e.data;
+    const res = items.map((_, item_ct) => {
+      const repr_ct = items_repr[item_ct];
+      const repr_it = items[repr_ct];
+      return (item_ct === repr_ct) ? undefined : repr_it;
     });
-    return array_it.map(item_ct => [item_ct, item_ct_min])
-  });
-  const dict_repr = Object.fromEntries(entries_repr) as Record<number, number>;
+    setItems(res);
+  };
 
-  return items.map((_, item_ct) => {
-    const repr_ct = dict_repr[item_ct];
-    const repr_it = items[repr_ct];
-    return (item_ct === repr_ct) ? undefined : repr_it;
-  });
+  worker.postMessage(items.map(item_it => {
+    return {title: item_it.title, published: item_it.published}
+  }));
 }
 
 async function getItems(
