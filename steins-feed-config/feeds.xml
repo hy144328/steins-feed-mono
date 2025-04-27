@@ -3343,6 +3343,12 @@
     <tag>satire</tag>
   </feed>
   <feed>
+    <title>The Verge</title>
+    <link>https://www.theverge.com/rss/index.xml</link>
+    <lang>English</lang>
+    <tag>tech</tag>
+  </feed>
+  <feed>
     <title>The Village Voice</title>
     <link>https://www.villagevoice.com/feed/</link>
     <lang>English</lang>
