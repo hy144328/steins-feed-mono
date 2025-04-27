@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { memo, useEffect, useState } from "react"
 import { useNavigate, useSearchParams } from "react-router"
 
 import { Item, Language, WallMode } from "@/client"
@@ -105,22 +105,27 @@ function Footer() {
   );
 }
 
+const WallArticleMemo = memo(WallArticle);
+
 function Main({
   items,
 }: {
   items: Item[],
 }) {
   console.log("Start represent_cluster.", new Date());
-  //const items_repr: (Item | undefined)[] = Array(items.length).fill(undefined);
-  const items_repr = pick_representatives(items);
+  const [itemsRepr, setItemsRepr] = useState(Array<Item | undefined>(items.length).fill(undefined));
   const res = items.map((item_it, item_ct) =>
-    <WallArticle
+    <WallArticleMemo
       item={ item_it }
-      original={ items_repr[item_ct] }
+      original={ itemsRepr[item_ct] }
       key={ `article_${item_it.id}` }
     />
   );
   console.log("Finish represent_cluster.", new Date());
+
+  useEffect(() => {
+    setItemsRepr(pick_representatives(items));
+  }, [items]);
 
   return (
 <main>
@@ -149,7 +154,11 @@ function pick_representatives(
     }
   }
 
-  const entries_repr = Array.from(g.clusters()).flatMap(cluster_it => {
+  console.log("Find clusters.", new Date());
+  const clusters = g.clusters();
+  console.log("Find clusters finished.", new Date());
+  console.log("Find representatives of clusters.", new Date());
+  const entries_repr = Array.from(clusters).flatMap(cluster_it => {
     const array_it = Array.from(cluster_it);
     const item_ct_min = array_it.reduce((prev_ct, curr_ct) => {
       const prev_dt = items[prev_ct].published;
