@@ -1231,6 +1231,13 @@
     <tag>business</tag>
   </feed>
   <feed>
+    <title>Idle Words</title>
+    <link>https://idlewords.com/index.xml</link>
+    <lang>English</lang>
+    <tag>people</tag>
+    <tag>tech</tag>
+  </feed>
+  <feed>
     <title>Inc.com</title>
     <link>https://www.inc.com/rss/</link>
     <lang>English</lang>
@@ -1787,6 +1794,13 @@
     <link>https://www.piratewires.com/api/rss</link>
     <lang>English</lang>
     <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>PlanetScale</title>
+    <link>https://planetscale.com/blog/feed.atom</link>
+    <lang>English</lang>
+    <tag>companies</tag>
+    <tag>tech</tag>
   </feed>
   <feed>
     <title>Planet Schule</title>
