@@ -3570,6 +3570,12 @@
     <tag>tech</tag>
   </feed>
   <feed>
+    <title>Undark</title>
+    <link>https://undark.org/feed/</link>
+    <lang>English</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
     <title>Vanity Fair</title>
     <link>https://www.vanityfair.com/feed/rss</link>
     <lang>English</lang>
