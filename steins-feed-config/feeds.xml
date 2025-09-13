@@ -1275,6 +1275,12 @@
     <tag>education</tag>
   </feed>
   <feed>
+    <title>Krautreporter</title>
+    <link>https://krautreporter.de/feeds.rss</link>
+    <lang>German</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
     <title>learninglab</title>
     <link>https://www.learninglab.de/feed/</link>
     <lang>German</lang>
