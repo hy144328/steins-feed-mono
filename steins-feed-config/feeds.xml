@@ -1869,6 +1869,12 @@
     <tag>companies</tag>
   </feed>
   <feed>
+    <title>ProPublica</title>
+    <link>https://www.propublica.org/feeds/propublica/main</link>
+    <lang>English</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
     <title>Quanta Magazine</title>
     <link>https://www.quantamagazine.org/feed/</link>
     <lang>English</lang>
