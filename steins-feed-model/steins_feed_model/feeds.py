@@ -40,7 +40,7 @@ class Tag(base.Base):
     )
 
     id: sqla_orm.Mapped[int] = sqla_orm.mapped_column(sqla.Integer, primary_key=True, init=False)
-    user_id: sqla_orm.Mapped[int] = sqla_orm.mapped_column(sqla.Integer, types.ForeignKey(users.User.id))
+    user_id: sqla_orm.Mapped[int] = sqla_orm.mapped_column(sqla.Integer, types.create_foreign_key(users.User.id))
     name: sqla_orm.Mapped[str] = sqla_orm.mapped_column(types.TINYTEXT)
 
     feeds: sqla_orm.Mapped[list["Feed"]] = sqla_orm.relationship(
@@ -57,15 +57,15 @@ class Tag(base.Base):
 sqla.Table(
     "Display",
     base.Base.metadata,
-    sqla.Column("user_id", sqla.Integer, types.ForeignKey(users.User.id), nullable=False),
-    sqla.Column("feed_id", sqla.Integer, types.ForeignKey(Feed.id), nullable=False),
+    sqla.Column("user_id", sqla.Integer, types.create_foreign_key(users.User.id), nullable=False),
+    sqla.Column("feed_id", sqla.Integer, types.create_foreign_key(Feed.id), nullable=False),
     sqla.UniqueConstraint("user_id", "feed_id"),
 )
 
 sqla.Table(
     "Tag2Feed",
     base.Base.metadata,
-    sqla.Column("tag_id", sqla.Integer, types.ForeignKey(Tag.id), nullable=False),
-    sqla.Column("feed_id", sqla.Integer, types.ForeignKey(Feed.id), nullable=False),
+    sqla.Column("tag_id", sqla.Integer, types.create_foreign_key(Tag.id), nullable=False),
+    sqla.Column("feed_id", sqla.Integer, types.create_foreign_key(Feed.id), nullable=False),
     sqla.UniqueConstraint("tag_id", "feed_id"),
 )

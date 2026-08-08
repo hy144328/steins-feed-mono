@@ -37,7 +37,7 @@ class Role(base.Base):
 sqla.Table(
     "User2Role",
     base.Base.metadata,
-    sqla.Column("user_id", sqla.Integer, types.ForeignKey(User.id), nullable=False),
-    sqla.Column("role_id", sqla.Integer, types.ForeignKey(Role.id), nullable=False),
+    sqla.Column("user_id", sqla.Integer, types.create_foreign_key(User.id), nullable=False),
+    sqla.Column("role_id", sqla.Integer, types.create_foreign_key(Role.id), nullable=False),
     sqla.UniqueConstraint("user_id", "role_id"),
 )

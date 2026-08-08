@@ -22,7 +22,7 @@ class Item(base.Base):
     title: sqla_orm.Mapped[str] = sqla_orm.mapped_column(types.TEXT)
     link: sqla_orm.Mapped[str] = sqla_orm.mapped_column(types.TEXT)
     published: sqla_orm.Mapped[datetime.datetime] = sqla_orm.mapped_column(sqla.DateTime)
-    feed_id: sqla_orm.Mapped[int] = sqla_orm.mapped_column(sqla.Integer, types.ForeignKey(feeds.Feed.id))
+    feed_id: sqla_orm.Mapped[int] = sqla_orm.mapped_column(sqla.Integer, types.create_foreign_key(feeds.Feed.id))
     summary: sqla_orm.Mapped[typing.Optional[str]] = sqla_orm.mapped_column(types.MEDIUMTEXT, default=None)
 
     feed: sqla_orm.Mapped["feeds.Feed"] = sqla_orm.relationship(
@@ -50,8 +50,8 @@ class Like(base.Base):
         "primary_key": ["user_id", "item_id"],
     }
 
-    user_id: sqla_orm.Mapped[int] = sqla_orm.mapped_column(sqla.Integer, types.ForeignKey(users.User.id))
-    item_id: sqla_orm.Mapped[int] = sqla_orm.mapped_column(sqla.Integer, types.ForeignKey(Item.id))
+    user_id: sqla_orm.Mapped[int] = sqla_orm.mapped_column(sqla.Integer, types.create_foreign_key(users.User.id))
+    item_id: sqla_orm.Mapped[int] = sqla_orm.mapped_column(sqla.Integer, types.create_foreign_key(Item.id))
     score: sqla_orm.Mapped[LikeStatus] = sqla_orm.mapped_column(sqla.Enum(LikeStatus))
     added: sqla_orm.Mapped[datetime.datetime] = sqla_orm.mapped_column(sqla.DateTime, server_default=sqla.func.now(), init=False)
     updated: sqla_orm.Mapped[datetime.datetime] = sqla_orm.mapped_column(sqla.DateTime, server_default=sqla.func.now(), server_onupdate=sqla.func.now(), init=False)
@@ -77,8 +77,8 @@ class Magic(base.Base):
         "primary_key": ["user_id", "item_id"],
     }
 
-    user_id: sqla_orm.Mapped[int] = sqla_orm.mapped_column(sqla.Integer, types.ForeignKey(users.User.id))
-    item_id: sqla_orm.Mapped[int] = sqla_orm.mapped_column(sqla.Integer, types.ForeignKey(Item.id))
+    user_id: sqla_orm.Mapped[int] = sqla_orm.mapped_column(sqla.Integer, types.create_foreign_key(users.User.id))
+    item_id: sqla_orm.Mapped[int] = sqla_orm.mapped_column(sqla.Integer, types.create_foreign_key(Item.id))
     score: sqla_orm.Mapped[float] = sqla_orm.mapped_column("Score", sqla.Float)
     added: sqla_orm.Mapped[datetime.datetime] = sqla_orm.mapped_column(sqla.DateTime, server_default=sqla.func.now(), init=False)
     updated: sqla_orm.Mapped[datetime.datetime] = sqla_orm.mapped_column(sqla.DateTime, server_default=sqla.func.now(), server_onupdate=sqla.func.now(), init=False)
