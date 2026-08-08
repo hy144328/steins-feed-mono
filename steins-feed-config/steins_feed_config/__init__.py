@@ -32,7 +32,7 @@ def read_xml(
                     language = feed_lang,
                 )
                 logger.info(f"Create {feed_title}.")
-        except sqla_exc.IntegrityError:
+        except sqla_exc.IntegrityError: # pragma: no cover
             logger.warning(f"Feed {feed_title} already exists.")
             continue
 
@@ -47,7 +47,7 @@ def read_xml(
             with session.begin():
                 feed.users.append(user)
                 logger.info(f"Add {user_name} to display {feed_title}.")
-        except sqla_exc.IntegrityError:
+        except sqla_exc.IntegrityError: # pragma: no cover
             logger.warning(f"{feed_title} already displayed to {user_name}.")
 
         for tag_it in feed_it.xpath("tag"):
@@ -73,7 +73,7 @@ def read_xml(
                 with session.begin():
                     feed.tags.append(tag)
                     logger.info(f"Add {tag_name} to {feed_title}.")
-            except sqla_exc.IntegrityError:
+            except sqla_exc.IntegrityError: # pragma: no cover
                 logger.warning(f"{feed_title} already in {tag_name}.")
 
 def write_xml(

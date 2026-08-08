@@ -7,17 +7,6 @@ import steins_feed_model.feeds
 
 logger = logging.getLogger(__name__)
 
-def get_feed(
-    session: sqla_orm.Session,
-    title: str,
-) -> steins_feed_model.feeds.Feed:
-    q = sqla.select(
-        steins_feed_model.feeds.Feed,
-    ).where(
-        steins_feed_model.feeds.Feed.title == title,
-    )
-    return session.execute(q).scalars().one()
-
 def create_feed(
     session: sqla_orm.Session,
     title: str,
