@@ -1,5 +1,9 @@
 # steins-feed-mono
 
+## Architecture
+
+Application:
+
 ```mermaid
 flowchart TD
     subgraph backend
@@ -20,4 +24,19 @@ flowchart TD
     end
 
     steins-feed-api -.-> steins-feed-ui
+```
+
+Database:
+
+```mermaid
+erDiagram
+    User }o--o{ Role: assumes
+
+    Tag }o--o{ Feed: "applies to"
+    User ||--o{ Tag: creates
+    User }o--o{ Feed: displays
+
+    Item }o--|| Feed: "belongs to"
+    User }o--o{ Item: "likes"
+    User }o--o{ Item: "scores"
 ```
