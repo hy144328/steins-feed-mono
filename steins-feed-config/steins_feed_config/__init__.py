@@ -13,59 +13,73 @@ logger = logging.getLogger(__name__)
 def read_xml(
     session: sqla_orm.Session,
     f: typing.TextIO,
-    user_id: typing.Optional[int],
+    user_id: int | None,
 ):
     tree = lxml.etree.parse(f)
     root = tree.getroot()
 
     for feed_it in root.xpath("feed"):
+        feed_title: str = feed_it.xpath("title")[0].text
+        feed_link: str = feed_it.xpath("link")[0].text
+        feed_lang: str = steins_feed_model.feeds.Language(feed_it.xpath("lang")[0].text)
+
         try:
-            feed = steins_feed_config.db.create_feed(
-                session,
-                title = feed_it.xpath("title")[0].text,
-                link = feed_it.xpath("link")[0].text,
-                language = steins_feed_model.feeds.Language(feed_it.xpath("lang")[0].text),
-            )
-            logger.info(f"Create {feed_it.xpath('title')[0].text}.")
+            with session.begin():
+                feed = steins_feed_config.db.create_feed(
+                    session,
+                    title = feed_title,
+                    link = feed_link,
+                    language = feed_lang,
+                )
+                logger.info(f"Create {feed_title}.")
         except sqla_exc.IntegrityError:
-            logger.warning(f"Feed {feed_it.xpath('title')[0].text} already exists.")
+            logger.warning(f"Feed {feed_title} already exists.")
             continue
 
         if user_id is None:
             continue
 
-        user = session.get_one(steins_feed_model.users.User, user_id)
-        steins_feed_config.db.add_user(
-            session,
-            feed = feed,
-            user = user,
-        )
+        with session.begin():
+            user = session.get_one(steins_feed_model.users.User, user_id)
+            user_name = user.name
+
+        try:
+            with session.begin():
+                feed.users.append(user)
+                logger.info(f"Add {user_name} to display {feed_title}.")
+        except sqla_exc.IntegrityError:
+            logger.warning(f"{feed_title} already displayed to {user_name}.")
 
         for tag_it in feed_it.xpath("tag"):
-            try:
-                tag = steins_feed_config.db.get_tag(
-                    session,
-                    user_id = user_id,
-                    tag_name = tag_it.text,
-                )
-            except sqla_exc.NoResultFound:
-                tag = steins_feed_config.db.create_tag(
-                    session,
-                    user_id = user_id,
-                    tag_name = tag_it.text,
-                )
-                logger.info(f"Create {tag.name}.")
+            tag_name: str = tag_it.text
 
-            steins_feed_config.db.add_tag(
-                session,
-                feed = feed,
-                tag = tag,
-            )
+            try:
+                with session.begin():
+                    tag = steins_feed_config.db.get_tag(
+                        session,
+                        user_id = user_id,
+                        tag_name = tag_name,
+                    )
+            except sqla_exc.NoResultFound:
+                with session.begin():
+                    tag = steins_feed_config.db.create_tag(
+                        session,
+                        user_id = user_id,
+                        tag_name = tag_name,
+                    )
+                    logger.info(f"Create {tag_name}.")
+
+            try:
+                with session.begin():
+                    feed.tags.append(tag)
+                    logger.info(f"Add {tag_name} to {feed_title}.")
+            except sqla_exc.IntegrityError:
+                logger.warning(f"{feed_title} already in {tag_name}.")
 
 def write_xml(
     session: sqla_orm.Session,
     f: typing.TextIO,
-    user_id: typing.Optional[int],
+    user_id: int | None,
 ):
     feeds = steins_feed_config.db.get_feeds(session)
     root = lxml.etree.Element("root")
