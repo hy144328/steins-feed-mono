@@ -19,9 +19,9 @@ def read_xml(
     root = tree.getroot()
 
     for feed_it in root.xpath("feed"):
-        feed_title = feed_it.xpath("title")[0].text
-        feed_link = feed_it.xpath("link")[0].text
-        feed_lang = steins_feed_model.feeds.Language(feed_it.xpath("lang")[0].text)
+        feed_title: str = feed_it.xpath("title")[0].text
+        feed_link: str = feed_it.xpath("link")[0].text
+        feed_lang: str = steins_feed_model.feeds.Language(feed_it.xpath("lang")[0].text)
 
         try:
             with session.begin():
@@ -51,7 +51,7 @@ def read_xml(
             logger.warning(f"{feed_title} already displayed to {user_name}.")
 
         for tag_it in feed_it.xpath("tag"):
-            tag_name = tag_it.text
+            tag_name: str = tag_it.text
 
             try:
                 with session.begin():
