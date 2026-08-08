@@ -1,3 +1,4 @@
+import collections.abc
 import tempfile
 import typing
 
@@ -13,12 +14,12 @@ import steins_feed_model.users
 
 @pytest.fixture
 def engine() -> sqla.engine.Engine:
-    engine = steins_feed_model.EngineFactory.create_engine()
-    steins_feed_model.base.Base.metadata.create_all(engine)
-    return engine
+    res = sqla.create_engine(sqla.URL.create("sqlite"))
+    steins_feed_model.base.Base.metadata.create_all(res)
+    return res
 
 @pytest.fixture
-def session(engine: sqla.engine.Engine) -> typing.Generator[sqla_orm.Session]:
+def session(engine: sqla.engine.Engine) -> collections.abc.Generator[sqla_orm.Session]:
     with sqla_orm.Session(engine) as session:
         yield session
 
@@ -31,18 +32,18 @@ def user(
         password = "",
         email = "hans.yu@outlook.de",
     )
-    session.add(user)
-    session.commit()
+    with session.begin():
+        session.add(user)
 
     return user
 
 @pytest.fixture
-def temp_dir() -> typing.Generator[str]:
+def temp_dir() -> collections.abc.Generator[str]:
     with tempfile.TemporaryDirectory() as temp_dir:
         yield temp_dir
 
 @pytest.fixture
-def temp_file(temp_dir: str) -> typing.Generator[typing.TextIO]:
+def temp_file(temp_dir: str) -> collections.abc.Generator[typing.TextIO]:
     with tempfile.NamedTemporaryFile("w", dir=temp_dir, delete=False) as f:
         f.write("""
 <root>
@@ -64,10 +65,13 @@ def test_read_xml(
     user: steins_feed_model.users.User,
     temp_file: typing.TextIO,
 ):
+    with session.begin():
+        user_id = user.id
+
     steins_feed_config.read_xml(
         session,
         temp_file,
-        user_id = user.id,
+        user_id = user_id,
     )
 
     q = sqla.select(steins_feed_model.feeds.Feed)
@@ -96,16 +100,19 @@ def test_read_and_read_xml(
     user: steins_feed_model.users.User,
     temp_file: typing.TextIO,
 ):
+    with session.begin():
+        user_id = user.id
+
     steins_feed_config.read_xml(
         session,
         temp_file,
-        user_id = user.id,
+        user_id = user_id,
     )
     temp_file.seek(0)
     steins_feed_config.read_xml(
         session,
         temp_file,
-        user_id = user.id,
+        user_id = user_id,
     )
 
     q = sqla.select(steins_feed_model.feeds.Feed)
@@ -120,10 +127,13 @@ def test_read_and_write_xml(
     temp_dir: str,
     temp_file: typing.TextIO,
 ):
+    with session.begin():
+        user_id = user.id
+
     steins_feed_config.read_xml(
         session,
         temp_file,
-        user_id = user.id,
+        user_id = user_id,
     )
 
     with tempfile.NamedTemporaryFile("w", dir=temp_dir, delete=False) as f:
@@ -133,7 +143,7 @@ def test_read_and_write_xml(
         steins_feed_config.write_xml(
             session,
             f,
-            user_id = user.id,
+            user_id = user_id,
         )
 
     with open(f.name, "r") as f:
@@ -153,10 +163,13 @@ def test_read_and_write_xml_no_user(
     temp_dir: str,
     temp_file: typing.TextIO,
 ):
+    with session.begin():
+        user_id = user.id
+
     steins_feed_config.read_xml(
         session,
         temp_file,
-        user_id = user.id,
+        user_id = user_id,
     )
 
     with tempfile.NamedTemporaryFile("w", dir=temp_dir, delete=False) as f:
