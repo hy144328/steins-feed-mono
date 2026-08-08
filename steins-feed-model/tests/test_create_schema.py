@@ -13,7 +13,7 @@ def engine() -> sqla.Engine:
 @pytest.fixture
 def metadata(engine: sqla.Engine) -> sqla.MetaData:
     res = sqla.MetaData()
-    res.reflect(bind=engine)
+    res.reflect(engine)
     return res
 
 def test_create_schema(metadata: sqla.MetaData):
