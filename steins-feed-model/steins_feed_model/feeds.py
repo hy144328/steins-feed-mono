@@ -12,13 +12,14 @@ class Language(str, enum.Enum):
     GERMAN = "German"
     SWEDISH = "Swedish"
 
+@typing.final
 class Feed(base.Base):
     __tablename__ = "Feed"
 
     id: sqla_orm.Mapped[int] = sqla_orm.mapped_column(sqla.Integer, primary_key=True, init=False)
     title: sqla_orm.Mapped[str] = sqla_orm.mapped_column(types.TEXT, unique=True)
     link: sqla_orm.Mapped[str] = sqla_orm.mapped_column(types.TEXT, unique=True)
-    language: sqla_orm.Mapped[typing.Optional[Language]] = sqla_orm.mapped_column(sqla.Enum(Language), default=None)
+    language: sqla_orm.Mapped[Language | None] = sqla_orm.mapped_column(sqla.Enum(Language), default=None)
 
     users: sqla_orm.Mapped[list["users.User"]] = sqla_orm.relationship(
         "User",
@@ -33,6 +34,7 @@ class Feed(base.Base):
         init=False,
     )
 
+@typing.final
 class Tag(base.Base):
     __tablename__ = "Tag"
     __table_args__ = (
@@ -54,7 +56,7 @@ class Tag(base.Base):
         init=False,
     )
 
-sqla.Table(
+_ = sqla.Table(
     "Display",
     base.Base.metadata,
     sqla.Column("user_id", sqla.Integer, types.create_foreign_key(users.User.id), nullable=False),
@@ -62,7 +64,7 @@ sqla.Table(
     sqla.UniqueConstraint("user_id", "feed_id"),
 )
 
-sqla.Table(
+_ = sqla.Table(
     "Tag2Feed",
     base.Base.metadata,
     sqla.Column("tag_id", sqla.Integer, types.create_foreign_key(Tag.id), nullable=False),

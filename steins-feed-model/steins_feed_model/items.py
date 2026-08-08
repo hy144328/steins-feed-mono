@@ -12,6 +12,7 @@ class LikeStatus(int, enum.Enum):
     MEH = 0
     DOWN = -1
 
+@typing.final
 class Item(base.Base):
     __tablename__ = "Item"
     __table_args__ = (
@@ -23,7 +24,7 @@ class Item(base.Base):
     link: sqla_orm.Mapped[str] = sqla_orm.mapped_column(types.TEXT)
     published: sqla_orm.Mapped[datetime.datetime] = sqla_orm.mapped_column(sqla.DateTime)
     feed_id: sqla_orm.Mapped[int] = sqla_orm.mapped_column(sqla.Integer, types.create_foreign_key(feeds.Feed.id))
-    summary: sqla_orm.Mapped[typing.Optional[str]] = sqla_orm.mapped_column(types.MEDIUMTEXT, default=None)
+    summary: sqla_orm.Mapped[str | None] = sqla_orm.mapped_column(types.MEDIUMTEXT, default=None)
 
     feed: sqla_orm.Mapped["feeds.Feed"] = sqla_orm.relationship(
         "Feed",
@@ -41,6 +42,7 @@ class Item(base.Base):
         init=False,
     )
 
+@typing.final
 class Like(base.Base):
     __tablename__ = "Like"
     __table_args__ = (
@@ -67,6 +69,7 @@ class Like(base.Base):
         init=False,
     )
 
+@typing.final
 class Magic(base.Base):
     __tablename__ = "Magic"
     __table_args__ = (
@@ -79,7 +82,7 @@ class Magic(base.Base):
 
     user_id: sqla_orm.Mapped[int] = sqla_orm.mapped_column(sqla.Integer, types.create_foreign_key(users.User.id))
     item_id: sqla_orm.Mapped[int] = sqla_orm.mapped_column(sqla.Integer, types.create_foreign_key(Item.id))
-    score: sqla_orm.Mapped[float] = sqla_orm.mapped_column("Score", sqla.Float)
+    score: sqla_orm.Mapped[float] = sqla_orm.mapped_column(sqla.Float)
     added: sqla_orm.Mapped[datetime.datetime] = sqla_orm.mapped_column(sqla.DateTime, server_default=sqla.func.now(), init=False)
     updated: sqla_orm.Mapped[datetime.datetime] = sqla_orm.mapped_column(sqla.DateTime, server_default=sqla.func.now(), server_onupdate=sqla.func.now(), init=False)
 
