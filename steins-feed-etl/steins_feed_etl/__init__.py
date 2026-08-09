@@ -26,36 +26,35 @@ async def parse_feeds(
     q_feeds: asyncio.Queue[steins_feed_model.feeds.Feed] = asyncio.Queue()
     q_items: asyncio.Queue[steins_feed_model.items.Item] = asyncio.Queue()
 
-    async with asyncio.TaskGroup() as tg:
-        with Session() as writer_session:
-            tg.create_task(write_items(writer_session, q_items))
-            logger.info("Writer started.")
+    with Session() as writer_session:
+        asyncio.create_task(write_items(writer_session, q_items))
+        logger.info("Writer started.")
 
-            with Session(expire_on_commit=False) as loader_session:
-                tg.create_task(load_feeds(loader_session, q_feeds, title_pattern))
-                logger.info("Loader started.")
+        with Session(expire_on_commit=False) as loader_session:
+            asyncio.create_task(load_feeds(loader_session, q_feeds, title_pattern))
+            logger.info("Loader started.")
 
-                while True:
-                    try:
-                        feed_it = await q_feeds.get()
-                    except asyncio.QueueShutDown:
-                        logger.info("Loader finished.")
-                        break
+            while True:
+                try:
+                    feed_it = await q_feeds.get()
+                except asyncio.QueueShutDown:
+                    logger.info("Loader finished.")
+                    break
 
-                    future_it = read_feed(
-                        client,
-                        q_items,
-                        feed = feed_it,
-                        task_done = q_feeds.task_done,
-                    )
-                    tg.create_task(future_it)
+                future_it = read_feed(
+                    client,
+                    q_items,
+                    feed = feed_it,
+                    task_done = q_feeds.task_done,
+                )
+                asyncio.create_task(future_it)
+                logger.info("Reader started.")
 
-            logger.info("Readers started.")
-            await q_feeds.join()
-            logger.info("Readers finished.")
+        await q_feeds.join()
+        logger.info("Readers finished.")
 
-            q_items.shutdown()
-
+        q_items.shutdown()
+        await q_items.join()
         logger.info("Writer finished.")
 
 async def load_feeds(
