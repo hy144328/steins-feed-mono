@@ -82,28 +82,26 @@ async def write_items(
     stmt = stmt.prefix_with("OR IGNORE", dialect="sqlite")
     no_items_total = 0
 
-    with session.begin():
-        async for item_batch_it in util.batch_queue(queue, batch_size):
-            no_items = len(item_batch_it)
-            logger.debug(f"From {no_items_total + 1} to {no_items_total + no_items}.")
-            no_items_total += no_items
+    async for item_batch_it in util.batch_queue(queue, batch_size):
+        no_items = len(item_batch_it)
+        logger.debug(f"From {no_items_total + 1} to {no_items_total + no_items}.")
+        no_items_total += no_items
 
-            res_batch_it = [
-                {
-                    "title": item_it.title,
-                    "link": item_it.link,
-                    "published": item_it.published,
-                    "feed_id": item_it.feed_id,
-                    "summary": item_it.summary,
-                }
-                for item_it in item_batch_it
-            ]
+        res_batch_it = [
+            {
+                "title": item_it.title,
+                "link": item_it.link,
+                "published": item_it.published,
+                "feed_id": item_it.feed_id,
+                "summary": item_it.summary,
+            }
+            for item_it in item_batch_it
+        ]
+        with session.begin():
             session.execute(stmt, res_batch_it)
 
-    for _ in range(no_items_total):
-        queue.task_done()
-
-    session.close()
+        for _ in range(no_items):
+            queue.task_done()
 
 async def read_feed(
     client: aiohttp.ClientSession,
