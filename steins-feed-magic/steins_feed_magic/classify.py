@@ -1,5 +1,5 @@
+import collections.abc
 import logging
-import typing
 
 import numpy as np
 import numpy.typing as npt
@@ -31,8 +31,8 @@ def build_classifier(
 
 def fit_classifier[T](
     clf: sklearn.pipeline.Pipeline,
-    liked_items: typing.Sequence[T],
-    disliked_items: typing.Sequence[T],
+    liked_items: collections.abc.Sequence[T],
+    disliked_items: collections.abc.Sequence[T],
 ):
     if len(liked_items) == 0:   # pragma: no cover
         raise ValueError("No likes.")
@@ -53,7 +53,7 @@ def fit_classifier[T](
 
 def predict_scores[T](
     clf: sklearn.pipeline.Pipeline,
-    items: typing.Sequence[T],
+    items: collections.abc.Sequence[T],
 ) -> npt.NDArray[np.double]:
     res = clf.predict_proba(items)
     classes = clf.classes_.tolist()
