@@ -85,7 +85,7 @@ async def test_parse_feeds(
     temp_file: typing.TextIO,
 ):
     with Session() as session:
-        steins_feed_config.read_xml(session, temp_file, user_id=None)
+        steins_feed_config.read_xml(session, temp_file, user=None)
 
     async with aiohttp.ClientSession() as client:
         await steins_feed_etl.parse_feeds(Session, client)
@@ -100,7 +100,7 @@ async def test_parse_feeds_long(
     temp_file_long: typing.TextIO,
 ):
     with Session() as session:
-        steins_feed_config.read_xml(session, temp_file_long, user_id=None)
+        steins_feed_config.read_xml(session, temp_file_long, user=None)
 
     async with aiohttp.ClientSession() as client:
         await steins_feed_etl.parse_feeds(Session, client)
@@ -115,7 +115,7 @@ async def test_parse_feeds_pattern(
     temp_file_long: typing.TextIO,
 ):
     with Session() as session:
-        steins_feed_config.read_xml(session, temp_file_long, user_id=None)
+        steins_feed_config.read_xml(session, temp_file_long, user=None)
 
     async with aiohttp.ClientSession() as client:
         await steins_feed_etl.parse_feeds(Session, client, title_pattern="Culture")
