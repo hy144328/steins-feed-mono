@@ -32,7 +32,7 @@ def get_tag(
         steins_feed_model.feeds.Tag.user_id == user_id,
         steins_feed_model.feeds.Tag.name == tag_name,
     )
-    return session.execute(q).scalars().one()
+    return session.scalars(q).one()
 
 def create_tag(
     session: sqla_orm.Session,
@@ -52,4 +52,4 @@ def get_feeds(session: sqla_orm.Session) -> list[steins_feed_model.feeds.Feed]:
     ).order_by(
         sqla.collate(steins_feed_model.feeds.Feed.title, "NOCASE"),
     )
-    return list(session.execute(q).scalars().unique())
+    return list(session.scalars(q).unique())

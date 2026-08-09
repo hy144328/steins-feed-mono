@@ -13,7 +13,7 @@ logger = logging.getLogger(__name__)
 def read_xml(
     session: sqla_orm.Session,
     f: typing.TextIO,
-    user_id: int | None,
+    user: steins_feed_model.users.User | None,
 ):
     tree = lxml.etree.parse(f)
     root = tree.getroot()
@@ -36,19 +36,15 @@ def read_xml(
             logger.warning(f"Feed {feed_title} already exists.")
             continue
 
-        if user_id is None:
+        if user is None:
             continue
-
-        with session.begin():
-            user = session.get_one(steins_feed_model.users.User, user_id)
-            user_name = user.name
 
         try:
             with session.begin():
                 feed.users.append(user)
-                logger.info(f"Add {user_name} to display {feed_title}.")
+                logger.info(f"Add {user.name} to display {feed_title}.")
         except sqla_exc.IntegrityError: # pragma: no cover
-            logger.warning(f"{feed_title} already displayed to {user_name}.")
+            logger.warning(f"{feed_title} already displayed to {user.name}.")
 
         for tag_it in feed_it.xpath("tag"):
             tag_name: str = tag_it.text
@@ -57,14 +53,14 @@ def read_xml(
                 with session.begin():
                     tag = steins_feed_config.db.get_tag(
                         session,
-                        user_id = user_id,
+                        user_id = user.id,
                         tag_name = tag_name,
                     )
             except sqla_exc.NoResultFound:
                 with session.begin():
                     tag = steins_feed_config.db.create_tag(
                         session,
-                        user_id = user_id,
+                        user_id = user.id,
                         tag_name = tag_name,
                     )
                     logger.info(f"Create {tag_name}.")
@@ -79,7 +75,7 @@ def read_xml(
 def write_xml(
     session: sqla_orm.Session,
     f: typing.TextIO,
-    user_id: int | None,
+    user: steins_feed_model.users.User | None,
 ):
     feeds = steins_feed_config.db.get_feeds(session)
     root = lxml.etree.Element("root")
@@ -100,7 +96,7 @@ def write_xml(
         node_it.append(lang_it)
 
         for tag_it in feed_it.tags:
-            if tag_it.user_id != user_id:
+            if user is None or tag_it.user_id != user.id:
                 continue
 
             tag_node_it = lxml.etree.Element("tag")

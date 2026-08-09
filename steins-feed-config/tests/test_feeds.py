@@ -35,7 +35,10 @@ def user(
     with session.begin():
         session.add(user)
 
-    return user
+    with session.begin():
+        session.refresh(user)
+        session.expunge(user)
+        return user
 
 @pytest.fixture
 def temp_dir() -> collections.abc.Generator[str]:
@@ -65,17 +68,14 @@ def test_read_xml(
     user: steins_feed_model.users.User,
     temp_file: typing.TextIO,
 ):
-    with session.begin():
-        user_id = user.id
-
     steins_feed_config.read_xml(
         session,
         temp_file,
-        user_id = user_id,
+        user = user,
     )
 
     q = sqla.select(steins_feed_model.feeds.Feed)
-    feeds = session.execute(q).scalars().all()
+    feeds = session.scalars(q).all()
 
     assert len(feeds) == 1
     assert len(feeds[0].tags) == 2
@@ -87,11 +87,11 @@ def test_read_xml_no_user(
     steins_feed_config.read_xml(
         session,
         temp_file,
-        user_id = None,
+        user = None,
     )
 
     q = sqla.select(steins_feed_model.feeds.Feed)
-    feeds = session.execute(q).scalars().all()
+    feeds = session.scalars(q).all()
 
     assert len(feeds) == 1
 
@@ -100,23 +100,20 @@ def test_read_and_read_xml(
     user: steins_feed_model.users.User,
     temp_file: typing.TextIO,
 ):
-    with session.begin():
-        user_id = user.id
-
     steins_feed_config.read_xml(
         session,
         temp_file,
-        user_id = user_id,
+        user = user,
     )
     temp_file.seek(0)
     steins_feed_config.read_xml(
         session,
         temp_file,
-        user_id = user_id,
+        user = user,
     )
 
     q = sqla.select(steins_feed_model.feeds.Feed)
-    feeds = session.execute(q).scalars().all()
+    feeds = session.scalars(q).all()
 
     assert len(feeds) == 1
     assert len(feeds[0].tags) == 2
@@ -127,13 +124,10 @@ def test_read_and_write_xml(
     temp_dir: str,
     temp_file: typing.TextIO,
 ):
-    with session.begin():
-        user_id = user.id
-
     steins_feed_config.read_xml(
         session,
         temp_file,
-        user_id = user_id,
+        user = user,
     )
 
     with tempfile.NamedTemporaryFile("w", dir=temp_dir, delete=False) as f:
@@ -143,7 +137,7 @@ def test_read_and_write_xml(
         steins_feed_config.write_xml(
             session,
             f,
-            user_id = user_id,
+            user = user,
         )
 
     with open(f.name, "r") as f:
@@ -163,13 +157,10 @@ def test_read_and_write_xml_no_user(
     temp_dir: str,
     temp_file: typing.TextIO,
 ):
-    with session.begin():
-        user_id = user.id
-
     steins_feed_config.read_xml(
         session,
         temp_file,
-        user_id = user_id,
+        user = user,
     )
 
     with tempfile.NamedTemporaryFile("w", dir=temp_dir, delete=False) as f:
@@ -179,7 +170,7 @@ def test_read_and_write_xml_no_user(
         steins_feed_config.write_xml(
             session,
             f,
-            user_id = None,
+            user = None,
         )
 
     with open(f.name, "r") as f:
