@@ -75,7 +75,7 @@ def test_read_xml(
     )
 
     q = sqla.select(steins_feed_model.feeds.Feed)
-    feeds = session.execute(q).scalars().all()
+    feeds = session.scalars(q).all()
 
     assert len(feeds) == 1
     assert len(feeds[0].tags) == 2
@@ -91,7 +91,7 @@ def test_read_xml_no_user(
     )
 
     q = sqla.select(steins_feed_model.feeds.Feed)
-    feeds = session.execute(q).scalars().all()
+    feeds = session.scalars(q).all()
 
     assert len(feeds) == 1
 
@@ -116,7 +116,7 @@ def test_read_and_read_xml(
     )
 
     q = sqla.select(steins_feed_model.feeds.Feed)
-    feeds = session.execute(q).scalars().all()
+    feeds = session.scalars(q).all()
 
     assert len(feeds) == 1
     assert len(feeds[0].tags) == 2

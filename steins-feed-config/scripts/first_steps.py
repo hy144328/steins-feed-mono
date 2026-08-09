@@ -53,7 +53,7 @@ with sqla_orm.Session(engine) as session:
             ).where(
                 steins_feed_model.users.User.name == os.environ["DEV_USER"],
             )
-            user = session.execute(q).scalars().one()
+            user = session.scalars(q).one()
             user_id = user.id
 
     with open("feeds.xml", "r") as f:
