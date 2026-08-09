@@ -27,35 +27,36 @@ async def parse_feeds(
     q_items: asyncio.Queue[steins_feed_model.items.Item] = asyncio.Queue()
 
     async with asyncio.TaskGroup() as tg:
-        tg.create_task(load_feeds(Session(expire_on_commit=False), q_feeds, title_pattern))
-        logger.info("Loader started.")
+        with Session() as writer_session:
+            tg.create_task(write_items(writer_session, q_items))
+            logger.info("Writer started.")
 
-        tg.create_task(write_items(Session(), q_items))
-        logger.info("Writer started.")
+            with Session(expire_on_commit=False) as loader_session:
+                tg.create_task(load_feeds(loader_session, q_feeds, title_pattern))
+                logger.info("Loader started.")
 
-        while True:
-            try:
-                feed_it = await q_feeds.get()
-            except asyncio.QueueShutDown:
-                logger.info("Loader finished.")
-                break
+                while True:
+                    try:
+                        feed_it = await q_feeds.get()
+                    except asyncio.QueueShutDown:
+                        logger.info("Loader finished.")
+                        break
 
-            future_it = read_feed(
-                Session(expire_on_commit=False),
-                client,
-                q_items,
-                feed = feed_it,
-                task_done = q_feeds.task_done,
-            )
-            tg.create_task(future_it)
+                    future_it = read_feed(
+                        client,
+                        q_items,
+                        feed = feed_it,
+                        task_done = q_feeds.task_done,
+                    )
+                    tg.create_task(future_it)
 
-        logger.info("Readers started.")
-        await q_feeds.join()
-        logger.info("Readers finished.")
+            logger.info("Readers started.")
+            await q_feeds.join()
+            logger.info("Readers finished.")
 
-        q_items.shutdown()
+            q_items.shutdown()
 
-    logger.info("Writer finished.")
+        logger.info("Writer finished.")
 
 async def load_feeds(
     session: sqla_orm.Session,
@@ -71,7 +72,6 @@ async def load_feeds(
             await queue.put(feed_it)
 
     queue.shutdown()
-    session.close()
 
 async def write_items(
     session: sqla_orm.Session,
@@ -164,6 +164,5 @@ async def read_feed(
                     raise e
     except tenacity.RetryError: # pragma: no cover
         pass
-
-    task_done()
-    session.close()
+    finally:
+        task_done()
