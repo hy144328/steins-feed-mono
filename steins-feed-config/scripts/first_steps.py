@@ -43,7 +43,6 @@ with sqla_orm.Session(engine) as session:
                 email = os.environ["DEV_MAIL"],
             )
             session.add(user)
-            user_id = user.id
     except sqla_exc.IntegrityError:
         logger.warning(f"User {os.environ["DEV_USER"]} already exists.")
 
@@ -54,11 +53,10 @@ with sqla_orm.Session(engine) as session:
                 steins_feed_model.users.User.name == os.environ["DEV_USER"],
             )
             user = session.scalars(q).one()
-            user_id = user.id
 
     with open("feeds.xml", "r") as f:
         steins_feed_config.read_xml(
             session,
             f,
-            user_id = user_id,
+            user = user,
         )

@@ -71,7 +71,7 @@ def test_read_xml(
     steins_feed_config.read_xml(
         session,
         temp_file,
-        user_id = user.id,
+        user = user,
     )
 
     q = sqla.select(steins_feed_model.feeds.Feed)
@@ -87,7 +87,7 @@ def test_read_xml_no_user(
     steins_feed_config.read_xml(
         session,
         temp_file,
-        user_id = None,
+        user = None,
     )
 
     q = sqla.select(steins_feed_model.feeds.Feed)
@@ -103,13 +103,13 @@ def test_read_and_read_xml(
     steins_feed_config.read_xml(
         session,
         temp_file,
-        user_id = user.id,
+        user = user,
     )
     temp_file.seek(0)
     steins_feed_config.read_xml(
         session,
         temp_file,
-        user_id = user.id,
+        user = user,
     )
 
     q = sqla.select(steins_feed_model.feeds.Feed)
@@ -127,7 +127,7 @@ def test_read_and_write_xml(
     steins_feed_config.read_xml(
         session,
         temp_file,
-        user_id = user.id,
+        user = user,
     )
 
     with tempfile.NamedTemporaryFile("w", dir=temp_dir, delete=False) as f:
@@ -137,7 +137,7 @@ def test_read_and_write_xml(
         steins_feed_config.write_xml(
             session,
             f,
-            user_id = user.id,
+            user = user,
         )
 
     with open(f.name, "r") as f:
@@ -160,7 +160,7 @@ def test_read_and_write_xml_no_user(
     steins_feed_config.read_xml(
         session,
         temp_file,
-        user_id = user.id,
+        user = user,
     )
 
     with tempfile.NamedTemporaryFile("w", dir=temp_dir, delete=False) as f:
@@ -170,7 +170,7 @@ def test_read_and_write_xml_no_user(
         steins_feed_config.write_xml(
             session,
             f,
-            user_id = None,
+            user = None,
         )
 
     with open(f.name, "r") as f:
