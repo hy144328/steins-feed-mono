@@ -1,16 +1,16 @@
 import asyncio
-import typing
+import collections.abc
 
-async def batch_queue(
-    q: asyncio.Queue,
+async def batch_queue[T](
+    queue: asyncio.Queue[T],
     batch_size: int,
-) -> typing.AsyncGenerator[list[typing.Any]]:
-    batch_it = []
+) -> collections.abc.AsyncGenerator[list[T]]:
+    batch_it: list[T] = []
 
     while True:
-        item_it = await q.get()
-
-        if item_it is None:
+        try:
+            item_it = await queue.get()
+        except asyncio.QueueShutDown:
             if len(batch_it) > 0:
                 yield batch_it
 

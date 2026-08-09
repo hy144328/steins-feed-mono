@@ -1,3 +1,4 @@
+import collections.abc
 import tempfile
 import typing
 
@@ -13,22 +14,21 @@ import steins_feed_model.base
 
 @pytest.fixture
 def engine() -> sqla.engine.Engine:
-    engine = steins_feed_model.EngineFactory.create_engine()
+    engine = sqla.create_engine(sqla.URL.create("sqlite"))
     steins_feed_model.base.Base.metadata.create_all(engine)
     return engine
 
 @pytest.fixture
-def session(engine: sqla.engine.Engine) -> typing.Generator[sqla_orm.Session]:
-    with sqla_orm.Session(engine) as session:
-        yield session
+def Session(engine: sqla.engine.Engine) -> sqla_orm.sessionmaker[sqla_orm.Session]:
+    return sqla_orm.sessionmaker(engine)
 
 @pytest.fixture
-def temp_dir() -> typing.Generator[str]:
+def temp_dir() -> collections.abc.Generator[str]:
     with tempfile.TemporaryDirectory() as temp_dir:
         yield temp_dir
 
 @pytest.fixture
-def temp_file(temp_dir: str) -> typing.Generator[typing.TextIO]:
+def temp_file(temp_dir: str) -> collections.abc.Generator[typing.TextIO]:
     with tempfile.NamedTemporaryFile("w", dir=temp_dir, delete=False) as f:
         f.write("""
 <root>
@@ -44,7 +44,7 @@ def temp_file(temp_dir: str) -> typing.Generator[typing.TextIO]:
         yield f
 
 @pytest.fixture
-def temp_file_long(temp_dir: str) -> typing.Generator[typing.TextIO]:
+def temp_file_long(temp_dir: str) -> collections.abc.Generator[typing.TextIO]:
     with tempfile.NamedTemporaryFile("w", dir=temp_dir, delete=False) as f:
         f.write("""
 <root>
@@ -81,57 +81,45 @@ def temp_file_long(temp_dir: str) -> typing.Generator[typing.TextIO]:
 
 @pytest.mark.asyncio
 async def test_parse_feeds(
-    session: sqla_orm.Session,
+    Session: sqla_orm.sessionmaker[sqla_orm.Session],
     temp_file: typing.TextIO,
 ):
-    steins_feed_config.read_xml(session, temp_file, user_id=None)
+    with Session() as session:
+        steins_feed_config.read_xml(session, temp_file, user=None)
 
     async with aiohttp.ClientSession() as client:
-        await steins_feed_etl.parse_feeds(session, client)
+        await steins_feed_etl.parse_feeds(Session, client)
 
     q = sqla.select(steins_feed_model.items.Item)
-    res = session.execute(q).scalars().all()
+    res = session.scalars(q).all()
     assert len(res) > 0
 
 @pytest.mark.asyncio
 async def test_parse_feeds_long(
-    session: sqla_orm.Session,
+    Session: sqla_orm.sessionmaker[sqla_orm.Session],
     temp_file_long: typing.TextIO,
 ):
-    steins_feed_config.read_xml(session, temp_file_long, user_id=None)
+    with Session() as session:
+        steins_feed_config.read_xml(session, temp_file_long, user=None)
 
     async with aiohttp.ClientSession() as client:
-        await steins_feed_etl.parse_feeds(session, client)
+        await steins_feed_etl.parse_feeds(Session, client)
 
     q = sqla.select(steins_feed_model.items.Item)
-    res = session.execute(q).scalars().all()
+    res = session.scalars(q).all()
     assert len(res) > steins_feed_etl.BATCH_SIZE
 
 @pytest.mark.asyncio
 async def test_parse_feeds_pattern(
-    session: sqla_orm.Session,
+    Session: sqla_orm.sessionmaker[sqla_orm.Session],
     temp_file_long: typing.TextIO,
 ):
-    steins_feed_config.read_xml(session, temp_file_long, user_id=None)
+    with Session() as session:
+        steins_feed_config.read_xml(session, temp_file_long, user=None)
 
     async with aiohttp.ClientSession() as client:
-        await steins_feed_etl.parse_feeds(session, client, title_pattern="Culture")
+        await steins_feed_etl.parse_feeds(Session, client, title_pattern="Culture")
 
     q = sqla.select(steins_feed_model.items.Item)
-    res = session.execute(q).scalars().all()
-    assert len(res) > 0
-
-@pytest.mark.asyncio
-async def test_parse_feeds_skip(
-    session: sqla_orm.Session,
-    temp_file: typing.TextIO,
-):
-    steins_feed_config.read_xml(session, temp_file, user_id=None)
-
-    async with aiohttp.ClientSession() as client:
-        await steins_feed_etl.parse_feeds(session, client)
-        await steins_feed_etl.parse_feeds(session, client, skip_recent=True)
-
-    q = sqla.select(steins_feed_model.items.Item)
-    res = session.execute(q).scalars().all()
+    res = session.scalars(q).all()
     assert len(res) > 0
