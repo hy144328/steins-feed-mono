@@ -1,6 +1,7 @@
 import random
 import typing
 
+@typing.final
 class Reservoir[T]:
     def __init__(
         self,
@@ -14,7 +15,7 @@ class Reservoir[T]:
         self.sample: list[T] = []
         self.sample_weights: list[float] = []
 
-    def add(self, value: T, weight: float=1) -> typing.Optional[T]:
+    def add(self, value: T, weight: float=1) -> T | None:
         if weight < 0:  # pragma: no cover
             raise ValueError("Weight has to be non-negative.")
 

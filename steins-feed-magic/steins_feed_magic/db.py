@@ -1,5 +1,3 @@
-import typing
-
 import sqlalchemy as sqla
 import sqlalchemy.orm as sqla_orm
 
@@ -9,7 +7,7 @@ import steins_feed_model.items
 def liked_items(
     session: sqla_orm.Session,
     user_id: int,
-    lang: typing.Optional[steins_feed_model.feeds.Language],
+    lang: steins_feed_model.feeds.Language | None,
     score: steins_feed_model.items.LikeStatus = steins_feed_model.items.LikeStatus.UP,
 ) -> list[steins_feed_model.items.Item]:
     q = sqla.select(
@@ -28,12 +26,12 @@ def liked_items(
             steins_feed_model.feeds.Feed.language == lang,
         )
 
-    return list(session.execute(q).scalars())
+    return list(session.scalars(q))
 
 def disliked_items(
     session: sqla_orm.Session,
     user_id: int,
-    lang: typing.Optional[steins_feed_model.feeds.Language],
+    lang: steins_feed_model.feeds.Language | None,
 ) -> list[steins_feed_model.items.Item]:
     return liked_items(
         session,
@@ -45,7 +43,7 @@ def disliked_items(
 def reset_magic(
     session: sqla_orm.Session,
     user_id: int,
-    lang: typing.Optional[steins_feed_model.feeds.Language],
+    lang: steins_feed_model.feeds.Language | None,
 ):
     q_exists = sqla.select(
         steins_feed_model.items.Item,
@@ -64,4 +62,3 @@ def reset_magic(
     )
 
     session.execute(q)
-    session.commit()

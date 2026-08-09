@@ -1,3 +1,4 @@
+import collections.abc
 import contextlib
 import os
 import pickle
@@ -19,16 +20,19 @@ def open_pickle(
     root_folder: str,
     user_id: int,
     lang: steins_feed_model.feeds.Language,
-    open_mode: str = "r",
+    open_mode: typing.Literal["r", "w"] = "r",
     force: bool = False,
-) -> typing.Generator[typing.IO]:
+) -> collections.abc.Generator[typing.BinaryIO]:
+    binary_mode = f"{open_mode}b"
+    assert binary_mode == "rb" or binary_mode == "wb"
+
     if force:
         mkdir_p(root_folder, str(user_id))
 
     folder_name = os.path.join(root_folder, str(user_id))
     file_name = f"{lang}.pickle"
 
-    with open(os.path.join(folder_name, file_name), f"{open_mode}b") as f:
+    with open(os.path.join(folder_name, file_name), binary_mode) as f:
         yield f
 
 def read_classifier(

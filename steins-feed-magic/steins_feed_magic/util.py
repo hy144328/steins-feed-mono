@@ -1,9 +1,10 @@
+import collections.abc
 import functools
 import typing
 
 def fold_left[S, T](
     initial: S,
-    sequence: typing.Sequence[T],
+    sequence: collections.abc.Sequence[T],
     function: typing.Callable[[S, T], S],
 ) -> S:
     return functools.reduce(
@@ -44,14 +45,14 @@ def _concatenated[S, T, U](
 
 def map_over[S, T](
     function: typing.Callable[[S], T],
-) -> typing.Callable[[typing.Sequence[S]], list[T]]:
+) -> typing.Callable[[collections.abc.Sequence[S]], list[T]]:
     return functools.partial(
         _mapped_over,
         function = function,
     )
 
 def _mapped_over[S, T](
-    initial: typing.Sequence[S],
+    initial: collections.abc.Sequence[S],
     function: typing.Callable[[S], T],
 ) -> list[T]:
     return [function(s) for s in initial]
