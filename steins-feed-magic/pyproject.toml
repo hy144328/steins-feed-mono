@@ -19,6 +19,7 @@ coverage = "^7.6.10"
 pytest = "^8.3.4"
 python-dotenv = "^1.0.1"
 steins-feed-config = {path = "../steins-feed-config", develop = true}
+types-lxml = "^2026.2.16"
 
 [build-system]
 requires = ["poetry-core"]
