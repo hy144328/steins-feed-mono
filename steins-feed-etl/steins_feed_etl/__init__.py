@@ -67,7 +67,7 @@ async def load_feeds(
         q = q.where(steins_feed_model.feeds.Feed.title.like(f"%{title_pattern}%"))
 
     with session.begin():
-        for feed_it in session.execute(q).scalars():
+        for feed_it in session.scalars(q):
             await queue.put(feed_it)
 
     queue.shutdown()

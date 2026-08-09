@@ -91,7 +91,7 @@ async def test_parse_feeds(
         await steins_feed_etl.parse_feeds(Session, client)
 
     q = sqla.select(steins_feed_model.items.Item)
-    res = session.execute(q).scalars().all()
+    res = session.scalars(q).all()
     assert len(res) > 0
 
 @pytest.mark.asyncio
@@ -106,7 +106,7 @@ async def test_parse_feeds_long(
         await steins_feed_etl.parse_feeds(Session, client)
 
     q = sqla.select(steins_feed_model.items.Item)
-    res = session.execute(q).scalars().all()
+    res = session.scalars(q).all()
     assert len(res) > steins_feed_etl.BATCH_SIZE
 
 @pytest.mark.asyncio
@@ -121,5 +121,5 @@ async def test_parse_feeds_pattern(
         await steins_feed_etl.parse_feeds(Session, client, title_pattern="Culture")
 
     q = sqla.select(steins_feed_model.items.Item)
-    res = session.execute(q).scalars().all()
+    res = session.scalars(q).all()
     assert len(res) > 0
