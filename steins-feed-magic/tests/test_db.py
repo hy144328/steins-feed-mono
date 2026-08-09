@@ -1,3 +1,4 @@
+import collections.abc
 import datetime
 import tempfile
 import typing
@@ -14,12 +15,12 @@ import steins_feed_model.items
 
 @pytest.fixture
 def engine() -> sqla.engine.Engine:
-    engine = steins_feed_model.EngineFactory.create_engine()
+    engine = sqla.create_engine(sqla.URL.create("sqlite"))
     steins_feed_model.base.Base.metadata.create_all(engine)
     return engine
 
 @pytest.fixture
-def session(engine: sqla.engine.Engine) -> typing.Generator[sqla_orm.Session]:
+def session(engine: sqla.engine.Engine) -> collections.abc.Generator[sqla_orm.Session]:
     with sqla_orm.Session(engine) as session:
         yield session
 
@@ -32,18 +33,21 @@ def user(
         password = "",
         email = "hans.yu@outlook.de",
     )
-    session.add(user)
-    session.commit()
+    with session.begin():
+        session.add(user)
 
-    return user
+    with session.begin():
+        session.refresh(user)
+        session.expunge(user)
+        return user
 
 @pytest.fixture
-def temp_dir() -> typing.Generator[str]:
+def temp_dir() -> collections.abc.Generator[str]:
     with tempfile.TemporaryDirectory() as temp_dir:
         yield temp_dir
 
 @pytest.fixture
-def temp_file(temp_dir: str) -> typing.Generator[typing.TextIO]:
+def temp_file(temp_dir: str) -> collections.abc.Generator[typing.TextIO]:
     with tempfile.NamedTemporaryFile("w", dir=temp_dir, delete=False) as f:
         f.write("""
 <root>
@@ -68,77 +72,80 @@ def test_db(
     steins_feed_config.read_xml(
         session,
         temp_file,
-        user_id = user.id,
+        user = user,
     )
 
-    item = steins_feed_model.items.Item(
-        title = "Donald Trump",
-        link = "https://donald.trump",
-        published = datetime.datetime(2025, 3, 1),
-        feed_id = 1,
-    )
-    session.add(item)
-    session.commit()
+    with session.begin():
+        item = steins_feed_model.items.Item(
+            title = "Donald Trump",
+            link = "https://donald.trump",
+            published = datetime.datetime(2025, 3, 1),
+            feed_id = 1,
+        )
+        session.add(item)
 
-    like = steins_feed_model.items.Like(
-        user_id = user.id,
-        item_id = item.id,
-        score = steins_feed_model.items.LikeStatus.UP,
-    )
-    session.add(like)
-    session.commit()
+    with session.begin():
+        like = steins_feed_model.items.Like(
+            user_id = user.id,
+            item_id = item.id,
+            score = steins_feed_model.items.LikeStatus.UP,
+        )
+        session.add(like)
 
-    up = steins_feed_model.items.Magic(
-        user_id = user.id,
-        item_id = item.id,
-        score = steins_feed_model.items.LikeStatus.UP,
-    )
-    session.add(up)
-    session.commit()
+    with session.begin():
+        up = steins_feed_model.items.Magic(
+            user_id = user.id,
+            item_id = item.id,
+            score = steins_feed_model.items.LikeStatus.UP,
+        )
+        session.add(up)
 
-    item = steins_feed_model.items.Item(
-        title = "Joe Biden",
-        link = "https://joe.biden",
-        published = datetime.datetime(2025, 3, 1),
-        feed_id = 1,
-    )
-    session.add(item)
-    session.commit()
+    with session.begin():
+        item = steins_feed_model.items.Item(
+            title = "Joe Biden",
+            link = "https://joe.biden",
+            published = datetime.datetime(2025, 3, 1),
+            feed_id = 1,
+        )
+        session.add(item)
 
-    dislike = steins_feed_model.items.Like(
-        user_id = user.id,
-        item_id = item.id,
-        score = steins_feed_model.items.LikeStatus.DOWN,
-    )
-    session.add(dislike)
-    session.commit()
+    with session.begin():
+        dislike = steins_feed_model.items.Like(
+            user_id = user.id,
+            item_id = item.id,
+            score = steins_feed_model.items.LikeStatus.DOWN,
+        )
+        session.add(dislike)
 
-    down = steins_feed_model.items.Magic(
-        user_id = user.id,
-        item_id = item.id,
-        score = steins_feed_model.items.LikeStatus.DOWN,
-    )
-    session.add(down)
-    session.commit()
+    with session.begin():
+        down = steins_feed_model.items.Magic(
+            user_id = user.id,
+            item_id = item.id,
+            score = steins_feed_model.items.LikeStatus.DOWN,
+        )
+        session.add(down)
 
-    liked_items = steins_feed_magic.db.liked_items(
-        session,
-        user_id = user.id,
-        lang = steins_feed_model.feeds.Language.ENGLISH,
-    )
-    assert len(liked_items) == 1
+    with session.begin():
+        liked_items = steins_feed_magic.db.liked_items(
+            session,
+            user_id = user.id,
+            lang = steins_feed_model.feeds.Language.ENGLISH,
+        )
+        assert len(liked_items) == 1
 
-    disliked_items = steins_feed_magic.db.disliked_items(
-        session,
-        user_id = user.id,
-        lang = steins_feed_model.feeds.Language.ENGLISH,
-    )
-    assert len(disliked_items) == 1
+    with session.begin():
+        disliked_items = steins_feed_magic.db.disliked_items(
+            session,
+            user_id = user.id,
+            lang = steins_feed_model.feeds.Language.ENGLISH,
+        )
+        assert len(disliked_items) == 1
 
-    assert len(session.execute(sqla.select(steins_feed_model.items.Magic)).all()) == 2
-    steins_feed_magic.db.reset_magic(
-        session,
-        user_id = user.id,
-        lang = steins_feed_model.feeds.Language.ENGLISH,
-    )
-    assert len(session.execute(sqla.select(steins_feed_model.items.Magic)).all()) == 0
+    with session.begin():
+        assert len(session.execute(sqla.select(steins_feed_model.items.Magic)).all()) == 2
+        steins_feed_magic.db.reset_magic(
+            session,
+            user_id = user.id,
+            lang = steins_feed_model.feeds.Language.ENGLISH,
+        )
+        assert len(session.execute(sqla.select(steins_feed_model.items.Magic)).all()) == 0
