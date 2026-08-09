@@ -7,10 +7,10 @@ import tomllib
 
 import aiohttp
 import dotenv
+import sqlalchemy as sqla
 import sqlalchemy.orm as sqla_orm
 
 import steins_feed_etl
-import steins_feed_model
 
 dotenv.load_dotenv()
 
@@ -18,13 +18,15 @@ with open(os.path.join(os.path.dirname(__file__), "dev_logging.toml"), "rb") as 
     logging.config.dictConfig(tomllib.load(f))
 
 async def main():
-    engine = steins_feed_model.EngineFactory.create_engine(
+    url = sqla.URL.create(
+        "sqlite",
         username = os.getenv("DB_USER"),
         password = os.getenv("DB_PASS"),
         host = os.getenv("DB_HOST"),
-        port = os.getenv("DB_PORT"),
+        port = int(os.environ["DB_PORT"]) if "DB_PORT" in os.environ else None,
         database = os.getenv("DB_NAME"),
     )
+    engine = sqla.create_engine(url)
 
     with sqla_orm.Session(engine) as session:
         async with aiohttp.ClientSession() as client:
