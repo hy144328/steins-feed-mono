@@ -27,14 +27,15 @@ async def main():
         database = os.getenv("DB_NAME"),
     )
     engine = sqla.create_engine(url)
-    connector = aiohttp.TCPConnector(limit=5, limit_per_host=1)
+    Session = sqla_orm.sessionmaker(engine)
 
-    with sqla_orm.Session(engine) as session:
-        async with aiohttp.ClientSession(connector=connector) as client:
-            await steins_feed_etl.parse_feeds(
-                session,
-                client,
-            )
+    async with aiohttp.ClientSession(
+        connector=aiohttp.TCPConnector(limit=5, limit_per_host=1),
+    ) as client:
+        await steins_feed_etl.parse_feeds(
+            Session,
+            client,
+        )
 
 if __name__ == "__main__":
     asyncio.run(main())

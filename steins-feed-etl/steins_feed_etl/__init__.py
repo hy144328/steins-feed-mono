@@ -19,7 +19,7 @@ logger = logging.getLogger(__name__)
 BATCH_SIZE = 200
 
 async def parse_feeds(
-    session: sqla_orm.Session,
+    Session: sqla_orm.sessionmaker[sqla_orm.Session],
     client: aiohttp.ClientSession,
     title_pattern: str | None = None,
 ):
@@ -27,10 +27,10 @@ async def parse_feeds(
     q_items: asyncio.Queue[steins_feed_model.items.Item] = asyncio.Queue()
 
     async with asyncio.TaskGroup() as tg:
-        tg.create_task(load_feeds(session, q_feeds, title_pattern))
+        tg.create_task(load_feeds(Session(expire_on_commit=False), q_feeds, title_pattern))
         logger.info("Loader started.")
 
-        tg.create_task(write_items(session, q_items))
+        tg.create_task(write_items(Session(), q_items))
         logger.info("Writer started.")
 
         while True:
@@ -41,6 +41,7 @@ async def parse_feeds(
                 break
 
             future_it = read_feed(
+                Session(expire_on_commit=False),
                 client,
                 q_items,
                 feed = feed_it,
@@ -70,6 +71,7 @@ async def load_feeds(
             await queue.put(feed_it)
 
     queue.shutdown()
+    session.close()
 
 async def write_items(
     session: sqla_orm.Session,
@@ -100,6 +102,8 @@ async def write_items(
 
     for _ in range(no_items_total):
         queue.task_done()
+
+    session.close()
 
 async def read_feed(
     client: aiohttp.ClientSession,
@@ -162,3 +166,4 @@ async def read_feed(
         pass
 
     task_done()
+    session.close()

@@ -19,9 +19,8 @@ def engine() -> sqla.engine.Engine:
     return engine
 
 @pytest.fixture
-def session(engine: sqla.engine.Engine) -> collections.abc.Generator[sqla_orm.Session]:
-    with sqla_orm.Session(engine) as session:
-        yield session
+def Session(engine: sqla.engine.Engine) -> sqla_orm.sessionmaker[sqla_orm.Session]:
+    return sqla_orm.sessionmaker(engine)
 
 @pytest.fixture
 def temp_dir() -> collections.abc.Generator[str]:
@@ -82,13 +81,14 @@ def temp_file_long(temp_dir: str) -> collections.abc.Generator[typing.TextIO]:
 
 @pytest.mark.asyncio
 async def test_parse_feeds(
-    session: sqla_orm.Session,
+    Session: sqla_orm.sessionmaker[sqla_orm.Session],
     temp_file: typing.TextIO,
 ):
-    steins_feed_config.read_xml(session, temp_file, user_id=None)
+    with Session() as session:
+        steins_feed_config.read_xml(session, temp_file, user_id=None)
 
     async with aiohttp.ClientSession() as client:
-        await steins_feed_etl.parse_feeds(session, client)
+        await steins_feed_etl.parse_feeds(Session, client)
 
     q = sqla.select(steins_feed_model.items.Item)
     res = session.execute(q).scalars().all()
@@ -96,13 +96,14 @@ async def test_parse_feeds(
 
 @pytest.mark.asyncio
 async def test_parse_feeds_long(
-    session: sqla_orm.Session,
+    Session: sqla_orm.sessionmaker[sqla_orm.Session],
     temp_file_long: typing.TextIO,
 ):
-    steins_feed_config.read_xml(session, temp_file_long, user_id=None)
+    with Session() as session:
+        steins_feed_config.read_xml(session, temp_file_long, user_id=None)
 
     async with aiohttp.ClientSession() as client:
-        await steins_feed_etl.parse_feeds(session, client)
+        await steins_feed_etl.parse_feeds(Session, client)
 
     q = sqla.select(steins_feed_model.items.Item)
     res = session.execute(q).scalars().all()
@@ -110,13 +111,14 @@ async def test_parse_feeds_long(
 
 @pytest.mark.asyncio
 async def test_parse_feeds_pattern(
-    session: sqla_orm.Session,
+    Session: sqla_orm.sessionmaker[sqla_orm.Session],
     temp_file_long: typing.TextIO,
 ):
-    steins_feed_config.read_xml(session, temp_file_long, user_id=None)
+    with Session() as session:
+        steins_feed_config.read_xml(session, temp_file_long, user_id=None)
 
     async with aiohttp.ClientSession() as client:
-        await steins_feed_etl.parse_feeds(session, client, title_pattern="Culture")
+        await steins_feed_etl.parse_feeds(Session, client, title_pattern="Culture")
 
     q = sqla.select(steins_feed_model.items.Item)
     res = session.execute(q).scalars().all()
