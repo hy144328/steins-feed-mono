@@ -1,3 +1,4 @@
+import collections.abc
 import logging
 import typing
 
@@ -15,8 +16,6 @@ def train_classifier(
 ):
     import os
 
-    import sqlalchemy.orm as sqla_orm
-
     import steins_feed_magic.classify
     import steins_feed_magic.db
     import steins_feed_magic.io
@@ -32,15 +31,16 @@ def train_classifier(
 
     clf = steins_feed_magic.classify.build_classifier(lang)
 
-    with sqla_orm.Session(db.engine) as session:
-        liked_items = [
-            steins_feed_magic.parse.text_content(item_it.title)
-            for item_it in steins_feed_magic.db.liked_items(session, user_id, lang)
-        ]
-        disliked_items = [
-            steins_feed_magic.parse.text_content(item_it.title)
-            for item_it in steins_feed_magic.db.disliked_items(session, user_id, lang)
-        ]
+    with db.Session(expire_on_commit=False) as session:
+        with session.begin():
+            liked_items = [
+                steins_feed_magic.parse.text_content(item_it.title)
+                for item_it in steins_feed_magic.db.liked_items(session, user_id, lang)
+            ]
+            disliked_items = [
+                steins_feed_magic.parse.text_content(item_it.title)
+                for item_it in steins_feed_magic.db.disliked_items(session, user_id, lang)
+            ]
 
         try:
             steins_feed_magic.classify.fit_classifier(
@@ -55,11 +55,13 @@ def train_classifier(
                 lang = lang,
                 force = True,
             )
-            steins_feed_magic.db.reset_magic(
-                session,
-                user_id = user_id,
-                lang = lang,
-            )
+
+            with session.begin():
+                steins_feed_magic.db.reset_magic(
+                    session,
+                    user_id = user_id,
+                    lang = lang,
+                )
         except ValueError as e:
             logger.warning(e)
 
@@ -69,7 +71,6 @@ def train_classifier(
 def train_classifiers_all():
     import celery
     import sqlalchemy as sqla
-    import sqlalchemy.orm as sqla_orm
 
     import steins_feed_model.feeds
     import steins_feed_model.users
@@ -80,11 +81,11 @@ def train_classifiers_all():
 
     assert isinstance(train_classifier, celery.Task)
 
-    with sqla_orm.Session(db.engine) as session:
+    with db.Session() as session:
         q_users = sqla.select(steins_feed_model.users.User)
         job = celery.group(
             train_classifier.s(user_id=user_it.id, lang=lang_it)
-            for user_it in session.execute(q_users).scalars()
+            for user_it in session.scalars(q_users)
             for lang_it in steins_feed_model.feeds.Language
         )
         job()
@@ -93,14 +94,13 @@ def train_classifiers_all():
 
 @app.task
 def calculate_scores(
-    item_ids: typing.Sequence[int],
+    item_ids: collections.abc.Sequence[int],
     user_id: int,
     lang: "steins_feed_model.feeds.Language | str",
-) -> list[typing.Tuple[int, float]] | list[typing.Tuple[int, None]]:
+) -> list[tuple[int, float]] | list[tuple[int, None]]:
     import os
 
     import sqlalchemy as sqla
-    import sqlalchemy.orm as sqla_orm
 
     import steins_feed_magic.classify
     import steins_feed_magic.io
@@ -131,30 +131,30 @@ def calculate_scores(
     )
     logger.info(f"Calculate scores of {len(item_ids)} {lang} items.")
 
-    with sqla_orm.Session(db.engine) as session:
-        items = session.execute(q).scalars().all()
-        scores = steins_feed_magic.classify.predict_scores(
-            clf,
-            [
-                steins_feed_magic.parse.text_content(item_it.title)
-                for item_it in items
-            ],
-        )
-        res = [
-            (item_it.id, score_it)
-            for item_it, score_it in zip(items, scores)
-        ]
+    with db.Session(expire_on_commit=False) as session:
+        items = session.scalars(q).all()
+
+    scores = steins_feed_magic.classify.predict_scores(
+        clf,
+        [
+            steins_feed_magic.parse.text_content(item_it.title)
+            for item_it in items
+        ],
+    )
+    res = [
+        (item_it.id, score_it)
+        for item_it, score_it in zip(items, scores)
+    ]
 
     logger.info(f"Finish to calculate scores for {user_id} and {lang}.")
     return res
 
 @app.task
 def update_scores(
-    item_scores: typing.Sequence[typing.Tuple[int, typing.Optional[float]]],
+    item_scores: collections.abc.Sequence[tuple[int, float | None]],
     user_id: int,
 ):
     import sqlalchemy as sqla
-    import sqlalchemy.orm as sqla_orm
 
     import steins_feed_model.items
 
@@ -175,10 +175,9 @@ def update_scores(
         if score_it is not None
     ]
 
-    with sqla_orm.Session(db.engine) as session:
-        logger.info(f"Update scores of {len(item_scores)} items.")
+    logger.info(f"Update scores of {len(item_scores)} items.")
+    with db.Session.begin() as session:
         session.execute(q, res)
-        session.commit()
 
     logger.info(f"Finish to update scores for {user_id}.")
 

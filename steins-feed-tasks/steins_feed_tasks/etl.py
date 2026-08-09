@@ -14,7 +14,6 @@ def parse_feeds():
 
 async def parse_feeds_async():
     import aiohttp
-    import sqlalchemy.orm as sqla_orm
 
     import steins_feed_etl
 
@@ -22,6 +21,5 @@ async def parse_feeds_async():
 
     connector = aiohttp.TCPConnector(limit=5, limit_per_host=1)
 
-    with sqla_orm.Session(db.engine) as session:
-        async with aiohttp.ClientSession(connector=connector) as client:
-            await steins_feed_etl.parse_feeds(session, client, skip_recent=True)
+    async with aiohttp.ClientSession(connector=connector) as client:
+        await steins_feed_etl.parse_feeds(db.Session, client)
