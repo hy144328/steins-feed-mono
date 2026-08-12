@@ -82,7 +82,7 @@ def train_classifiers_all():
         q_users = sqla.select(steins_feed_model.users.User)
         job = celery.group(
             train_classifier.s(user_id=user_it.id, lang=lang_it)
-            for user_it in session.execute(q_users).scalars()
+            for user_it in session.scalars(q_users)
             for lang_it in steins_feed_model.feeds.Language
         )
         job()
@@ -129,7 +129,7 @@ def calculate_scores(
     logger.info(f"Calculate scores of {len(item_ids)} {lang} items.")
 
     with db.Session() as session:
-        items = session.execute(q).scalars().all()
+        items = session.scalars(q).all()
         scores = steins_feed_magic.classify.predict_scores(
             clf,
             [
