@@ -27,39 +27,37 @@ async def parse_feeds(
     q_feeds: asyncio.Queue[steins_feed_model.feeds.Feed] = asyncio.Queue()
     q_items: asyncio.Queue[steins_feed_model.items.Item] = asyncio.Queue()
 
-    with Session() as writer_session:
-        asyncio.create_task(write_items(writer_session, q_items, batch_size=batch_size))
-        logger.info("Writer started.")
+    asyncio.create_task(write_items(Session, q_items, batch_size=batch_size))
+    logger.info("Writer started.")
 
-        with Session(expire_on_commit=False) as loader_session:
-            asyncio.create_task(load_feeds(loader_session, q_feeds, title_pattern))
-            logger.info("Loader started.")
+    asyncio.create_task(load_feeds(Session, q_feeds, title_pattern))
+    logger.info("Loader started.")
 
-            while True:
-                try:
-                    feed_it = await q_feeds.get()
-                except asyncio.QueueShutDown:
-                    logger.info("Loader finished.")
-                    break
+    while True:
+        try:
+            feed_it = await q_feeds.get()
+        except asyncio.QueueShutDown:
+            logger.info("Loader finished.")
+            break
 
-                future_it = read_feed(
-                    client,
-                    q_items,
-                    feed = feed_it,
-                    task_done = q_feeds.task_done,
-                )
-                asyncio.create_task(future_it)
-                logger.info("Reader started.")
+        future_it = read_feed(
+            client,
+            q_items,
+            feed = feed_it,
+            task_done = q_feeds.task_done,
+        )
+        asyncio.create_task(future_it)
+        logger.info("Reader started.")
 
-        await q_feeds.join()
-        logger.info("Readers finished.")
+    await q_feeds.join()
+    logger.info("Readers finished.")
 
-        q_items.shutdown()
-        await q_items.join()
-        logger.info("Writer finished.")
+    q_items.shutdown()
+    await q_items.join()
+    logger.info("Writer finished.")
 
 async def load_feeds(
-    session: sqla_orm.Session,
+    Session: sqla_orm.sessionmaker[sqla_orm.Session],
     queue: asyncio.Queue[steins_feed_model.feeds.Feed],
     title_pattern: str | None = None,
 ):
@@ -67,14 +65,15 @@ async def load_feeds(
     if title_pattern:
         q = q.where(steins_feed_model.feeds.Feed.title.like(f"%{title_pattern}%"))
 
-    with session.begin():
-        for feed_it in session.scalars(q):
-            await queue.put(feed_it)
+    with Session(expire_on_commit=False) as session:
+        with session.begin():
+            for feed_it in session.scalars(q):
+                await queue.put(feed_it)
 
     queue.shutdown()
 
 async def write_items(
-    session: sqla_orm.Session,
+    Session: sqla_orm.sessionmaker[sqla_orm.Session],
     queue: asyncio.Queue[steins_feed_model.items.Item],
     batch_size: int = BATCH_SIZE,
 ):
@@ -82,26 +81,27 @@ async def write_items(
     stmt = stmt.prefix_with("OR IGNORE", dialect="sqlite")
     no_items_total = 0
 
-    async for item_batch_it in util.batch_queue(queue, batch_size):
-        no_items = len(item_batch_it)
-        logger.debug(f"From {no_items_total + 1} to {no_items_total + no_items}.")
-        no_items_total += no_items
+    with Session() as session:
+        async for item_batch_it in util.batch_queue(queue, batch_size):
+            no_items = len(item_batch_it)
+            logger.debug(f"From {no_items_total + 1} to {no_items_total + no_items}.")
+            no_items_total += no_items
 
-        res_batch_it = [
-            {
-                "title": item_it.title,
-                "link": item_it.link,
-                "published": item_it.published,
-                "feed_id": item_it.feed_id,
-                "summary": item_it.summary,
-            }
-            for item_it in item_batch_it
-        ]
-        with session.begin():
-            session.execute(stmt, res_batch_it)
+            res_batch_it = [
+                {
+                    "title": item_it.title,
+                    "link": item_it.link,
+                    "published": item_it.published,
+                    "feed_id": item_it.feed_id,
+                    "summary": item_it.summary,
+                }
+                for item_it in item_batch_it
+            ]
+            with session.begin():
+                session.execute(stmt, res_batch_it)
 
-        for _ in range(no_items):
-            queue.task_done()
+            for _ in range(no_items):
+                queue.task_done()
 
 async def read_feed(
     client: aiohttp.ClientSession,
