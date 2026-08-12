@@ -1,3 +1,4 @@
+import collections.abc
 import logging
 import typing
 
@@ -90,10 +91,10 @@ def train_classifiers_all():
 
 @app.task
 def calculate_scores(
-    item_ids: typing.Sequence[int],
+    item_ids: collections.abc.Sequence[int],
     user_id: int,
     lang: "steins_feed_model.feeds.Language | str",
-) -> list[typing.Tuple[int, float]] | list[typing.Tuple[int, None]]:
+) -> list[tuple[int, float]] | list[tuple[int, None]]:
     import os
 
     import sqlalchemy as sqla
@@ -146,7 +147,7 @@ def calculate_scores(
 
 @app.task
 def update_scores(
-    item_scores: typing.Sequence[typing.Tuple[int, typing.Optional[float]]],
+    item_scores: collections.abc.Sequence[tuple[int, float | None]],
     user_id: int,
 ):
     import sqlalchemy as sqla
