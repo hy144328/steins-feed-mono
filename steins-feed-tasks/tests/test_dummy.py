@@ -44,7 +44,6 @@ def worker(
 
 def test_add(
     monkeypatch: pytest.MonkeyPatch,
-    network: testcontainers.core.network.Network,
     redis: testcontainers.redis.RedisContainer,
     worker: testcontainers.core.container.DockerContainer,
 ):
