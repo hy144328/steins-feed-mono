@@ -142,10 +142,10 @@ def test_db(
         assert len(disliked_items) == 1
 
     with session.begin():
-        assert len(session.execute(sqla.select(steins_feed_model.items.Magic)).all()) == 2
+        assert len(session.scalars(sqla.select(steins_feed_model.items.Magic)).all()) == 2
         steins_feed_magic.db.reset_magic(
             session,
             user_id = user.id,
             lang = steins_feed_model.feeds.Language.ENGLISH,
         )
-        assert len(session.execute(sqla.select(steins_feed_model.items.Magic)).all()) == 0
+        assert len(session.scalars(sqla.select(steins_feed_model.items.Magic)).all()) == 0
