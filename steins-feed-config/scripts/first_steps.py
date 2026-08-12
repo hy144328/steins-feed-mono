@@ -11,7 +11,6 @@ import sqlalchemy.exc as sqla_exc
 import sqlalchemy.orm as sqla_orm
 
 import steins_feed_config
-import steins_feed_model.base
 import steins_feed_model.users
 
 dotenv.load_dotenv()
@@ -30,11 +29,11 @@ url = sqla.URL.create(
     database = os.getenv("DB_NAME"),
 )
 engine = sqla.create_engine(url)
-steins_feed_model.base.Base.metadata.create_all(engine)
+Session = sqla_orm.sessionmaker(engine)
 
 pwd_context = passlib.context.CryptContext(schemes=["bcrypt"], deprecated="auto")
 
-with sqla_orm.Session(engine) as session:
+with Session() as session:
     try:
         with session.begin():
             user = steins_feed_model.users.User(

@@ -15,8 +15,6 @@ def train_classifier(
 ):
     import os
 
-    import sqlalchemy.orm as sqla_orm
-
     import steins_feed_magic.classify
     import steins_feed_magic.db
     import steins_feed_magic.io
@@ -32,7 +30,7 @@ def train_classifier(
 
     clf = steins_feed_magic.classify.build_classifier(lang)
 
-    with sqla_orm.Session(db.engine) as session:
+    with db.Session() as session:
         liked_items = [
             steins_feed_magic.parse.text_content(item_it.title)
             for item_it in steins_feed_magic.db.liked_items(session, user_id, lang)
@@ -69,7 +67,6 @@ def train_classifier(
 def train_classifiers_all():
     import celery
     import sqlalchemy as sqla
-    import sqlalchemy.orm as sqla_orm
 
     import steins_feed_model.feeds
     import steins_feed_model.users
@@ -80,7 +77,7 @@ def train_classifiers_all():
 
     assert isinstance(train_classifier, celery.Task)
 
-    with sqla_orm.Session(db.engine) as session:
+    with db.Session() as session:
         q_users = sqla.select(steins_feed_model.users.User)
         job = celery.group(
             train_classifier.s(user_id=user_it.id, lang=lang_it)
@@ -100,7 +97,6 @@ def calculate_scores(
     import os
 
     import sqlalchemy as sqla
-    import sqlalchemy.orm as sqla_orm
 
     import steins_feed_magic.classify
     import steins_feed_magic.io
@@ -131,7 +127,7 @@ def calculate_scores(
     )
     logger.info(f"Calculate scores of {len(item_ids)} {lang} items.")
 
-    with sqla_orm.Session(db.engine) as session:
+    with db.Session() as session:
         items = session.execute(q).scalars().all()
         scores = steins_feed_magic.classify.predict_scores(
             clf,
@@ -154,7 +150,6 @@ def update_scores(
     user_id: int,
 ):
     import sqlalchemy as sqla
-    import sqlalchemy.orm as sqla_orm
 
     import steins_feed_model.items
 
@@ -175,7 +170,7 @@ def update_scores(
         if score_it is not None
     ]
 
-    with sqla_orm.Session(db.engine) as session:
+    with db.Session() as session:
         logger.info(f"Update scores of {len(item_scores)} items.")
         session.execute(q, res)
         session.commit()

@@ -24,11 +24,12 @@ url = sqla.URL.create(
     database = os.getenv("DB_NAME"),
 )
 engine = sqla.create_engine(url)
+Session = sqla_orm.sessionmaker(engine)
 
 lang = steins_feed_model.feeds.Language.ENGLISH
 clf = steins_feed_magic.classify.build_classifier(lang)
 
-with sqla_orm.Session(engine, expire_on_commit=False) as session:
+with Session(expire_on_commit=False) as session:
     q = sqla.select(
         steins_feed_model.users.User,
     ).where(
