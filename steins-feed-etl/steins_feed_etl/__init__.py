@@ -22,12 +22,13 @@ async def parse_feeds(
     Session: sqla_orm.sessionmaker[sqla_orm.Session],
     client: aiohttp.ClientSession,
     title_pattern: str | None = None,
+    batch_size: int = BATCH_SIZE,
 ):
     q_feeds: asyncio.Queue[steins_feed_model.feeds.Feed] = asyncio.Queue()
     q_items: asyncio.Queue[steins_feed_model.items.Item] = asyncio.Queue()
 
     with Session() as writer_session:
-        asyncio.create_task(write_items(writer_session, q_items))
+        asyncio.create_task(write_items(writer_session, q_items, batch_size=batch_size))
         logger.info("Writer started.")
 
         with Session(expire_on_commit=False) as loader_session:
