@@ -30,7 +30,7 @@ async def client() -> collections.abc.AsyncGenerator[aiohttp.ClientSession]:
         m.get(
             "https://www.theguardian.com/uk/rss",
             status = 200,
-            body = b"""
+            body = """
 <?xml version="1.0" encoding="utf-8"?>
 <rss xmlns:media="http://search.yahoo.com/mrss/" xmlns:dc="http://purl.org/dc/elements/1.1/" version="2.0">
   <channel>
