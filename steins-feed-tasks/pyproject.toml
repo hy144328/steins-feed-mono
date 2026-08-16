@@ -16,6 +16,7 @@ steins-feed-magic = {path = "../steins-feed-magic", optional = true, develop = t
 aioresponses = "^0.7.9"
 pytest = "^9.1.1"
 pytest-asyncio = "^1.4.0"
+steins-feed-config = {path = "../steins-feed-config", develop = true}
 testcontainers = {extras = ["redis"], version = "^4.13.3"}
 
 [tool.poetry.group.worker.dependencies]
