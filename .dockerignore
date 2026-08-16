@@ -1,8 +1,7 @@
-# ~/.gitignore
 pyrightconfig.json
 .venv/
 
-# ../.gitignore
+# ./.gitignore
 .coverage
 .env
 logs.d/
