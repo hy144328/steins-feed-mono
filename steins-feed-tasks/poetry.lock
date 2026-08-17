@@ -1056,7 +1056,7 @@ source = ["Cython (>=3.0.11,<3.1.0)"]
 name = "multidict"
 version = "6.7.1"
 description = "multidict implementation"
-optional = true
+optional = false
 python-versions = ">=3.9"
 files = [
     {file = "multidict-6.7.1-cp310-cp310-macosx_10_9_universal2.whl", hash = "sha256:c93c3db7ea657dd4637d57e74ab73de31bccefe144d3d4ce370052035bc85fb5"},
@@ -1377,7 +1377,7 @@ wcwidth = ">=0.1.4"
 name = "propcache"
 version = "0.5.2"
 description = "Accelerated property cache"
-optional = true
+optional = false
 python-versions = ">=3.10"
 files = [
     {file = "propcache-0.5.2-cp310-cp310-macosx_10_9_universal2.whl", hash = "sha256:d5a81be28596d6559f6131ef33e10200de6e17643b3c74ce03f9eb103be6ae8b"},
@@ -2346,7 +2346,7 @@ dev = ["pytest", "setuptools"]
 name = "yarl"
 version = "1.24.5"
 description = "Yet another URL library"
-optional = true
+optional = false
 python-versions = ">=3.10"
 files = [
     {file = "yarl-1.24.5-cp310-cp310-macosx_10_9_universal2.whl", hash = "sha256:88f50c94e21a0a7f14042c015b0eba1881af78562e7bf007e0033e624da59750"},
@@ -2467,4 +2467,4 @@ magic = ["steins-feed-magic"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.13"
-content-hash = "7523f0877aa260950bf0e8a3f9646a41cab98b0d642a8ba0688b5016988125a0"
+content-hash = "7a4e66c9546e843aa8d30cca0dd61ad6fdab4acba1aa2e8983ff29f62ef23efa"

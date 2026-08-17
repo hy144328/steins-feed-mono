@@ -17,6 +17,7 @@ pytest = "^9.1.1"
 steins-feed-config = {path = "../steins-feed-config", develop = true}
 testcontainers = {extras = ["redis"], version = "^4.13.3"}
 wiremock = "^2.7.0"
+yarl = "^1.24.5"
 
 [tool.poetry.group.worker.dependencies]
 python-dotenv = "^1.0.1"
