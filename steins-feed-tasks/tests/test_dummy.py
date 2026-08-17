@@ -7,6 +7,11 @@ import testcontainers.core.container
 import testcontainers.core.image
 import testcontainers.core.network
 import testcontainers.redis
+import yarl
+
+REDIS_HOST = "redis"
+REDIS_NAME = "0"
+REDIS_PORT = 6379
 
 @pytest.fixture
 def network() -> collections.abc.Generator[testcontainers.core.network.Network]:
@@ -20,25 +25,32 @@ def redis(
     with testcontainers.redis.RedisContainer().with_network(
         network,
     ).with_network_aliases(
-        "redis",
+        REDIS_HOST,
     ).with_exposed_ports(
-        6379,
+        REDIS_PORT,
     ) as container:
         yield container
 
 @pytest.fixture
 def worker(
     network: testcontainers.core.network.Network,
-    redis: testcontainers.redis.RedisContainer,
 ) -> collections.abc.Generator[testcontainers.core.container.DockerContainer]:
-    with testcontainers.core.image.DockerImage("./") as image:
+    redis_url = yarl.URL.build(
+        scheme="redis",
+        host=REDIS_HOST,
+        port=REDIS_PORT,
+        path=f"/{REDIS_NAME}",
+    )
+
+    with testcontainers.core.image.DockerImage(
+        "../",
+        dockerfile_path="steins-feed-tasks/Dockerfile",
+    ) as image:
         with testcontainers.core.container.DockerContainer(str(image)).with_envs(
-            BROKER_URL="redis://redis:6379/0",
-            RESULT_BACKEND="redis://redis:6379/0",
+            BROKER_URL=str(redis_url),
+            RESULT_BACKEND=str(redis_url),
         ).with_network(
             network,
-        ).with_network_aliases(
-            "worker",
         ) as container:
             yield container
 
@@ -47,12 +59,15 @@ def test_add(
     redis: testcontainers.redis.RedisContainer,
     worker: testcontainers.core.container.DockerContainer,
 ):
-    redis_host = redis.get_container_host_ip()
-    redis_port = redis.get_exposed_port(6379)
-    redis_url = f"redis://{redis_host}:{redis_port}/0"
+    redis_url = yarl.URL.build(
+        scheme="redis",
+        host=redis.get_container_host_ip(),
+        port=redis.get_exposed_port(REDIS_PORT),
+        path=f"/{REDIS_NAME}",
+    )
 
-    monkeypatch.setenv("BROKER_URL", redis_url)
-    monkeypatch.setenv("RESULT_BACKEND", redis_url)
+    monkeypatch.setenv("BROKER_URL", str(redis_url))
+    monkeypatch.setenv("RESULT_BACKEND", str(redis_url))
 
     import steins_feed_tasks.dummy
 
