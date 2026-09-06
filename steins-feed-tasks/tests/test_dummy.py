@@ -32,6 +32,21 @@ def redis(
         yield container
 
 @pytest.fixture
+def app(
+    monkeypatch: pytest.MonkeyPatch,
+    redis: testcontainers.redis.RedisContainer,
+):
+    redis_url = yarl.URL.build(
+        scheme="redis",
+        host=redis.get_container_host_ip(),
+        port=redis.get_exposed_port(REDIS_PORT),
+        path=f"/{REDIS_NAME}",
+    )
+
+    monkeypatch.setenv("BROKER_URL", str(redis_url))
+    monkeypatch.setenv("RESULT_BACKEND", str(redis_url))
+
+@pytest.fixture
 def worker(
     network: testcontainers.core.network.Network,
 ) -> collections.abc.Generator[testcontainers.core.container.DockerContainer]:
@@ -54,24 +69,11 @@ def worker(
         ) as container:
             yield container
 
-def test_add(
-    monkeypatch: pytest.MonkeyPatch,
-    redis: testcontainers.redis.RedisContainer,
-    worker: testcontainers.core.container.DockerContainer,
-):
-    redis_url = yarl.URL.build(
-        scheme="redis",
-        host=redis.get_container_host_ip(),
-        port=redis.get_exposed_port(REDIS_PORT),
-        path=f"/{REDIS_NAME}",
-    )
-
-    monkeypatch.setenv("BROKER_URL", str(redis_url))
-    monkeypatch.setenv("RESULT_BACKEND", str(redis_url))
-
+def test_add(app, worker):
     import steins_feed_tasks.dummy
 
     assert isinstance(steins_feed_tasks.dummy.add, celery.Task)
     res = steins_feed_tasks.dummy.add.delay(x=3, y=7)
     assert isinstance(res, celery.result.AsyncResult)
+
     assert res.get() == 10

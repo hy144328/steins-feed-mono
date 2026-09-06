@@ -66,6 +66,21 @@ def redis(
         yield container
 
 @pytest.fixture
+def app(
+    monkeypatch: pytest.MonkeyPatch,
+    redis: testcontainers.redis.RedisContainer,
+):
+    redis_url = yarl.URL.build(
+        scheme="redis",
+        host=redis.get_container_host_ip(),
+        port=redis.get_exposed_port(REDIS_PORT),
+        path=f"/{REDIS_NAME}",
+    )
+
+    monkeypatch.setenv("BROKER_URL", str(redis_url))
+    monkeypatch.setenv("RESULT_BACKEND", str(redis_url))
+
+@pytest.fixture
 def worker(
     network: testcontainers.core.network.Network,
     volume: str,
@@ -160,23 +175,12 @@ def config_file() -> collections.abc.Generator[typing.TextIO]:
             yield f
 
 def test_parse_feeds(
-    monkeypatch: pytest.MonkeyPatch,
-    redis: testcontainers.redis.RedisContainer,
-    worker: testcontainers.core.container.DockerContainer,
-    server: wiremock.testing.testcontainer.WireMockContainer,
+    app,
+    worker,
+    server,
     Session: sqla_orm.sessionmaker[sqla_orm.Session],
     config_file: typing.TextIO,
 ):
-    redis_url = yarl.URL.build(
-        scheme="redis",
-        host=redis.get_container_host_ip(),
-        port=redis.get_exposed_port(REDIS_PORT),
-        path=f"/{REDIS_NAME}",
-    )
-
-    monkeypatch.setenv("BROKER_URL", str(redis_url))
-    monkeypatch.setenv("RESULT_BACKEND", str(redis_url))
-
     import steins_feed_tasks.etl
 
     with Session() as session:
@@ -185,6 +189,7 @@ def test_parse_feeds(
     assert isinstance(steins_feed_tasks.etl.parse_feeds, celery.Task)
     res = steins_feed_tasks.etl.parse_feeds.delay()
     assert isinstance(res, celery.result.AsyncResult)
+
     res.wait()
 
     with Session() as session:

@@ -2,7 +2,7 @@ import collections.abc
 import logging
 import typing
 
-from .app import app
+from .celery import app
 
 logger = logging.getLogger(__name__)
 

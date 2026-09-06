@@ -1,6 +1,6 @@
 import logging
 
-from .app import app
+from .celery import app
 
 logger = logging.getLogger(__name__)
 
