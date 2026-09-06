@@ -7,12 +7,12 @@ import yarl
 
 from . import shared
 
-@pytest.fixture
+@pytest.fixture(scope="session")
 def network() -> collections.abc.Generator[testcontainers.core.network.Network]:
     with testcontainers.core.network.Network() as nw:
         yield nw
 
-@pytest.fixture
+@pytest.fixture(scope="session")
 def redis(
     network: testcontainers.core.network.Network,
 ) -> collections.abc.Generator[testcontainers.redis.RedisContainer]:
