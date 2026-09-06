@@ -155,7 +155,7 @@ def test_parse_feeds(
     res = steins_feed_tasks.etl.parse_feeds.delay()
     assert isinstance(res, celery.result.AsyncResult)
 
-    res.wait()
+    res.wait(timeout=5)
 
     with Session() as session:
         assert len(session.scalars(sqla.select(steins_feed_model.items.Item)).all()) == 1

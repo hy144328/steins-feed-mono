@@ -40,4 +40,4 @@ def test_add(app, worker):
     res = steins_feed_tasks.dummy.add.delay(x=3, y=7)
     assert isinstance(res, celery.result.AsyncResult)
 
-    assert res.get() == 10
+    assert res.get(timeout=5) == 10
