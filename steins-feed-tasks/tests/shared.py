@@ -1,0 +1,3 @@
+REDIS_HOST = "redis"
+REDIS_NAME = "0"
+REDIS_PORT = 6379

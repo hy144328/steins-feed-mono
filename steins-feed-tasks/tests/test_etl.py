@@ -11,7 +11,6 @@ import sqlalchemy.orm as sqla_orm
 import testcontainers.core.container
 import testcontainers.core.image
 import testcontainers.core.network
-import testcontainers.redis
 import wiremock.testing.testcontainer
 import yarl
 
@@ -19,10 +18,9 @@ import steins_feed_config
 import steins_feed_model.base
 import steins_feed_model.items
 
+from . import shared
+
 DB_NAME = "steins.db"
-REDIS_HOST = "redis"
-REDIS_NAME = "0"
-REDIS_PORT = 6379
 RSS_HOST = "rss"
 RSS_PATH = "/rss.xml"
 RSS_PORT = 8080
@@ -48,48 +46,15 @@ def Session(engine: sqla.Engine) -> sqla_orm.sessionmaker[sqla_orm.Session]:
     return sqla_orm.sessionmaker(engine)
 
 @pytest.fixture
-def network() -> collections.abc.Generator[testcontainers.core.network.Network]:
-    with testcontainers.core.network.Network() as nw:
-        yield nw
-
-@pytest.fixture
-def redis(
-    network: testcontainers.core.network.Network,
-) -> collections.abc.Generator[testcontainers.redis.RedisContainer]:
-    with testcontainers.redis.RedisContainer().with_network(
-        network,
-    ).with_network_aliases(
-        REDIS_HOST,
-    ).with_exposed_ports(
-        REDIS_PORT,
-    ) as container:
-        yield container
-
-@pytest.fixture
-def app(
-    monkeypatch: pytest.MonkeyPatch,
-    redis: testcontainers.redis.RedisContainer,
-):
-    redis_url = yarl.URL.build(
-        scheme="redis",
-        host=redis.get_container_host_ip(),
-        port=redis.get_exposed_port(REDIS_PORT),
-        path=f"/{REDIS_NAME}",
-    )
-
-    monkeypatch.setenv("BROKER_URL", str(redis_url))
-    monkeypatch.setenv("RESULT_BACKEND", str(redis_url))
-
-@pytest.fixture
 def worker(
     network: testcontainers.core.network.Network,
     volume: str,
 ) -> collections.abc.Generator[testcontainers.core.container.DockerContainer]:
     redis_url = yarl.URL.build(
         scheme="redis",
-        host=REDIS_HOST,
-        port=REDIS_PORT,
-        path=f"/{REDIS_NAME}",
+        host=shared.REDIS_HOST,
+        port=shared.REDIS_PORT,
+        path=f"/{shared.REDIS_NAME}",
     )
 
     with testcontainers.core.image.DockerImage(
