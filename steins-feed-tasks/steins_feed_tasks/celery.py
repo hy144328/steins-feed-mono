@@ -1,6 +1,11 @@
+import logging.config
 import os
+import tomllib
 
 import celery
+
+with open("logging.toml", "rb") as f:
+    logging.config.dictConfig(tomllib.load(f))
 
 app = celery.Celery(
     __name__,
