@@ -258,27 +258,43 @@ def disliked_item(
 
 def test_train_classifier(
     volume: str,
+    Session: sqla_orm.sessionmaker[sqla_orm.Session],
     user: steins_feed_model.users.User,
     liked_item: steins_feed_model.items.Item,
     disliked_item: steins_feed_model.items.Item,
 ):
     import steins_feed_tasks.magic
 
-    assert isinstance(steins_feed_tasks.magic.train_classifier, celery.Task)
-    res = steins_feed_tasks.magic.train_classifier.delay(
-        user_id=user.id,
-        lang=steins_feed_model.feeds.Language.ENGLISH,
-    )
-    assert isinstance(res, celery.result.AsyncResult)
+    with Session() as session:
+        with session.begin():
+            score = steins_feed_model.items.Magic(
+                user_id = user.id,
+                item_id = liked_item.id,
+                score = 1,
+            )
+            session.add(score)
 
-    res.wait(timeout=10)
+        with session.begin():
+            assert len(session.scalars(sqla.select(steins_feed_model.items.Magic)).all()) == 1
 
-    classifier_path = os.path.join(
-        volume,
-        str(user.id),
-        f"{steins_feed_model.feeds.Language.ENGLISH}.pickle",
-    )
-    assert os.path.exists(classifier_path)
+        assert isinstance(steins_feed_tasks.magic.train_classifier, celery.Task)
+        res = steins_feed_tasks.magic.train_classifier.delay(
+            user_id=user.id,
+            lang=steins_feed_model.feeds.Language.ENGLISH,
+        )
+        assert isinstance(res, celery.result.AsyncResult)
+
+        res.wait(timeout=10)
+
+        classifier_path = os.path.join(
+            volume,
+            str(user.id),
+            f"{steins_feed_model.feeds.Language.ENGLISH}.pickle",
+        )
+        assert os.path.exists(classifier_path)
+
+        with session.begin():
+            assert len(session.scalars(sqla.select(steins_feed_model.items.Magic)).all()) == 0
 
 @pytest.fixture
 def classifier(
