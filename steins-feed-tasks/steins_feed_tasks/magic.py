@@ -32,14 +32,15 @@ def train_classifier(
     clf = steins_feed_magic.classify.build_classifier(lang)
 
     with db.Session() as session:
-        liked_items = [
-            steins_feed_magic.parse.text_content(item_it.title)
-            for item_it in steins_feed_magic.db.liked_items(session, user_id, lang)
-        ]
-        disliked_items = [
-            steins_feed_magic.parse.text_content(item_it.title)
-            for item_it in steins_feed_magic.db.disliked_items(session, user_id, lang)
-        ]
+        with session.begin():
+            liked_items = [
+                steins_feed_magic.parse.text_content(item_it.title)
+                for item_it in steins_feed_magic.db.liked_items(session, user_id, lang)
+            ]
+            disliked_items = [
+                steins_feed_magic.parse.text_content(item_it.title)
+                for item_it in steins_feed_magic.db.disliked_items(session, user_id, lang)
+            ]
 
         try:
             steins_feed_magic.classify.fit_classifier(
@@ -54,11 +55,13 @@ def train_classifier(
                 lang = lang,
                 force = True,
             )
-            steins_feed_magic.db.reset_magic(
-                session,
-                user_id = user_id,
-                lang = lang,
-            )
+
+            with session.begin():
+                steins_feed_magic.db.reset_magic(
+                    session,
+                    user_id = user_id,
+                    lang = lang,
+                )
         except ValueError as e:
             logger.warning(e)
 
