@@ -171,10 +171,9 @@ def update_scores(
         if score_it is not None
     ]
 
-    with db.Session() as session:
+    with db.Session.begin() as session:
         logger.info(f"Update scores of {len(item_scores)} items.")
         session.execute(q, res)
-        session.commit()
 
     logger.info(f"Finish to update scores for {user_id}.")
 

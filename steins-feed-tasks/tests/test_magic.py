@@ -320,7 +320,7 @@ def test_calculate_and_update_scores(
 
     res.wait(timeout=5)
 
-    with Session.begin() as session:
+    with Session() as session:
         q = sqla.select(
             steins_feed_model.items.Magic,
         ).where(
