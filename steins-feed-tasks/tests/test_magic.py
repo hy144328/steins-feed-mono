@@ -188,16 +188,19 @@ def etl(
 def user(
     Session: sqla_orm.sessionmaker[sqla_orm.Session],
 ) -> steins_feed_model.users.User:
-    with Session(expire_on_commit=False) as session:
+    with Session() as session:
+        user = steins_feed_model.users.User(
+            name="",
+            password="",
+            email=""
+        )
         with session.begin():
-            user = steins_feed_model.users.User(
-                name="",
-                password="",
-                email=""
-            )
             session.add(user)
 
-    return user
+        with session.begin():
+            session.refresh(user)
+            session.expunge(user)
+            return user
 
 @pytest.fixture
 def liked_item(
@@ -205,7 +208,7 @@ def liked_item(
     Session: sqla_orm.sessionmaker[sqla_orm.Session],
     user: steins_feed_model.users.User,
 ) -> steins_feed_model.items.Item:
-    with Session(expire_on_commit=False) as session:
+    with Session() as session:
         with session.begin():
             q = sqla.select(
                 steins_feed_model.items.Item,
@@ -214,7 +217,6 @@ def liked_item(
             )
             item = session.scalars(q).one()
 
-        with session.begin():
             like = steins_feed_model.items.Like(
                 user_id=user.id,
                 item_id=item.id,
@@ -222,7 +224,10 @@ def liked_item(
             )
             session.add(like)
 
-    return item
+        with session.begin():
+            session.refresh(item)
+            session.expunge(item)
+            return item
 
 @pytest.fixture
 def disliked_item(
@@ -230,7 +235,7 @@ def disliked_item(
     Session: sqla_orm.sessionmaker[sqla_orm.Session],
     user: steins_feed_model.users.User,
 ) -> steins_feed_model.items.Item:
-    with Session(expire_on_commit=False) as session:
+    with Session() as session:
         with session.begin():
             q = sqla.select(
                 steins_feed_model.items.Item,
@@ -239,7 +244,6 @@ def disliked_item(
             )
             item = session.scalars(q).one()
 
-        with session.begin():
             dislike = steins_feed_model.items.Like(
                 user_id=user.id,
                 item_id=item.id,
@@ -247,7 +251,10 @@ def disliked_item(
             )
             session.add(dislike)
 
-    return item
+        with session.begin():
+            session.refresh(item)
+            session.expunge(item)
+            return item
 
 def test_train_classifier(
     volume: str,
