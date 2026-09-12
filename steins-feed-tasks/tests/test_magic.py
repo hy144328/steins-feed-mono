@@ -290,27 +290,7 @@ def classifier(
 
     res.wait(timeout=10)
 
-def test_calculate_scores(
-    classifier,
-    user: steins_feed_model.users.User,
-    liked_item: steins_feed_model.items.Item,
-    disliked_item: steins_feed_model.items.Item,
-):
-    import steins_feed_tasks.magic
-
-    assert isinstance(steins_feed_tasks.magic.calculate_scores, celery.Task)
-    res = steins_feed_tasks.magic.calculate_scores.delay(
-        item_ids=[liked_item.id, disliked_item.id],
-        user_id=user.id,
-        lang=steins_feed_model.feeds.Language.ENGLISH,
-    )
-    assert isinstance(res, celery.result.AsyncResult)
-
-    scores = res.get(timeout=5)
-    assert scores[0][0] == liked_item.id and scores[0][1] > 0
-    assert scores[1][0] == disliked_item.id and scores[1][1] < 0
-
-def test_update_scores(
+def test_calculate_and_update_scores(
     classifier,
     Session: sqla_orm.sessionmaker[sqla_orm.Session],
     user: steins_feed_model.users.User,
@@ -328,6 +308,8 @@ def test_update_scores(
     assert isinstance(res, celery.result.AsyncResult)
 
     scores = res.get(timeout=5)
+    assert scores[0][0] == liked_item.id and scores[0][1] > 0
+    assert scores[1][0] == disliked_item.id and scores[1][1] < 0
 
     assert isinstance(steins_feed_tasks.magic.update_scores, celery.Task)
     res = steins_feed_tasks.magic.update_scores.delay(
