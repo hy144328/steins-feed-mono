@@ -20,7 +20,7 @@ COPY steins-feed-magic/pyproject.toml steins-feed-magic/poetry.lock steins-feed-
 COPY steins-feed-magic/steins_feed_magic ../steins-feed-magic/steins_feed_magic
 
 COPY steins-feed-tasks/pyproject.toml steins-feed-tasks/poetry.lock ./
-RUN poetry install --with=dev --with=worker --all-extras
+RUN poetry install --with=worker --all-extras
 
 FROM python:3.13-slim AS runtime
 WORKDIR /usr/src/app
