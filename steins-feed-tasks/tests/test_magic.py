@@ -74,7 +74,16 @@ def worker(
             VOLUME_PATH,
             mode="rw",
         ) as container:
-            yield container
+            try:
+                yield container
+            finally:
+                out, err = container.get_logs()
+
+                print("worker stdout:")
+                print(out.decode())
+
+                print("worker stderr:")
+                print(err.decode())
 
 @pytest.fixture
 def server(
@@ -121,7 +130,16 @@ def server(
     ).with_network_aliases(
         RSS_HOST,
     ) as container:
-        yield container
+        try:
+            yield container
+        finally:
+            out, err = container.get_logs()
+
+            print("server stdout:")
+            print(out.decode())
+
+            print("server stderr:")
+            print(err.decode())
 
 @pytest.fixture
 def config_file() -> collections.abc.Generator[typing.TextIO]:

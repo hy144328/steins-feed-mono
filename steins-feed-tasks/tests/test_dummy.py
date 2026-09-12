@@ -31,7 +31,16 @@ def worker(
         ).with_network(
             network,
         ) as container:
-            yield container
+            try:
+                yield container
+            finally:
+                out, err = container.get_logs()
+
+                print("worker stdout:")
+                print(out.decode())
+
+                print("worker stderr:")
+                print(err.decode())
 
 def test_add(app, worker):
     import steins_feed_tasks.dummy

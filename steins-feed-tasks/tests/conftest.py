@@ -23,7 +23,16 @@ def redis(
     ).with_exposed_ports(
         shared.REDIS_PORT,
     ) as container:
-        yield container
+        try:
+            yield container
+        finally:
+            out, err = container.get_logs()
+
+            print("Redis stdout:")
+            print(out.decode())
+
+            print("Redis stderr:")
+            print(err.decode())
 
 @pytest.fixture
 def app(
@@ -39,4 +48,3 @@ def app(
 
     monkeypatch.setenv("BROKER_URL", str(redis_url))
     monkeypatch.setenv("RESULT_BACKEND", str(redis_url))
-
