@@ -194,8 +194,7 @@ def liked_item(
             ).where(
                 steins_feed_model.items.Item.title.ilike("%love%")
             )
-            item = session.scalar(q)
-            assert item is not None
+            item = session.scalars(q).one()
 
         with session.begin():
             like = steins_feed_model.items.Like(
@@ -220,8 +219,7 @@ def disliked_item(
             ).where(
                 steins_feed_model.items.Item.title.ilike("%hate%")
             )
-            item = session.scalar(q)
-            assert item is not None
+            item = session.scalars(q).one()
 
         with session.begin():
             dislike = steins_feed_model.items.Like(
@@ -328,16 +326,16 @@ def test_update_scores(
         ).where(
             steins_feed_model.items.Magic.item_id == liked_item.id,
         )
-        item = session.scalar(q)
-        assert item is not None and item.score > 0
+        item = session.scalars(q).one()
+        assert item.score > 0
 
         q = sqla.select(
             steins_feed_model.items.Magic,
         ).where(
             steins_feed_model.items.Magic.item_id == disliked_item.id,
         )
-        item = session.scalar(q)
-        assert item is not None and item.score < 0
+        item = session.scalars(q).one()
+        assert item.score < 0
 
 def test_analyze_text_like(
     classifier,
