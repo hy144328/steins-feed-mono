@@ -18,9 +18,13 @@ add:
 parse_feeds:
 	celery -A steins_feed_tasks call steins_feed_tasks.etl.parse_feeds
 
+.PHONY: train_classifier
+train_classifier:
+	celery -A steins_feed_tasks call steins_feed_tasks.magic.train_classifier --args='[$(USER_ID), "$(LANGUAGE)"]'
+
 .PHONY: train_classifiers
 train_classifiers:
-	celery -A steins_feed_tasks call steins_feed_tasks.magic.train_classifiers_all
+	python3 scripts/train_classifiers_all.py
 
 .PHONY: analyze_text
 analyze_text:
