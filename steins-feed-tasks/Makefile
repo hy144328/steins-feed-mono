@@ -4,7 +4,7 @@ redis:
 
 .PHONY: worker
 worker:
-	celery -A steins_feed_tasks worker --loglevel=INFO
+	python3 scripts/worker.py --loglevel=INFO
 
 .PHONY: result
 result:
