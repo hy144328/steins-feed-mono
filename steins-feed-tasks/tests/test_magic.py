@@ -274,8 +274,15 @@ def test_train_classifier(
             )
             session.add(score)
 
+            score = steins_feed_model.items.Magic(
+                user_id = user.id,
+                item_id = disliked_item.id,
+                score = -1,
+            )
+            session.add(score)
+
         with session.begin():
-            assert len(session.scalars(sqla.select(steins_feed_model.items.Magic)).all()) == 1
+            assert len(session.scalars(sqla.select(steins_feed_model.items.Magic)).all()) == 2
 
         assert isinstance(steins_feed_tasks.magic.train_classifier, celery.Task)
         res = steins_feed_tasks.magic.train_classifier.delay(
