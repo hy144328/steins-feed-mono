@@ -5,7 +5,7 @@ import os
 import tomllib
 
 import dotenv
-import passlib.context
+import pwdlib
 import sqlalchemy as sqla
 import sqlalchemy.exc as sqla_exc
 import sqlalchemy.orm as sqla_orm
@@ -31,14 +31,14 @@ url = sqla.URL.create(
 engine = sqla.create_engine(url)
 Session = sqla_orm.sessionmaker(engine)
 
-pwd_context = passlib.context.CryptContext(schemes=["bcrypt"], deprecated="auto")
+password_hash = pwdlib.PasswordHash.recommended()
 
 with Session() as session:
     try:
         with session.begin():
             user = steins_feed_model.users.User(
                 name = os.environ["DEV_USER"],
-                password = pwd_context.hash(os.environ["DEV_PASS"]),
+                password = password_hash.hash(os.environ["DEV_PASS"]),
                 email = os.environ["DEV_MAIL"],
             )
             session.add(user)
