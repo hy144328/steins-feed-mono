@@ -68,31 +68,6 @@ def train_classifier(
     logger.info(f"Finish train_classifier: {user_id}, {lang}.")
 
 @app.task
-def train_classifiers_all():
-    import celery
-    import sqlalchemy as sqla
-
-    import steins_feed_model.feeds
-    import steins_feed_model.users
-
-    from . import db
-
-    logger.info("Start train_classifiers_all.")
-
-    assert isinstance(train_classifier, celery.Task)
-
-    with db.Session() as session:
-        q_users = sqla.select(steins_feed_model.users.User)
-        job = celery.group(
-            train_classifier.s(user_id=user_it.id, lang=lang_it)
-            for user_it in session.scalars(q_users)
-            for lang_it in steins_feed_model.feeds.Language
-        )
-        job()
-
-    logger.info("Finish train_classifiers_all.")
-
-@app.task
 def calculate_scores(
     item_ids: collections.abc.Sequence[int],
     user_id: int,
