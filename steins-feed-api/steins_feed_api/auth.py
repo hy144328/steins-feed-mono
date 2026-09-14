@@ -12,7 +12,7 @@ import sqlalchemy as sqla
 import steins_feed_model
 import steins_feed_model.users
 
-import steins_feed_api.db
+from . import db
 
 router = fastapi.APIRouter()
 oauth2_scheme = fastapi.security.OAuth2PasswordBearer(tokenUrl="token")
@@ -32,7 +32,7 @@ class User(pydantic.BaseModel):
         )
 
 async def current_user(
-    session: steins_feed_api.db.Session,
+    session: db.SessionDep,
     token: typing.Annotated[str, fastapi.Depends(oauth2_scheme)],
 ) -> User:
     payload = jwt.decode(
@@ -46,7 +46,7 @@ async def current_user(
     ).where(
         steins_feed_model.users.User.name == payload["sub"],
     )
-    user = session.execute(q).scalars().one()
+    user = session.scalars(q).one()
 
     return User.from_model(user)
 
@@ -58,7 +58,7 @@ class Token(pydantic.BaseModel):
 
 @router.post("/token")
 async def login(
-    session: steins_feed_api.db.Session,
+    session: db.SessionDep,
     form_data: typing.Annotated[
         fastapi.security.OAuth2PasswordRequestForm,
         fastapi.Depends(),
@@ -69,7 +69,7 @@ async def login(
     ).where(
         steins_feed_model.users.User.name == form_data.username,
     )
-    user = session.execute(q).scalars().one()
+    user = session.scalars(q).one()
 
     if not password_hash.verify(form_data.password, user.password):
         raise fastapi.HTTPException(

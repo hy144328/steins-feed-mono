@@ -1,6 +1,6 @@
+import collections.abc
 import datetime
 import enum
-import itertools
 import logging
 import random
 import typing
@@ -21,10 +21,8 @@ import steins_feed_model.items
 import steins_feed_model.users
 import steins_feed_tasks.magic
 
-import steins_feed_api.auth
-import steins_feed_api.db
-import steins_feed_api.pubsub
-import steins_feed_api.routers.feeds
+from .. import auth, db
+from . import feeds
 
 logger = logging.getLogger(__name__)
 
@@ -52,11 +50,11 @@ class Item(pydantic.BaseModel):
     title: str
     link: str
     published: datetime.datetime
-    summary: typing.Optional[str]
-    feed: steins_feed_api.routers.feeds.Feed
-    like: typing.Optional[steins_feed_model.items.LikeStatus]
-    magic: typing.Optional[float]
-    surprise: typing.Optional[float]
+    summary: str | None
+    feed: feeds.Feed
+    like: steins_feed_model.items.LikeStatus | None
+    magic: float | None
+    surprise: float | None
 
     @classmethod
     def from_model(cls, item: steins_feed_model.items.Item) -> "Item":
@@ -66,7 +64,7 @@ class Item(pydantic.BaseModel):
             link = item.link,
             summary = item.summary,
             published = item.published.replace(tzinfo=datetime.timezone.utc),
-            feed = steins_feed_api.routers.feeds.Feed.from_model(item.feed),
+            feed = feeds.Feed.from_model(item.feed),
             like = item.likes[0].score if len(item.likes) > 0 else None,
             magic = item.magic[0].score if len(item.magic) > 0 else None,
             surprise = Item.magic2surprise(item.magic[0].score) if len(item.magic) > 0 else None,
@@ -79,16 +77,16 @@ class Item(pydantic.BaseModel):
 
 @router.get("/")
 async def root(
-    session: steins_feed_api.db.Session,
-    current_user: steins_feed_api.auth.UserDep,
+    session: db.SessionDep,
+    current_user: auth.UserDep,
     dt_from: datetime.datetime,
     dt_to: datetime.datetime,
     languages: typing.Annotated[
-        typing.Optional[typing.Sequence[steins_feed_model.feeds.Language]],
+        collections.abc.Sequence[steins_feed_model.feeds.Language] | None,
         fastapi.Query(),
     ] = None,
     tags: typing.Annotated[
-        typing.Optional[typing.Sequence[int]],
+        collections.abc.Sequence[int] | None,
         fastapi.Query(),
     ] = None,
     wall_mode: WallMode = WallMode.CLASSIC,
@@ -126,71 +124,65 @@ async def root(
 
             return [
                 Item.from_model(item_it)
-                for item_it in session.execute(q).scalars().unique()
+                for item_it in session.scalars(q).unique()
             ]
         case WallMode.RANDOM:
             rng = random.Random()
             reservoir = steins_feed_magic.sample.Reservoir[Item](rng, 10)
 
-            for item_it in session.execute(q).scalars().unique():
+            for item_it in session.scalars(q).unique():
                 reservoir.add(Item.from_model(item_it))
 
             return sorted(reservoir.sample, key=lambda x: x.published, reverse=True)
 
     q_unscored = q.where(
+        steins_feed_model.feeds.Feed.language == sqla.bindparam("lang"),
         steins_feed_model.items.Magic.item_id == None,
-    ).order_by(
-        steins_feed_model.feeds.Feed.language,
-    )
-    q_scored = q.where(
-        steins_feed_model.items.Magic.item_id != None,
+    ).with_only_columns(
+        steins_feed_model.items.Item.id,
     )
 
-    unscored_items = _augment_unscored(
-        items = session.execute(q_unscored).scalars().unique(),
-        user_id = current_user.id,
-    )
+    with session.begin():
+        tasks = [
+            _calculate_and_update_scores(
+                item_ids=session.scalars(q_unscored, {"lang": lang_it}).unique().all(),
+                user_id=current_user.id,
+                lang=lang_it,
+            )
+            for lang_it in languages or steins_feed_model.feeds.Language
+        ]
+        job = celery.group(tasks)
+        res = job()
+
+    assert isinstance(res, celery.result.GroupResult)
+    res.join_native()
 
     match wall_mode:
         case WallMode.MAGIC:
-            q_scored = q_scored.order_by(
+            q = q.order_by(
                 steins_feed_model.items.Magic.score.desc(),
                 steins_feed_model.items.Item.published.desc(),
                 steins_feed_model.items.Item.title,
                 steins_feed_model.feeds.Feed.title,
             )
-            scored_items = (
+            return [
                 Item.from_model(item_it)
-                for item_it in session.execute(q_scored).scalars().unique()
-            )
-
-            return sorted(
-                itertools.chain(scored_items, unscored_items),
-                key=lambda x: (
-                    -x.magic if x.magic is not None else 0,
-                    -x.published.timestamp(),
-                    x.title,
-                    x.feed.title,
-                ),
-            )
+                for item_it in session.scalars(q).unique()
+            ]
         case WallMode.SURPRISE:
-            scored_items = (
-                Item.from_model(item_it)
-                for item_it in session.execute(q_scored).scalars().unique()
-            )
-
             rng = random.Random()
             reservoir = steins_feed_magic.sample.Reservoir[Item](rng, 10)
 
-            for item_it in itertools.chain(scored_items, unscored_items):
+            for item_it in session.scalars(q).unique():
+                item_it = Item.from_model(item_it)
                 reservoir.add(item_it, item_it.surprise or 1)
 
             return sorted(reservoir.sample, key=lambda x: x.published, reverse=True)
 
 def _query_root(
-    current_user: steins_feed_api.auth.UserDep,
-    languages: typing.Optional[typing.Sequence[steins_feed_model.feeds.Language]],
-    tags: typing.Optional[typing.Sequence[int]],
+    current_user: auth.UserDep,
+    languages: collections.abc.Sequence[steins_feed_model.feeds.Language] | None,
+    tags: collections.abc.Sequence[int] | None,
     load_display: bool = True,
     load_tags: bool = True,
     load_like: bool = True,
@@ -250,43 +242,12 @@ def _query_root(
 
     return q
 
-def _augment_unscored(
-    items: typing.Iterable[steins_feed_model.items.Item],
-    user_id: int,
-) -> typing.Generator[Item]:
-    res_to_score_by_lang = itertools.groupby(
-        items,
-        key = lambda x: x.feed.language,
-    )
-    publishers: list[typing.Generator[Item]] = []
-
-    for k, vs in res_to_score_by_lang:
-        if k is None:
-            publisher_it = (Item.from_model(v) for v in vs)
-            publishers.append(publisher_it)
-            continue
-
-        task_it = _calculate_and_update_scores(
-            item_ids = [v.id for v in vs],
-            user_id = user_id,
-            lang = k,
-        )
-        res_it = task_it.delay()
-        assert isinstance(res_it, celery.result.AsyncResult)
-
-        publisher_it = _put_scores(res_it, user_id)
-        publishers.append(publisher_it)
-
-    yield from steins_feed_api.pubsub.reduce_publishers(*publishers)
-
 def _calculate_and_update_scores(
-    item_ids: typing.Sequence[int],
+    item_ids: collections.abc.Sequence[int],
     user_id: int,
     lang: steins_feed_model.feeds.Language,
 ) -> celery.canvas.Signature:
     assert isinstance(steins_feed_tasks.magic.calculate_scores, celery.Task)
-    assert isinstance(steins_feed_tasks.magic.update_scores, celery.Task)
-
     calculate_scores = steins_feed_tasks.magic.calculate_scores.s(
         item_ids = item_ids,
         user_id = user_id,
@@ -294,71 +255,22 @@ def _calculate_and_update_scores(
     )
     assert isinstance(calculate_scores, celery.canvas.Signature)
 
+    assert isinstance(steins_feed_tasks.magic.update_scores, celery.Task)
     update_scores = steins_feed_tasks.magic.update_scores.s(user_id=user_id)
     assert isinstance(update_scores, celery.canvas.Signature)
 
     return calculate_scores.set(link=update_scores)
 
-def _put_scores(
-    res: celery.result.AsyncResult,
-    user_id: int,
-) -> typing.Generator[Item]:
-    logger.debug(f"Start to process items with scores.")
-
-    item_ids_and_scores = res.get()
-    assert item_ids_and_scores is not None
-
-    with sqla_orm.Session(steins_feed_api.db._ENGINE) as session:
-        for item_id, item_score in item_ids_and_scores:
-            assert isinstance(item_id, int)
-            assert isinstance(item_score, typing.Optional[float])
-
-            item_it = session.get_one(
-                steins_feed_model.items.Item,
-                item_id,
-                options = [
-                    sqla_orm.joinedload(
-                        steins_feed_model.items.Item.feed,
-                    ).joinedload(
-                        steins_feed_model.feeds.Feed.users.and_(
-                            steins_feed_model.users.User.id == user_id,
-                        ),
-                    ),
-                    sqla_orm.joinedload(
-                        steins_feed_model.items.Item.feed,
-                    ).joinedload(
-                        steins_feed_model.feeds.Feed.tags.and_(
-                            steins_feed_model.feeds.Tag.user_id == user_id,
-                        ),
-                    ),
-                    sqla_orm.joinedload(
-                        steins_feed_model.items.Item.likes.and_(
-                            steins_feed_model.items.Like.user_id == user_id,
-                        ),
-                    ),
-                    sqla_orm.noload(steins_feed_model.items.Item.magic),
-                ],
-            )
-            item_it = Item.from_model(item_it)
-
-            if item_score is not None:
-                item_it.magic = item_score
-                item_it.surprise = Item.magic2surprise(item_score)
-
-            yield item_it
-
-    logger.debug(f"Finish to process items with scores.")
-
 @router.get("/last_updated")
 async def last_updated(
-    session: steins_feed_api.db.Session,
-    current_user: steins_feed_api.auth.UserDep,
+    session: db.SessionDep,
+    current_user: auth.UserDep,
     languages: typing.Annotated[
-        typing.Optional[typing.Sequence[steins_feed_model.feeds.Language]],
+        collections.abc.Sequence[steins_feed_model.feeds.Language] | None,
         fastapi.Query(),
     ] = None,
     tags: typing.Annotated[
-        typing.Optional[typing.Sequence[int]],
+        collections.abc.Sequence[int] | None,
         fastapi.Query(),
     ] = None,
 ) -> datetime.datetime:
@@ -372,15 +284,15 @@ async def last_updated(
     ).with_only_columns(
         sqla.func.max(steins_feed_model.items.Item.published),
     )
-    res = session.execute(q).scalar() or datetime.datetime.fromtimestamp(0)
+    res = session.scalar(q) or datetime.datetime.fromtimestamp(0)
     res = res.replace(tzinfo = datetime.timezone.utc)
 
     return res
 
 @router.put("/like/")
 async def like(
-    session: steins_feed_api.db.Session,
-    current_user: steins_feed_api.auth.UserDep,
+    session: db.SessionDep,
+    current_user: auth.UserDep,
     item_id: int,
     score: steins_feed_model.items.LikeStatus,
 ):
@@ -390,24 +302,24 @@ async def like(
         steins_feed_model.items.Like.item_id == item_id,
         steins_feed_model.items.Like.user_id == current_user.id,
     )
-    like = session.execute(q).scalar()
 
-    if like is None:
-        like = steins_feed_model.items.Like(
-            user_id = current_user.id,
-            item_id = item_id,
-            score = score,
-        )
-        session.add(like)
-    else:
-        like.score = score
+    with session.begin():
+        like = session.scalar(q)
 
-    session.commit()
+        if like is None:
+            like = steins_feed_model.items.Like(
+                user_id = current_user.id,
+                item_id = item_id,
+                score = score,
+            )
+            session.add(like)
+        else:
+            like.score = score
 
 @router.get("/analyze_title")
 async def analyze_title(
-    session: steins_feed_api.db.Session,
-    current_user: steins_feed_api.auth.UserDep,
+    session: db.SessionDep,
+    current_user: auth.UserDep,
     item_id: int,
 ) -> list[tuple[str, str, float]]:
     item = session.get_one(
@@ -433,8 +345,8 @@ async def analyze_title(
 
 @router.get("/analyze_summary")
 async def analyze_summary(
-    session: steins_feed_api.db.Session,
-    current_user: steins_feed_api.auth.UserDep,
+    session: db.SessionDep,
+    current_user: auth.UserDep,
     item_id: int,
 ) -> list[tuple[str, str, float]]:
     item = session.get_one(

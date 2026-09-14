@@ -1,38 +1,24 @@
+import collections.abc
+import os
 import typing
 
 import fastapi
 import sqlalchemy as sqla
 import sqlalchemy.orm as sqla_orm
 
-import steins_feed_model
+url = sqla.URL.create(
+    "sqlite",
+    username = os.getenv("DB_USER"),
+    password = os.getenv("DB_PASS"),
+    host = os.getenv("DB_HOST"),
+    port = int(os.environ["DB_PORT"]) if "DB_PORT" in os.environ else None,
+    database = os.getenv("DB_NAME"),
+)
+engine = sqla.create_engine(url)
+Session = sqla_orm.sessionmaker(engine)
 
-_ENGINE: typing.Optional[sqla.engine.Engine] = None
-
-def set_up(
-    username: typing.Optional[str],
-    password: typing.Optional[str],
-    host: typing.Optional[str],
-    port: typing.Optional[str | int],
-    database: typing.Optional[str],
-):
-    global _ENGINE
-
-    _ENGINE = steins_feed_model.EngineFactory.create_engine(
-        username = username,
-        password = password,
-        host = host,
-        port = port,
-        database = database,
-    )
-
-async def get_engine() -> sqla.engine.Engine:
-    assert _ENGINE is not None
-    return _ENGINE
-
-Engine = typing.Annotated[sqla.engine.Engine, fastapi.Depends(get_engine)]
-
-async def get_session(engine: Engine) -> typing.AsyncGenerator[sqla_orm.Session]:
-    with sqla_orm.Session(engine) as session:
+async def get_session() -> collections.abc.AsyncGenerator[sqla_orm.Session]:
+    with Session() as session:
         yield session
 
-Session = typing.Annotated[sqla_orm.Session, fastapi.Depends(get_session)]
+SessionDep = typing.Annotated[sqla_orm.Session, fastapi.Depends(get_session)]
