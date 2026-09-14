@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 
-import dotenv
 import os
 
+import dotenv
 import sqlalchemy as sqla
 import sqlalchemy.orm as sqla_orm
 

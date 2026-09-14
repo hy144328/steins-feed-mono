@@ -14,11 +14,13 @@ scikit-learn = "^1.6.1"
 steins-feed-model = {path = "../steins-feed-model", develop = true}
 
 [tool.poetry.group.dev.dependencies]
+python-dotenv = "^1.0.1"
+types-lxml = "^2026.2.16"
+
+[tool.poetry.group.test.dependencies]
 coverage = "^7.6.10"
 pytest = "^8.3.4"
-python-dotenv = "^1.0.1"
 steins-feed-config = {path = "../steins-feed-config", develop = true}
-types-lxml = "^2026.2.16"
 
 [build-system]
 requires = ["poetry-core"]
