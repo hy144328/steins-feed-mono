@@ -1,3 +1,7 @@
 .PHONY: dev
 dev:
-	uvicorn --reload steins_feed_api:app
+	python3 scripts/dev.py
+
+.PHONY: prod
+prod:
+	python3 scripts/prod.py
