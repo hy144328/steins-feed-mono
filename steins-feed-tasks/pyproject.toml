@@ -13,14 +13,14 @@ steins-feed-etl = {path = "../steins-feed-etl", optional = true, develop = true}
 steins-feed-magic = {path = "../steins-feed-magic", optional = true, develop = true}
 
 [tool.poetry.group.dev.dependencies]
+python-dotenv = "^1.0.1"
+
+[tool.poetry.group.test.dependencies]
 pytest = "^9.1.1"
 steins-feed-config = {path = "../steins-feed-config", develop = true}
 testcontainers = {extras = ["redis"], version = "^4.13.3"}
 wiremock = "^2.7.0"
 yarl = "^1.24.5"
-
-[tool.poetry.group.worker.dependencies]
-python-dotenv = "^1.0.1"
 
 [tool.poetry.extras]
 etl = ["steins-feed-etl"]
