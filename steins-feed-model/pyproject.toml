@@ -11,9 +11,11 @@ python = "^3.13"
 sqlalchemy = "^2.0.36"
 
 [tool.poetry.group.dev.dependencies]
+python-dotenv = "^1.0.1"
+
+[tool.poetry.group.test.dependencies]
 coverage = "^7.6.9"
 pytest = "^8.3.4"
-python-dotenv = "^1.0.1"
 
 [build-system]
 requires = ["poetry-core"]
