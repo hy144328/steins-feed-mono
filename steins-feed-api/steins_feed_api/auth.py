@@ -5,8 +5,7 @@ import typing
 import fastapi
 import fastapi.security
 import jwt
-import jwt.exceptions
-import passlib.context
+import pwdlib
 import pydantic
 import sqlalchemy as sqla
 
@@ -17,7 +16,7 @@ import steins_feed_api.db
 
 router = fastapi.APIRouter()
 oauth2_scheme = fastapi.security.OAuth2PasswordBearer(tokenUrl="token")
-pwd_context = passlib.context.CryptContext(schemes=["bcrypt"], deprecated="auto")
+password_hash = pwdlib.PasswordHash.recommended()
 
 class User(pydantic.BaseModel):
     id: int
@@ -72,7 +71,7 @@ async def login(
     )
     user = session.execute(q).scalars().one()
 
-    if not pwd_context.verify(form_data.password, user.password):
+    if not password_hash.verify(form_data.password, user.password):
         raise fastapi.HTTPException(
             status_code = fastapi.status.HTTP_401_UNAUTHORIZED,
             detail = "Incorrect username or password",
