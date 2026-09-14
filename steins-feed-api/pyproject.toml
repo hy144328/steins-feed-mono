@@ -11,10 +11,19 @@ python = "^3.13"
 fastapi = {extras = ["standard"], version = "^0.115.6"}
 pwdlib = {extras = ["argon2"], version = "^0.3.1"}
 pyjwt = {extras = ["crypto"], version = "^2.10.1"}
-python-dotenv = "^1.0.1"
 steins-feed-magic = {path = "../steins-feed-magic", develop = true}
 steins-feed-model = {path = "../steins-feed-model", develop = true}
 steins-feed-tasks = {path = "../steins-feed-tasks", develop = true}
+
+[tool.poetry.group.dev.dependencies]
+python-dotenv = "^1.0.1"
+
+[tool.poetry.group.test.dependencies]
+pytest = "^9.1.1"
+steins-feed-config = {path = "../steins-feed-config", develop = true}
+testcontainers = {extras = ["redis"], version = "^4.13.3"}
+wiremock = "^2.7.0"
+yarl = "^1.24.5"
 
 [build-system]
 requires = ["poetry-core"]
