@@ -6,6 +6,7 @@ import typing
 import celery
 import celery.result
 import fastapi.testclient
+import pwdlib
 import pytest
 import sqlalchemy as sqla
 import sqlalchemy.orm as sqla_orm
@@ -21,6 +22,9 @@ import steins_feed_config
 import steins_feed_model.base
 
 DB_NAME = "steins.db"
+DEV_USER = "hansolo"
+DEV_PASS = "obiwan"
+DEV_MAIL = "death@star.universe"
 REDIS_HOST = "redis"
 REDIS_NAME = "0"
 REDIS_PORT = 6379
@@ -56,26 +60,26 @@ def redis(
             print("Redis stderr:")
             print(err.decode())
 
-@pytest.fixture
+@pytest.fixture(scope="session")
 def volume() -> collections.abc.Generator[str]:
     with tempfile.TemporaryDirectory() as temp_dir:
         yield temp_dir
 
-@pytest.fixture
+@pytest.fixture(scope="session")
 def database(volume: str) -> str:
     return os.path.join(volume, DB_NAME)
 
-@pytest.fixture
+@pytest.fixture(scope="session")
 def engine(database: str) -> sqla.Engine:
     engine = sqla.create_engine(sqla.URL.create("sqlite", database=database))
     steins_feed_model.base.Base.metadata.create_all(engine)
     return engine
 
-@pytest.fixture
+@pytest.fixture(scope="session")
 def Session(engine: sqla.Engine) -> sqla_orm.sessionmaker[sqla_orm.Session]:
     return sqla_orm.sessionmaker(engine)
 
-@pytest.fixture
+@pytest.fixture(scope="session")
 def worker(
     network: testcontainers.core.network.Network,
     volume: str,
@@ -114,7 +118,7 @@ def worker(
                 print("worker stderr:")
                 print(err.decode())
 
-@pytest.fixture
+@pytest.fixture(scope="session")
 def server(
     network: testcontainers.core.network.Network,
 ) -> collections.abc.Generator[testcontainers.core.container.DockerContainer]:
@@ -170,7 +174,7 @@ def server(
             print("server stderr:")
             print(err.decode())
 
-@pytest.fixture
+@pytest.fixture(scope="session")
 def config_file() -> collections.abc.Generator[typing.TextIO]:
     rss_url = yarl.URL.build(
         scheme="http",
@@ -194,7 +198,7 @@ def config_file() -> collections.abc.Generator[typing.TextIO]:
         with open(f.name, "r") as f:
             yield f
 
-@pytest.fixture
+@pytest.fixture(scope="session")
 def etl(
     app,
     worker,
@@ -213,15 +217,17 @@ def etl(
 
     res.wait(timeout=5)
 
-@pytest.fixture
+@pytest.fixture(scope="session")
 def user(
     Session: sqla_orm.sessionmaker[sqla_orm.Session],
 ) -> steins_feed_model.users.User:
+    password_hash = pwdlib.PasswordHash.recommended()
+
     with Session() as session:
         user = steins_feed_model.users.User(
-            name="",
-            password="",
-            email=""
+            name=DEV_USER,
+            password=password_hash.hash(DEV_PASS),
+            email=DEV_MAIL,
         )
         with session.begin():
             session.add(user)
@@ -231,7 +237,7 @@ def user(
             session.expunge(user)
             return user
 
-@pytest.fixture
+@pytest.fixture(scope="session")
 def liked_item(
     etl,
     Session: sqla_orm.sessionmaker[sqla_orm.Session],
@@ -258,7 +264,7 @@ def liked_item(
             session.expunge(item)
             return item
 
-@pytest.fixture
+@pytest.fixture(scope="session")
 def disliked_item(
     etl,
     Session: sqla_orm.sessionmaker[sqla_orm.Session],
@@ -285,7 +291,7 @@ def disliked_item(
             session.expunge(item)
             return item
 
-@pytest.fixture
+@pytest.fixture(scope="session")
 def classifier(
     user: steins_feed_model.users.User,
     liked_item: steins_feed_model.items.Item,
@@ -305,7 +311,7 @@ def classifier(
 @pytest.fixture
 def client(
     monkeypatch: pytest.MonkeyPatch,
-    volume: str,
+    database: str,
     redis: testcontainers.redis.RedisContainer,
 ) -> fastapi.testclient.TestClient:
     redis_url = yarl.URL.build(
@@ -316,7 +322,7 @@ def client(
     )
 
     monkeypatch.setenv("BROKER_URL", str(redis_url))
-    monkeypatch.setenv("DB_NAME", volume)
+    monkeypatch.setenv("DB_NAME", database)
     monkeypatch.setenv("RESULT_BACKEND", str(redis_url))
     monkeypatch.setenv("SECRET_KEY", "76f615f3b628e194387f26d7adbf2632dd290c8be7d098d85b9f6c6a0ff0b1df")
 
