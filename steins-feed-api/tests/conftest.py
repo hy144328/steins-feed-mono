@@ -3,21 +3,24 @@ import os
 import tempfile
 import typing
 
+import aiohttp
+import aioresponses
 import celery
 import celery.result
 import fastapi.testclient
 import pwdlib
 import pytest
+import pytest_asyncio
 import sqlalchemy as sqla
 import sqlalchemy.orm as sqla_orm
 import testcontainers.core.container
 import testcontainers.core.image
 import testcontainers.core.network
 import testcontainers.redis
-import wiremock.testing.testcontainer
 import yarl
 
 import steins_feed_config
+import steins_feed_etl
 
 import steins_feed_model.base
 
@@ -28,9 +31,6 @@ DEV_MAIL = "death@star.universe"
 REDIS_HOST = "redis"
 REDIS_NAME = "0"
 REDIS_PORT = 6379
-RSS_HOST = "rss"
-RSS_PATH = "/rss.xml"
-RSS_PORT = 8080
 VOLUME_PATH = "/usr/src/app/data"
 
 @pytest.fixture(scope="session")
@@ -118,23 +118,13 @@ def worker(
                 print("worker stderr:")
                 print(err.decode())
 
-@pytest.fixture(scope="session")
-def server(
-    network: testcontainers.core.network.Network,
-) -> collections.abc.Generator[testcontainers.core.container.DockerContainer]:
-    with wiremock.testing.testcontainer.WireMockContainer(secure=False).with_mapping(
-        "rss.json",
-        {
-            "request": {
-                "method": "GET",
-                "url": str(yarl.URL.build(path=RSS_PATH)),
-            },
-            "response": {
-                "status": 200,
-                "headers": {
-                    "Content-Type": "application/rss+xml",
-                },
-                "body": """
+@pytest_asyncio.fixture(scope="session")
+async def rss_client() -> collections.abc.AsyncGenerator[aiohttp.ClientSession]:
+    with aioresponses.aioresponses() as m:
+        m.get(
+            "https://www.theguardian.com/uk/rss",
+            status = 200,
+            body = """
 <?xml version="1.0" encoding="utf-8"?>
 <rss xmlns:media="http://search.yahoo.com/mrss/" xmlns:dc="http://purl.org/dc/elements/1.1/" version="2.0">
   <channel>
@@ -155,41 +145,21 @@ def server(
     </item>
   </channel>
 </rss>
-                """,
-            },
-        },
-    ).with_network(
-        network,
-    ).with_network_aliases(
-        RSS_HOST,
-    ) as container:
-        try:
-            yield container
-        finally:
-            out, err = container.get_logs()
+            """,
+        )
 
-            print("server stdout:")
-            print(out.decode())
-
-            print("server stderr:")
-            print(err.decode())
+        async with aiohttp.ClientSession() as client:
+            yield client
 
 @pytest.fixture(scope="session")
 def config_file() -> collections.abc.Generator[typing.TextIO]:
-    rss_url = yarl.URL.build(
-        scheme="http",
-        host=RSS_HOST,
-        port=RSS_PORT,
-        path=RSS_PATH,
-    )
-
     with tempfile.TemporaryDirectory() as temp_dir:
         with tempfile.NamedTemporaryFile("w", dir=temp_dir, delete=False) as f:
-            f.write(f"""
+            f.write("""
 <root>
   <feed>
     <title>The Guardian</title>
-    <link>{rss_url}</link>
+    <link>https://www.theguardian.com/uk/rss</link>
     <lang>English</lang>
   </feed>
 </root>
@@ -198,24 +168,16 @@ def config_file() -> collections.abc.Generator[typing.TextIO]:
         with open(f.name, "r") as f:
             yield f
 
-@pytest.fixture(scope="session")
-def etl(
-    app,
-    worker,
-    server,
+@pytest_asyncio.fixture(scope="session")
+async def etl(
+    rss_client: aiohttp.ClientSession,
     Session: sqla_orm.sessionmaker[sqla_orm.Session],
     config_file: typing.TextIO,
 ):
-    import steins_feed_tasks.etl
-
     with Session() as session:
         steins_feed_config.read_xml(session, config_file, user=None)
 
-    assert isinstance(steins_feed_tasks.etl.parse_feeds, celery.Task)
-    res = steins_feed_tasks.etl.parse_feeds.delay()
-    assert isinstance(res, celery.result.AsyncResult)
-
-    res.wait(timeout=5)
+    await steins_feed_etl.parse_feeds(Session, rss_client)
 
 @pytest.fixture(scope="session")
 def user(
