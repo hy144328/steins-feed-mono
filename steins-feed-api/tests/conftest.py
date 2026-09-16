@@ -181,6 +181,7 @@ async def etl(
 
 @pytest.fixture(scope="session")
 def user(
+    etl,
     Session: sqla_orm.sessionmaker[sqla_orm.Session],
 ) -> steins_feed_model.users.User:
     password_hash = pwdlib.PasswordHash.recommended()
@@ -193,6 +194,16 @@ def user(
         )
         with session.begin():
             session.add(user)
+
+        with session.begin():
+            feed = session.scalars(sqla.select(steins_feed_model.feeds.Feed)).one()
+            feed.users.append(user)
+
+            tag = steins_feed_model.feeds.Tag(
+                user_id = user.id,
+                name = "news",
+            )
+            feed.tags.append(tag)
 
         with session.begin():
             session.refresh(user)
