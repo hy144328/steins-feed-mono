@@ -1,11 +1,12 @@
 import fastapi.testclient
+import pytest
 
 import steins_feed_model.users
 
-def test_tags(
+@pytest.fixture
+def client(
     client: fastapi.testclient.TestClient,
-    user: steins_feed_model.users.User,
-):
+) -> fastapi.testclient.TestClient:
     response = client.post(
         "/token",
         data={
@@ -16,12 +17,14 @@ def test_tags(
     res = response.json()
     token = res["access_token"]
 
-    response = client.get(
-        "/feeds/tags/",
-        headers = {
-            "Authorization": f"Bearer {token}",
-        },
-    )
+    client.headers.update({"Authorization": f"Bearer {token}"})
+    return client
+
+def test_tags(
+    client: fastapi.testclient.TestClient,
+    user: steins_feed_model.users.User,
+):
+    response = client.get("/feeds/tags/")
     res = response.json()
 
     assert len(res) == 1
@@ -31,22 +34,7 @@ def test_languages(
     client: fastapi.testclient.TestClient,
     user: steins_feed_model.users.User,
 ):
-    response = client.post(
-        "/token",
-        data={
-            "username": "hansolo",
-            "password": "obiwan",
-        },
-    )
-    res = response.json()
-    token = res["access_token"]
-
-    response = client.get(
-        "/feeds/languages/",
-        headers = {
-            "Authorization": f"Bearer {token}",
-        },
-    )
+    response = client.get("/feeds/languages/")
     res = response.json()
 
     assert len(res) == 1
@@ -55,22 +43,7 @@ def test_languages(
 def test_feed(
     client: fastapi.testclient.TestClient,
 ):
-    response = client.post(
-        "/token",
-        data={
-            "username": "hansolo",
-            "password": "obiwan",
-        },
-    )
-    res = response.json()
-    token = res["access_token"]
-
-    response = client.get(
-        "/feeds/feed/1",
-        headers = {
-            "Authorization": f"Bearer {token}",
-        },
-    )
+    response = client.get("/feeds/feed/1")
     res = response.json()
 
     assert res["title"] == "The Guardian"
