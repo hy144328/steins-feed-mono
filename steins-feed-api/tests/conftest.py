@@ -21,6 +21,10 @@ import yarl
 
 import steins_feed_config
 import steins_feed_etl
+import steins_feed_magic.classify
+import steins_feed_magic.db
+import steins_feed_magic.io
+import steins_feed_magic.parse
 
 import steins_feed_model.base
 
@@ -266,20 +270,44 @@ def disliked_item(
 
 @pytest.fixture(scope="session")
 def classifier(
+    volume: str,
+    Session: sqla_orm.sessionmaker[sqla_orm.Session],
     user: steins_feed_model.users.User,
     liked_item: steins_feed_model.items.Item,
     disliked_item: steins_feed_model.items.Item,
 ):
-    import steins_feed_tasks.magic
+    clf = steins_feed_magic.classify.build_classifier(steins_feed_model.feeds.Language.ENGLISH)
 
-    assert isinstance(steins_feed_tasks.magic.train_classifier, celery.Task)
-    res = steins_feed_tasks.magic.train_classifier.delay(
-        user_id=user.id,
-        lang=steins_feed_model.feeds.Language.ENGLISH,
-    )
-    assert isinstance(res, celery.result.AsyncResult)
+    with Session() as session:
+        with session.begin():
+            liked_items = [
+                steins_feed_magic.parse.text_content(item_it.title)
+                for item_it in steins_feed_magic.db.liked_items(session, user.id, steins_feed_model.feeds.Language.ENGLISH)
+            ]
+            disliked_items = [
+                steins_feed_magic.parse.text_content(item_it.title)
+                for item_it in steins_feed_magic.db.disliked_items(session, user.id, steins_feed_model.feeds.Language.ENGLISH)
+            ]
 
-    res.wait(timeout=10)
+        steins_feed_magic.classify.fit_classifier(
+            clf,
+            liked_items = liked_items,
+            disliked_items = disliked_items,
+        )
+        steins_feed_magic.io.write_classifier(
+            clf,
+            volume,
+            user_id = user.id,
+            lang = steins_feed_model.feeds.Language.ENGLISH,
+            force = True,
+        )
+
+        with session.begin():
+            steins_feed_magic.db.reset_magic(
+                session,
+                user_id = user.id,
+                lang = steins_feed_model.feeds.Language.ENGLISH,
+            )
 
 @pytest.fixture
 def client(
