@@ -46,9 +46,10 @@ async def current_user(
     ).where(
         steins_feed_model.users.User.name == payload["sub"],
     )
-    user = session.scalars(q).one()
 
-    return User.from_model(user)
+    with session.begin():
+        user = session.scalars(q).one()
+        return User.from_model(user)
 
 UserDep = typing.Annotated[User, fastapi.Depends(current_user)]
 
@@ -65,13 +66,15 @@ async def login(
     ],
 ) -> Token:
     q = sqla.select(
-        steins_feed_model.users.User,
+        steins_feed_model.users.User.password,
     ).where(
         steins_feed_model.users.User.name == form_data.username,
     )
-    user = session.scalars(q).one()
 
-    if not password_hash.verify(form_data.password, user.password):
+    with session.begin():
+        password = session.scalars(q).one()
+
+    if not password_hash.verify(form_data.password, password):
         raise fastapi.HTTPException(
             status_code = fastapi.status.HTTP_401_UNAUTHORIZED,
             detail = "Incorrect username or password",
