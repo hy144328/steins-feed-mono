@@ -55,6 +55,9 @@ def predict_scores[T](
     clf: sklearn.pipeline.Pipeline,
     items: collections.abc.Sequence[T],
 ) -> npt.NDArray[np.double]:
+    if len(items) == 0:
+        return np.array([])
+
     res = clf.predict_proba(items)
     classes = clf.classes_.tolist()
 
