@@ -109,7 +109,12 @@ function WallArticleTitle({
   item: Item,
   title?: string,
 }) {
-  const link_wo_search_parameters = new URL(item.link);
+  const link = URL.parse(item.link);
+  if (link === null) {
+    return <h5 className="card-title">title ?? item.title</h5>
+  }
+
+  const link_wo_search_parameters = link;
   link_wo_search_parameters.search = "";
 
   return (
