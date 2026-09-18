@@ -259,7 +259,7 @@ def _calculate_and_update_scores(
     update_scores = steins_feed_tasks.magic.update_scores.s(user_id=user_id)
     assert isinstance(update_scores, celery.canvas.Signature)
 
-    return calculate_scores.set(link=update_scores)
+    return calculate_scores | update_scores
 
 @router.get("/last_updated")
 async def last_updated(
