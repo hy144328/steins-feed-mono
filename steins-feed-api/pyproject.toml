@@ -8,18 +8,21 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.13"
-fastapi = {extras = ["standard"], version = "^0.115.6"}
+fastapi = "^0.115.6"
 pwdlib = {extras = ["argon2"], version = "^0.3.1"}
 pyjwt = {extras = ["crypto"], version = "^2.10.1"}
+python-multipart = "^0.0.32"
 steins-feed-magic = {path = "../steins-feed-magic", develop = true}
 steins-feed-model = {path = "../steins-feed-model", develop = true}
 steins-feed-tasks = {path = "../steins-feed-tasks", develop = true}
+uvicorn = "^0.53.0"
 
 [tool.poetry.group.dev.dependencies]
 python-dotenv = "^1.0.1"
 
 [tool.poetry.group.test.dependencies]
 aioresponses = "^0.7.9"
+httpx = "^0.28.1"
 pytest = "^8.3.4"
 pytest-asyncio = "^0.25.0"
 steins-feed-config = {path = "../steins-feed-config", develop = true}
