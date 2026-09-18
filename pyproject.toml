@@ -17,7 +17,6 @@ steins-feed-model = {path = "steins-feed-model", develop = true}
 steins-feed-tasks = {path = "steins-feed-tasks", extras = ["etl", "magic"], develop = true}
 
 [tool.poetry.group.dev.dependencies]
-poetry = "^1.8.5"
 python-dotenv = "^1.2.3"
 
 [build-system]
