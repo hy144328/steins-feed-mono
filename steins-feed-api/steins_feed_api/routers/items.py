@@ -195,23 +195,19 @@ def _query_root(
         steins_feed_model.feeds.Feed.users.and_(
             steins_feed_model.users.User.id == current_user.id,
         ),
-    ).join(
-        steins_feed_model.feeds.Feed.tags.and_(
-            steins_feed_model.feeds.Tag.user_id == current_user.id,
-        ),
-        isouter = True,
-    ).where(
-        (
-            steins_feed_model.feeds.Feed.language.in_(languages)
-            if languages is not None
-            else sqla.true()
-        ),
-        (
-            steins_feed_model.feeds.Tag.id.in_(tags)
-            if tags is not None
-            else sqla.true()
-        ),
     )
+
+    if languages is not None:
+        q = q.where(steins_feed_model.feeds.Feed.language.in_(languages))
+
+    if tags is not None:
+        q = q.join(
+            steins_feed_model.feeds.Feed.tags.and_(
+                steins_feed_model.feeds.Tag.user_id == current_user.id,
+            ),
+        ).where(
+            steins_feed_model.feeds.Tag.id.in_(tags),
+        )
 
     if load_display:
         q = q.options(
@@ -226,8 +222,10 @@ def _query_root(
         q = q.options(
             sqla_orm.contains_eager(
                 steins_feed_model.items.Item.feed,
-            ).contains_eager(
-                steins_feed_model.feeds.Feed.tags,
+            ).selectinload(
+                steins_feed_model.feeds.Feed.tags.and_(
+                    steins_feed_model.feeds.Tag.user_id == current_user.id,
+                ),
             ),
         )
 
