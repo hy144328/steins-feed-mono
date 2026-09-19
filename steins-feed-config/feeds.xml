@@ -108,13 +108,6 @@
     <tag>news</tag>
   </feed>
   <feed>
-    <title>bit-player</title>
-    <link>http://bit-player.org/feed</link>
-    <lang>English</lang>
-    <tag>people</tag>
-    <tag>science</tag>
-  </feed>
-  <feed>
     <title>Boston.com</title>
     <link>https://www.boston.com/feed/</link>
     <lang>English</lang>
@@ -2209,8 +2202,20 @@
     <tag>magazines</tag>
   </feed>
   <feed>
+    <title>Spiegel Familie</title>
+    <link>https://www.spiegel.de/familie/index.rss</link>
+    <lang>German</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
     <title>Spiegel Geschichte</title>
     <link>https://www.spiegel.de/geschichte/index.rss</link>
+    <lang>German</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>Spiegel Gesundheit</title>
+    <link>https://www.spiegel.de/gesundheit/index.rss</link>
     <lang>German</lang>
     <tag>magazines</tag>
   </feed>
@@ -2223,12 +2228,6 @@
   <feed>
     <title>Spiegel Kultur</title>
     <link>https://www.spiegel.de/kultur/index.rss</link>
-    <lang>German</lang>
-    <tag>magazines</tag>
-  </feed>
-  <feed>
-    <title>Spiegel Leben</title>
-    <link>https://www.spiegel.de/leben/index.rss</link>
     <lang>German</lang>
     <tag>magazines</tag>
   </feed>
@@ -2251,8 +2250,26 @@
     <tag>magazines</tag>
   </feed>
   <feed>
+    <title>Spiegel Partnerschaft</title>
+    <link>https://www.spiegel.de/partnerschaft/index.rss</link>
+    <lang>German</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
     <title>Spiegel Politik</title>
     <link>https://www.spiegel.de/politik/index.rss</link>
+    <lang>German</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>Spiegel Psychologie</title>
+    <link>https://www.spiegel.de/psychologie/index.rss</link>
+    <lang>German</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>Spiegel Reise</title>
+    <link>https://www.spiegel.de/reise/index.rss</link>
     <lang>German</lang>
     <tag>magazines</tag>
   </feed>
