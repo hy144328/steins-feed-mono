@@ -326,12 +326,6 @@
     <tag>news</tag>
   </feed>
   <feed>
-    <title>Daily Mail Femail</title>
-    <link>https://www.dailymail.co.uk/femail/index.rss</link>
-    <lang>English</lang>
-    <tag>news</tag>
-  </feed>
-  <feed>
     <title>Daily Mail Health</title>
     <link>https://www.dailymail.co.uk/health/index.rss</link>
     <lang>English</lang>
@@ -578,14 +572,14 @@
     <tag>news</tag>
   </feed>
   <feed>
-    <title>Die ZEIT -- ze.tt</title>
-    <link>http://newsfeed.zeit.de/zett/index</link>
+    <title>Die ZEIT Arbeit</title>
+    <link>http://newsfeed.zeit.de/arbeit/index</link>
     <lang>German</lang>
     <tag>news</tag>
   </feed>
   <feed>
-    <title>Die ZEIT Arbeit</title>
-    <link>http://newsfeed.zeit.de/arbeit/index</link>
+    <title>Die ZEIT Bildung</title>
+    <link>http://newsfeed.zeit.de/bildung/index</link>
     <lang>German</lang>
     <tag>news</tag>
   </feed>
@@ -632,20 +626,8 @@
     <tag>news</tag>
   </feed>
   <feed>
-    <title>Die ZEIT Green</title>
-    <link>http://newsfeed.zeit.de/green/index</link>
-    <lang>German</lang>
-    <tag>news</tag>
-  </feed>
-  <feed>
     <title>Die ZEIT Hamburg</title>
     <link>http://newsfeed.zeit.de/hamburg/index</link>
-    <lang>German</lang>
-    <tag>news</tag>
-  </feed>
-  <feed>
-    <title>Die ZEIT Kultur</title>
-    <link>http://newsfeed.zeit.de/kultur/index</link>
     <lang>German</lang>
     <tag>news</tag>
   </feed>
@@ -658,12 +640,6 @@
   <feed>
     <title>Die ZEIT Österreich</title>
     <link>http://newsfeed.zeit.de/oesterreich/index</link>
-    <lang>German</lang>
-    <tag>news</tag>
-  </feed>
-  <feed>
-    <title>Die ZEIT Podcasts</title>
-    <link>http://newsfeed.zeit.de/podcasts/index</link>
     <lang>German</lang>
     <tag>news</tag>
   </feed>
@@ -692,20 +668,8 @@
     <tag>news</tag>
   </feed>
   <feed>
-    <title>Die ZEIT Spiele</title>
-    <link>http://newsfeed.zeit.de/spiele/index</link>
-    <lang>German</lang>
-    <tag>news</tag>
-  </feed>
-  <feed>
     <title>Die ZEIT Sport</title>
     <link>http://newsfeed.zeit.de/sport/index</link>
-    <lang>German</lang>
-    <tag>news</tag>
-  </feed>
-  <feed>
-    <title>Die ZEIT Video</title>
-    <link>http://newsfeed.zeit.de/video/index</link>
     <lang>German</lang>
     <tag>news</tag>
   </feed>
@@ -716,8 +680,8 @@
     <tag>news</tag>
   </feed>
   <feed>
-    <title>Die ZEIT Wissen</title>
-    <link>http://newsfeed.zeit.de/wissen/index</link>
+    <title>Die ZEIT Wissenschaft</title>
+    <link>http://newsfeed.zeit.de/wissenschaft/index</link>
     <lang>German</lang>
     <tag>news</tag>
   </feed>
@@ -1020,7 +984,7 @@
   </feed>
   <feed>
     <title>Frank Karlitschek</title>
-    <link>http://karlitschek.de/feed/</link>
+    <link>https://karlitschek.de/index.xml</link>
     <lang>English</lang>
     <tag>people</tag>
     <tag>tech</tag>
@@ -1028,6 +992,12 @@
   <feed>
     <title>Frankfurter Allgemeine Zeitung</title>
     <link>https://www.faz.net/rss/aktuell/</link>
+    <lang>German</lang>
+    <tag>news</tag>
+  </feed>
+  <feed>
+    <title>Frankfurter Allgemeine Zeitung -- Besser leben</title>
+    <link>https://www.faz.net/rss/aktuell/besser-leben/</link>
     <lang>German</lang>
     <tag>news</tag>
   </feed>
@@ -1076,12 +1046,6 @@
   <feed>
     <title>Frankfurter Allgemeine Zeitung Sport</title>
     <link>https://www.faz.net/rss/aktuell/sport/</link>
-    <lang>German</lang>
-    <tag>news</tag>
-  </feed>
-  <feed>
-    <title>Frankfurter Allgemeine Zeitung Stil</title>
-    <link>https://www.faz.net/rss/aktuell/stil/</link>
     <lang>German</lang>
     <tag>news</tag>
   </feed>
@@ -1576,7 +1540,7 @@
   </feed>
   <feed>
     <title>Monkey User</title>
-    <link>https://www.monkeyuser.com/feed.xml</link>
+    <link>https://www.monkeyuser.com/index.xml</link>
     <lang>English</lang>
     <tag>comics</tag>
   </feed>
@@ -1603,7 +1567,7 @@
   </feed>
   <feed>
     <title>Nautilus</title>
-    <link>http://nautil.us/rss/all</link>
+    <link>https://nautil.us/feed</link>
     <lang>English</lang>
     <tag>science</tag>
   </feed>
@@ -1717,7 +1681,7 @@
   </feed>
   <feed>
     <title>New Scientist Mind</title>
-    <link>https://www.newscientist.com/subject/life/mind/</link>
+    <link>https://www.newscientist.com/subject/mind/feed/</link>
     <lang>English</lang>
     <tag>science</tag>
   </feed>
@@ -2251,8 +2215,8 @@
     <tag>magazines</tag>
   </feed>
   <feed>
-    <title>Spiegel Gesundheit</title>
-    <link>https://www.spiegel.de/gesundheit/index.rss</link>
+    <title>Spiegel Job &amp; Karriere</title>
+    <link>https://www.spiegel.de/karriere/index.rss</link>
     <lang>German</lang>
     <tag>magazines</tag>
   </feed>
@@ -2263,8 +2227,14 @@
     <tag>magazines</tag>
   </feed>
   <feed>
+    <title>Spiegel Leben</title>
+    <link>https://www.spiegel.de/leben/index.rss</link>
+    <lang>German</lang>
+    <tag>magazines</tag>
+  </feed>
+  <feed>
     <title>Spiegel Mobilität</title>
-    <link>https://www.spiegel.de/auto/index.rss</link>
+    <link>https://www.spiegel.de/mobilitaet/index.rss</link>
     <lang>German</lang>
     <tag>magazines</tag>
   </feed>
@@ -2287,14 +2257,14 @@
     <tag>magazines</tag>
   </feed>
   <feed>
-    <title>Spiegel Reise</title>
-    <link>https://www.spiegel.de/reise/index.rss</link>
+    <title>Spiegel Sport</title>
+    <link>https://www.spiegel.de/sport/index.rss</link>
     <lang>German</lang>
     <tag>magazines</tag>
   </feed>
   <feed>
-    <title>Spiegel Sport</title>
-    <link>https://www.spiegel.de/sport/index.rss</link>
+    <title>Spiegel Start</title>
+    <link>https://www.spiegel.de/start/index.rss</link>
     <lang>German</lang>
     <tag>magazines</tag>
   </feed>
@@ -3500,7 +3470,7 @@
   </feed>
   <feed>
     <title>Titanic</title>
-    <link>http://www.titanic-magazin.de/ich.war.bei.der.waffen.rss</link>
+    <link>https://www.titanic-magazin.de/feed/</link>
     <lang>German</lang>
     <tag>satire</tag>
   </feed>
