@@ -48,6 +48,13 @@
     <tag>comics</tag>
   </feed>
   <feed>
+    <title>baby steps</title>
+    <link>https://smallcultfollowing.com/babysteps/atom.xml</link>
+    <lang>English</lang>
+    <tag>people</tag>
+    <tag>tech</tag>
+  </feed>
+  <feed>
     <title>Bild</title>
     <link>http://www.bild.de/rss-feeds/rss-16725492,feed=home.bild.html</link>
     <lang>German</lang>
@@ -305,6 +312,13 @@
     <link>https://www.dn.se/rss</link>
     <lang>Swedish</lang>
     <tag>news</tag>
+  </feed>
+  <feed>
+    <title>Daniel Litt</title>
+    <link>https://www.daniellitt.com/rss.xml</link>
+    <lang>English</lang>
+    <tag>people</tag>
+    <tag>science</tag>
   </feed>
   <feed>
     <title>Daily Mail</title>
@@ -709,6 +723,12 @@
     <tag>magazines</tag>
   </feed>
   <feed>
+    <title>Eigenraum</title>
+    <link>https://eigenpod.de/feed/mp3/</link>
+    <lang>German</lang>
+    <tag>science</tag>
+  </feed>
+  <feed>
     <title>Electronic Frontier Foundation</title>
     <link>https://www.eff.org/rss/updates.xml</link>
     <lang>English</lang>
@@ -762,6 +782,13 @@
     <link>https://blog.codeweek.eu/rss</link>
     <lang>English</lang>
     <tag>education</tag>
+  </feed>
+  <feed>
+    <title>Evan Chen</title>
+    <link>https://blog.evanchen.cc/feeds/all.atom.xml</link>
+    <lang>English</lang>
+    <tag>people</tag>
+    <tag>science</tag>
   </feed>
   <feed>
     <title>Existential Comics</title>
@@ -3486,6 +3513,13 @@
     <tag>open source</tag>
   </feed>
   <feed>
+    <title>Timothy Gowers</title>
+    <link>https://terrytao.wordpress.com/feed/</link>
+    <lang>English</lang>
+    <tag>people</tag>
+    <tag>science</tag>
+  </feed>
+  <feed>
     <title>Titanic</title>
     <link>https://www.titanic-magazin.de/feed/</link>
     <lang>German</lang>
@@ -3781,6 +3815,13 @@
     <lang>German</lang>
     <tag>business</tag>
     <tag>magazines</tag>
+  </feed>
+  <feed>
+    <title>without boats</title>
+    <link>https://without.boats/index.xml</link>
+    <lang>English</lang>
+    <tag>people</tag>
+    <tag>tech</tag>
   </feed>
   <feed>
     <title>XKCD</title>
