@@ -1,4 +1,5 @@
-.card-text img {
+.card-text img,
+.card-text video {
   max-width: 100%;
   height: auto;
 }
