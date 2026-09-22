@@ -30,7 +30,7 @@ export default function MagicButton({
     res.textContent = word;
     res.setAttribute("data-bs-toggle", "popover");
     res.setAttribute("data-bs-title", stem);
-    res.setAttribute("data-bs-content", score.toFixed(2));
+    res.setAttribute("data-bs-content", `= ${score.toFixed(2)}`);
 
     return res;
   }
