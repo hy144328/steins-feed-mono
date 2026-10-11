@@ -1261,6 +1261,13 @@
     <tag>satire</tag>
   </feed>
   <feed>
+    <title>Joel Grus</title>
+    <link>https://joelgrus.com/feeds/rss.xml</link>
+    <lang>English</lang>
+    <tag>people</tag>
+    <tag>tech</tag>
+  </feed>
+  <feed>
     <title>John Carlos Baez</title>
     <link>https://johncarlosbaez.wordpress.com/feed/</link>
     <lang>English</lang>
