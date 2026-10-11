@@ -1295,6 +1295,13 @@
     <tag>education</tag>
   </feed>
   <feed>
+    <title>Julia Evans</title>
+    <link>https://jvns.ca/atom.xml</link>
+    <lang>English</lang>
+    <tag>people</tag>
+    <tag>tech</tag>
+  </feed>
+  <feed>
     <title>Krautreporter</title>
     <link>https://krautreporter.de/feeds.rss</link>
     <lang>German</lang>
