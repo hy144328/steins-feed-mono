@@ -1135,6 +1135,13 @@
     <tag>activism</tag>
   </feed>
   <feed>
+    <title>Glyphack</title>
+    <link>https://glyphack.com/index.xml</link>
+    <lang>English</lang>
+    <tag>people</tag>
+    <tag>tech</tag>
+  </feed>
+  <feed>
     <title>Google</title>
     <link>https://www.blog.google/rss/</link>
     <lang>English</lang>
