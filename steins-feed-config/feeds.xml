@@ -1216,6 +1216,13 @@
     <tag>business</tag>
   </feed>
   <feed>
+    <title>Haskell</title>
+    <link>https://blog.haskell.org/atom.xml</link>
+    <lang>English</lang>
+    <tag>companies</tag>
+    <tag>tech</tag>
+  </feed>
+  <feed>
     <title>Idle Words</title>
     <link>https://idlewords.com/index.xml</link>
     <lang>English</lang>
@@ -1330,6 +1337,21 @@
     <link>https://www.lemonde.fr/m-le-mag/rss_full.xml</link>
     <lang>French</lang>
     <tag>news</tag>
+  </feed>
+  <feed>
+    <title>Leonardo de Moura</title>
+    <link>https://leodemoura.github.io/feed.xml</link>
+    <lang>English</lang>
+    <tag>people</tag>
+    <tag>science</tag>
+    <tag>tech</tag>
+  </feed>
+  <feed>
+    <title>Levels.fyi</title>
+    <link>https://www.levels.fyi/blog/feed.xml</link>
+    <lang>English</lang>
+    <tag>companies</tag>
+    <tag>tech</tag>
   </feed>
   <feed>
     <title>LineageOS</title>
@@ -1591,6 +1613,13 @@
     <link>https://nautil.us/feed</link>
     <lang>English</lang>
     <tag>science</tag>
+  </feed>
+  <feed>
+    <title>Netflix Technology Blog</title>
+    <link>https://medium.com/feed/@netflixtechblog</link>
+    <lang>English</lang>
+    <tag>companies</tag>
+    <tag>tech</tag>
   </feed>
   <feed>
     <title>Netzpolitik.org</title>
@@ -2344,6 +2373,13 @@
     <lang>English</lang>
     <tag>people</tag>
     <tag>science</tag>
+  </feed>
+  <feed>
+    <title>Steve Yegge</title>
+    <link>https://medium.com/feed/@steve-yegge</link>
+    <lang>English</lang>
+    <tag>people</tag>
+    <tag>tech</tag>
   </feed>
   <feed>
     <title>Stern</title>
@@ -3829,6 +3865,13 @@
     <lang>English</lang>
     <tag>people</tag>
     <tag>tech</tag>
+  </feed>
+  <feed>
+    <title>Xena Project</title>
+    <link>https://xenaproject.wordpress.com/feed/</link>
+    <lang>English</lang>
+    <tag>people</tag>
+    <tag>science</tag>
   </feed>
   <feed>
     <title>XKCD</title>
