@@ -6,6 +6,13 @@
     <tag>open source</tag>
   </feed>
   <feed>
+    <title>Addy Osmani</title>
+    <link>https://addyosmani.com/rss.xml</link>
+    <lang>English</lang>
+    <tag>people</tag>
+    <tag>tech</tag>
+  </feed>
+  <feed>
     <title>Aeon.co</title>
     <link>https://aeon.co/feed.rss</link>
     <lang>English</lang>
