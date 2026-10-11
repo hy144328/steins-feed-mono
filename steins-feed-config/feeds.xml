@@ -49,6 +49,13 @@
     <tag>magazines</tag>
   </feed>
   <feed>
+    <title>antirez</title>
+    <link>https://antirez.com/rss</link>
+    <lang>English</lang>
+    <tag>people</tag>
+    <tag>tech</tag>
+  </feed>
+  <feed>
     <title>Arcade Rage</title>
     <link>https://arcaderage.co/feed/</link>
     <lang>English</lang>
