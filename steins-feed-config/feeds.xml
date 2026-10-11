@@ -2241,6 +2241,13 @@
     <tag>magazines</tag>
   </feed>
   <feed>
+    <title>Glyphack</title>
+    <link>https://glyphack.com/index.xml</link>
+    <lang>English</lang>
+    <tag>people</tag>
+    <tag>tech</tag>
+  </feed>
+  <feed>
     <title>Shtetl Optimized</title>
     <link>https://www.scottaaronson.com/blog/?feed=rss2</link>
     <lang>English</lang>
