@@ -321,6 +321,13 @@
     <tag>news</tag>
   </feed>
   <feed>
+    <title>Dan Luu</title>
+    <link>https://danluu.com/atom.xml</link>
+    <lang>English</lang>
+    <tag>people</tag>
+    <tag>tech</tag>
+  </feed>
+  <feed>
     <title>Daniel Litt</title>
     <link>https://www.daniellitt.com/rss.xml</link>
     <lang>English</lang>
