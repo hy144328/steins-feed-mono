@@ -1528,6 +1528,13 @@
     <tag>business</tag>
   </feed>
   <feed>
+    <title>Marginal revolution</title>
+    <link>https://feeds.feedblitz.com/marginalrevolution</link>
+    <lang>English</lang>
+    <tag>people</tag>
+    <tag>science</tag>
+  </feed>
+  <feed>
     <title>Martin Fowler</title>
     <link>https://martinfowler.com/feed.atom</link>
     <lang>English</lang>
