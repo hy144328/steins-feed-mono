@@ -2193,6 +2193,21 @@
     <tag>science</tag>
   </feed>
   <feed>
+    <title>Sean Goedecke</title>
+    <link>https://www.seangoedecke.com/rss.xml</link>
+    <lang>English</lang>
+    <tag>people</tag>
+    <tag>tech</tag>
+  </feed>
+  <feed>
+    <title>Sebastian Raschka</title>
+    <link>https://sebastianraschka.com/rss_feed.xml</link>
+    <lang>English</lang>
+    <tag>people</tag>
+    <tag>science</tag>
+    <tag>tech</tag>
+  </feed>
+  <feed>
     <title>Semafor</title>
     <link>https://www.semafor.com/rss.xml</link>
     <lang>English</lang>
