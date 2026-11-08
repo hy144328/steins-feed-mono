@@ -11,6 +11,7 @@ export default function TopNav(
   languages,
   tags,
   wall_mode,
+  window_mode,
   contentServed = false,
 }: NavigationSearchParams & {
   contentServed?: boolean,
@@ -34,7 +35,7 @@ export default function TopNav(
       <li className="nav-item">
         <NavLink
           className="nav-link active"
-          to={ contentServed ? `/?${toURLSearchParams({now, languages, tags, wall_mode}).toString()}` : "/" }
+          to={ contentServed ? `/?${toURLSearchParams({now, languages, tags, wall_mode, window_mode}).toString()}` : "/" }
         >
           Home
         </NavLink>
@@ -60,6 +61,7 @@ export default function TopNav(
           languages={ languages }
           tags={ tags }
           wall_mode={ wall_mode }
+          window_mode={ window_mode }
           contentServed={ contentServed }
         />
       </li>
@@ -92,21 +94,34 @@ function NavigationPad(
   languages,
   tags,
   wall_mode,
+  window_mode,
   contentServed = true,
 }: NavigationSearchParams & {
   contentServed?: boolean,
 }) {
   const yesterday = new Date(now);
-  yesterday.setUTCDate(now.getUTCDate() - 1);
-
   const tomorrow = new Date(now);
-  tomorrow.setUTCDate(now.getUTCDate() + 1);
+
+  switch (window_mode) {
+    case 'Day':
+      yesterday.setUTCDate(now.getUTCDate() - 1);
+      tomorrow.setUTCDate(now.getUTCDate() + 1);
+      break;
+    case 'Week':
+      yesterday.setUTCDate(now.getUTCDate() - 7);
+      tomorrow.setUTCDate(now.getUTCDate() + 7);
+      break;
+    case 'Month':
+      yesterday.setUTCMonth(now.getUTCMonth() - 1);
+      tomorrow.setUTCMonth(now.getUTCMonth() + 1);
+      break;
+  }
 
   return (
 <div className="btn-group">
   <Link
     className={ ["btn", "btn-primary"].concat(contentServed ? [] : ["disabled"]).join(" ") }
-    to={ contentServed ? `/?${toURLSearchParams({now: tomorrow, languages, tags, wall_mode}).toString()}` : "/" }
+    to={ contentServed ? `/?${toURLSearchParams({now: tomorrow, languages, tags, wall_mode, window_mode}).toString()}` : "/" }
   >
     <i className="bi-rewind-fill"/>
   </Link>
@@ -121,7 +136,7 @@ function NavigationPad(
 
   <Link
     className={ ["btn", "btn-primary"].concat(contentServed ? [] : ["disabled"]).join(" ") }
-    to={ contentServed ? `/?${toURLSearchParams({now: yesterday, languages, tags, wall_mode}).toString()}` : "/" }
+    to={ contentServed ? `/?${toURLSearchParams({now: yesterday, languages, tags, wall_mode, window_mode}).toString()}` : "/" }
   >
     <i className="bi-fast-forward-fill"/>
   </Link>

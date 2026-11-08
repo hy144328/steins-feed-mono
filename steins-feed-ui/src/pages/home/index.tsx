@@ -10,12 +10,15 @@ import {
   ensure_array,
   ensure_primitive,
   format_datetime,
-  month_of_year_short
+  get_calendar_week,
+  get_calendar_year,
+  month_of_year,
+  month_of_year_short,
 } from "@/util"
 
 import WallArticle from "./article"
 import Navigation from "./navigation"
-import { toURLSearchParams } from "./util"
+import { toURLSearchParams, WindowMode } from "./util"
 
 export default function Page() {
   const [searchParams] = useSearchParams();
@@ -24,17 +27,42 @@ export default function Page() {
   const now_raw = searchParams.get("now");
   const now = now_raw ? new Date(ensure_primitive(now_raw)) : new Date();
 
-  const today = new Date(now);
-  today.setUTCHours(0, 0, 0, 0);
-
-  const tomorrow = new Date(today);
-  tomorrow.setUTCDate(today.getUTCDate() + 1);
-
   const languages = ensure_array(searchParams.getAll("languages")).map(lang_it => lang_it as Language);
   const tags = ensure_array(searchParams.getAll("tags")).map(tag_it => parseInt(tag_it as string));
 
   const wall_mode_raw = searchParams.get("wall_mode");
   const wall_mode = wall_mode_raw ? ensure_primitive(wall_mode_raw) as WallMode : "Classic";
+
+  const window_mode_raw = searchParams.get("window_mode");
+  const window_mode = window_mode_raw ? ensure_primitive(window_mode_raw) as WindowMode : "Day";
+
+  const today = new Date(now);
+  switch (window_mode) {
+    case 'Day':
+      today.setUTCHours(0, 0, 0, 0);
+      break;
+    case 'Week':
+      today.setUTCHours(0, 0, 0, 0);
+      today.setUTCDate(today.getUTCDate() - ((today.getUTCDay() || 7) - 1))
+      break;
+    case 'Month':
+      today.setUTCHours(0, 0, 0, 0);
+      today.setUTCDate(1)
+      break;
+  }
+
+  const tomorrow = new Date(today);
+  switch (window_mode) {
+    case 'Day':
+      tomorrow.setUTCDate(today.getUTCDate() + 1);
+      break;
+    case 'Week':
+      tomorrow.setUTCDate(today.getUTCDate() + 7);
+      break;
+    case 'Month':
+      tomorrow.setUTCMonth(today.getUTCMonth() + 1);
+      break;
+  }
 
   const [items, setItems] = useState<Item[]>([]);
   const [lastPublished, setLastPublished] = useState(new Date(0));
@@ -45,7 +73,7 @@ export default function Page() {
         setItems(await getItems(today, tomorrow, languages, tags, wall_mode));
       } catch (e) {
         console.log(e);
-        require_login(navigate, `/?${toURLSearchParams({now, languages, tags, wall_mode})}`);
+        require_login(navigate, `/?${toURLSearchParams({now, languages, tags, wall_mode, window_mode})}`);
       }
     }
 
@@ -60,9 +88,10 @@ export default function Page() {
   languages={ languages }
   tags={ tags }
   wall_mode={ wall_mode }
+  window_mode={ window_mode }
   contentServed={ true }
 />
-<Header now={ now } last_published={ lastPublished } items={ items }/>
+<Header now={ now } last_published={ lastPublished } items={ items } window_mode={ window_mode }/>
 <hr/>
 <Main items={ items }/>
 <hr/>
@@ -75,18 +104,37 @@ function Header({
   now,
   last_published,
   items,
+  window_mode,
 }: {
   now: Date,
   last_published: Date,
   items: Item[],
+  window_mode: WindowMode,
 }) {
   const day = now.getUTCDate();
   const month = now.getUTCMonth();
   const year = now.getUTCFullYear();
 
+  const cw = get_calendar_week(now);
+  const cy = get_calendar_year(now);
+
+  let h;
+
+  switch (window_mode) {
+    case 'Day':
+      h = <h1>{ day_of_week_short[now.getUTCDay()] }, { day }. { month_of_year_short[month] } { year }</h1>;
+      break;
+    case 'Week':
+      h = <h1>Week { cw }, { cy }</h1>
+      break;
+    case 'Month':
+      h = <h1>{ month_of_year[month] } { year }</h1>
+      break;
+  }
+
   return (
 <header>
-<h1>{ day_of_week_short[now.getUTCDay()] }, { day }. { month_of_year_short[month] } { year }</h1>
+{h}
 <p>
 { items.length } articles.
 Last published: { format_datetime(last_published) }.
