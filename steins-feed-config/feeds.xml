@@ -1,5 +1,11 @@
 <root>
   <feed>
+    <title>404 Media</title>
+    <link>https://www.404media.co/rss</link>
+    <lang>English</lang>
+    <tag>tech</tag>
+  </feed>
+  <feed>
     <title>addy.io</title>
     <link>https://addy.io/blog/feed.atom</link>
     <lang>English</lang>
@@ -813,6 +819,13 @@
     <tag>science</tag>
   </feed>
   <feed>
+    <title>Evan Czaplicki</title>
+    <link>https://evancz.dev/rss.xml</link>
+    <lang>English</lang>
+    <tag>people</tag>
+    <tag>tech</tag>
+  </feed>
+  <feed>
     <title>Existential Comics</title>
     <link>http://existentialcomics.com/rss.xml</link>
     <lang>English</lang>
@@ -1280,6 +1293,20 @@
     <link>https://feeds.feedburner.com/mcsweeneys</link>
     <lang>English</lang>
     <tag>satire</tag>
+  </feed>
+  <feed>
+    <title>Jane Street</title>
+    <link>https://blog.janestreet.com/feed.xml</link>
+    <lang>English</lang>
+    <tag>companies</tag>
+    <tag>tech</tag>
+  </feed>
+  <feed>
+    <title>Jepsen</title>
+    <link>https://jepsen.io/blog.rss</link>
+    <lang>English</lang>
+    <tag>companies</tag>
+    <tag>tech</tag>
   </feed>
   <feed>
     <title>Joel Grus</title>
