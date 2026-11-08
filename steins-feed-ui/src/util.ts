@@ -96,3 +96,35 @@ export function group_by<T>(
 
   return res;
 }
+
+export function get_calendar_week(now: Date): number {
+  const d = new Date(Date.UTC(
+    now.getFullYear(),
+    now.getMonth(),
+    now.getDate()
+  ));
+
+  const day = d.getUTCDay() || 7;
+
+  d.setUTCDate(d.getUTCDate() + 4 - day);
+
+  const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
+
+  return Math.ceil(
+    ((d.getTime() - yearStart.getTime()) / 86400000 + 1) / 7
+  );
+}
+
+export function get_calendar_year(date: Date): number {
+  const d = new Date(Date.UTC(
+    date.getFullYear(),
+    date.getMonth(),
+    date.getDate()
+  ));
+
+  const day = d.getUTCDay() || 7;
+
+  d.setUTCDate(d.getUTCDate() + 4 - day);
+
+  return d.getUTCFullYear();
+}

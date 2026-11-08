@@ -6,13 +6,14 @@ import { languagesFeedsLanguagesGet, tagsFeedsTagsGet } from "@/client"
 
 import { authenticate } from "@/auth"
 
-import { NavigationSearchParams, toURLSearchParams } from "./util"
+import { NavigationSearchParams, toURLSearchParams, WindowMode } from "./util"
 
 export default function SideNav({
   now,
   languages,
   tags,
   wall_mode,
+  window_mode,
 }: NavigationSearchParams) {
   const navigate = useNavigate();
 
@@ -67,6 +68,19 @@ export default function SideNav({
       checked={ wall_it === wall_mode }
     />
   )
+  const window_radio = [
+    "Day",
+    "Week",
+    "Month",
+  ].map(window_it =>
+    <SideNavRadio
+      name="window_mode"
+      value={ window_it }
+      label={ window_it }
+      key={ `wall-${window_it}` }
+      checked={ window_it === window_mode }
+    />
+  )
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -94,8 +108,9 @@ export default function SideNav({
       parseInt(re_tag.exec(k)![1])
     );
     const wall_mode = data.get("wall_mode") as WallMode;
+    const window_mode = data.get("window_mode") as WindowMode;
 
-    navigate(`/?${toURLSearchParams({now, languages, tags, wall_mode})}`);
+    navigate(`/?${toURLSearchParams({now, languages, tags, wall_mode, window_mode})}`);
   }
 
   return (
@@ -125,6 +140,11 @@ export default function SideNav({
       <fieldset style={ {all: "revert"} }>
         <legend style={ {all: "revert"} }>Wall</legend>
         { wall_radio }
+      </fieldset>
+
+      <fieldset style={ {all: "revert"} }>
+        <legend style={ {all: "revert"} }>Window</legend>
+        { window_radio }
       </fieldset>
 
       <fieldset className="mt-3" style={ {all: "revert"} }>

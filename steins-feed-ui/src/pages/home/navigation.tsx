@@ -7,6 +7,7 @@ export default function Navigation({
   languages,
   tags,
   wall_mode,
+  window_mode,
   contentServed = false,
 }: NavigationSearchParams & {
   contentServed?: boolean,
@@ -18,6 +19,7 @@ export default function Navigation({
   languages={ languages }
   tags={ tags }
   wall_mode={ wall_mode }
+  window_mode={ window_mode }
   contentServed={ contentServed }
 />
 <SideNav
@@ -25,6 +27,7 @@ export default function Navigation({
   languages={ languages }
   tags={ tags }
   wall_mode={ wall_mode }
+  window_mode={ window_mode }
 />
 </>
   );
