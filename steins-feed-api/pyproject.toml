@@ -10,7 +10,7 @@ readme = "README.md"
 python = "^3.13"
 fastapi = "^0.115.6"
 pwdlib = {extras = ["argon2"], version = "^0.3.1"}
-pyjwt = {extras = ["crypto"], version = "^2.10.1"}
+pyjwt = {extras = ["crypto"], version = "^2.15.1"}
 python-multipart = "^0.0.32"
 steins-feed-magic = {path = "../steins-feed-magic", develop = true}
 steins-feed-model = {path = "../steins-feed-model", develop = true}
