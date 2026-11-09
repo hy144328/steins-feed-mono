@@ -8,7 +8,7 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.13"
-aiohttp = "~3.13.5"
+aiohttp = "^3.14.5"
 feedparser = "^6.0.11"
 python-dateutil = "^2.9.0.post0"
 steins-feed-model = {path = "../steins-feed-model", develop=true}
