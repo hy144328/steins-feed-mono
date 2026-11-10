@@ -18,7 +18,7 @@ types-lxml = "^2026.2.16"
 
 [tool.poetry.group.test.dependencies]
 coverage = "^7.6.9"
-pytest = "^8.3.4"
+pytest = "^9.2.0"
 
 [build-system]
 requires = ["poetry-core"]
