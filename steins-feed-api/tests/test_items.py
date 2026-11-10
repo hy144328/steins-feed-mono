@@ -12,6 +12,7 @@ import steins_feed_model.users
 @pytest.fixture
 def my_client(
     client: fastapi.testclient.TestClient,
+    user: steins_feed_model.users.User,
 ) -> fastapi.testclient.TestClient:
     response = client.post(
         "/token",

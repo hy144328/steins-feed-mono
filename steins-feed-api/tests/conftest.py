@@ -4,12 +4,12 @@ import tempfile
 import typing
 
 import aiohttp
-import aioresponses
-import celery
-import celery.result
+import aiohttp.test_utils
+import aiohttp.web
 import fastapi.testclient
 import pwdlib
 import pytest
+import pytest_aiohttp.plugin
 import pytest_asyncio
 import sqlalchemy as sqla
 import sqlalchemy.orm as sqla_orm
@@ -122,13 +122,9 @@ def worker(
                 print("worker stderr:")
                 print(err.decode())
 
-@pytest_asyncio.fixture(scope="session")
-async def rss_client() -> collections.abc.AsyncGenerator[aiohttp.ClientSession]:
-    with aioresponses.aioresponses() as m:
-        m.get(
-            "https://www.theguardian.com/uk/rss",
-            status = 200,
-            body = """
+async def feed(request: aiohttp.web.Request) -> aiohttp.web.Response:
+    return aiohttp.web.Response(
+        text="""
 <?xml version="1.0" encoding="utf-8"?>
 <rss xmlns:media="http://search.yahoo.com/mrss/" xmlns:dc="http://purl.org/dc/elements/1.1/" version="2.0">
   <channel>
@@ -149,21 +145,33 @@ async def rss_client() -> collections.abc.AsyncGenerator[aiohttp.ClientSession]:
     </item>
   </channel>
 </rss>
-            """,
-        )
+        """,
+    )
 
-        async with aiohttp.ClientSession() as client:
-            yield client
+@pytest.fixture
+def rss_server() -> aiohttp.web.Application:
+    app = aiohttp.web.Application()
+    app.router.add_get("/rss", feed)
+    return app
 
-@pytest.fixture(scope="session")
-def config_file() -> collections.abc.Generator[typing.TextIO]:
+@pytest_asyncio.fixture
+async def rss_client(
+    aiohttp_client: pytest_aiohttp.plugin.AiohttpClient,
+    rss_server: aiohttp.web.Application,
+) -> aiohttp.test_utils.TestClient[aiohttp.web.Request, aiohttp.web.Application]:
+    return await aiohttp_client(rss_server)
+
+@pytest.fixture
+def config_file(
+    rss_client: aiohttp.test_utils.TestClient[aiohttp.web.Request, aiohttp.web.Application],
+) -> collections.abc.Generator[typing.TextIO]:
     with tempfile.TemporaryDirectory() as temp_dir:
         with tempfile.NamedTemporaryFile("w", dir=temp_dir, delete=False) as f:
-            f.write("""
+            f.write(f"""
 <root>
   <feed>
     <title>The Guardian</title>
-    <link>https://www.theguardian.com/uk/rss</link>
+    <link>{rss_client.make_url("/rss")}</link>
     <lang>English</lang>
   </feed>
 </root>
@@ -172,22 +180,22 @@ def config_file() -> collections.abc.Generator[typing.TextIO]:
         with open(f.name, "r") as f:
             yield f
 
-@pytest_asyncio.fixture(scope="session")
+@pytest_asyncio.fixture
 async def etl(
-    rss_client: aiohttp.ClientSession,
+    rss_client: aiohttp.test_utils.TestClient[aiohttp.web.Request, aiohttp.web.Application],
     Session: sqla_orm.sessionmaker[sqla_orm.Session],
     config_file: typing.TextIO,
 ):
     with Session() as session:
         steins_feed_config.read_xml(session, config_file, user=None)
 
-    await steins_feed_etl.parse_feeds(Session, rss_client)
+    await steins_feed_etl.parse_feeds(Session, rss_client.session)
 
-@pytest.fixture(scope="session")
+@pytest.fixture
 def user(
     etl,
     Session: sqla_orm.sessionmaker[sqla_orm.Session],
-) -> steins_feed_model.users.User:
+) -> collections.abc.Generator[steins_feed_model.users.User]:
     password_hash = pwdlib.PasswordHash.recommended()
 
     with Session() as session:
@@ -212,14 +220,18 @@ def user(
         with session.begin():
             session.refresh(user)
             session.expunge(user)
-            return user
 
-@pytest.fixture(scope="session")
+        yield user
+
+        with session.begin():
+            session.delete(user)
+
+@pytest.fixture
 def liked_item(
     etl,
     Session: sqla_orm.sessionmaker[sqla_orm.Session],
     user: steins_feed_model.users.User,
-) -> steins_feed_model.items.Item:
+) -> collections.abc.Generator[steins_feed_model.items.Item]:
     with Session() as session:
         with session.begin():
             q = sqla.select(
@@ -239,14 +251,18 @@ def liked_item(
         with session.begin():
             session.refresh(item)
             session.expunge(item)
-            return item
 
-@pytest.fixture(scope="session")
+        yield item
+
+        with session.begin():
+            session.delete(like)
+
+@pytest.fixture
 def disliked_item(
     etl,
     Session: sqla_orm.sessionmaker[sqla_orm.Session],
     user: steins_feed_model.users.User,
-) -> steins_feed_model.items.Item:
+) -> collections.abc.Generator[steins_feed_model.items.Item]:
     with Session() as session:
         with session.begin():
             q = sqla.select(
@@ -266,9 +282,13 @@ def disliked_item(
         with session.begin():
             session.refresh(item)
             session.expunge(item)
-            return item
 
-@pytest.fixture(scope="session")
+        yield item
+
+        with session.begin():
+            session.delete(dislike)
+
+@pytest.fixture
 def classifier(
     volume: str,
     Session: sqla_orm.sessionmaker[sqla_orm.Session],
