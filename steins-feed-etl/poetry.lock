@@ -194,21 +194,6 @@ yarl = ">=1.25.1,<2.0"
 speedups = ["Brotli (>=1.2)", "aiodns (>=3.3.0)", "backports.zstd", "brotlicffi (>=1.2)"]
 
 [[package]]
-name = "aioresponses"
-version = "0.7.9"
-description = "Mock out requests made by ClientSession from aiohttp package"
-optional = false
-python-versions = "*"
-files = [
-    {file = "aioresponses-0.7.9-py2.py3-none-any.whl", hash = "sha256:94f9617f841c5bd7ee088ed783284f2cf4e6acc85d3933d92fc2fc7bd572a1b0"},
-    {file = "aioresponses-0.7.9.tar.gz", hash = "sha256:1dcfa28938fc006f046a98383a7c07ac180be7a492c1ed557f5cd7b0805357d3"},
-]
-
-[package.dependencies]
-aiohttp = ">=3.8,<4.0"
-packaging = ">=22.0"
-
-[[package]]
 name = "aiosignal"
 version = "1.4.0"
 description = "aiosignal: a list of registered asynchronous callbacks"
@@ -1201,6 +1186,25 @@ pygments = ">=2.15"
 dev = ["argcomplete", "asynctest", "attrs (>=23.1)", "coverage (>=7.5)", "hypothesis (>=6.75)", "mock", "numpy (>=1.26)", "pexpect (>=4.9)", "pytest-xdist (>=3.5)", "pyyaml", "requests", "setuptools", "xmlschema"]
 
 [[package]]
+name = "pytest-aiohttp"
+version = "1.1.1"
+description = "Pytest plugin for aiohttp support"
+optional = false
+python-versions = ">=3.10"
+files = [
+    {file = "pytest_aiohttp-1.1.1-py3-none-any.whl", hash = "sha256:f293441ad4f8446a1e12257130c26c7de03a615c2a5572a8cb046e5b3b4e5211"},
+    {file = "pytest_aiohttp-1.1.1.tar.gz", hash = "sha256:3aa9c9fe26e543eaccc7eb0add381c685ba3ed3e2fed0af74540f63bcd31458d"},
+]
+
+[package.dependencies]
+aiohttp = ">=3.11.0"
+pytest = ">=6.1.0"
+pytest-asyncio = ">=0.17.2"
+
+[package.extras]
+testing = ["coverage (==7.14.1)", "mypy (==2.1.0)"]
+
+[[package]]
 name = "pytest-asyncio"
 version = "1.4.1.post1"
 description = "Pytest support for asyncio"
@@ -1561,4 +1565,4 @@ propcache = ">=0.2.1"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.13"
-content-hash = "8b6cd295235e2b5b1c3afbbd5cfb655ff18579b3bf9f8c0bbe6ed3115feb6601"
+content-hash = "a1c05ac31708c31e02cee85741a03e561e959a39e4997fe5fd96bec5b3da16f4"
