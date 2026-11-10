@@ -3,8 +3,10 @@ import tempfile
 import typing
 
 import aiohttp
-import aioresponses
+import aiohttp.test_utils
+import aiohttp.web
 import pytest
+import pytest_aiohttp.plugin
 import pytest_asyncio
 import sqlalchemy as sqla
 import sqlalchemy.orm as sqla_orm
@@ -24,13 +26,9 @@ def engine() -> sqla.engine.Engine:
 def Session(engine: sqla.engine.Engine) -> sqla_orm.sessionmaker[sqla_orm.Session]:
     return sqla_orm.sessionmaker(engine)
 
-@pytest_asyncio.fixture
-async def client() -> collections.abc.AsyncGenerator[aiohttp.ClientSession]:
-    with aioresponses.aioresponses() as m:
-        m.get(
-            "https://www.theguardian.com/uk/rss",
-            status = 200,
-            body = """
+async def feed(request: aiohttp.web.Request) -> aiohttp.web.Response:
+    return aiohttp.web.Response(
+        text="""
 <?xml version="1.0" encoding="utf-8"?>
 <rss xmlns:media="http://search.yahoo.com/mrss/" xmlns:dc="http://purl.org/dc/elements/1.1/" version="2.0">
   <channel>
@@ -45,21 +43,33 @@ async def client() -> collections.abc.AsyncGenerator[aiohttp.ClientSession]:
     </item>
   </channel>
 </rss>
-            """,
-        )
-
-        async with aiohttp.ClientSession() as client:
-            yield client
+        """,
+    )
 
 @pytest.fixture
-def config_file() -> collections.abc.Generator[typing.TextIO]:
+def server() -> aiohttp.web.Application:
+    app = aiohttp.web.Application()
+    app.router.add_get("/rss", feed)
+    return app
+
+@pytest_asyncio.fixture
+async def client(
+    aiohttp_client: pytest_aiohttp.plugin.AiohttpClient,
+    server: aiohttp.web.Application,
+) -> aiohttp.test_utils.TestClient[aiohttp.web.Request, aiohttp.web.Application]:
+    return await aiohttp_client(server)
+
+@pytest.fixture
+def config_file(
+    client: aiohttp.test_utils.TestClient[aiohttp.web.Request, aiohttp.web.Application],
+) -> collections.abc.Generator[typing.TextIO]:
     with tempfile.TemporaryDirectory() as temp_dir:
         with tempfile.NamedTemporaryFile("w", dir=temp_dir, delete=False) as f:
-            f.write("""
+            f.write(f"""
 <root>
   <feed>
     <title>The Guardian</title>
-    <link>https://www.theguardian.com/uk/rss</link>
+    <link>{client.make_url("/rss")}</link>
     <lang>English</lang>
   </feed>
 </root>
@@ -71,25 +81,21 @@ def config_file() -> collections.abc.Generator[typing.TextIO]:
 @pytest.mark.asyncio
 async def test_parse_feeds(
     Session: sqla_orm.sessionmaker[sqla_orm.Session],
-    client: aiohttp.ClientSession,
+    client: aiohttp.test_utils.TestClient[aiohttp.web.Request, aiohttp.web.Application],
     config_file: typing.TextIO,
 ):
     with Session() as session:
         steins_feed_config.read_xml(session, config_file, user=None)
 
-    await steins_feed_etl.parse_feeds(Session, client)
+    await steins_feed_etl.parse_feeds(Session, client.session)
 
     q = sqla.select(steins_feed_model.items.Item)
     res = session.scalars(q).all()
     assert len(res) == 1
 
-@pytest_asyncio.fixture
-async def client_long() -> collections.abc.AsyncGenerator[aiohttp.ClientSession]:
-    with aioresponses.aioresponses() as m:
-        m.get(
-            "https://www.theguardian.com/uk/rss",
-            status = 200,
-            body = b"""
+async def feed_long(request: aiohttp.web.Request) -> aiohttp.web.Response:
+    return aiohttp.web.Response(
+        text="""
 <?xml version="1.0" encoding="utf-8"?>
 <rss xmlns:media="http://search.yahoo.com/mrss/" xmlns:dc="http://purl.org/dc/elements/1.1/" version="2.0">
   <channel>
@@ -104,61 +110,74 @@ async def client_long() -> collections.abc.AsyncGenerator[aiohttp.ClientSession]
     </item>
   </channel>
 </rss>
-            """,
-        )
-        m.get(
-            "https://www.theguardian.com/uk/culture/rss",
-            status = 200,
-            body = b"""
-<?xml version="1.0" encoding="utf-8"?>
-<rss xmlns:media="http://search.yahoo.com/mrss/" xmlns:dc="http://purl.org/dc/elements/1.1/" version="2.0">
-  <channel>
-    <title>The Guardian</title>
-    <link>https://www.theguardian.com/uk</link>
-    <pubDate>Wed, 12 Aug 2026 20:51:33 GMT</pubDate>
-    <item>
-      <title>How the Other Half Loves review</title>
-      <link>https://www.theguardian.com/stage/2026/aug/12/how-the-other-half-loves-review-old-vic-london-alan-ayckbourn-roger-allam</link>
-      <description>The Old Vic, London</description>
-      <pubDate>Wed, 12 Aug 2026 17:00:34 GMT</pubDate>
-    </item>
-  </channel>
-</rss>
-            """,
-        )
+        """,
+    )
 
-        async with aiohttp.ClientSession() as client:
-            yield client
+async def feed_long_culture(request: aiohttp.web.Request) -> aiohttp.web.Response:
+    return aiohttp.web.Response(
+        text="""
+<?xml version="1.0" encoding="utf-8"?>
+<rss xmlns:media="http://search.yahoo.com/mrss/" xmlns:dc="http://purl.org/dc/elements/1.1/" version="2.0">
+  <channel>
+    <title>The Guardian</title>
+    <link>https://www.theguardian.com/uk</link>
+    <pubDate>Wed, 12 Aug 2026 20:51:33 GMT</pubDate>
+    <item>
+      <title>How the Other Half Loves review</title>
+      <link>https://www.theguardian.com/stage/2026/aug/12/how-the-other-half-loves-review-old-vic-london-alan-ayckbourn-roger-allam</link>
+      <description>The Old Vic, London</description>
+      <pubDate>Wed, 12 Aug 2026 17:00:34 GMT</pubDate>
+    </item>
+  </channel>
+</rss>
+        """,
+    )
 
 @pytest.fixture
-def config_file_long() -> collections.abc.Generator[typing.TextIO]:
+def server_long() -> aiohttp.web.Application:
+    app = aiohttp.web.Application()
+    app.router.add_get("/rss", feed_long)
+    app.router.add_get("/culture/rss", feed_long_culture)
+    return app
+
+@pytest_asyncio.fixture
+async def client_long(
+    aiohttp_client: pytest_aiohttp.plugin.AiohttpClient,
+    server_long: aiohttp.web.Application,
+) -> aiohttp.test_utils.TestClient[aiohttp.web.Request, aiohttp.web.Application]:
+    return await aiohttp_client(server_long)
+
+@pytest.fixture
+def config_file_long(
+    client_long: aiohttp.test_utils.TestClient[aiohttp.web.Request, aiohttp.web.Application],
+) -> collections.abc.Generator[typing.TextIO]:
     with tempfile.TemporaryDirectory() as temp_dir:
         with tempfile.NamedTemporaryFile("w", dir=temp_dir, delete=False) as f:
-            f.write("""
+            f.write(f"""
 <root>
   <feed>
     <title>The Guardian</title>
-    <link>https://www.theguardian.com/uk/rss</link>
+    <link>{client_long.make_url("/rss")}</link>
     <lang>English</lang>
   </feed>
   <feed>
     <title>The Guardian Culture</title>
-    <link>https://www.theguardian.com/uk/culture/rss</link>
+    <link>{client_long.make_url("/culture/rss")}</link>
     <lang>English</lang>
   </feed>
   <feed>
     <title>The Guardian Lifestyle</title>
-    <link>https://www.theguardian.com/uk/lifeandstyle/rss</link>
+    <link>{client_long.make_url("/lifeandstyle/rss")}</link>
     <lang>English</lang>
   </feed>
   <feed>
     <title>The Guardian Opinion</title>
-    <link>https://www.theguardian.com/uk/commentisfree/rss</link>
+    <link>{client_long.make_url("/commentisfree/rss")}</link>
     <lang>English</lang>
   </feed>
   <feed>
     <title>The Guardian Sport</title>
-    <link>https://www.theguardian.com/uk/sport/rss</link>
+    <link>{client_long.make_url("/sport/rss")}</link>
     <lang>English</lang>
   </feed>
 </root>
@@ -170,13 +189,13 @@ def config_file_long() -> collections.abc.Generator[typing.TextIO]:
 @pytest.mark.asyncio
 async def test_parse_feeds_long(
     Session: sqla_orm.sessionmaker[sqla_orm.Session],
-    client_long: aiohttp.ClientSession,
+    client_long: aiohttp.test_utils.TestClient[aiohttp.web.Request, aiohttp.web.Application],
     config_file_long: typing.TextIO,
 ):
     with Session() as session:
         steins_feed_config.read_xml(session, config_file_long, user=None)
 
-    await steins_feed_etl.parse_feeds(Session, client_long, batch_size=1)
+    await steins_feed_etl.parse_feeds(Session, client_long.session, batch_size=1)
 
     q = sqla.select(steins_feed_model.items.Item)
     res = session.scalars(q).all()
@@ -185,13 +204,13 @@ async def test_parse_feeds_long(
 @pytest.mark.asyncio
 async def test_parse_feeds_pattern(
     Session: sqla_orm.sessionmaker[sqla_orm.Session],
-    client_long: aiohttp.ClientSession,
+    client_long: aiohttp.test_utils.TestClient[aiohttp.web.Request, aiohttp.web.Application],
     config_file_long: typing.TextIO,
 ):
     with Session() as session:
         steins_feed_config.read_xml(session, config_file_long, user=None)
 
-    await steins_feed_etl.parse_feeds(Session, client_long, title_pattern="Culture")
+    await steins_feed_etl.parse_feeds(Session, client_long.session, title_pattern="Culture")
 
     q = sqla.select(steins_feed_model.items.Item)
     res = session.scalars(q).all()
