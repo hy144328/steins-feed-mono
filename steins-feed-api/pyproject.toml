@@ -21,9 +21,9 @@ uvicorn = "^0.53.0"
 python-dotenv = "^1.0.1"
 
 [tool.poetry.group.test.dependencies]
-aioresponses = "^0.7.9"
 httpx = "^0.28.1"
 pytest = "^9.2.0"
+pytest-aiohttp = "^1.1.1"
 pytest-asyncio = "^1.4.1"
 steins-feed-config = {path = "../steins-feed-config", develop = true}
 steins-feed-etl = {path = "../steins-feed-etl", develop = true}
