@@ -108,5 +108,5 @@ async function setToken(
     throw token.error;
   }
 
-  Cookies.set("api_token", token.data.access_token);
+  Cookies.set("api_token", token.data.access_token, {"secure": true});
 }
