@@ -3648,6 +3648,13 @@
     <tag>news</tag>
   </feed>
   <feed>
+    <title>Thoughtworks Insights</title>
+    <link>https://www.thoughtworks.com/rss/insights.xml</link>
+    <lang>English</lang>
+    <tag>companies</tag>
+    <tag>tech</tag>
+  </feed>
+  <feed>
     <title>Thunderbird</title>
     <link>https://blog.thunderbird.net/feed/</link>
     <lang>English</lang>
